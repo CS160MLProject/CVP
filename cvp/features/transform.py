@@ -6,7 +6,7 @@ Transform operations module currently contains functions for the following:
 USAGE
 -----
 
-$ python cvp/features/transform.py
+$ python cvp/features/features.py
 
 """
 # Standard Dist
@@ -23,12 +23,12 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
 
-def generate_hash(password, salt=None):
+def generate_hash(password: str, salt=None):
     """Generate hash and salt for password
 
     Usage
     -----
-    >>> from cvp.features.transform import generate_hash
+    >>> from cvp.features.features import generate_hash
     >>> password = "mypassword"
     >>> hash_ salt = generate_hash(password)
 
@@ -38,6 +38,8 @@ def generate_hash(password, salt=None):
     logger.info("Preparing to hash")
     password = password.encode()  # Get an UTF-8 version of the password
     salt = salt or os.urandom(8)  # Save this salt in the database with password
+    if not isinstance(salt, bytes):
+        raise TypeError("Error found with type of input `salt` when hashing password")
     logger.debug(f"Salt: ${salt}")
 
     logger.info("Hashing password ...")

@@ -53,7 +53,7 @@ if __name__ == '__main__':
     password = "mypassword"
     hash, salt = generate_hash(password)
 
-    checking = False  # Change this into True if you want to check if password is being hashed correctly
+    checking = True  # Change this into True if you want to check if password is being hashed correctly
     if checking:
         logger.info("Checking hashing value ...")
         correct_password = "mypassword"

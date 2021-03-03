@@ -37,7 +37,7 @@ def generate_hash(password: str, salt: bytes=None):
     """
     logger.info("Preparing to hash")
     password = password.encode()  # Get an UTF-8 version of the password
-    salt = salt or os.urandom(8)  # Save this salt in the database with password
+    salt = salt or os.urandom(16)  # Save this salt in the database with password
     if not isinstance(salt, bytes):
         raise TypeError("Error found with type of input `salt` when hashing password")
     logger.debug(f"Salt: {salt}")
@@ -53,7 +53,7 @@ if __name__ == '__main__':
     password = "mypassword"
     hash, salt = generate_hash(password)
 
-    checking = False  # Change this into True if you want to check if password is being hashed correctly
+    checking = True  # Change this into True if you want to check if password is being hashed correctly
     if checking:
         logger.info("Checking hashing value ...")
         correct_password = "mypassword"

@@ -1,6 +1,7 @@
 import random
 import string
 import datetime
+
 # from cvp.features.transform import generate_hash
 
 NAMES = 'cvp/data/Names.txt'
@@ -36,8 +37,8 @@ def account(first, last, middle_i, hospital, userAccountID):
     rd_date = random.randrange(date_range)
     dob = str(OLDEST_DOB + datetime.timedelta(days=rd_date))
     hospital = hospital + random.choice(('Medical Center', 'Hospital'))
-    vaccine_name = lambda : random.choice(('J&J', 'Pfizer', 'Moderna')) + '-' + random.choice(string.ascii_uppercase) \
-                    + random.choice(string.ascii_uppercase) + str(random.randint(1000, 9999))
+    vaccine_name = lambda: random.choice(('J&J', 'Pfizer', 'Moderna')) + '-' + random.choice(string.ascii_uppercase) \
+                           + random.choice(string.ascii_uppercase) + str(random.randint(1000, 9999))
     vaccine_name1 = vaccine_name()
     date_range = (TODAY - VACCINE_START).days
     rd_date = random.randrange(date_range)
@@ -57,7 +58,7 @@ def account(first, last, middle_i, hospital, userAccountID):
     # return DELIM.join([userAccountID, email, hashed_pass, password, salt, patient_num, last_name, first_name, middle_i,
     #         dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2])
     return DELIM.join([userAccountID, email, password, patient_num, last_name, first_name, middle_i,
-            dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2, fake])
+                       dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2, fake])
 
 
 def generate_accounts():
@@ -69,7 +70,7 @@ def generate_accounts():
     with open(ACCOUNTS, 'w') as account_file:
         for id in range(1, ACCOUNT_SIZE + 1):
             acc = account(random.choice(first_names), random.choice(last_names),
-                      random.choice(middle_initials), random.choice(last_names), id)
+                          random.choice(middle_initials), random.choice(last_names), id)
             print(acc)
             account_file.write(acc + '\n')
 

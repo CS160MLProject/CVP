@@ -53,7 +53,7 @@ def account(first, last, middle_i, hospital, userAccountID):
         vaccine_date2 = str(vaccine_date1 + datetime.timedelta(days=rd_date))
 
     vaccine_date1 = str(vaccine_date1)
-    fake = not bool(random.randint(0, 9))
+    fake = str(not bool(random.randint(0, 9)))
 
     # return DELIM.join([userAccountID, email, hashed_pass, password, salt, patient_num, last_name, first_name, middle_i,
     #         dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2])

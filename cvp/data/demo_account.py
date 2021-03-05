@@ -36,7 +36,7 @@ def account(first, last, middle_i, hospital, userAccountID):
     date_range = (TODAY - OLDEST_DOB).days
     rd_date = random.randrange(date_range)
     dob = str(OLDEST_DOB + datetime.timedelta(days=rd_date))
-    hospital = hospital + random.choice(('Medical Center', 'Hospital'))
+    hospital = hospital + random.choice(('MedicalCenter', 'Hospital'))
 
     def vaccine_name():
         return random.choice(('Pfizer', 'Moderna')) + '-' + random.choice(string.ascii_uppercase) \

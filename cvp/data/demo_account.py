@@ -2,7 +2,7 @@ import random
 import string
 import datetime
 
-from cvp.features.transform import generate_hash
+# from cvp.features.transform import generate_hash
 
 NAMES = 'cvp/data/Names.txt'
 ACCOUNTS = 'cvp/data/accounts.txt'
@@ -28,7 +28,7 @@ def account(first, last, middle_i, hospital, userAccountID):
     domain = '@patient.abc.com'
     email = first.lower() + '.' + last.lower() + domain
     password = first.lower() + last.lower()
-    hashed_pass, salt = generate_hash(password)
+    # hashed_pass, salt = generate_hash(password)
     patient_num = str(random.randint(1, 9999))
     last_name = last.capitalize()
     first_name = first.capitalize()
@@ -58,11 +58,10 @@ def account(first, last, middle_i, hospital, userAccountID):
     vaccine_date1 = str(vaccine_date1)
     fake = str(not bool(random.randint(0, 9)))
 
-    return DELIM.join(
-        [user_account_id, email, hashed_pass, password, salt, patient_num, last_name, first_name, middle_i,
-         dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2, fake])
-    # return DELIM.join([userAccountID, email, password, patient_num, last_name, first_name, middle_i,
-    #                    dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2, fake])
+    # return DELIM.join([user_account_id, email, hashed_pass, password, salt, patient_num, last_name, first_name, middle_i,
+    #      dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2, fake])
+    return DELIM.join([user_account_id, email, password, patient_num, last_name, first_name, middle_i,
+                       dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2, fake])
 
 
 def generate_accounts():

@@ -44,7 +44,7 @@ def account(first, last, middle_i, hospital, id):
 
     def vaccine_name():
         return random.choice(('Pfizer', 'Moderna')) + '-' + random.choice(string.ascii_uppercase) \
-                           + random.choice(string.ascii_uppercase) + str(random.randint(1000, 9999))
+               + random.choice(string.ascii_uppercase) + str(random.randint(1000, 9999))
 
     vaccine_name1 = vaccine_name()
     date_range = (TODAY - VACCINE_START).days
@@ -62,8 +62,9 @@ def account(first, last, middle_i, hospital, id):
     vaccine_date1 = str(vaccine_date1)
     fake = str(not bool(random.randint(0, 9)))
 
-    return DELIM.join([user_account_id, email, hashed_pass, password, salt, patient_num, last_name, first_name, middle_i,
-          dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2, fake])
+    return DELIM.join(
+        [user_account_id, email, hashed_pass, password, salt, patient_num, last_name, first_name, middle_i,
+         dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2, fake])
 
 
 def generate_accounts():

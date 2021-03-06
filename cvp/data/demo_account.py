@@ -7,8 +7,8 @@ import string
 from cvp.features.transform import generate_hash
 
 # constant values
-NAMES = '/cvp/dataset/raw/names.txt'
-ACCOUNTS = '/cvp/dataset/processed/accounts.txt'
+NAMES = 'dataset/raw/names.txt'
+ACCOUNTS = 'dataset/processed/accounts.txt'
 OLDEST_DOB = datetime.date(1910, 1, 1)  # possible oldest dob
 VACCINE_START = datetime.date(2020, 11, 1)  # possible earliest vaccine date
 TODAY = datetime.date.today()

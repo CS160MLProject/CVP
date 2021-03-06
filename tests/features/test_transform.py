@@ -11,6 +11,7 @@ class TestTransform():
     def test_generate_hash(self):
         #=== Test Inputs ===#
         PASSWORD_IN_DATABASE = "Correct&Password.101"
+
         USER_INPUT_PASSWORD = "Correct&Password.101"
 
         password_hash, salt = generate_hash(PASSWORD_IN_DATABASE)

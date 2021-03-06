@@ -10,6 +10,7 @@ $ python cvp/features/transform.py
 
 """
 # Standard Dist
+import coloredlogs
 import logging
 import os
 import hashlib
@@ -20,7 +21,7 @@ import hmac
 # Project Level Imports
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.DEBUG)
+coloredlogs.install(level='DEBUG', logger=logger)
 
 
 def generate_hash(password: str, salt: bytes=None):
@@ -28,7 +29,7 @@ def generate_hash(password: str, salt: bytes=None):
 
     Usage
     -----
-    >>> from cvp.features.features import generate_hash
+    >>> from cvp.features.transform import generate_hash
     >>> password = "mypassword"
     >>> hash_ salt = generate_hash(password)
 
@@ -46,14 +47,16 @@ def generate_hash(password: str, salt: bytes=None):
     password_hash = hashlib.pbkdf2_hmac("sha256", password, salt, 100000)
     logger.debug(f"Hash: {password_hash}")
 
-    logger.debug("Finished hashing password!")
+    logger.info("Finished hashing password!")
+
     return password_hash, salt
 
 if __name__ == '__main__':
     password = "mypassword"
     hash, salt = generate_hash(password)
 
-    checking = True  # Change this into True if you want to check if password is being hashed correctly
+
+    checking = False  # Change this into True if you want to check if password is being hashed correctly
     if checking:
         logger.info("Checking hashing value ...")
         correct_password = "mypassword"

@@ -16,6 +16,7 @@ DELIM = ' '  # deliminator for txt file
 ACCOUNT_SIZE = 10
 
 
+
 def __get_names(first_names, middle_initials, last_names):
     """
     Get names from NAMES file.

@@ -16,7 +16,7 @@ DELIM = ' '  # deliminator for txt file
 ACCOUNT_SIZE = 10
 
 
-def get_names(first_names, middle_initials, last_names):
+def __get_names(first_names, middle_initials, last_names):
     """
     Get names from NAMES file.
     :param first_names: set of first name
@@ -29,14 +29,14 @@ def get_names(first_names, middle_initials, last_names):
         # read all lines
         while name := name_file.readline():
             if len(name) < 2: continue  # filter empty line
-            f, m, l = name.split()  # unpack and obtrain first, middle, last name from read line.
+            first, middle, last = name.split()  # unpack and obtrain first, middle, last name from read line.
             # add first, middle, last name to each set
-            first_names.add(f)
-            middle_initials.add(m)
-            last_names.add(l)
+            first_names.add(first)
+            middle_initials.add(middle)
+            last_names.add(last)
 
 
-def account(first, last, middle_i, hospital, acc_id):
+def __account(first, last, middle_i, hospital, acc_id):
     """
     Make account from given information.
     :param first: string of first name in string
@@ -44,7 +44,7 @@ def account(first, last, middle_i, hospital, acc_id):
     :param middle_i: string of middle initial
     :param hospital: string of hospital name
     :param acc_id: int of account id for this account
-    :return: conbined single-line string for this account
+    :return: combined single-line string for this account
     """
     user_account_id = str(acc_id)  # store acc_id in string
     domain = '@patient.abc.com'  # sample domain for email address
@@ -92,7 +92,7 @@ def account(first, last, middle_i, hospital, acc_id):
 
     # randomly select True or False of second vaccine shot
     # if second vaccine is True and fist shot is not today
-    if second_vaccine := random.choice((True, False)) and vaccine_date1 != TODAY:
+    if random.choice((True, False)) and vaccine_date1 != TODAY:
         vaccine_name2 = vaccine_name()
         vaccine_date2 = str(get_random_date(vaccine_date1, TODAY))
 
@@ -112,7 +112,7 @@ def generate_accounts():
     """Generate and write account based on the ACCOUNT_SIZE."""
     # initialize first, middle, and last names' set
     first_names, middle_initials, last_names = set(), set(), set()
-    get_names(first_names, middle_initials, last_names)
+    __get_names(first_names, middle_initials, last_names)
     middle_initials.add('')  # add empty for account that does not have middle
 
     # make all set to tuple
@@ -120,8 +120,8 @@ def generate_accounts():
 
     with open(ACCOUNTS, 'w') as account_file:
         for acc_id in range(1, ACCOUNT_SIZE + 1):
-            acc = account(random.choice(tuple(first_names)), random.choice(tuple(last_names)),
-                          random.choice(tuple(middle_initials)), random.choice(tuple(last_names)), acc_id)
+            acc = __account(random.choice(tuple(first_names)), random.choice(tuple(last_names)),
+                            random.choice(tuple(middle_initials)), random.choice(tuple(last_names)), acc_id)
             account_file.write(acc + '\n')  # write to file
 
 

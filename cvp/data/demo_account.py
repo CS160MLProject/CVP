@@ -98,14 +98,10 @@ def __account(first, last, middle_i, hospital, acc_id):
 
     vaccine_date1 = str(vaccine_date1)
 
-    # fake is true if this demo account is not in CDC database.
-    # 1:9 ratio of true, false
-    fake = str(not bool(random.randint(0, 9)))
-
     # return all information in string
     return DELIM.join(
         [user_account_id, email, hashed_pass, password, salt, patient_num, last_name, first_name, middle,
-         dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2, fake])
+         dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2])
 
 
 def generate_accounts():

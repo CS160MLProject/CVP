@@ -11,11 +11,12 @@ def test_accounts_txt():
         # open output file
         with open(ACCOUNTS) as output_file:
             counter = 0 # initiate counter to count number of accounts generated
+            output_file.readline() # skip first header line
             while account := output_file.readline():
                 counter += 1
                 tokens = account.split(DELIM)
                 assert len(tokens) == TOKEN_SIZE, \
-                    f'Output\'s token size should be {TOKEN_SIZE}, returned {len(tokens)}, {tokens}'
+                    f'Output\'s token size should be {TOKEN_SIZE}, returned {len(tokens)}'
             assert counter == ACCOUNT_SIZE, f'Output file\'s account size should be {ACCOUNT_SIZE}, returned {counter}'
     except IOError:
         print(IOError)

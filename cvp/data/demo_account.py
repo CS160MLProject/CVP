@@ -100,7 +100,7 @@ def __account(first, last, middle_i, hospital, acc_id):
 
     # return all information in string
     return DELIM.join(
-        [user_account_id, email, hashed_pass, password, salt, patient_num, last_name, first_name, middle,
+        [user_account_id, email, hashed_pass, salt, patient_num, last_name, first_name, middle,
          dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2])
 
 

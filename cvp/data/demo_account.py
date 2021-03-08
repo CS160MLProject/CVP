@@ -25,15 +25,18 @@ def __get_names(first_names, middle_initials, last_names):
     :return: None
     """
     # open file of NAMES
-    with open(NAMES) as name_file:
-        # read all lines
-        while name := name_file.readline():
-            if len(name) < 2: continue  # filter empty line
-            first, middle, last = name.split()  # unpack and obtrain first, middle, last name from read line.
-            # add first, middle, last name to each set
-            first_names.add(first)
-            middle_initials.add(middle)
-            last_names.add(last)
+    try:
+        with open(NAMES) as name_file:
+            # read all lines
+            while name := name_file.readline():
+                if len(name) < 2: continue  # filter empty line
+                first, middle, last = name.split()  # unpack and obtrain first, middle, last name from read line.
+                # add first, middle, last name to each set
+                first_names.add(first)
+                middle_initials.add(middle)
+                last_names.add(last)
+    except IOError:
+        print(IOError)
 
 
 def __account(first, last, middle_i, hospital, acc_id):
@@ -113,12 +116,16 @@ def generate_accounts():
 
     # make all set to tuple
     first_names, middle_initials, last_names = tuple(first_names), tuple(middle_initials), tuple(last_names)
-
-    with open(ACCOUNTS, 'w') as account_file:
-        for acc_id in range(1, ACCOUNT_SIZE + 1):
-            acc = __account(random.choice(tuple(first_names)), random.choice(tuple(last_names)),
-                            random.choice(tuple(middle_initials)), random.choice(tuple(last_names)), acc_id)
-            account_file.write(acc + '\n')  # write to file
+    try:
+        with open(ACCOUNTS, 'w') as account_file:
+            for acc_id in range(1, ACCOUNT_SIZE + 1):
+                acc = __account(random.choice(tuple(first_names)), random.choice(tuple(last_names)),
+                                random.choice(tuple(middle_initials)), random.choice(tuple(last_names)), acc_id)
+                account_file.write(acc + '\n')  # write to file
+    except IOError:
+        print(e)
+        return False
+    return True
 
 
 if __name__ == '__main__':

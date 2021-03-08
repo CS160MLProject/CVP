@@ -13,7 +13,7 @@ ACCOUNTS = 'dataset/processed/accounts.txt'
 OLDEST_DOB = datetime.date(1910, 1, 1)  # possible oldest dob
 VACCINE_START = datetime.date(2020, 11, 1)  # possible earliest vaccine date
 TODAY = datetime.date.today()
-DELIM = ' '  # deliminator for txt file
+DELIM = '\t'  # deliminator for txt file
 ACCOUNT_SIZE = 10
 
 

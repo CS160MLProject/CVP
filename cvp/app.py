@@ -1,3 +1,4 @@
 """Covid-19 Vaccine Passport Application"""
 
-print("Hello World!")
+from flask import Flask
+app = Flask

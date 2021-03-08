@@ -1,3 +1,4 @@
+"""Generate demo accounts in txt file."""
 # import python libraries
 import datetime
 import random
@@ -123,7 +124,7 @@ def generate_accounts():
                                 random.choice(tuple(middle_initials)), random.choice(tuple(last_names)), acc_id)
                 account_file.write(acc + '\n')  # write to file
     except IOError:
-        print(e)
+        print(IOError)
         return False
     return True
 

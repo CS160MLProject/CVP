@@ -14,7 +14,6 @@ def test_accounts_txt():
             while account := output_file.readline():
                 counter += 1
                 tokens = account.split(DELIM)
-                print(tokens)
                 assert len(tokens) == TOKEN_SIZE, \
                     f'Output\'s token size should be {TOKEN_SIZE}, returned {len(tokens)}, {tokens}'
             assert counter == ACCOUNT_SIZE, f'Output file\'s account size should be {ACCOUNT_SIZE}, returned {counter}'

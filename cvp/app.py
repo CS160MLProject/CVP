@@ -25,8 +25,7 @@ def register_input():
     :return: registration page of uploading_of_document
     """
     print(f'in register(), {request.method=}')
-    if request.method == "POST":
-        return render_template("uploading_of_document.html")
+    return render_template('uploading_of_document.html')
 
 
 @app.route('/register_confirm', methods=["GET", "POST"])
@@ -60,8 +59,13 @@ def register_create_account():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_input():
+    """
+    Invoked when log in button is clicked in homepage.
+    Check entered login information with database.
+    :return: login page with error message if any error presents, else return profile page.
+    """
     error = 'Please enter required fields.'
-    if request.method == 'GET':
+    if request.method == 'GET': # for the first time of page request.
         return render_template('login.html')
 
     if request.method == 'POST':
@@ -73,7 +77,8 @@ def login_input():
         success = True
         if success: # login
             # here, get profile info to show profile
-            return render_template('profile.html', profile='this is your profile but who is this?')
+            return render_template('profile.html', profile='this is your profile but who is this?'
+                                                           '\nYou cheated.')
 
         else: # not in database or typo
             error = 'Invalid email or password'
@@ -84,6 +89,7 @@ def login_input():
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     """
+    Invoked when login is succeeded.
     First main page of application.
     :return: profile page
     """
@@ -100,7 +106,11 @@ def __invalid_register_input(email, password, confirm_password):
     """
     error_msg = None
     email_regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-    if re.search(email_regex, email): # valid email
+
+    if email == '' or password == '':
+        error_msg = 'Please enter required fields.'
+
+    elif re.search(email_regex, email): # valid email
         if password != confirm_password:  # fail. password did not match
             error_msg = 'Password did not match!'
     else: # invalid email

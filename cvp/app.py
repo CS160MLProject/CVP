@@ -2,6 +2,7 @@
 
 from flask import Flask
 from flask import render_template, request
+import re
 
 app = Flask(__name__)
 
@@ -31,18 +32,44 @@ def register_confirm():
     """
     Invoked when register button is clicked with information of email, password, and confirm password.
     Obtain values from the user and validate email and password and confirm password.
-    :return:
+    :return: create_account page with user information of OCRed text.
     """
     print(f'in register_confirm(), {request.method=}')
+    error_msg = None
     if request.method == "POST":
         email = request.form.get('email')
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
+        # profile_pic = request.files["profile_pic"]
+        vaccine_rec_pic = request.files["vaccine_rec"]
+        # pass this vaccine_rec_pic photo to perform OCR
+        # extracted_rec = ocr(vaccine_rec_pit)
 
-        # do things with these
-        if password == confirm_password:
+        error_msg = __invalid_register_input(email, password, confirm_password)
+        if not error_msg:
+            # pass extracted_rec as well
             return render_template('create_account.html', info=f'Welcome {email=}, {password=}, {confirm_password=} !')
-    return render_template("uploading_of_document.html", wrong_pass='Password did not match!')
+
+    return render_template("uploading_of_document.html", invalid_input=error_msg)
+
+
+def __invalid_register_input(email, password, confirm_password):
+    """
+    Validate entered register information is correct or not.
+    :param email: email address.
+    :param password: password.
+    :param confirm_password: confirm password.
+    :return: error_msg if there is any error, else None
+    """
+    error_msg = None
+    email_regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    if re.search(email_regex, email): # valid email
+        if password != confirm_password:  # fail. password did not match
+            error_msg = 'Password did not match!'
+    else: # invalid email
+        error_msg = 'Invalid email'
+
+    return error_msg
 
 
 if __name__ == '__main__':

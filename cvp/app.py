@@ -4,6 +4,8 @@ from flask import Flask
 from flask import render_template, request
 import re
 
+from cvp.features.transform import generate_hash
+
 app = Flask(__name__)
 
 
@@ -16,7 +18,7 @@ def homepage():
     return render_template('homepage.html', title='this is title of homepage', body='option to register and login')
 
 
-@app.route('/register', methods=["POST"])
+@app.route('/register', methods=["GET", "POST"])
 def register_input():
     """
     Invoked when register button is clicked in homepage.
@@ -28,10 +30,11 @@ def register_input():
 
 
 @app.route('/register_confirm', methods=["GET", "POST"])
-def register_confirm():
+def register_create_account():
     """
     Invoked when register button is clicked with information of email, password, and confirm password.
     Obtain values from the user and validate email and password and confirm password.
+    Obtain file from html post for profile picture and vaccine record.
     :return: create_account page with user information of OCRed text.
     """
     print(f'in register_confirm(), {request.method=}')
@@ -41,16 +44,50 @@ def register_confirm():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
         # profile_pic = request.files["profile_pic"]
-        vaccine_rec_pic = request.files["vaccine_rec"]
+        # vaccine_rec_pic = request.files["vaccine_rec"]
         # pass this vaccine_rec_pic photo to perform OCR
         # extracted_rec = ocr(vaccine_rec_pit)
 
         error_msg = __invalid_register_input(email, password, confirm_password)
         if not error_msg:
             # pass extracted_rec as well
-            return render_template('create_account.html', info=f'Welcome {email=}, {password=}, {confirm_password=} !')
+            return render_template('create_account.html', info=f'Welcome {email=}, {password=}, {confirm_password=} !'
+                                                               f'\n Are these info correct? '
+                                                               f'\n --OCRed Info')
 
     return render_template("uploading_of_document.html", invalid_input=error_msg)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_input():
+    error = 'Please enter required fields.'
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    if request.method == 'POST':
+        email = request.form.get('email')
+        #password = request.form.get('password')
+        #hashed_pass, _ = generate_hash(password)
+
+        # check database with email and hashed_pass
+        success = True
+        if success: # login
+            # here, get profile info to show profile
+            return render_template('profile.html', profile='this is your profile but who is this?')
+
+        else: # not in database or typo
+            error = 'Invalid email or password'
+
+    return render_template('login.html', error=error)
+
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    """
+    First main page of application.
+    :return: profile page
+    """
+    return render_template('profile.html')
 
 
 def __invalid_register_input(email, password, confirm_password):

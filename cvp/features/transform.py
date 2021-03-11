@@ -51,15 +51,3 @@ def generate_hash(password: str, salt: bytes=None):
 
     return password_hash, salt
 
-if __name__ == '__main__':
-    password = "mypassword"
-    hash, salt = generate_hash(password)
-
-
-    checking = False  # Change this into True if you want to check if password is being hashed correctly
-    if checking:
-        logger.info("Checking hashing value ...")
-        correct_password = "mypassword"
-        new_hash, _ = generate_hash(correct_password, salt)
-        logger.debug(f"Hashing is {hmac.compare_digest(new_hash, hash)}")
-

@@ -1,0 +1,84 @@
+*{ /* This resets the margin and padding of everything, 
+    allowing me to design for any browser that may have 
+    default values for margin and padding.
+    
+    --------
+    
+    There's a way for me to completely reset every single css for any browser
+    but I'm sticking with this one for now.*/
+    margin: 0;
+    padding: 0;
+}
+
+/* Then I apply my CSS from here*/
+
+body{
+    background-color: #e9e9e9;
+}
+
+/* .class allows me to target CSS to a specific class that can be used in any html element*/
+
+/* Left side of the Home Page*/
+.left-panel{
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    width: 20%;
+    height: 1000px;
+}
+
+.left-panel h1{
+    margin-top: 50px;
+    text-align: center;
+    color:#3d3d3d;
+}
+
+.left-panel img{
+    display: block;
+    transform: scale(0.5);
+    margin: 0 auto;
+    padding: 0 auto;
+}
+
+.left-panel h2{
+    text-align: center;
+    color:#3d3d3d;
+}
+
+/* Right side of the Home Page. */
+.right-panel{
+    display: inline-block;
+    vertical-align: top;
+    /* background-color: #ffffff; */
+    width: 75%;
+    height: 1000px;
+
+}
+
+.right-panel h1{
+    text-align: center;
+    color:#3d3d3d;
+    padding-top: 100px;
+}
+
+.right-panel img{
+    display: block;
+    transform: scale(0.5);
+    margin: 0 auto;
+    padding: 0 auto;
+}
+
+.right-panel button{
+    display: block;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 150px;
+    width: 450px;
+    font-size: 42px;
+    text-align: center;
+    border-radius: 70px;
+    border-color:#0D0065;
+    padding: 37px 161px 37px 161px;
+    margin: 35px auto;
+}

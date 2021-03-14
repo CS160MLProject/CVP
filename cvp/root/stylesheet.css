@@ -24,7 +24,7 @@ body{
     vertical-align: top;
     background-color: #ffffff;
     width: 20%;
-    height: 1000px;
+    height: 900px;
 }
 
 .left-panel h1{
@@ -43,29 +43,43 @@ body{
 .left-panel h2{
     text-align: center;
     color:#3d3d3d;
+    padding-top: 350px;
 }
 
 /* Right side of the Home Page. */
 .right-panel{
     display: inline-block;
+    position: relative;
     vertical-align: top;
     /* background-color: #ffffff; */
-    width: 75%;
-    height: 1000px;
+    width: 79.5%;
+    height: 900px;
 
 }
 
-.right-panel h1{
-    text-align: center;
+.right-panel h2{
+    display: block;
+    text-align: left;
     color:#3d3d3d;
-    padding-top: 100px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
 }
 
 .right-panel img{
-    display: block;
-    transform: scale(0.5);
-    margin: 0 auto;
-    padding: 0 auto;
+    width: 100%;
+}
+
+/* This crops any image that uses this class to 25% of its current container's height*/
+.vert-crop{
+    max-height: 25%;
+    overflow: hidden;
+}
+
+.right-panel p{
+    text-align: center;
+    color:#3d3d3d;
+    padding: 50px;
 }
 
 .right-panel button{
@@ -79,6 +93,18 @@ body{
     text-align: center;
     border-radius: 70px;
     border-color:#0D0065;
-    padding: 37px 161px 37px 161px;
+    padding: 37px 161px 37px 161px; /* pixels derived from adobe xd values. */
     margin: 35px auto;
+}
+
+
+.right-panel button:hover {
+    background-color: #78caec;
+    color:rgb(46, 46, 46);
+}
+
+.right-panel button:active {
+    transform: scale(0.98);
+    background-color: #78caec;
+    color:rgb(46, 46, 46);
 }

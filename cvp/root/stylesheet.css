@@ -66,7 +66,10 @@ body{
     left: 20px;
 }
 
-.banner{
+/* This sets the width of the image to the entire width of the screen
+
+NOTE-TO-SELF: Try refactoring this to using background-image instead*/
+.img-banner{
     width: 100%;
 }
 
@@ -82,26 +85,28 @@ body{
     padding: 50px;
 }
 
-.right-panel button{
+.home-button{
     display: block;
     background-color: #0A92CC;
     color:white;
     text-shadow: #1f1f1f;
-    height: 150px;
-    width: 450px;
+    height: 125px;
+    width: 500px;
     font-size: 42px;
     text-align: center;
     border-radius: 70px;
     border-color:#0D0065;
-    padding: 37px 161px 37px 161px; /* pixels derived from adobe xd values. */
+    padding: 37px 150px 37px 150px; /* pixels derived from adobe xd values. */
     margin: 35px auto;
+    cursor: pointer;
 }
 
-
+/* This adds an effect when you hover on the buttons*/
 .right-panel button:hover {
     opacity: 80%;
 }
 
+/* A simple animation that makes the button mimic getting pressed when you click it*/
 .right-panel button:active {
     transform: scale(0.98);
     background-color: #78caec;
@@ -110,7 +115,6 @@ body{
 
 .new-account-icon{
     height: 300px;
-    /* transform: scale(2); */
 }
 
 .field-icon{
@@ -130,11 +134,10 @@ body{
 
 .field-label{
     display: block;
-    margin-bottom: 30px;
+    margin: 10px auto 10px 0;
 }
 
 .field-note {
-    margin-top: 30px;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
     color: #5e5e5e;
@@ -142,10 +145,37 @@ body{
 
 .text-field{
     display: block;
-    width: 450px;
+    width: 600px;
     height: 35px;
     border-radius: 5px;
     font-size: 30px;
+    padding: 10px;
     text-align: left;
     color:#333333;
+}
+
+.input-field {
+    margin: 50px auto 50px 20%;
+    padding: 0 auto;
+}
+
+.upload-button {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 80px;
+    width: 500px;
+    font-size: 36px;
+    text-align: center;
+    border-radius: 20px;
+    border-color:#0D0065;
+    padding: auto;
+    margin: 30px auto 30px 10px;
+    /* cursor: pointer; */
+}
+
+.upload-button:hover {
+    opacity: 90%;
 }

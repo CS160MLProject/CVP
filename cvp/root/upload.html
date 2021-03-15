@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" href="stylesheet.css">
     <meta charset="UTF-8">
-    <title>COVID Vaccine Passport | Home</title>
+    <title>CVP | Upload Document</title>
 </head>
 <body>
     <div class="left-panel">
@@ -14,19 +14,35 @@
     
     <div class="right-panel">
         <form action= method="post">
-            <img class="field-icon" src="images/email-icon.png" alt="A black icon of a mail">
-            <label for="email">Email:</label>
-            <input type="text" id="email" name="email" placeholder="email">
+            <div class="input-field">
+                <div class="field-label">
+                    <img class="field-icon" src="images/email-icon.png" alt="A black icon of a mail">
+                    <label class="text-label" for="email">Email:</label>
+                </div>
+                <p class="field-note">Your email address will become your username</p>
+                <input class="text-field" type="text" id="email" name="email" placeholder="Enter your email here">
+            </div>  
 
-            <img class="field-icon" src="images/lock-icon.png" alt="A black icon of a mail">
-            <label for="password">Password:</label>
-            <input type="text" id="password" name="password" placeholder="password">
+            <div class="input-field">
+                <div class="field-label">
+                    <img class="field-icon" src="images/lock-icon.png" alt="A black icon of a mail">
+                    <label class="text-label" for="password">Password:</label>
+                </div>
+                <input class="text-field" type="text" id="password" name="password" placeholder="Enter your Password here">
+            </div>
 
-            <img class="field-icon" src="images/lock-icon.png" alt="A black icon of a mail">
-            <label for="confirm_password">Confirm password:</label>
-            <input type="text" id="confirm_password" name="confirm_password" placeholder="confirm_password">
-            
-            <button type="register">Upload Document</button>
+            <div class="input-field">
+                <div class="field-label">
+                    <img class="field-icon" src="images/lock-icon.png" alt="A black icon of a mail">
+                    <label class="text-label" for="confirm_password">Confirm password:</label>
+                </div>
+                <input class="text-field" type="text" id="confirm_password" name="confirm_password" placeholder="Confirm Password">    
+            </div>
+
+            <div class="input-field">
+                <img class="field-icon" src="images/upload-icon.png" alt="Document getting uploaded to a cloud">
+                <button class="upload-button" type="register">Upload Document</button>
+            </div>
         </form>
     </div>
 </body>

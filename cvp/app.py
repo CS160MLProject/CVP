@@ -41,18 +41,20 @@ def register_create_account():
     if request.method == "POST":
         email = request.form.get('email')
         password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
+        confirm_password = request.form.get('confirm_password') # confirmation password named confirm_password
         # profile_pic = request.files["profile_pic"]
         # vaccine_rec_pic = request.files["vaccine_rec"]
         # pass this vaccine_rec_pic photo to perform OCR
         # extracted_rec = ocr(vaccine_rec_pit)
+        extracted_rec = "Sample data that demonstrates OCRed text information " \
+                        "to be displayed to user in create_acount.html"
 
         error_msg = __invalid_register_input(email, password, confirm_password)
         if not error_msg:
             # pass extracted_rec as well
             return render_template('create_account.html', info=f'Welcome {email=}, {password=}, {confirm_password=} !'
                                                                f'\n Are these info correct? '
-                                                               f'\n --OCRed Info')
+                                                               f'\n --OCRed Info \n {extracted_rec}')
 
     return render_template("uploading_of_document.html", invalid_input=error_msg)
 

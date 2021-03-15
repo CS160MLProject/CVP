@@ -155,7 +155,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .input-field {
-    margin: 50px auto 50px 20%;
+    margin: 50px auto 50px 10%;
     padding: 0 auto;
 }
 
@@ -178,4 +178,37 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 
 .upload-button:hover {
     opacity: 90%;
+}
+
+.upload-button:active {
+    transform: scale(0.98);
+    background-color: #78caec;
+    color:rgb(46, 46, 46);
+}
+
+.continue-button {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 80px;
+    width: 500px;
+    font-size: 36px;
+    text-align: center;
+    border-radius: 20px;
+    border-color:#0D0065;
+    padding: auto;
+    margin: 0 auto 10px 60px;
+    /* cursor: pointer; */
+}
+
+.continue-button:hover {
+    opacity: 90%;
+}
+
+.continue-button:active {
+    transform: scale(0.98);
+    background-color: #78caec;
+    color:rgb(46, 46, 46);
 }

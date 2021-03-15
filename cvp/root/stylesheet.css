@@ -1,0 +1,244 @@
+*{ /* This resets the margin and padding of everything, 
+    allowing me to design for any browser that may have 
+    default values for margin and padding.
+    
+    --------
+    
+    There's a way for me to completely reset every single css for any browser
+    but I'm sticking with this one for now.*/
+    margin: 0;
+    padding: 0;
+}
+
+/* Then I apply my CSS from here*/
+
+body{
+    background-color: #e9e9e9;
+}
+
+/* .class allows me to target CSS to a specific class that can be used in any html element*/
+
+.container {
+    margin: 10px;
+    padding: 0;
+}
+
+/* Left side of the Home Page*/
+.left-panel{
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    width: 20%;
+    height: 900px;
+}
+
+.left-panel h1{
+    margin-top: 50px;
+    text-align: center;
+    color:#3d3d3d;
+}
+
+.left-panel img{
+    display: block;
+    transform: scale(0.5);
+    margin: 0 auto;
+    padding: 0 auto;
+}
+
+.left-panel h2{
+    text-align: center;
+    color:#3d3d3d;
+    padding-top: 350px;
+}
+
+/* Right side of the Home Page. */
+.right-panel{
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    /* background-color: #ffffff; */
+    width: 79.5%;
+    height: 900px;
+
+}
+
+.motto{
+    display: block;
+    text-align: left;
+    color:#3d3d3d;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+/* This sets the width of the image to the entire width of the screen
+
+NOTE-TO-SELF: Try refactoring this to using background-image instead*/
+.img-banner{
+    width: 100%;
+}
+
+/* This crops any image that uses this class to 25% of its current container's height*/
+.vert-crop{
+    max-height: 25%;
+    overflow: hidden;
+}
+
+.description{
+    text-align: center;
+    color:#3d3d3d;
+    padding: 50px;
+}
+
+.home-button{
+    display: block;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 125px;
+    width: 500px;
+    font-size: 42px;
+    text-align: center;
+    border-radius: 70px;
+    border-color:#0D0065;
+    padding: 37px 150px 37px 150px; /* pixels derived from adobe xd values. */
+    margin: 35px auto;
+    cursor: pointer;
+}
+
+/* This adds an effect when you hover on the buttons*/
+.right-panel button:hover {
+    opacity: 80%;
+}
+
+/* A simple animation that makes the button mimic getting pressed when you click it*/
+.right-panel button:active {
+    transform: scale(0.98);
+    background-color: #78caec;
+    color:rgb(46, 46, 46);
+}
+
+.new-account-icon{
+    height: 300px;
+}
+
+.field-icon{
+    display: inline-block;
+    vertical-align:middle;
+    height: 50px;
+}
+
+.text-label{
+    display: inline-block;
+    vertical-align:middle;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 25px;
+    color: #5e5e5e;
+    text-align: left;
+}
+
+.field-label{
+    display: block;
+    margin: 10px auto 10px 0;
+}
+
+.field-note {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    color: #5e5e5e;
+}
+
+.text-field{
+    display: block;
+    width: 600px;
+    height: 35px;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short{
+    display: block;
+    width: 400px;
+    height: 35px;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.input-field {
+    margin: 30px 80px 30px 10%;
+    padding: 0 auto;
+}
+
+.fields-column {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.upload-button {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 80px;
+    width: 500px;
+    font-size: 36px;
+    text-align: center;
+    border-radius: 20px;
+    border-color:#0D0065;
+    padding: auto;
+    margin: 30px auto 30px 10px;
+    /* cursor: pointer; */
+}
+
+.upload-button:hover {
+    opacity: 90%;
+}
+
+.upload-button:active {
+    transform: scale(0.98);
+    background-color: #78caec;
+    color:rgb(46, 46, 46);
+}
+
+.continue-button {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 80px;
+    width: 500px;
+    font-size: 36px;
+    text-align: center;
+    border-radius: 20px;
+    border-color:#0D0065;
+    padding: auto;
+    margin: 0 auto 10px 60px;
+    /* cursor: pointer; */
+}
+
+.continue-button:hover {
+    opacity: 90%;
+}
+
+.continue-button:active {
+    transform: scale(0.98);
+    background-color: #78caec;
+    color:rgb(46, 46, 46);
+}
+
+.warning-message {
+    color: red;
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 150px 10px 60px;
+}

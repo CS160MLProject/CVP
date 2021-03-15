@@ -105,12 +105,11 @@ def __invalid_register_input(email, password, confirm_password):
     :return: error_msg if there is any error, else None
     """
     error_msg = None
-    email_regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
     if email == '' or password == '':
         error_msg = 'Please enter required fields.'
 
-    elif re.search(email_regex, email): # valid email
+    elif __valid_email(email): # valid email
         if password != confirm_password:  # fail. password did not match
             error_msg = 'Password did not match!'
     else: # invalid email
@@ -118,6 +117,17 @@ def __invalid_register_input(email, password, confirm_password):
 
     return error_msg
 
+
+def __valid_email(email):
+    """
+    Validate entered email.
+    :param email: email address entered by user.
+    :return: True if this email is valid.
+    """
+    email_regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    if re.search(email_regex, email): # if valid email
+        return True
+    return False
 
 if __name__ == '__main__':
     app.run(debug=True)

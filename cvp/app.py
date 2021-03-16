@@ -13,13 +13,17 @@ app = Flask(__name__)
 def homepage():
     """
     Homepage of this website with login and register option.
+    Invoked when (1)Website homepage url is entered to show homepage.html
+        (2)register button is clicked in homepage.html
+        (3)login button is clicked in homepage.html.
     :return: redirect to register page or login page based on user's option.
     """
     if request.method == 'POST':  # user clicked the option buttons
-        if request.form.get('register_button'):  # user clicked the register button
+        if request.form.get('register_button'):  # process for case(2)
             return redirect(url_for('register'))
-        if request.form.get('login_button'):  # user clicked the login button
+        if request.form.get('login_button'):  # process for case(3)
             return redirect(url_for('login'))
+    # default. process for case(1)
     return render_template('homepage.html', title='this is title of homepage', body='option to register and login')
 
 
@@ -29,13 +33,11 @@ def register():
     Invoked when (1)register button is clicked from homepage.html
         (2)continue button is clicked in uploading_of_document.html
         (3)confirm button is clicked in create_account.html.
-    Obtain values from the user and validate email and password and confirm password.
-    Obtain file from html post for profile picture and vaccine record.
     :return: create_account page with user information of OCRed text.
     """
-    error_msg = None
     if request.method == "POST":
-        if request.form.get('continue_button'): # if continue button is clicked in the uploading_of_document.html
+        if request.form.get('continue_button'): # process for case(2)
+            error_msg = None
             email = request.form.get('email')
             password = request.form.get('password')
             confirm_password = request.form.get('confirm_password')  # confirmation password named confirm_password
@@ -46,22 +48,26 @@ def register():
             extracted_rec = "Sample data that demonstrates OCRed text information " \
                             "to be displayed to user in create_acount.html"
 
-            #error_msg = __invalid_register_input(email, password, confirm_password)
-            if not error_msg:
-                # pass extracted_rec as well
-                return render_template('create_account.html', info=f'Welcome {email=}, {password=}, {confirm_password=} !'
-                                                                   f'\n Are these info correct? '
-                                                                   f'\n --OCRed Info \n {extracted_rec}')
+            error_msg = __invalid_register_input(email, password, confirm_password)
+            if not error_msg: # no error in entered information
+                return render_template('create_account.html',
+                                       info=f'Welcome {email=}, {password=}, {confirm_password=} !'
+                                            f'\n Are these info correct? '
+                                            f'\n --OCRed Info \n {extracted_rec}')
 
-            if error_msg:
+            if error_msg: # error found in entered information
                 return render_template("uploading_of_document.html", invalid_input=error_msg)
-        elif request.form.get('confirm_button'):
+
+        elif request.form.get('confirm_button'): # process for case(3)
             # check CDC database at this point
-            temp_CDC = True
-            if temp_CDC:  # send confirmed account information to database and record them.
-                return redirect(url_for('profile'))
+            valid_rec = True
+            if valid_rec:  # send confirmed account information to database and record them.
+                # get account_id generated in database
+                account_id = 12345
+                return redirect(url_for('profile', account_id=account_id))
             else:  # the information is not in CDC database, return (something_went_wrong.html)
-                pass
+                error_msg = 'Something went wrong'
+                return f'<h1> {error_msg} <h1>'
     # initial default by GET for /register
     return render_template("uploading_of_document.html")
 
@@ -69,18 +75,18 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """
-    Invoked when log in button is clicked in homepage.
+    Invoked when (1)log in button is clicked in homepage.html
+        (2)login button is clicked in login.html
+        (3)cancel button is clicked in login.html.
     Check entered login information with database.
     :return: login page with error message if any error presents, else return profile page.
     """
-    error = 'Please enter required fields.'
-    if request.method == 'GET':  # for the first time of page request.
-        return render_template('login.html')
-
     if request.method == 'POST':
-        if request.form.get("login_button"):
+        error = None
+        if request.form.get("login_button"): # process for case(2)
             email = request.form.get('email')
             # password = request.form.get('password')
+            password = 'temp'
             # hashed_pass, _ = generate_hash(password)
 
             # check database with email and hashed_pass
@@ -90,13 +96,17 @@ def login():
                 # obtain user account id from database with entered email
                 account_id = 12345
                 return redirect(url_for('profile', account_id=account_id))
-
-            else:  # not in database or typo
+            elif email == '' or password == '':
+                error = 'Please enter required fields.'
+            elif not success:  # not in database or typo
                 error = 'Invalid email or password'
-        if request.form.get("cancel_button"):
-            return render_template('login.html')
 
-    return render_template('login.html', error=error)
+        if request.form.get("cancel_button"): # process for case(3)
+            return render_template('login.html')
+        return render_template('login.html', error=error)
+
+    # default. process for case(1)
+    return render_template('login.html')
 
 
 @app.route('/profile_<account_id>', methods=['GET', 'POST'])
@@ -108,7 +118,7 @@ def profile(account_id):
     :return: profile page
     """
     # get user info with account_id
-    user_info = 'this is your profile but who is this? \nYou cheated.'
+    user_info = f'this is your profile but who is this? \nYou cheated.'
     return render_template('profile.html', profile=user_info)
 
 

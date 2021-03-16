@@ -16,7 +16,9 @@ def homepage():
     Invoked when (1)Website homepage url is entered to show homepage.html
         (2)register button is clicked in homepage.html
         (3)login button is clicked in homepage.html.
-    :return: redirect to register page or login page based on user's option.
+    :return: (1)homepage.html
+        (2)redirect to register function
+        (3)redirect to login function
     """
     if request.method == 'POST':  # user clicked the option buttons
         if request.form.get('register_button'):  # process for case(2)
@@ -33,7 +35,10 @@ def register():
     Invoked when (1)register button is clicked from homepage.html
         (2)continue button is clicked in uploading_of_document.html
         (3)confirm button is clicked in create_account.html.
-    :return: create_account page with user information of OCRed text.
+    :return: (1)uploading_of_document.html
+        (2)create_account page with user information of OCRed text if no error
+            else uploading_of_document.html with error message.
+        (3)success_welcome.html if registered successfully else Error message (page).
     """
     if request.method == "POST":
         if request.form.get('continue_button'): # process for case(2)
@@ -62,9 +67,7 @@ def register():
             # check CDC database at this point
             valid_rec = True
             if valid_rec:  # send confirmed account information to database and record them.
-                # get account_id generated in database
-                account_id = 12345
-                return redirect(url_for('profile', account_id=account_id))
+                return render_template('success_welcome.html', success="Success! Welcome.")
             else:  # the information is not in CDC database, return (something_went_wrong.html)
                 error_msg = 'Something went wrong'
                 return f'<h1> {error_msg} <h1>'
@@ -75,11 +78,12 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """
-    Invoked when (1)log in button is clicked in homepage.html
+    Invoked when (1)login button is clicked in homepage.html
         (2)login button is clicked in login.html
         (3)cancel button is clicked in login.html.
-    Check entered login information with database.
-    :return: login page with error message if any error presents, else return profile page.
+    :return: (1)login.html
+        (2)redirect to profile function if logged in successfully else login.html with error message
+        (3)redirect to homepage function
     """
     if request.method == 'POST':
         error = None
@@ -102,7 +106,7 @@ def login():
                 error = 'Invalid email or password'
 
         if request.form.get("cancel_button"): # process for case(3)
-            return render_template('login.html')
+            return redirect(url_for('homepage'))
         return render_template('login.html', error=error)
 
     # default. process for case(1)
@@ -114,8 +118,7 @@ def profile(account_id):
     """
     First main page of application.
     Invoked when (1)login button is clicked and succeeded in login.html
-        (2)confirm button is clicked in create_account.html.
-    :return: profile page
+    :return: (1)profile.html with user information
     """
     # get user info with account_id
     user_info = f'this is your profile but who is this? \nYou cheated.'

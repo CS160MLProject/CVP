@@ -112,9 +112,9 @@ def login():
 @app.route('/profile_<account_id>', methods=['GET', 'POST'])
 def profile(account_id):
     """
-    Invoked when login is succeeded.
-    Also invoked when 'confirm button is clicked in create account page.
     First main page of application.
+    Invoked when (1)login button is clicked and succeeded in login.html
+        (2)confirm button is clicked in create_account.html.
     :return: profile page
     """
     # get user info with account_id

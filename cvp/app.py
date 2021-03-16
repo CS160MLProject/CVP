@@ -1,7 +1,7 @@
 """Covid-19 Vaccine Passport Application"""
 
 from flask import Flask
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 import re
 
 from cvp.features.transform import generate_hash
@@ -9,54 +9,68 @@ from cvp.features.transform import generate_hash
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def homepage():
     """
     Homepage of this website with login and register option.
     :return: homepage.html with title and body for demo.
     """
+    if request.method == 'POST':  # user clicked the option buttons
+        if request.form.get('register_button'):  # user clicked the register button
+            return redirect(url_for('register'))
+        if request.form.get('login_button'):  # user clicked the login button
+            return redirect(url_for(''))
     return render_template('homepage.html', title='this is title of homepage', body='option to register and login')
 
 
+# @app.route('/register', methods=["GET", "POST"])
+# def register_input():
+#     """
+#     Invoked when register button is clicked in homepage.
+#     :return: registration page of uploading_of_document
+#     """
+#     return render_template('uploading_of_document.html')
+
+
 @app.route('/register', methods=["GET", "POST"])
-def register_input():
-    """
-    Invoked when register button is clicked in homepage.
-    :return: registration page of uploading_of_document
-    """
-    print(f'in register(), {request.method=}')
-    return render_template('uploading_of_document.html')
-
-
-@app.route('/register_confirm', methods=["GET", "POST"])
-def register_create_account():
+def register():
     """
     Invoked when register button is clicked with information of email, password, and confirm password.
     Obtain values from the user and validate email and password and confirm password.
     Obtain file from html post for profile picture and vaccine record.
     :return: create_account page with user information of OCRed text.
     """
-    print(f'in register_confirm(), {request.method=}')
     error_msg = None
     if request.method == "POST":
-        email = request.form.get('email')
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password') # confirmation password named confirm_password
-        # profile_pic = request.files["profile_pic"]
-        # vaccine_rec_pic = request.files["vaccine_rec"]
-        # pass this vaccine_rec_pic photo to perform OCR
-        # extracted_rec = ocr(vaccine_rec_pit)
-        extracted_rec = "Sample data that demonstrates OCRed text information " \
-                        "to be displayed to user in create_acount.html"
+        if request.form.get('continue_button'): # if continue button is clicked in the uploading_of_document.html
+            email = request.form.get('email')
+            password = request.form.get('password')
+            confirm_password = request.form.get('confirm_password')  # confirmation password named confirm_password
+            # profile_pic = request.files["profile_pic"]
+            # vaccine_rec_pic = request.files["vaccine_rec"]
+            # pass this vaccine_rec_pic photo to perform OCR
+            # extracted_rec = ocr(vaccine_rec_pit)
+            extracted_rec = "Sample data that demonstrates OCRed text information " \
+                            "to be displayed to user in create_acount.html"
 
-        error_msg = __invalid_register_input(email, password, confirm_password)
-        if not error_msg:
-            # pass extracted_rec as well
-            return render_template('create_account.html', info=f'Welcome {email=}, {password=}, {confirm_password=} !'
-                                                               f'\n Are these info correct? '
-                                                               f'\n --OCRed Info \n {extracted_rec}')
+            #error_msg = __invalid_register_input(email, password, confirm_password)
+            if not error_msg:
+                # pass extracted_rec as well
+                return render_template('create_account.html', info=f'Welcome {email=}, {password=}, {confirm_password=} !'
+                                                                   f'\n Are these info correct? '
+                                                                   f'\n --OCRed Info \n {extracted_rec}')
 
-    return render_template("uploading_of_document.html", invalid_input=error_msg)
+            if error_msg:
+                return render_template("uploading_of_document.html", invalid_input=error_msg)
+        elif request.form.get('confirm_button'):
+            # check CDC database at this point
+            temp_CDC = True
+            if temp_CDC:  # send confirmed account information to database and record them.
+                return redirect(url_for('profile'))
+            else:  # the information is not in CDC database, return (something_went_wrong.html)
+                pass
+    # initial default by GET for /register
+    return render_template("uploading_of_document.html")
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -67,22 +81,22 @@ def login_input():
     :return: login page with error message if any error presents, else return profile page.
     """
     error = 'Please enter required fields.'
-    if request.method == 'GET': # for the first time of page request.
+    if request.method == 'GET':  # for the first time of page request.
         return render_template('login.html')
 
     if request.method == 'POST':
         email = request.form.get('email')
-        #password = request.form.get('password')
-        #hashed_pass, _ = generate_hash(password)
+        # password = request.form.get('password')
+        # hashed_pass, _ = generate_hash(password)
 
         # check database with email and hashed_pass
         success = True
-        if success: # login
+        if success:  # login
             # here, get profile info to show profile
             return render_template('profile.html', profile='this is your profile but who is this?'
                                                            '\nYou cheated.')
 
-        else: # not in database or typo
+        else:  # not in database or typo
             error = 'Invalid email or password'
 
     return render_template('login.html', error=error)
@@ -92,9 +106,11 @@ def login_input():
 def profile():
     """
     Invoked when login is succeeded.
+    Also invoked when 'confirm button is clicked in create account page.
     First main page of application.
     :return: profile page
     """
+
     return render_template('profile.html')
 
 
@@ -111,10 +127,10 @@ def __invalid_register_input(email, password, confirm_password):
     if email == '' or password == '':
         error_msg = 'Please enter required fields.'
 
-    elif __valid_email(email): # valid email
+    elif __valid_email(email):  # valid email
         if password != confirm_password:  # fail. password did not match
             error_msg = 'Password did not match!'
-    else: # invalid email
+    else:  # invalid email
         error_msg = 'Invalid email'
 
     return error_msg
@@ -127,9 +143,10 @@ def __valid_email(email):
     :return: True if this email is valid.
     """
     email_regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-    if re.search(email_regex, email): # if valid email
+    if re.search(email_regex, email):  # if valid email
         return True
     return False
+
 
 if __name__ == '__main__':
     app.run(debug=True)

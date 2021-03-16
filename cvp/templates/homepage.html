@@ -5,11 +5,9 @@
     <body>
         <h1>{{ body }}</h1>
     </body>
-    <form action={{url_for("register_input")}} method = "GET">
-        <button type="register">Register</button>
-    </form>
-    <form action={{url_for("login_input")}} method = "GET">
-        <button type="login">Login</button>
+    <form action={{url_for("homepage")}} method = "POST">
+        <button type="register" name="register_button" value="register_button"> Register</button>
+        <button type="login" name="login_button" value="login_button">Login</button>
     </form>
 
 </html>

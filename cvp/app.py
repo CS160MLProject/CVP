@@ -13,29 +13,22 @@ app = Flask(__name__)
 def homepage():
     """
     Homepage of this website with login and register option.
-    :return: homepage.html with title and body for demo.
+    :return: redirect to register page or login page based on user's option.
     """
     if request.method == 'POST':  # user clicked the option buttons
         if request.form.get('register_button'):  # user clicked the register button
             return redirect(url_for('register'))
         if request.form.get('login_button'):  # user clicked the login button
-            return redirect(url_for(''))
+            return redirect(url_for('login'))
     return render_template('homepage.html', title='this is title of homepage', body='option to register and login')
-
-
-# @app.route('/register', methods=["GET", "POST"])
-# def register_input():
-#     """
-#     Invoked when register button is clicked in homepage.
-#     :return: registration page of uploading_of_document
-#     """
-#     return render_template('uploading_of_document.html')
 
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
     """
-    Invoked when register button is clicked with information of email, password, and confirm password.
+    Invoked when (1)register button is clicked from homepage.html
+        (2)continue button is clicked in uploading_of_document.html
+        (3)confirm button is clicked in create_account.html.
     Obtain values from the user and validate email and password and confirm password.
     Obtain file from html post for profile picture and vaccine record.
     :return: create_account page with user information of OCRed text.
@@ -74,7 +67,7 @@ def register():
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def login_input():
+def login():
     """
     Invoked when log in button is clicked in homepage.
     Check entered login information with database.
@@ -85,33 +78,38 @@ def login_input():
         return render_template('login.html')
 
     if request.method == 'POST':
-        email = request.form.get('email')
-        # password = request.form.get('password')
-        # hashed_pass, _ = generate_hash(password)
+        if request.form.get("login_button"):
+            email = request.form.get('email')
+            # password = request.form.get('password')
+            # hashed_pass, _ = generate_hash(password)
 
-        # check database with email and hashed_pass
-        success = True
-        if success:  # login
-            # here, get profile info to show profile
-            return render_template('profile.html', profile='this is your profile but who is this?'
-                                                           '\nYou cheated.')
+            # check database with email and hashed_pass
+            success = True
+            if success:  # login
+                # here, get profile info to show profile
+                # obtain user account id from database with entered email
+                account_id = 12345
+                return redirect(url_for('profile', account_id=account_id))
 
-        else:  # not in database or typo
-            error = 'Invalid email or password'
+            else:  # not in database or typo
+                error = 'Invalid email or password'
+        if request.form.get("cancel_button"):
+            return render_template('login.html')
 
     return render_template('login.html', error=error)
 
 
-@app.route('/profile', methods=['GET', 'POST'])
-def profile():
+@app.route('/profile_<account_id>', methods=['GET', 'POST'])
+def profile(account_id):
     """
     Invoked when login is succeeded.
     Also invoked when 'confirm button is clicked in create account page.
     First main page of application.
     :return: profile page
     """
-
-    return render_template('profile.html')
+    # get user info with account_id
+    user_info = 'this is your profile but who is this? \nYou cheated.'
+    return render_template('profile.html', profile=user_info)
 
 
 def __invalid_register_input(email, password, confirm_password):

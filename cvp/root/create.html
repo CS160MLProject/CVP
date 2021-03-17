@@ -1,84 +1,100 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!--This indicates that this is an HTML file-->
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="stylesheet.css">
+
+<!--The head element consists of links, title and meta tags, which are used to define what the HTML page contains-->
+<head> 
+    <link rel="stylesheet" href="stylesheet.css"> <!--Links to the external stylesheet so that the page uses the CSS from it-->
     <meta charset="UTF-8">
-    <title>CVP | Create Account</title>
+    <title>CVP | Create Account</title> <!--This is the title that you see displayed in the tab section-->
 </head>
 <body>
-    <div class="left-panel">
+
+    <!--The following is a good example of utilizing multiple div elements to contain different parts of the HTML file,
+    which allows us to finely structure the parts of the page.-->
+
+    <!--This is the container for the left panel of the window-->
+    <div class="left-panel"> 
         <h1>Create your account</h1>
         <img class="new-account-icon" src="images/create-new-account.png" alt="An icon of a person with a plus symbol beside it.">
         <h2>MISC</h2>
     </div>
-    
+
+    <!--While this is the container for the right panel of the window-->
     <div class="right-panel">
-        <form action= method="post">
+        <form action= method="post">   <!--TODO, wire this according to the backend structure later! I removed the URL attribute here atm-->
             <div class="container">
-                <div class="fields-column">
-                    <div class="input-field">
+
+                <!--This div contains one column of fields you see on the page-->
+                <div class="fields-column"> 
+
+                    <!-- input-field is a single input field in the column which contains a label and a text field-->
+                    <div class="input-field"> 
+
+                        <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
                         <div class="field-label">
-                            <label class="text-label" for="email">First Name:</label>
+                            <label class="text-label" for="first_name">First Name:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="email" name="email" placeholder="First Name">
+
+                        <!--Finally the text field for the user to enter data into.-->
+                        <input class="text-field-short" type="text" id="first_name" name="first_name" placeholder="First Name">
                     </div>  
         
                     <div class="input-field">
                         <div class="field-label">
-                            <label class="text-label" for="password">Middle Initial:</label>
+                            <label class="text-label" for="mid_initial">Middle Initial:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="password" name="password" placeholder="Middle Initial">
+                        <input class="text-field-short" type="text" id="mid_initial" name="mid_initial" placeholder="Middle Initial">
                     </div>
         
                     <div class="input-field">
                         <div class="field-label">
-                            <label class="text-label" for="confirm_password">First Dose:</label>
+                            <label class="text-label" for="first_dose">First Dose:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="confirm_password" name="confirm_password" placeholder="Vaccine Name - Lot Number">    
+                        <input class="text-field-short" type="text" id="first_dose" name="first_dose" placeholder="Vaccine Name - Lot Number">    
                     </div>
         
                     <div class="input-field">
                         <div class="field-label">
-                            <label class="text-label" for="confirm_password">Second Dose:</label>
+                            <label class="text-label" for="second_dose">Second Dose:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="confirm_password" name="confirm_password" placeholder="Vaccine Name - Lot Number">    
+                        <input class="text-field-short" type="text" id="second_dose" name="second_dose" placeholder="Vaccine Name - Lot Number">    
                     </div>
         
                     <div class="input-field">
                         <div class="field-label">
-                            <label class="text-label" for="confirm_password">Clinic Site:</label>
+                            <label class="text-label" for="clinic_site">Clinic Site:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="confirm_password" name="confirm_password" placeholder="Clinic Site">    
+                        <input class="text-field-short" type="text" id="clinic_site" name="clinic_site" placeholder="Clinic Site">    
                     </div>
                 </div>
     
                 <div class="fields-column">
                     <div class="input-field">
                         <div class="field-label">
-                            <label class="text-label" for="email">Last Name:</label>
+                            <label class="text-label" for="last_name">Last Name:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="email" name="email" placeholder="Last Name">
+                        <input class="text-field-short" type="text" id="last_name" name="last_name" placeholder="Last Name">
                     </div>  
         
                     <div class="input-field">
                         <div class="field-label">
-                            <label class="text-label" for="password">Patient Number:</label>
+                            <label class="text-label" for="patient_num">Patient Number:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="password" name="password" placeholder="1234">
+                        <input class="text-field-short" type="text" id="patient_num" name="patient_num" placeholder="1234">
                     </div>
         
                     <div class="input-field">
                         <div class="field-label">
-                            <label class="text-label" for="confirm_password">Issue Date:</label>
+                            <label class="text-label" for="date_first">Issue Date:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="confirm_password" name="confirm_password" placeholder="mm / dd / yyyy">    
+                        <input class="text-field-short" type="text" id="date_first" name="date_first" placeholder="mm / dd / yyyy">    
                     </div>
         
                     <div class="input-field">
                         <div class="field-label">
-                            <label class="text-label" for="confirm_password">Issue Date:</label>
+                            <label class="text-label" for="date_second">Issue Date:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="confirm_password" name="confirm_password" placeholder="mm / dd / yyyy">    
+                        <input class="text-field-short" type="text" id="date_second" name="date_second" placeholder="mm / dd / yyyy">    
                     </div>
     
                     <div class="input-field">

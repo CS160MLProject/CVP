@@ -15,7 +15,7 @@
 
 body{
     /* Sets the background color of the entire page to a light gray*/
-    background-color: #e9e9e9;
+    background-color: #ffffff;
 }
 
 /* .class allows me to target CSS to a specific class that can be used in any html element*/
@@ -226,7 +226,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     border-color:#0D0065;
     padding: auto;
     margin: 0 auto 10px 60px;
-    /* cursor: pointer; */
+    cursor: pointer;
 }
 
 .continue-button:hover {

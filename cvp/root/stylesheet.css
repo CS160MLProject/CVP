@@ -245,7 +245,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     cursor: pointer;
 }
 
-.resend hover {
+.resend:focus {
     background-color:#10CC0A;
 }
 

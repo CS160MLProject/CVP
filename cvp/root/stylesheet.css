@@ -77,6 +77,14 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     left: 20px;
 }
 
+.message {
+    color:3d3d3d;
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    margin: 10px 150px 10px 60px;
+}
+
 /* This sets the width of the image to the entire width of the screen
 NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 .img-banner{
@@ -218,6 +226,27 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     transform: scale(0.98);
     background-color: #78caec;
     color:rgb(46, 46, 46);
+}
+
+.resend {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 80px;
+    width: 500px;
+    font-size: 36px;
+    text-align: center;
+    border-radius: 20px;
+    border-color:#0D0065;
+    padding: auto;
+    margin: 0 auto 10px 60px;
+    cursor: pointer;
+}
+
+.resend hover {
+    background-color:#10CC0A;
 }
 
 .warning-message {

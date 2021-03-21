@@ -229,6 +229,13 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     margin: 10px 150px 10px 60px;
 }
 
+.forgot-password {
+    color:#0A92CC;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    margin-left: 250px;
+}
+
 .page-header {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 60px;

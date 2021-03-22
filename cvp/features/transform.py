@@ -14,7 +14,6 @@ import coloredlogs
 import logging
 import os
 import hashlib
-import hmac
 
 # Third Party Imports
 
@@ -50,4 +49,3 @@ def generate_hash(password: str, salt: bytes=None):
     logger.info("Finished hashing password!")
 
     return password_hash, salt
-

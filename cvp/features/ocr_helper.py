@@ -25,6 +25,19 @@ coloredlogs.install(level='DEBUG', logger=logger)
 
 
 def assemble_word(word):
+    """Join characters into a complete word
+
+    Usage:
+
+    >>> from cvp.features.ocr_helper import assemble_word
+    >>> assembled_word = assemble_word(word)
+
+    Args:
+        word (google.cloud.vision_v1.types.text_annotation.Word):
+
+    Returns:
+        assembled_word (str): a complete word
+    """
     assembled_word = ""
     for symbol in word.symbols:
         assembled_word += symbol.text
@@ -32,6 +45,20 @@ def assemble_word(word):
 
 
 def find_word_location(document, word_to_find):
+    """Find the target word's location in the image
+
+    Usage:
+
+    >>> from from cvp.features.ocr_helper import find_word_location
+    >>> location = find_word_location(document, word_to_find)
+
+    Args:
+        document (google.cloud.vision_v1.types.text_annotation.TextAnnotation): json file of the image
+        word_to_find (str): target word
+
+    Return:
+        word.bouding_box (google.cloud.vision_v1.types.geometry.BoundingPoly): Position (x,y) of the word in the image
+    """
     for page in document.pages:
         for block in page.blocks:
             for paragraph in block.paragraphs:
@@ -42,6 +69,24 @@ def find_word_location(document, word_to_find):
 
 
 def text_within(document, x1, y1, x2, y2):
+    """Find the target text within the given boundary
+
+    Usage:
+
+    >>> from cvp.features.ocr_helper import text_within
+    >>> text = text_within(document, x1, y1, x2, y2)
+
+    Args:
+
+        document (google.cloud.vision_v1.types.text_annotation.TextAnnotation): json file of the image
+        x1 (int): lowest x position of the boundary
+        y1 (int): lowest y position of the boundary
+        x2 (int): highest x position of the boundary
+        y2 (int): highest y position of the boundary
+
+    Returns:
+        text (str): the word within the boundary, None if boundary is empty
+    """
     text = ""
     for page in document.pages:
         for block in page.blocks:
@@ -60,14 +105,6 @@ def text_within(document, x1, y1, x2, y2):
                         if min_x >= x1 and max_x <= x2 and min_y >= y1 and max_y <= y2:
                             text += symbol.text
 
-                            if symbol.property.detected_break == 1 or symbol.property.detected_break == 3:
-                                text += ' '
-
-                            if symbol.property.detected_break == 2:
-                                text += '\t'
-
-                            if symbol.property.detected_break == 5:
-                                text += '\n'
                     text += ' '
 
         return text.strip()

@@ -1,3 +1,4 @@
+import hmac
 import sys
 
 # Standard Dist

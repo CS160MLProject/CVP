@@ -25,7 +25,7 @@ from cvp.features.ocr_helper import text_within
 COORDINATE = {
     "last": [38, 212, 450, 323],
     'first': [451, 212, 1000, 322],
-    'mi': [1001, 212, 1100, 322],
+    'mi': [1001, 212, 1180, 320],
     'dob': [38, 304, 560, 408],
     'ssn': [562, 303, 1100, 410],
     'product_1': [200, 530, 580, 600],
@@ -45,32 +45,35 @@ FOLDER_PATH = 'dataset/raw/vaccine_record_photos'
 
 
 class OCR_Model(object):
-    def __init__(self):
-        if not os.path.exists(GOOGLE_CREDENTIALS_KEY):
-            logger.warning(f"File {GOOGLE_CREDENTIALS_KEY} was not found. Current dir: {os.getcwd()}")
+    def __init__(self, credential_key: str = None):
+        credential_key = credential_key or GOOGLE_CREDENTIALS_KEY
+        if not os.path.exists(credential_key):
+            logger.warning(f"File {credential_key} was not found. Current dir: {os.getcwd()}")
             raise FileNotFoundError("Could not initialize OCR_Model because Google Credentials Key not found.")
 
-        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = GOOGLE_CREDENTIALS_KEY
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_key
         self.client = vision.ImageAnnotatorClient()
 
-    def predict(self, photo_path: str):
+    def predict(self, photo: str, folder_path: str = None, flag=True):
         """Get the model prediction on the data point
 
         Usage
 
         >>> from cvp.model.ocr_model import OCR_Model
         >>> model = OCR_Model()
-        >>> model.predict(photo_path)
+        >>> model.predict(photo)
 
         Args:
-            photo_path (str): Path to data point
-
+            photo_path (str): name of data point
+            folder_path (str): Path to folder contains data point
+            flag (bool): Don't change this value. This is used for unit testing to check if it raises error
         Returns:
             info (dict): user's information; order of dict - last, first, mi, dob, ssn, 1st product, 1st date, 1st site,
                 2nd product, 2nd date, 2nd site
         """
         logger.info("Preparing ...")
-        relative_path = os.path.join(FOLDER_PATH, photo_path)
+        folder_path = folder_path or FOLDER_PATH
+        relative_path = os.path.join(folder_path, photo)
         if not os.path.exists(relative_path):
             raise FileNotFoundError(f"File {relative_path} was not found. Current dir: {os.getcwd()}")
 
@@ -82,10 +85,11 @@ class OCR_Model(object):
         logger.info('Loading image into OCR Model ...')
         response = self.client.document_text_detection(image=image)
 
-        document = response.full_text_annotation
-        if response.error.message:
+        if response.error.message or not flag:
             raise Exception(f'{response.error.message}\nFor more info on error messages, check: '
                             f'https://cloud.google.com/apis/design/errors')
+
+        document = response.full_text_annotation
 
         logger.info('Finding keywords ...')
         info = dict()
@@ -97,4 +101,4 @@ class OCR_Model(object):
             logger.debug(f"{key}: {info[key]}")
 
         logger.info('Finished!')
-        info
+        return info

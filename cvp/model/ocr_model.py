@@ -15,6 +15,7 @@ import coloredlogs
 import logging
 import os
 import io
+import re
 
 # Third Party Imports
 from google.cloud import vision
@@ -25,20 +26,19 @@ from cvp.features.ocr_helper import text_within
 COORDINATE = {
     "last": [38, 212, 450, 323],
     'first': [451, 212, 1000, 322],
-    'mi': [1001, 212, 1180, 320],
+    'mi': [1001, 212, 1200, 320],
     'dob': [38, 304, 560, 408],
-    'ssn': [562, 303, 1100, 410],
-    'product_1': [200, 530, 580, 600],
-    'date_1': [600, 470, 810, 570],
-    'site_1': [820, 530, 1100, 600],
-    'product_2': [200, 620, 580, 700],
-    'date_2': [600, 600, 810, 680],
-    'site_2': [820, 620, 1100, 700]
+    'ssn': [562, 303, 1180, 410],
+    'product_1': [185, 500, 612, 610],
+    'date_1': [550, 470, 805, 570],
+    'site_1': [790, 510, 1200, 645],
+    'product_2': [185, 600, 612, 700],
+    'date_2': [550, 600, 805, 680],
+    'site_2': [790, 600, 1200, 800]
 }
 
-
 logger = logging.getLogger(__name__)
-coloredlogs.install(level='DEBUG', logger=logger)
+coloredlogs.install(level=logging.DEBUG, logger=logger)
 
 GOOGLE_CREDENTIALS_KEY = r'Google_Cloud_Vison_Key.json'
 FOLDER_PATH = 'dataset/raw/vaccine_record_photos'
@@ -96,7 +96,12 @@ class OCR_Model(object):
         for key, value in COORDINATE.items():
             info[key] = text_within(document, value[0], value[1], value[2], value[3])
             if key == 'date_1' or key == 'date_2':
-                info[key] = info[key].replace(',', '/')
+                # Remove comma (,), back slash (/), and space
+                temp = info[key].replace(',', '').replace('/', '').replace(' ', '')
+
+                # Split string every 2th characters and join then with backslash (/) separation
+                # Ex: '123456' -> '12/34/56'
+                info[key] = "/".join(re.findall('..', temp))
 
             logger.debug(f"{key}: {info[key]}")
 

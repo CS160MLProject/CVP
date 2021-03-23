@@ -1,4 +1,0 @@
-[report]
-show_missing = True
-omit =
-    C:/Users/quang/AppData/Roaming/Python/Python38/site-packages/*

@@ -34,12 +34,18 @@ coloredlogs.install(level=logging.DEBUG, logger=logger)
 
 
 class Database:
-    """ Database instance for CRUD interaction
-    """
+    """ Database instance for CRUD interaction """
 
     def __init__(self, db_path):
         """ construct the database
-        :param db_path: path to the database
+
+        Usage
+
+        >>> from cvp.data.rel_database import Database
+        >>> db = Database(db_path)
+
+        Args:
+             db_path (str): path to the database
         """
         Path(db_path).touch()
 
@@ -47,11 +53,14 @@ class Database:
         self.engine = create_engine('sqlite:///' + db_path, echo=False)
         self.cursor = self.conn.cursor()
 
-
     def create_connection(self, db_path):
-        """ create a db connection to database
-        :param db_path: database file path
-        :return: Connection object or None
+        """ Create a connection to database
+
+        Args:
+            db_path (str): path to database
+
+        Returns:
+             conn: Connection object or None
         """
         try:
             conn = sqlite3.connect(db_path)
@@ -63,7 +72,18 @@ class Database:
         return None
 
     def close_connection(self):
-        """ close the connection
+        """ Close the connection to database
+
+        Usage:
+
+        >>> from cvp.data.rel_database import Database
+        >>> db = Database(db_path)
+        >>> db.close_connection()
+
+        Args:
+
+        Returns:
+
         """
         if self.conn != None:
             self.conn.close()
@@ -74,6 +94,21 @@ class Database:
         logger.info('SUCCESS: Connection Closed')
 
     def create_table(self, attr: dict, table_name: str):
+        """ Create new table
+
+        Usage:
+
+        >>> from cvp.data.rel_database import Database
+        >>> db = Database(db_path)
+        >>> db.create_table(attr, table_name)
+
+        Args:
+            attr (dict): column name and type
+                Ex: attr = {'userID': 'INTEGER NOT NULL PRIMARY KEY'}
+            table_name (str): name of table
+        Returns:
+
+        """
         SQL_CreateTable = f'''CREATE TABLE IF NOT EXISTS {table_name} ('''
         for key, value in attr.items():
             SQL_CreateTable += f'''\n{key} {value},'''
@@ -87,6 +122,20 @@ class Database:
             raise Exception(e)
 
     def insert(self, values: tuple, talbe_name: str):
+        """ Insert new values into existed table
+
+        Usage:
+
+        >>> from cvp.data.rel_database import Database
+        >>> db = Database(db_path)
+        >>> db.insert(values, table_name)
+
+        Args:
+            values (tuple): new values to insert
+            talbe_name (str): name of table
+        Returns:
+
+        """
         SQL_Insert = f'''INSERT INTO {talbe_name} VALUES (?,?,?,?,?,?)'''
         try:
             self.cursor.execute(SQL_Insert, values)
@@ -96,11 +145,29 @@ class Database:
             logger.error(e)
             raise Exception(e)
 
-    def select(self, values: str, table_name: str, priority: str = None, condition=False):
+    def select(self, values: str, table_name: str, condition: str = None):
+        """ Select values from existed table
+
+        Usage:
+
+        >>> from cvp.data.rel_database import Database
+        >>> db = Database(db_path)
+        >>> db.select(values, table_name, priority, condition=True)
+
+        Args:
+            values (str): columns to select from database
+                Ex: values = 'userID, last_name, dob'
+            condition (str): condition to select value
+                Ex: condition = 'userID = 1 and last_name = "last"'
+            table_name (str): name of table
+
+        Returns:
+            result (list): list of satisfied selection
+        """
         SQL_Select = f'''SELECT {values} FROM {table_name}'''
 
         if condition:
-            SQL_Select += f''' WHERE {priority}'''
+            SQL_Select += f''' WHERE {condition}'''
 
         try:
             self.cursor.execute(SQL_Select)
@@ -112,11 +179,31 @@ class Database:
             logger.error(e)
             raise Exception(e)
 
-    def update(self, values: tuple, table_name: str, table_col: tuple, priority: str):
+    def update(self, values: tuple, table_cols: tuple, table_name: str, condition: str):
+        """ Update values from existed table
+
+        Usage:
+
+        >>> from cvp.data.rel_database import Database
+        >>> db = Database(db_path)
+        >>> db.update(values, table_cols, table_name, condition)
+
+        Args:
+            table_cols (tuple): columns need to update
+                Ex: table_cols = ('userID', 'last_name', 'dob')
+            values (tuple): new values to update
+                Ex: values = (1234, 'last', '12/31/2021')
+            condition (str): condition to select value
+                Ex: condition = 'userID = 1 and first_name = "first"'
+            table_name (str): name of table
+
+        Returns:
+
+        """
         SQL_Update = f'''UPDATE {table_name} SET '''
-        for col in table_col:
+        for col in table_cols:
             SQL_Update += f'''{col} = ?, '''
-        SQL_Update = SQL_Update[:-2] + f''' WHERE {priority}'''
+        SQL_Update = SQL_Update[:-2] + f''' WHERE {condition}'''
 
         logger.debug(SQL_Update)
         try:
@@ -127,17 +214,32 @@ class Database:
             logger.error(e)
             raise Exception(e)
 
-    def delete(self, table_name: str, priority: str):
-        SQL_Delete = f'''DELETE FROM {table_name} WHERE {priority}'''
+    def delete(self, table_name: str, condition: str):
+        """ Detele values from existed table
+
+        Usage:
+
+        >>> from cvp.data.rel_database import Database
+        >>> db = Database(db_path)
+        >>> db.delete(table_name, condition)
+
+        Args:
+            table_name (str): name of table
+            condition (str): condition to select values
+                Ex: condition = 'userID = 1234'
+
+        Returns:
+
+        """
+        SQL_Delete = f'''DELETE FROM {table_name} WHERE {condition}'''
 
         try:
             self.cursor.execute(SQL_Delete)
             self.conn.commit()
-            logger.info(f'SUCCESS: Delete `{priority}` in `{table_name}` successfully!')
+            logger.info(f'SUCCESS: Delete `{condition}` in `{table_name}` successfully!')
         except sqlite3.Error as e:
             logger.error(e)
             raise Exception(e)
-
 
 """
 def test_db(db_path: str, table_name: str, attr: dict):
@@ -159,7 +261,7 @@ def test_db(db_path: str, table_name: str, attr: dict):
     table_col = ('patient_num', 'last_name', 'middle_initial', 'dob')
     update_values = (4567, 'Tran', 'H', '06/27/2021')
     priority = 'last_name = "test"'
-    db.update(update_values, table_name, table_col, priority)
+    db.update(update_values, table_col, table_name, priority)
 
     select = '*'
     results = db.select(select, table_name)

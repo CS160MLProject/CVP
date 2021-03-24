@@ -40,7 +40,7 @@ COORDINATE = {
 logger = logging.getLogger(__name__)
 coloredlogs.install(level=logging.DEBUG, logger=logger)
 
-GOOGLE_CREDENTIALS_KEY = r'Google_Cloud_Vison_Key.json'
+GOOGLE_CREDENTIALS_KEY = r'Google_Vision_OCR_Credentials.json'
 FOLDER_PATH = 'dataset/raw/vaccine_record_photos'
 
 

@@ -1,4 +1,6 @@
+.idea
 venv
 *.pyc
 .coverage
+.coveragerc
 htmlcov/

@@ -122,7 +122,7 @@ def generate_accounts(inputfile):
     # make all set to tuple
     first_names, middle_initials, last_names = tuple(first_names), tuple(middle_initials), tuple(last_names)
     with open(ACCOUNTS, 'w') as account_file:
-        account_file.write('User_Account_ID\tEmail\tHashed_Pass\tSalt\tPatient_Num\tLast_Name\tFirst_Name\tMiddle\t'
+        account_file.write('User_Account_ID\tEmail\tPassword\tSalt\tPatient_Num\tLast_Name\tFirst_Name\tMiddle_Initial\t'
                            'Dob\tHospital\tVaccine_Name1\tVaccine_Date1\tVaccine_Name2\tVaccine_Date2\n')
         for acc_id in range(1, ACCOUNT_SIZE + 1):
             acc = __account(random.choice(tuple(first_names)), random.choice(tuple(last_names)),

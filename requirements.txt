@@ -17,3 +17,4 @@ toml==0.10.2
 Werkzeug==1.0.1
 google-cloud-vision
 google~=3.0.0
+pandas

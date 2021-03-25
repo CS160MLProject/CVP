@@ -26,8 +26,12 @@ import coloredlogs
 from sqlite3 import Error
 from pathlib import Path
 from sqlalchemy import create_engine
+import pandas as pd
 
 # Project Level Imports
+
+ACCOUNT_PATH = 'dataset/processed/accounts.txt'
+
 
 logger = logging.getLogger(__name__)
 coloredlogs.install(level=logging.DEBUG, logger=logger)
@@ -93,7 +97,7 @@ class Database:
 
         logger.info('SUCCESS: Connection Closed')
 
-    def create_table(self, attr: dict, table_name: str):
+    def create_table(self, attr: dict, table_name: str, foreign_key: dict = None):
         """ Create new table
 
         Usage:
@@ -104,7 +108,11 @@ class Database:
 
         Args:
             attr (dict): column name and type
+                key = column_name, value = type of column
                 Ex: attr = {'userID': 'INTEGER NOT NULL PRIMARY KEY'}
+            foreign_key (dict): foreign key declaration
+                key = column_name, value = table_name (table_name_col)
+                Ex: foreign_key = {'user_account_id': 'profile (user_id)'}
             table_name (str): name of table
         Returns:
 
@@ -112,6 +120,11 @@ class Database:
         SQL_CreateTable = f'''CREATE TABLE IF NOT EXISTS {table_name} ('''
         for key, value in attr.items():
             SQL_CreateTable += f'''\n{key} {value},'''
+
+        if foreign_key:
+            for key, value in foreign_key.items():
+                SQL_CreateTable += f'''\nFOREIGN KEY ({key}) REFERENCES {value},'''
+
         SQL_CreateTable = SQL_CreateTable[:-1] + '''\n)'''
 
         try:
@@ -240,6 +253,92 @@ class Database:
         except sqlite3.Error as e:
             logger.error(e)
             raise Exception(e)
+
+
+def main(cvp_db_path: str, cdc_db_path: str):
+    logger.info('Preparing ...')
+    df = pd.read_csv(ACCOUNT_PATH, sep='\t')
+
+    account_cols = ['Email', 'Last_Name', 'First_Name', 'Password', 'User_Account_ID', 'Salt']
+    profile_cols = ['User_Account_ID', 'Patient_Num', 'Last_Name', 'First_Name', 'Middle_Initial', 'Dob']
+    first_shot_cols = ['User_Account_ID', 'Hospital', 'Vaccine_Name1', 'Vaccine_Date1']
+    second_shot_cols = ['User_Account_ID', 'Vaccine_Name2', 'Vaccine_Date2']
+
+    account_df = df[account_cols]
+    print(account_df[account_df.duplicated(subset=['Email'])].to_string())
+
+    db = Database(cvp_db_path)
+
+    table_name = 'profile'
+    attr = {
+        'User_Account_ID': 'INTEGER NOT NULL PRIMARY KEY',
+        'Patient_Num': 'INTEGER NOT NULL',
+        'Last_Name': 'VARCHAR NOT NULL',
+        'First_Name': 'VARCHAR NOT NULL',
+        'Middle_Initial': 'CHAR(1)',
+        'Dob': 'VARCHAR NOT NULL'
+    }
+    db.create_table(attr, table_name)
+    df[profile_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
+    logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
+
+    table_name = 'account'
+    attr = {
+        'Email': 'VARCHAR NOT NULL PRIMARY KEY',
+        'Last_Name': 'VARCHAR NOT NULL',
+        'First_Name': 'VARCHAR NOT NULL',
+        'Password': 'BLOB NOT NULL',
+        'User_Account_ID': 'INTEGER NOT NULL',
+        'Salt': 'VARCHAR NOT NULL'
+    }
+    foreign_key = {
+        'User_Account_ID': 'profile (User_Account_ID)'
+    }
+    db.create_table(attr, table_name, foreign_key)
+    df[account_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
+    logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
+
+    table_name = 'first_shot'
+    attr = {
+        'User_Account_ID': 'INTEGER NOT NULL',
+        'Hospital': 'VARCHAR NOT NULL',
+        'Vaccine_Name': 'VARCHAR NOT NULL',
+        'Date': 'VARCHAR NOT NULL',
+    }
+    foreign_key = {
+        'User_Account_ID': 'profile (User_Account_ID)'
+    }
+    db.create_table(attr, table_name, foreign_key)
+    df[first_shot_cols].rename(columns={'Vaccine_Name1': 'Vaccine_Name', 'Vaccine_Date1': 'Date'}).to_sql(table_name,
+                                                                                                          con=db.engine,
+                                                                                                          if_exists='append',
+                                                                                                          index=False)
+    logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
+
+    table_name = 'second_shot'
+    attr = {
+        'User_Account_ID': 'INTEGER NOT NULL',
+        'Vaccine_Name': 'VARCHAR NOT NULL',
+        'Date': 'VARCHAR NOT NULL',
+    }
+    foreign_key = {
+        'User_Account_ID': 'profile (User_Account_ID)'
+    }
+    db.create_table(attr, table_name, foreign_key)
+    df[second_shot_cols].rename(columns={'Vaccine_Name2': 'Vaccine_Name', 'Vaccine_Date2': 'Date'}).to_sql(table_name,
+                                                                                                           con=db.engine,
+                                                                                                           if_exists='append',
+                                                                                                           index=False)
+    logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
+
+    db.close_connection()
+    logger.info('Finished operation')
+
+
+if __name__ == "__main__":
+    cvp_db_path = 'dataset/external/cvp.db'
+    cdc_db_path = 'dataset/external/cdc.db'
+    main(cvp_db_path, cdc_db_path)
 
 """
 def test_db(db_path: str, table_name: str, attr: dict):

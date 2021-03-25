@@ -117,7 +117,7 @@ def login():
 @app.route('/login', methods=['GET', 'POST'])
 def forget_password():
     """
-    Invoked when 'continue' is clicked in page of password recovery.
+    Invoked when 'Continue' is clicked in page of password recovery.
     :return: Prompt of saying 'link is sent to your email.'
     """
     if request.method == 'POST':
@@ -130,6 +130,29 @@ def forget_password():
     # ---return html of Sign out pop up - 4 if implemented.
     return None
 
+
+@app.route('/profile_<account_id>/settings', methods=['GET', 'POST'])
+def change_account_profile(accont_id):
+    """
+    Invoked when 'Save Changes' is clicked in a page of settings.
+    :return: 1) nothing or prompt to indicates that the saved successfully.
+        2) error prompt to indicates that the info was not saved successfully.
+    """
+    if request.method == 'POST':
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        username = request.form.get('username_email')
+
+        # save the info with database with account_id
+        error_msg = None
+        # error_msg = account_database_update(account_id, first_name, last_name, username)
+        if not error_msg:
+            return f'saved changes succsessfully'
+        else:
+            return f'error {error_msg}'
+
+    # ---return Sign out pop up if implemented.
+    return None
 
 @app.route('/profile_<account_id>', methods=['GET', 'POST'])
 def profile(account_id):

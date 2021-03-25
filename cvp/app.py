@@ -108,15 +108,19 @@ def login():
             elif not success:  # not in database or typo
                 error = 'Invalid email or password'
 
-        if request.form.get("cancel_button"): # process for case(3)
+        if request.form.get('cancel_button'): # process for case(3)
             return redirect(url_for('homepage'))
+
+        if request.form.get('forgot_password'):
+            # ---return html of Sign out pop up - 4 if implemented.
+            return f'password recovery page.html'
         return render_template('login.html', error=error)
 
     # default. process for case(1)
     return render_template('login.html')
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login/recovery', methods=['GET', 'POST'])
 def forget_password():
     """
     Invoked when 'Continue' is clicked in a page of password recovery.

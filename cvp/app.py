@@ -2,7 +2,6 @@
 
 from flask import Flask
 from flask import render_template, request, redirect, url_for
-import png
 import pyqrcode
 import re
 
@@ -224,10 +223,6 @@ def __valid_email(email):
     if re.search(email_regex, email):  # if valid email
         return True
     return False
-
-
-def __set_account_info():
-
 
 
 if __name__ == '__main__':

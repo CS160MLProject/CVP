@@ -67,6 +67,7 @@ def register():
             # check CDC database at this point
             valid_rec = True
             if valid_rec:  # send confirmed account information to database and record them.
+                # pass confirmed OCRed text data to database as their passport info
                 return render_template('success_welcome.html', success="Success! Welcome.")
             else:  # the information is not in CDC database, return (something_went_wrong.html)
                 error_msg = 'Something went wrong'
@@ -111,6 +112,23 @@ def login():
 
     # default. process for case(1)
     return render_template('login.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def forget_password():
+    """
+    Invoked when 'continue' is clicked in page of password recovery.
+    :return: Prompt of saying 'link is sent to your email.'
+    """
+    if request.method == 'POST':
+        email = request.form.get('email')
+        recovery_url = 'temp/recovery'
+        # send email with setup link
+        # send(email, recovery_url)
+        return f'A link has been sent to the email.'
+
+    # ---return html of Sign out pop up - 4 if implemented.
+    return None
 
 
 @app.route('/profile_<account_id>', methods=['GET', 'POST'])

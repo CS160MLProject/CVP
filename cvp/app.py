@@ -2,6 +2,8 @@
 
 from flask import Flask
 from flask import render_template, request, redirect, url_for
+import png
+import pyqrcode
 import re
 
 from cvp.features.transform import generate_hash
@@ -154,16 +156,32 @@ def change_account_profile(account_id):
     # ---return Sign out pop up if implemented.
     return None
 
+
 @app.route('/profile_<account_id>', methods=['GET', 'POST'])
 def profile(account_id):
     """
     First main page of application.
     Invoked when (1)login button is clicked and succeeded in login.html
+    :param account_id: account's specific id
     :return: (1)profile.html with user information
     """
     # get user info with account_id
     user_info = f'this is your profile but who is this? \nYou cheated.'
-    return render_template('profile.html', profile=user_info)
+    qr = __sharing_qr(account_id)
+    return render_template('profile.html', profile=user_info, qr=qr)
+
+
+def __sharing_qr(account_id):
+    """
+    Generate qr for sharing user's profile.
+    :param account_id: account's specific id
+    :return: Directory of QR code created for user.
+    """
+    url = f'www.application_home/info_{account_id}.com'
+    url = pyqrcode.create(url)
+    directory = 'dataset/user/user_qr.png'
+    url.png(directory)
+    return directory
 
 
 def __invalid_register_input(email, password, confirm_password):

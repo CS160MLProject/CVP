@@ -117,7 +117,7 @@ def login():
 @app.route('/login', methods=['GET', 'POST'])
 def forget_password():
     """
-    Invoked when 'Continue' is clicked in page of password recovery.
+    Invoked when 'Continue' is clicked in a page of password recovery.
     :return: Prompt of saying 'link is sent to your email.'
     """
     if request.method == 'POST':
@@ -132,7 +132,7 @@ def forget_password():
 
 
 @app.route('/profile_<account_id>/settings', methods=['GET', 'POST'])
-def change_account_profile(accont_id):
+def change_account_profile(account_id):
     """
     Invoked when 'Save Changes' is clicked in a page of settings.
     :return: 1) nothing or prompt to indicates that the saved successfully.

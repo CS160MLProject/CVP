@@ -170,9 +170,13 @@ def profile(account_id):
     :return: (1)profile.html with user information
     """
     # get user info with account_id
-    user_info = f'this is your profile but who is this? \nYou cheated.'
+    # user_record = get_user_rec_database(account_id)
+    user_record = 'this is record'
+
+    # get user's account info such as first, last names
+    user_info = 'this is user\'s account info'
     qr = __sharing_qr(account_id)
-    return render_template('profile.html', profile=user_info, qr=qr)
+    return render_template('profile.html', profile=user_record, account_info=user_info, qr=qr)
 
 
 def __sharing_qr(account_id):
@@ -220,6 +224,10 @@ def __valid_email(email):
     if re.search(email_regex, email):  # if valid email
         return True
     return False
+
+
+def __set_account_info():
+
 
 
 if __name__ == '__main__':

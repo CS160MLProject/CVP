@@ -172,6 +172,10 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     color: #5e5e5e;
 }
 
+.centered{
+    margin: 10% auto 10% 15%;
+}
+
 .text-field{
     display: block;
     width: 600px;

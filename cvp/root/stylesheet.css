@@ -310,3 +310,45 @@ ul li a{
 ul li a:hover{
     opacity: 70%;
 }
+
+.profile-info{
+    padding: 20px;
+}
+
+.full-name{
+    text-align: center;
+    margin: 25% auto 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 35px;
+}
+
+.vaccine-status{
+    text-align: center;
+    margin: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 25px;
+    font-style: italic;
+}
+
+.dose {
+    text-align: center;
+}
+
+.dose-label {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 35px;
+    text-decoration: underline;
+}
+
+.dose-info{
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 35px;
+}

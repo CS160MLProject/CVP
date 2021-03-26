@@ -54,6 +54,10 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     padding: 0;
 }
 
+.qr-img {
+    margin: 10% auto 20px 25%;
+}
+
 /* Same idea but affects the h2 elements*/
 .left-panel h2{
     text-align: center;

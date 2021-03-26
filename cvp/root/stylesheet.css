@@ -344,6 +344,10 @@ ul li a:hover{
     text-decoration: underline;
 }
 
+.dose-label:hover{
+    cursor: pointer;
+}
+
 .dose-info{
     display: inline-block;
     vertical-align: middle;

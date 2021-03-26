@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="stylesheet.css">
+    <meta charset="UTF-8">
+    <title>CVP | Settings</title>
+</head>
+<body>
+    <div class="left-panel">
+        <img class="img-logo" src="images/CompanyLogo.png" alt="The company logo">
+        <nav>
+            <ul>
+                <li>
+                    <a href="#">Profile Settings</a>
+                </li>
+                <li>
+                    <a href="#">Change Password</a>
+                </li>
+                <li>
+                    <img class="field-icon" src="images/sign-out-icon.png" field-icon alt="A share icon">
+                    <a href="#">Sign Out</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <div class="right-panel">
+        <div class="container top-margin-big">
+            <div class="input-field"> 
+
+                <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                <div class="field-label">
+                    <label class="text-label" for="first_name">First Name:</label>
+                </div>
+    
+                <!--Finally the text field for the user to enter data into.-->
+                <input class="text-field-short" type="text" id="first_name" name="first_name" placeholder="First Name">
+            </div> 
+    
+            <div class="input-field"> 
+    
+                <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                <div class="field-label">
+                    <label class="text-label" for="last_name">Last Name:</label>
+                </div>
+    
+                <!--Finally the text field for the user to enter data into.-->
+                <input class="text-field-short" type="text" id="last_name" name="last_name" placeholder="Last Name">
+            </div> 
+    
+            <div class="input-field"> 
+    
+                <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                <div class="field-label">
+                    <label class="text-label" for="email">Email:</label>
+                </div>
+    
+                <!--Finally the text field for the user to enter data into.-->
+                <input class="text-field" type="text" id="email" name="email" placeholder="hello@cvp.org">
+            </div> 
+
+            <div class="input-field">
+                <button class="inline-button smaller" type="back">Back</button>
+                <button class="inline-button smaller" type="save_changes">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

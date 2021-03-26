@@ -25,6 +25,10 @@ body{
     padding: 0;
 }
 
+.top-margin-big{
+    margin-top: 10%;
+}
+
 /* Left side of the Home Page*/
 .left-panel{
     display: inline-block;
@@ -211,7 +215,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     border-radius: 20px;
     border-color:#0D0065;
     padding: auto;
-    margin: 0 auto 10px 60px;
+    margin: 0 auto 10px 50px;
     cursor: pointer;
 }
 
@@ -286,7 +290,7 @@ nav{
 }
 
 ul{
-
+    margin: 0;
 }
 
 ul li{

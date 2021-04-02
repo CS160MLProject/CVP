@@ -4,6 +4,7 @@ from flask import Flask
 from flask import render_template, request, redirect, url_for
 import pyqrcode
 import re
+import os
 
 from cvp.features.transform import generate_hash
 
@@ -223,6 +224,21 @@ def __valid_email(email):
     if re.search(email_regex, email):  # if valid email
         return True
     return False
+
+
+def __get_file_ext(filename):
+    """
+    Get file extension and classify image or pdf.
+    :param filename: filename or file path
+    :return: group of file type (image or pdf). None if this is not supported.
+    """
+    _, ext = os.path.splitext(filename)
+    if ext in ('png', 'jpeg'):
+        return 'image'
+    if ext is 'pdf':
+        return 'pdf'
+
+    return None
 
 
 if __name__ == '__main__':

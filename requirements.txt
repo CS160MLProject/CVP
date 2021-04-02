@@ -2,7 +2,6 @@ attrs==20.3.0
 click==7.1.2
 colorama==0.4.4
 coloredlogs==15.0
-coverage==5.5
 Flask==1.1.2
 humanfriendly==9.1
 iniconfig==1.1.1
@@ -13,8 +12,8 @@ packaging==20.9
 pluggy==0.13.1
 py==1.10.0
 pyparsing==2.4.7
-pypng==0.0.20
-PyQRCode==1.2.1
 pytest==6.2.2
 toml==0.10.2
 Werkzeug==1.0.1
+google-cloud-vision
+google~=3.0.0

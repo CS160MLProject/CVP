@@ -1,3 +1,5 @@
+"""Utilities for app.py"""
+
 import pyqrcode
 import re
 import os

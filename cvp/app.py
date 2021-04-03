@@ -92,7 +92,7 @@ def login():
             email = request.form.get('email')
             password = request.form.get('password')
             password = 'temp'
-            # hashed_pass, _ = generate_hash(password)
+            hashed_pass, _ = generate_hash(password)
 
             # check database with email and hashed_pass
             success = True
@@ -178,6 +178,7 @@ def profile(account_id):
     return render_template('profile.html', profile=user_record, account_info=user_info, qr=qr)
 
 
+@app.route('/profile_<account_id>/setting/change_password', methods=['GET', 'POST'])
 def change_password(account_id):
     """
     Change password of user account.
@@ -212,6 +213,7 @@ def change_password(account_id):
 
     # ---return change_pass.html as landing page.
     return None
+
 
 if __name__ == '__main__':
     app.run(debug=True)

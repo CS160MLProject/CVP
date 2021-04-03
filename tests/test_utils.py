@@ -24,6 +24,15 @@ def test_invalid_register_input():
 
 def test_valid_email():
     valid_email_format = 'hello@me.com'
-    invlid_email = 'this is invalid'
+    invalid_email = 'this is invalid'
     assert valid_email(valid_email), f'Should return True for email {valid_email_format}'
-    assert not valid_email(invlid_email), f'Should return Flase for email {invlid_email}'
+    assert not valid_email(invalid_email), f'Should return Flase for email {invalid_email}'
+
+
+def test_get_file_ext():
+    image_file = 'image_file.png'
+    pdf_file = 'pdf_file.pdf'
+    other_file = 'other.exe'
+    assert get_file_ext(image_file) == 'image', f'Should return \'image\' for {image_file}'
+    assert get_file_ext(pdf_file) == 'pdf', f'Should return \'pdf\' for {pdf_file}'
+    assert not get_file_ext(pdf_file), f'Should return None for {other_file}'

@@ -26,7 +26,7 @@ def homepage():
         if request.form.get('login_button'):  # process for case(3)
             return redirect(url_for('login'))
     # default. process for case(1)
-    return render_template('homepage.html', title='this is title of homepage', body='option to register and login')
+    return render_template('index.html', title='this is title of homepage', body='option to register and login')
 
 
 @app.route('/register', methods=["GET", "POST"])

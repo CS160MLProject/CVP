@@ -6,14 +6,16 @@
     
     There's a way for me to completely reset every single css for any browser
     but I'm sticking with this one for now.*/
-    margin: 0;
-    padding: 0;
+    margin: 0; /* margin is the space around the element*/
+    padding: 0; /* while padding is the space around the data inside the element*/
 }
+
 
 /* Then I apply my CSS from here*/
 
 body{
-    background-color: #e9e9e9;
+    /* Sets the background color of the entire page to a light gray*/
+    background-color: #ffffff;
 }
 
 /* .class allows me to target CSS to a specific class that can be used in any html element*/
@@ -23,28 +25,40 @@ body{
     padding: 0;
 }
 
+.top-margin-big{
+    margin-top: 10%;
+}
+
 /* Left side of the Home Page*/
 .left-panel{
     display: inline-block;
     vertical-align: top;
     background-color: #ffffff;
-    width: 20%;
+    width: 25%;
     height: 900px;
 }
 
+/* Affects all the h1 elements declared inside any element that uses this class.
+Not ideal but shows a way to apply CSS in a broad manner*/
 .left-panel h1{
     margin-top: 50px;
     text-align: center;
     color:#3d3d3d;
 }
 
-.left-panel img{
+/* Similar idea as the one above but affects images instead*/
+.img-logo{
     display: block;
     transform: scale(0.5);
-    margin: 0 auto;
-    padding: 0 auto;
+    margin: 0;
+    padding: 0;
 }
 
+.qr-img {
+    margin: 10% auto 20px 25%;
+}
+
+/* Same idea but affects the h2 elements*/
 .left-panel h2{
     text-align: center;
     color:#3d3d3d;
@@ -57,7 +71,7 @@ body{
     position: relative;
     vertical-align: top;
     /* background-color: #ffffff; */
-    width: 79.5%;
+    width: 74.5%;
     height: 900px;
 
 }
@@ -71,8 +85,15 @@ body{
     left: 20px;
 }
 
-/* This sets the width of the image to the entire width of the screen
+.message {
+    color:3d3d3d;
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    margin: 10px 150px 10px 60px;
+}
 
+/* This sets the width of the image to the entire width of the screen
 NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 .img-banner{
     width: 100%;
@@ -108,7 +129,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 
 /* This adds an effect when you hover on the buttons*/
 .right-panel button:hover {
-    opacity: 80%;
+    opacity: 90%;
 }
 
 /* A simple animation that makes the button mimic getting pressed when you click it*/
@@ -119,12 +140,15 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .new-account-icon{
+    margin: 50px 50px 20px 75px;
     height: 300px;
 }
 
 .field-icon{
     display: inline-block;
     vertical-align:middle;
+    margin: 0;
+    padding-left: 20px;
     height: 50px;
 }
 
@@ -146,6 +170,10 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
     color: #5e5e5e;
+}
+
+.centered{
+    margin: 10% auto 10% 15%;
 }
 
 .text-field{
@@ -180,7 +208,9 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     vertical-align: top;
 }
 
-.upload-button {
+
+
+.inline-button {
     display: inline-block;
     vertical-align: middle;
     background-color: #0A92CC;
@@ -193,21 +223,26 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     border-radius: 20px;
     border-color:#0D0065;
     padding: auto;
-    margin: 30px auto 30px 10px;
-    /* cursor: pointer; */
+    margin: 0 auto 10px 50px;
+    cursor: pointer;
 }
 
-.upload-button:hover {
+.smaller {
+    border-radius: 70px;
+    width: 300px;
+}
+
+.inline-button:hover {
     opacity: 90%;
 }
 
-.upload-button:active {
+.inline-button:active {
     transform: scale(0.98);
     background-color: #78caec;
     color:rgb(46, 46, 46);
 }
 
-.continue-button {
+.resend {
     display: inline-block;
     vertical-align: middle;
     background-color: #0A92CC;
@@ -221,17 +256,11 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     border-color:#0D0065;
     padding: auto;
     margin: 0 auto 10px 60px;
-    /* cursor: pointer; */
+    cursor: pointer;
 }
 
-.continue-button:hover {
-    opacity: 90%;
-}
-
-.continue-button:active {
-    transform: scale(0.98);
-    background-color: #78caec;
-    color:rgb(46, 46, 46);
+.resend:focus {
+    background-color:#10CC0A;
 }
 
 .warning-message {
@@ -241,4 +270,101 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     font-size: 20px;
     font-weight: bold;
     margin: 10px 150px 10px 60px;
+}
+
+.forgot-password {
+    color:#0A92CC;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    margin-left: 250px;
+}
+
+.page-header {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 60px;
+}
+
+.padding-div {
+    margin: 80px;
+}
+
+/* Classes for the navigation bar in the Profile page */
+
+nav{
+    background-color: #ffffff;
+    width: 100%;
+    margin:0;
+    padding:0;
+}
+
+ul{
+    margin: 0;
+}
+
+ul li{
+    list-style: none;
+    text-align: left;
+    margin: 2px 0 2px 0px;
+    padding: 15px;
+}
+
+ul li a{
+    display: inline-block;
+    vertical-align: middle;
+    text-decoration: none;
+    color: #0D0065;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    padding:20px 20px 20px 20px;
+}
+
+ul li a:hover{
+    opacity: 70%;
+}
+
+.profile-info{
+    padding: 20px;
+}
+
+.full-name{
+    text-align: center;
+    margin: 25% auto 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 35px;
+}
+
+.vaccine-status{
+    text-align: center;
+    margin: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 25px;
+    font-style: italic;
+}
+
+.dose {
+    text-align: center;
+}
+
+.dose-label {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 35px;
+    text-decoration: underline;
+}
+
+.dose-label:hover{
+    cursor: pointer;
+}
+
+.dose-info{
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 35px;
 }

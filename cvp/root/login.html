@@ -3,12 +3,12 @@
 <head>
     <link rel="stylesheet" href="../static/stylesheet.css">
     <meta charset="UTF-8">
-    <title>CVP | Upload Document</title>
+    <title>CVP | Login</title>
 </head>
 <body>
     <div class="left-panel">
-        <h1 class="page-header">Create your account</h1>
-        <img class="new-account-icon" src="images/create-new-account.png" alt="An icon of a person with a plus symbol beside it.">
+        <h1 class="page-header">Log In</h1>
+        <img class="new-account-icon" src="images/login-icon.png" alt="A blue icon of a person.">
         <h2>MISC</h2>
     </div>
     
@@ -27,30 +27,18 @@
                 <div class="field-label">
                     <img class="field-icon" src="images/lock-icon.png" alt="A black icon of a padlock">
                     <label class="text-label" for="password">Password:</label>
+                    <a class="forgot-password" href=""> Forgot password?</a>
                 </div>
                 <input class="text-field" type="text" id="password" name="password" placeholder="Enter your Password here">
             </div>
 
-            <div class="input-field">
-                <div class="field-label">
-                    <img class="field-icon" src="images/lock-icon.png" alt="A black icon of a padlock">
-                    <label class="text-label" for="confirm_password">Confirm password:</label>
-                </div>
-                <input class="text-field" type="text" id="confirm_password" name="confirm_password" placeholder="Confirm Password">    
-            </div>
-
-            <div class="padding-div">
-                
-            </div>
+            <div class="padding-div"></div>
 
             <div class="input-field">
-                <button class="inline-button" type="register">Upload Document</button>
-                <img class="field-icon" src="images/upload-icon.png" alt="Document getting uploaded to a cloud" title="Upload Document">
+                <button class="inline-button smaller" type="Cancel">Cancel</button> <!--there are two classes being applied here, which allows two different styles to cascade-->
+                <button class="inline-button smaller" type="login">Log in</button> <!--for this instance, inline-button gets applied first, then the smaller second-->
             </div>
-
-            <div class="input-field">
-                <button class="inline-button" type="continue">Continue</button>
-            </div>
+            
         </form>
     </div>
 </body>

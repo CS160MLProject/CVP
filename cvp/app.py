@@ -90,7 +90,7 @@ def login():
         error = None
         if request.form.get("login_button"): # process for case(2)
             email = request.form.get('email')
-            # password = request.form.get('password')
+            password = request.form.get('password')
             password = 'temp'
             # hashed_pass, _ = generate_hash(password)
 
@@ -139,6 +139,7 @@ def forget_password():
 def change_account_profile(account_id):
     """
     Invoked when 'Save Changes' is clicked in a page of settings.
+    :param account_id: account's id.
     :return: 1) nothing or prompt to indicates that the saved successfully.
         2) error prompt to indicates that the info was not saved successfully.
     """
@@ -176,6 +177,41 @@ def profile(account_id):
     qr = sharing_qr(account_id)
     return render_template('profile.html', profile=user_record, account_info=user_info, qr=qr)
 
+
+def change_password(account_id):
+    """
+    Change password of user account.
+    Invoked when 'Save Change' is clicked in a page of Change Password in setting.
+    :param account_id: account's id.
+    :return: 1) nothing or prompt to indicates that the saved successfully.
+        2) error prompt to indicates that the new password was not saved successfully.
+    """
+    if request.method == 'POST':
+        current_pass = request.form.get('current_password')
+        new_pass = request.form.get('new_password')
+        conf_pass = request.form.get('confirm_password')
+
+        # check if the current_pass is in the database
+        hashed_pass, _ = generate_hash(current_pass)
+        # check database with email and hashed_pass
+        # success = db_login(account_id, hashed_pass)
+        success = True
+        if not success: # current password is not correct.
+            error_msg = f'Current Password is not correct.'
+            return error_msg # return change_pass.html with error msg
+
+        # check if new password and confirm password match.
+        success = new_pass == conf_pass
+        if not success: # they does not match
+            error_msg = f'New Password and Confim Password did not match.'
+            return error_msg # return change_pass.html with error msg
+
+        # success, change password
+        # db_account_change_pass(new_password)
+        return None # return change_pass.html with success confirmation.
+
+    # ---return change_pass.html as landing page.
+    return None
 
 if __name__ == '__main__':
     app.run(debug=True)

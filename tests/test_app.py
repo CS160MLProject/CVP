@@ -16,7 +16,7 @@ def test_homepage_post(test_client):
     WHEN the '/' (homepage) is post (POST)
     THEN check that the response is valid
     """
-    response = test_client.get('/')
+    response = test_client.post('/')
     assert response.status_code == 200
 
 

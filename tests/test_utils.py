@@ -14,11 +14,16 @@ def test_invalid_register_input():
     """
     Test if invalid_register_input return error message if there is any errors.
     """
+
     valid_email_format = 'hello@me.com'
     valid_pass = valid_conf_pass = 'password'
     error = invalid_register_input(valid_email_format, valid_pass, valid_conf_pass)
     assert not error, f'Should return no error message for {valid_email_format=}, {valid_pass=}, {valid_conf_pass=}' \
                           f'returning {error}'
+
+    empty_email = ''
+    error = invalid_register_input(empty_email, valid_pass, valid_conf_pass)
+    assert error, f'Should return error message for {empty_email=}, {valid_pass=}, {valid_conf_pass}'
 
     invalid_conf_pass = 'pass'
     error = invalid_register_input(valid_email_format, valid_pass, invalid_conf_pass)

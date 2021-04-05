@@ -174,7 +174,8 @@ def profile(account_id):
     """
     # get user info with account_id
     # user_record = get_user_rec_database(account_id)
-    user_record = 'this is record'
+    # user_record = decrypted_user_rec(user_record)
+    user_record = 'this is decrypted record'
 
     # get user's account info such as first, last names
     user_info = 'this is user\'s account info'

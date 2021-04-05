@@ -17,7 +17,7 @@ def test_invalid_register_input():
     valid_email_format = 'hello@me.com'
     valid_pass = valid_conf_pass = 'password'
     error = invalid_register_input(valid_email_format, valid_pass, valid_conf_pass)
-    assert error, f'Should return no error message for {valid_email_format=}, {valid_pass=}, {valid_conf_pass=}' \
+    assert not error, f'Should return no error message for {valid_email_format=}, {valid_pass=}, {valid_conf_pass=}' \
                           f'returning {error}'
 
     invalid_conf_pass = 'pass'
@@ -37,8 +37,8 @@ def test_valid_email():
     """
     valid_email_format = 'hello@me.com'
     invalid_email = 'this is invalid'
-    assert valid_email(valid_email), f'Should return True for email {valid_email_format}'
-    assert not valid_email(invalid_email), f'Should return Flase for email {invalid_email}'
+    assert valid_email(valid_email_format), f'Should return True for email {valid_email_format}'
+    assert not valid_email(invalid_email), f'Should return False for email {invalid_email}'
 
 
 def test_get_file_ext():
@@ -50,4 +50,4 @@ def test_get_file_ext():
     other_file = 'other.exe'
     assert get_file_ext(image_file) == 'image', f'Should return \'image\' for {image_file}'
     assert get_file_ext(pdf_file) == 'pdf', f'Should return \'pdf\' for {pdf_file}'
-    assert not get_file_ext(pdf_file), f'Should return None for {other_file}'
+    assert get_file_ext(other_file) is None, f'Should return None for {other_file}'

@@ -58,9 +58,9 @@ def get_file_ext(filename):
     :return: group of file type (image or pdf). None if this is not supported.
     """
     _, ext = os.path.splitext(filename)
-    if ext in ('png', 'jpeg'):
+    if ext in ('.png', '.jpeg'):
         return 'image'
-    if ext == 'pdf':
+    if ext == '.pdf':
         return 'pdf'
 
     return None

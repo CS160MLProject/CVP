@@ -2,12 +2,9 @@ from cvp.app import app
 import pytest
 
 
-@pytest.fixture
-def app():
-    yield app
-
-
-@pytest.fixture
-def client(app):
-    return app.test_client()
+@pytest.fixture(scope='module')
+def test_client():
+    with app.test_client() as testing_client:
+        with app.app_context():
+            yield testing_client
 

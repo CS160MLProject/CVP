@@ -118,7 +118,7 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/login/recovery', methods=['GET', 'POST'])
+@app.route('/login/reset', methods=['GET', 'POST'])
 def forget_password():
     """
     Invoked when 'Continue' is clicked in a page of password recovery.
@@ -140,7 +140,7 @@ def change_account_profile(account_id):
     """
     Invoked when 'Save Changes' is clicked in a page of settings.
     :param account_id: account's id.
-    :return: 1) nothing or prompt to indicates that the saved successfully.
+    :return: 1) nothing or promlpt to indicates that the saved successfully.
         2) error prompt to indicates that the info was not saved successfully.
     """
     if request.method == 'POST':

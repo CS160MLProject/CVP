@@ -61,7 +61,7 @@ def get_file_ext(filename):
     _, ext = os.path.splitext(filename)
     if ext in ('png', 'jpeg'):
         return 'image'
-    if ext is 'pdf':
+    if ext == 'pdf':
         return 'pdf'
 
     return None

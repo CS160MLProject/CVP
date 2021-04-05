@@ -64,10 +64,14 @@ def register():
                 return render_template("uploading_of_document.html", invalid_input=error_msg)
 
         elif request.form.get('confirm_button'): # process for case(3)
+            # obtain all requested information from frontend
+            confirmed_data = 'confirmed data of user record'
             # check CDC database at this point
             valid_rec = True
             if valid_rec:  # send confirmed account information to database and record them.
                 # pass confirmed OCRed text data to database as their passport info
+                # encrypt before passing to database
+                # encrypted_user_rec = rec_encrypt(confirmed_data)
                 return render_template('success_welcome.html', success="Success! Welcome.")
             else:  # the information is not in CDC database, return (something_went_wrong.html)
                 error_msg = 'Something went wrong'

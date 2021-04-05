@@ -7,6 +7,7 @@ def test_homepage_get(test_client):
     THEN check that the response is valid
     """
     response = test_client.get('/')
+    html = response.data.decode()
     assert response.status_code == 200
 
 
@@ -17,6 +18,9 @@ def test_homepage_post(test_client):
     THEN check that the response is valid
     """
     response = test_client.post('/')
+    html = response.data.decode()
+    assert 'register_button' in html, f'Should contain register button'
+    assert 'login_button' in html, f'Should contain login button'
     assert response.status_code == 200
 
 
@@ -37,4 +41,7 @@ def test_register_post(test_client):
     THEN check that the response is valid
     """
     response = test_client.post('/register')
+    html = response.data.decode()
+    assert 'continue_button' in html, f'Should contain continue button'
+    assert 'confirm_button' in html, f'Should contain confirm button'
     assert response.status_code == 200

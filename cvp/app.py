@@ -183,6 +183,16 @@ def profile(account_id):
     return render_template('profile.html', profile=user_record, account_info=user_info, qr=qr)
 
 
+@app.route('/info_<account_id>', methods=['GET'])
+def shared_profile(account_id):
+    # get user account information with account_id
+    # user_record = get_user_rec_database(account_id)
+    # user_record = decrypted_user_rec(user_record)
+    user_record = 'this is decrypted record'
+
+    return render_template('shared_profile.html', user_record=user_record)
+
+
 @app.route('/profile_<account_id>/setting/change_password', methods=['GET', 'POST'])
 def change_password(account_id):
     """

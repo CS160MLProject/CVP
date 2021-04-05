@@ -7,14 +7,13 @@ import os
 
 def sharing_qr(account_id):
     """
-    Generate qr for sharing user's profile.
+    Obtain qr for sharing user's profile.
     :param account_id: account's specific id
     :return: Directory of QR code created for user.
     """
     url = f'www.application_home/info_{account_id}.com'
-    url = pyqrcode.create(url)
-    directory = 'dataset/user/user_qr.png'
-    url.png(directory)
+    # directory = get_qr(url)
+    directory = f'dataset/user/{account_id}.png'
     return directory
 
 

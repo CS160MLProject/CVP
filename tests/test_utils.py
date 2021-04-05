@@ -3,11 +3,11 @@ from cvp.utils import *
 
 def test_sharing_qr():
     """
-    Test if sharing_qr creates qr file in expected place.
+    Test if sharing_qr obtain qr file correctly.
     """
     account_id = 12345
     qr_file = sharing_qr(account_id=account_id)
-    assert os.path.exists(qr_file) is True, f'The qr file is not created in the expected directory.'
+    assert qr_file == f'dataset/user/{account_id}.png', f'The qr file is not created in the expected directory.'
 
 
 def test_invalid_register_input():

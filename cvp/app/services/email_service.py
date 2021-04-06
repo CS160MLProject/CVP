@@ -18,4 +18,4 @@ def send_email(email, subject, html):
     # msg.body = text_body
     # msg.html = html_body
     # Thread(target=send_async_email, args=(app, msg)).start()
-    pass
+    print(email, subject, html)

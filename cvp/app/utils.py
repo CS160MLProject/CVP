@@ -5,8 +5,7 @@ from app import app
 import re
 import os
 
-ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
-
+ts = URLSafeTimedSerializer('secret-key')
 
 def sharing_qr(account_id):
     """

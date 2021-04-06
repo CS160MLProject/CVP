@@ -130,10 +130,10 @@ def forget_password():
     :return: Prompt of saying 'link is sent to your email.'
     """
     if request.method == 'POST':
-        if request.form.get('continue_button'):
+        if request.form.get('send_button'):
             subject = 'Password Reset Requested'
             email = request.form.get('email')
-            token = ts.dumps(email, salt='recover-key')
+            token = ts.dumps(email, salt='recovery-key')
             recover_url = url_for('reset_password', token=token, _external=True)
             html = render_template('email/password_recovery.html', recover_url=recover_url)
             # send email with setup link
@@ -141,22 +141,31 @@ def forget_password():
             return f'A link has been sent to the email.'
 
     # ---return html of Sign out pop up - 4 if implemented.
-    return f'password reset page'
+    return render_template('recovery.html')
 
 
 @app.route('/login/reset/<token>', methods=['GET', 'POST'])
 def reset_password(token):
-    try:
-        email = ts.loads(token, salt="recover-key", max_age=86400)
-    except:
-        return f'404'
+    if request.method == 'GET':
+        try:
+            email = ts.loads(token, salt="recovery-key", max_age=43200) # 12 hours
+            return render_template('password_reset.html')
+        except:
+            return f'404'
 
-    password = request.form.get('password')
-    confirm_password = request.form.get('confirm_password')
+    if request.method == 'POST':
+        if request.form.get('login_button'):
+            return redirect(url_for('login'))
 
-    if password == confirm_password: # save to database
-        # account_change_pass(email, password)
-        pass
+        if request.form.get('reset_button'):
+            url_email = ts.loads(token, salt="recovery-key", max_age=86400)
+            email = request.form.get('email')
+            password = request.form.get('password')
+            confirm_password = request.form.get('confirm_password')
+
+            if email == url_email and password == confirm_password: # save to database
+                # account_change_pass(email, password)
+                return f'password reset confirmation with login button to back to login page'
 
     return redirect(url_for(login))
 

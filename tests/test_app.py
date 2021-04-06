@@ -1,4 +1,4 @@
-
+import pytest
 
 def test_homepage_get(test_client):
     """
@@ -7,7 +7,6 @@ def test_homepage_get(test_client):
     THEN check that the response is valid
     """
     response = test_client.get('/')
-    html = response.data.decode()
     assert response.status_code == 200
 
 
@@ -40,7 +39,8 @@ def test_register_post(test_client):
     WHEN the '/' (homepage) is post (POST)
     THEN check that the response is valid
     """
-    response = test_client.post('/register')
+    response = test_client.post('/register', data={'continue_button': '', 'email': 'hello@me.com', 'password': 'password'
+                                                   , 'confirm_password': 'confirm_password'})
     html = response.data.decode()
     assert 'continue_button' in html, f'Should contain continue button'
     assert 'confirm_button' in html, f'Should contain confirm button'

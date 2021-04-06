@@ -132,7 +132,7 @@ def forget_password():
         email = request.form.get('email')
         recovery_url = 'temp/recovery'
         # send email with setup link
-        # send(email, recovery_url)
+        # send_recovery_email(email, recovery_url)
         return f'A link has been sent to the email.'
 
     # ---return html of Sign out pop up - 4 if implemented.

@@ -146,7 +146,24 @@ def forget_password():
 
 @app.route('/login/reset/<token>', methods=['GET', 'POST'])
 def reset_password(token):
-    validated = True # check database
+    try:
+        email = ts.loads(token, salt="recover-key", max_age=86400)
+    except:
+        return f'404'
+
+    password = request.form.get('password')
+    confirm_password = request.form.get('confirm_password')
+
+    if password == confirm_password: # save to database
+        # account_change_pass(email, password)
+        pass
+
+    return redirect(url_for(login))
+
+
+
+
+
 
 
 @app.route('/profile_<account_id>/settings', methods=['GET', 'POST'])

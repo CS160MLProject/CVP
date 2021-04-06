@@ -6,6 +6,8 @@ from flask import render_template, request, redirect, url_for
 from app import app
 from utils import *
 from cvp.features.transform import generate_hash
+from utils import ts
+from services.email_service import *
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -113,8 +115,8 @@ def login():
             return redirect(url_for('homepage'))
 
         if request.form.get('forgot_password'):
-            # ---return html of Sign out pop up - 4 if implemented.
-            return f'password recovery page.html'
+            return redirect(url_for('forget_password'))
+
         return render_template('login.html', error=error)
 
     # default. process for case(1)
@@ -128,14 +130,23 @@ def forget_password():
     :return: Prompt of saying 'link is sent to your email.'
     """
     if request.method == 'POST':
-        email = request.form.get('email')
-        recovery_url = 'temp/recovery'
-        # send email with setup link
-        # send_recovery_email(email, recovery_url)
-        return f'A link has been sent to the email.'
+        if request.form.get('continue_button'):
+            subject = 'Password Reset Requested'
+            email = request.form.get('email')
+            token = ts.dumps(email, salt='recover-key')
+            recover_url = url_for('reset_password', token=token, _external=True)
+            html = render_template('email/password_recovery.html', recover_url=recover_url)
+            # send email with setup link
+            send_email(email, subject, html)
+            return f'A link has been sent to the email.'
 
     # ---return html of Sign out pop up - 4 if implemented.
-    return None
+    return f'password reset page'
+
+
+@app.route('/login/reset/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    validated = True # check database
 
 
 @app.route('/profile_<account_id>/settings', methods=['GET', 'POST'])

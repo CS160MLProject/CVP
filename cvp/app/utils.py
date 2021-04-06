@@ -1,7 +1,11 @@
 """Utilities for routes.py"""
+from itsdangerous import URLSafeTimedSerializer
+from app import app
 
 import re
 import os
+
+ts = URLSafeTimedSerializer(app.config["SECRET_KEY"])
 
 
 def sharing_qr(account_id):

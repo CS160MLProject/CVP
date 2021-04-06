@@ -1,4 +1,4 @@
-from cvp.utils import *
+from cvp.app.utils import *
 
 
 def test_sharing_qr():

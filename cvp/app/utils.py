@@ -1,6 +1,5 @@
-"""Utilities for app.py"""
+"""Utilities for routes.py"""
 
-import pyqrcode
 import re
 import os
 
@@ -64,3 +63,8 @@ def get_file_ext(filename):
         return 'pdf'
 
     return None
+
+
+def send_recovery_email(email, account_id):
+    msg_body = 'this is recovery email. Please follow the link\n'
+

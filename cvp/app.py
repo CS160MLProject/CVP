@@ -4,7 +4,7 @@ from flask import Flask
 from flask import render_template, request, redirect, url_for
 import re
 
-
+from features.transform import generate_hash
 app = Flask(__name__)
 
 

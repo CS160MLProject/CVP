@@ -368,3 +368,13 @@ ul li a:hover{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 35px;
 }
+
+
+.file-upload{
+    display: inline-flex;
+    align-items: center;
+}
+
+.file-upload-input{
+    display: none;
+}

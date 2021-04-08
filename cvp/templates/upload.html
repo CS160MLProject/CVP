@@ -40,12 +40,15 @@
             </div>
 
             <div class="padding-div">
-                
+
             </div>
 
             <div class="input-field">
-                <button class="inline-button" type="register">Upload Document</button>
-                <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
+                <div class="file-upload">
+                    <input type="file" id="myFile" name="filename">
+                    <button class="inline-button">Upload Document</button>
+                    <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
+                </div>
             </div>
 
             <div class="input-field">

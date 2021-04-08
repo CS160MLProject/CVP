@@ -26,7 +26,7 @@ def homepage():
         if request.form.get('login_button'):  # process for case(3)
             return redirect(url_for('login'))
     # default. process for case(1)
-    return render_template('index.html', title='this is title of homepage', body='option to register and login')
+    return render_template('index.html')
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -55,13 +55,13 @@ def register():
 
             error_msg = __invalid_register_input(email, password, confirm_password)
             if not error_msg: # no error in entered information
-                return render_template('create_account.html',
+                return render_template('create.html',
                                        info=f'Welcome {email=}, {password=}, {confirm_password=} !'
                                             f'\n Are these info correct? '
                                             f'\n --OCRed Info \n {extracted_rec}')
 
             if error_msg: # error found in entered information
-                return render_template("uploading_of_document.html", invalid_input=error_msg)
+                return render_template("upload.html", invalid_input=error_msg)
 
         elif request.form.get('confirm_button'): # process for case(3)
             # check CDC database at this point
@@ -72,7 +72,7 @@ def register():
                 error_msg = 'Something went wrong'
                 return f'<h1> {error_msg} <h1>'
     # initial default by GET for /register
-    return render_template("uploading_of_document.html")
+    return render_template("upload.html")
 
 
 @app.route('/login', methods=['GET', 'POST'])

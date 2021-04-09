@@ -170,11 +170,6 @@ def reset_password(token):
     return redirect(url_for(login))
 
 
-
-
-
-
-
 @app.route('/profile_<account_id>/settings', methods=['GET', 'POST'])
 def change_account_profile(account_id):
     """

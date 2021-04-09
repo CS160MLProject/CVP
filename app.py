@@ -6,6 +6,7 @@ from cvp.model.ocr_model import OCR_Model
 app = Flask(__name__, template_folder='cvp/app/templates')  # , instance_relative_config=True)
 mail = Mail(app)
 model = OCR_Model()
+new_account_id = 0
 
 # db operation
 db_path = 'cvp/data'

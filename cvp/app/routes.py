@@ -7,6 +7,8 @@ from utils import *
 from cvp.features.transform import generate_hash, generage_QR_code
 from utils import ts
 from app import *
+import sqlite3
+from sqlite3 import Error
 from services.email_service import *
 
 
@@ -70,7 +72,7 @@ def register():
         elif request.form.get('confirm_button'): # process for case(3)
             # obtain all requested information from frontend
             #confirmed_data = recest.form.get('confirmed_data')
-            confirmed_data = 'confirmed data of user record'
+            confirmed_data = {'data': 'confirmed data of user record'}
 
             # check CDC database at this point
             valid_rec = check_cdc()
@@ -80,7 +82,16 @@ def register():
                 # encrypt before passing to database
                 # encrypted_user_rec = rec_encrypt(confirmed_data)
 
+                #
                 # insert this data to db
+                account_data = list(confirmed_data.values())
+                db.insert(0, new_account_id)
+
+                # handle exception here
+                try:
+                    db.insert(tuple(account_data), 'account')
+                except sqlite3.Error as e:
+                    return f'error {e}'
 
                 return render_template('success_welcome.html', success="Success! Welcome.")
             else:  # the information is not in CDC database, return (something_went_wrong.html)

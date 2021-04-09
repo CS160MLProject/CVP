@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="../static/stylesheet.css">
+    <link rel="stylesheet" href="static/stylesheet.css">
     <meta charset="UTF-8">
     <title>CVP | Profile</title>
 </head>
 <body>
     <div class="left-panel">
-        <img class="img-logo" src="images/CompanyLogo.png" alt="The company logo">
+        <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">
         <nav>
             <ul>
                 <li>
-                    <img class="field-icon" src="images/login-icon-black.png" alt="A small blue icon of a person">
+                    <img class="field-icon" src="{{ url_for('static', filename='images/login-icon-black.png') }}" alt="A small blue icon of a person">
                     <a href="#">User Name</a>
                 </li>
                 <li>
-                    <img class="field-icon" src="images/share-icon.png" field-icon alt="A gear icon">
+                    <img class="field-icon" src="{{ url_for('static', filename='images/share-icon.png')}}" field-icon alt="A gear icon">
                     <a href="#">Share</a>
                 </li>
                 <li>
-                    <img class="field-icon" src="images/settings-icon.png" field-icon alt="A share icon">
+                    <img class="field-icon" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
                     <a href="#">Settings</a>
                 </li>
                 <li>
-                    <img class="field-icon" src="images/sign-out-icon.png" field-icon alt="A share icon">
+                    <img class="field-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
                     <a href="#">Sign Out</a>
                 </li>
             </ul>

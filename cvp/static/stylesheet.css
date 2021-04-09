@@ -31,6 +31,7 @@ body{
 
 /* Left side of the Home Page*/
 .left-panel{
+    position: fixed;
     display: inline-block;
     vertical-align: top;
     background-color: #ffffff;
@@ -68,8 +69,8 @@ Not ideal but shows a way to apply CSS in a broad manner*/
 /* Right side of the Home Page. */
 .right-panel{
     display: inline-block;
-    position: relative;
     vertical-align: top;
+    margin-left: 25%;
     /* background-color: #ffffff; */
     width: 74.5%;
     height: 900px;
@@ -82,7 +83,7 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     color:#3d3d3d;
     position: absolute;
     top: 20px;
-    left: 20px;
+    left: 30%;
 }
 
 .message {
@@ -224,6 +225,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     border-color:#0D0065;
     padding: auto;
     margin: 0 auto 10px 50px;
+    outline: none;
     cursor: pointer;
 }
 

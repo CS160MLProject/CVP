@@ -2,6 +2,7 @@
 
 Transform operations module currently contains functions for the following:
 - generate hash for password
+- generate_QR_code
 
 USAGE
 -----
@@ -16,11 +17,16 @@ import os
 import hashlib
 
 # Third Party Imports
+import pyqrcode
+import png
+from pyqrcode import QRCode
 
 # Project Level Imports
 
 logger = logging.getLogger(__name__)
 coloredlogs.install(level='DEBUG', logger=logger)
+
+QR_CODE_FOLDER = 'dataset/processed/QR_Code'
 
 
 def generate_hash(password: str, salt: bytes=None):
@@ -49,3 +55,37 @@ def generate_hash(password: str, salt: bytes=None):
     logger.info("Finished hashing password!")
 
     return password_hash, salt
+
+
+def generage_QR_code(link: str, user_account_id: str, save_folder: str = None, save=False):
+    """ Generate QR code with a given profile link
+
+    Args:
+        link (str): profile link
+        user_account_id (str): unique account id
+        save (bool): save image as png or not
+
+    Returns:
+        *.png: photo of QR_Code
+    """
+    logger.info('Preparing ...')
+    save_folder = save_folder or QR_CODE_FOLDER
+
+    if not os.path.exists(save_folder):
+        raise FileNotFoundError(f"File {save_folder} was not found. Current dir: {os.getcwd()}")
+
+    qr_code = pyqrcode.create(link)
+
+    logger.debug(f'{os.path.join(QR_CODE_FOLDER, user_account_id + ".png")}')
+
+    if save:
+        qr_code.png(os.path.join(QR_CODE_FOLDER, user_account_id + '.png'), scale=8)
+        logger.info('SUCCESS: QR_Code saved!')
+
+    logger.info('Finished operation')
+
+"""
+if __name__ == '__main__':
+    link = 'https://www.google.com/'
+    generage_QR_code(link, '1234', save=True)
+"""

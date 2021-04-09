@@ -209,7 +209,11 @@ def profile(account_id):
 
     # get user's account info such as first, last names
     user_info = 'this is user\'s account info'
-    qr = sharing_qr(account_id)
+
+    # encrypt account id to be shared through qr
+    token = ts.dumps(account_id, salt='sharing-profile-key')
+    sharing_url = url_for('shared_profile', token=token, _external=True)
+    qr = sharing_qr(sharing_url)
     return render_template('profile.html', profile=user_record, account_info=user_info, qr=qr)
 
 

@@ -7,6 +7,7 @@ from utils import *
 from cvp.features.transform import generate_hash, generage_QR_code
 from utils import ts
 from cvp.model.ocr_model import OCR_Model
+from app import db
 from services.email_service import *
 
 

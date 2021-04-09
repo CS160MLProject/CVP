@@ -6,6 +6,7 @@ from flask import render_template, request, redirect, url_for
 from utils import *
 from cvp.features.transform import generate_hash
 from utils import ts
+from cvp.model.ocr_model import OCR_Model
 from services.email_service import *
 
 
@@ -47,11 +48,14 @@ def register():
             password = request.form.get('password')
             confirm_password = request.form.get('confirm_password')  # confirmation password named confirm_password
             # profile_pic = request.files["profile_pic"]
-            # vaccine_rec_pic = request.files["vaccine_rec"]
+            vaccine_rec_pic = request.files["vaccine_rec"]
             # pass this vaccine_rec_pic photo to perform OCR
             # extracted_rec = ocr(vaccine_rec_pit)
             extracted_rec = "Sample data that demonstrates OCRed text information " \
                             "to be displayed to user in create_acount.html"
+
+            model = OCR_Model()
+            model.predict(vaccine_rec_pic)
 
             error_msg = invalid_register_input(email, password, confirm_password)
             if not error_msg: # no error in entered information

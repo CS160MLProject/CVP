@@ -3,7 +3,6 @@
 
 from flask import render_template, request, redirect, url_for
 
-from app import app
 from utils import *
 from cvp.features.transform import generate_hash
 from utils import ts

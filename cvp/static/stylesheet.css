@@ -373,8 +373,14 @@ ul li a:hover{
 .file-upload{
     display: inline-flex;
     align-items: center;
+    width: 500px;
+    height: 80px;
 }
 
 .file-upload-input{
     display: none;
+}
+
+.nav-anchor{
+    position: fixed;
 }

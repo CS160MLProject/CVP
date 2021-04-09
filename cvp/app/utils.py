@@ -72,3 +72,6 @@ def get_file_ext(filename):
 def send_recovery_email(email, account_id):
     msg_body = 'this is recovery email. Please follow the link\n'
 
+
+def check_cdc():
+    return True

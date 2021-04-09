@@ -6,8 +6,7 @@ from flask import render_template, request, redirect, url_for
 from utils import *
 from cvp.features.transform import generate_hash, generage_QR_code
 from utils import ts
-from cvp.model.ocr_model import OCR_Model
-from app import db
+from app import *
 from services.email_service import *
 
 
@@ -52,11 +51,11 @@ def register():
             vaccine_rec_pic = request.files["vaccine_rec"]
             # pass this vaccine_rec_pic photo to perform OCR
             # extracted_rec = ocr(vaccine_rec_pit)
-            extracted_rec = "Sample data that demonstrates OCRed text information " \
-                            "to be displayed to user in create_acount.html"
-
-            model = OCR_Model()
-            model.predict(vaccine_rec_pic)
+            # extracted_rec = "Sample data that demonstrates OCRed text information " \
+            #                 "to be displayed to user in create_account.html"
+            #
+            #
+            extracted_rec = model.predict(vaccine_rec_pic)
 
             error_msg = invalid_register_input(email, password, confirm_password)
             if not error_msg: # no error in entered information
@@ -70,13 +69,19 @@ def register():
 
         elif request.form.get('confirm_button'): # process for case(3)
             # obtain all requested information from frontend
+            #confirmed_data = recest.form.get('confirmed_data')
             confirmed_data = 'confirmed data of user record'
+
             # check CDC database at this point
-            valid_rec = True
+            valid_rec = check_cdc()
+
             if valid_rec:  # send confirmed account information to database and record them.
                 # pass confirmed OCRed text data to database as their passport info
                 # encrypt before passing to database
                 # encrypted_user_rec = rec_encrypt(confirmed_data)
+
+                # insert this data to db
+
                 return render_template('success_welcome.html', success="Success! Welcome.")
             else:  # the information is not in CDC database, return (something_went_wrong.html)
                 error_msg = 'Something went wrong'

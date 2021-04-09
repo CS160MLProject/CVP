@@ -7,6 +7,7 @@ import os
 
 ts = URLSafeTimedSerializer('secret-key')
 
+
 def sharing_qr(account_id):
     """
     Obtain qr for sharing user's profile.

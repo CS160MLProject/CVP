@@ -157,7 +157,7 @@ def reset_password(token):
             return redirect(url_for('login'))
 
         if request.form.get('reset_button'):
-            url_email = ts.loads(token, salt="recovery-key", max_age=86400)
+            url_email = ts.loads(token, salt="recovery-key", max_age=43200)
             email = request.form.get('email')
             password = request.form.get('password')
             confirm_password = request.form.get('confirm_password')
@@ -213,14 +213,28 @@ def profile(account_id):
     return render_template('profile.html', profile=user_record, account_info=user_info, qr=qr)
 
 
-@app.route('/info_<account_id>', methods=['GET'])
-def shared_profile(account_id):
-    # get user account information with account_id
-    # user_record = get_user_rec_database(account_id)
-    # user_record = decrypted_user_rec(user_record)
-    user_record = 'this is decrypted record'
+@app.route('/info_<token>', methods=['GET'])
+def shared_profile(token):
+    """
+    Invoked when user open shared url.
+    :param token: encrypted url for sharing info.
+    :return: shared profile page.
+    """
+    if request.method == 'GET':
+        try:
+            # decode the token
+            # get user's account id
+            account_id = ts.loads(token, salt="sharing-profile-key", max_age=900) # 15 min
 
-    return render_template('shared_profile.html', user_record=user_record)
+            # get user account information with account_id
+            # user_record = get_user_rec_database(account_id)
+            # user_record = decrypted_user_rec(user_record)
+            user_record = 'this is decrypted record'
+            return render_template('shared_profile.html', user_record=user_record)
+        except:
+            return f'404'
+
+    return f'404'
 
 
 @app.route('/profile_<account_id>/setting/change_password', methods=['GET', 'POST'])

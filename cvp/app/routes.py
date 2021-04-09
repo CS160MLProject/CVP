@@ -114,7 +114,7 @@ def login():
         if request.form.get('cancel_button'): # process for case(3)
             return redirect(url_for('homepage'))
 
-        if request.form.get('forgot_password'):
+        if request.form.get('forgot_password_button'):
             return redirect(url_for('forget_password'))
 
         return render_template('login.html', error=error)

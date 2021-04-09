@@ -4,7 +4,7 @@
 from flask import render_template, request, redirect, url_for
 
 from utils import *
-from cvp.features.transform import generate_hash
+from cvp.features.transform import generate_hash, generage_QR_code
 from utils import ts
 from cvp.model.ocr_model import OCR_Model
 from services.email_service import *
@@ -217,7 +217,8 @@ def profile(account_id):
     # encrypt account id to be shared through qr
     token = ts.dumps(account_id, salt='sharing-profile-key')
     sharing_url = url_for('shared_profile', token=token, _external=True)
-    qr = sharing_qr(sharing_url)
+    # qr = sharing_qr(sharing_url)
+    qr = generage_QR_code(sharing_url, '')
     return render_template('profile.html', profile=user_record, account_info=user_info, qr=qr)
 
 

@@ -58,7 +58,6 @@ def register():
             #
             #
             extracted_rec = model.predict(vaccine_rec_pic)
-
             error_msg = invalid_register_input(email, password, confirm_password)
             if not error_msg: # no error in entered information
                 return render_template('create_account.html',
@@ -84,6 +83,7 @@ def register():
 
                 #
                 # insert this data to db
+                new_account_id = db.select(values='count(account_ID)', table_name='account')
                 account_data = list(confirmed_data.values())
                 db.insert(0, new_account_id)
 
@@ -119,17 +119,18 @@ def login():
             password = 'temp'
             hashed_pass, _ = generate_hash(password)
 
-            # check database with email and hashed_pass
-            success = True
-            if success:  # login
-                # here, get profile info to show profile
-                # obtain user account id from database with entered email
-                account_id = 12345
-                return redirect(url_for('profile', account_id=account_id))
-            elif email == '' or password == '':
+            if email == '' or password == '':
                 error = 'Please enter required fields.'
-            elif not success:  # not in database or typo
-                error = 'Invalid email or password'
+
+            # check database with email and hashed_pass
+            acc = db.select('*', 'account', f'email = {email}')
+            if not error and acc: # if this is in database, check password
+                if acc[1] == hashed_pass: # login
+                    return redirect(url_for('profile', account_id=acc[4]))
+                else: # incorrect password
+                    error = 'Password did not match'
+            if not error and not acc: # this email is not in database
+                error = 'Invalid email'
 
         if request.form.get('cancel_button'): # process for case(3)
             return redirect(url_for('homepage'))

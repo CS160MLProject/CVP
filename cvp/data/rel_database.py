@@ -259,9 +259,7 @@ def main(cvp_db_path: str, cdc_db_path: str):
     logger.info('Preparing ...')
     df = pd.read_csv(ACCOUNT_PATH, sep='\t')
 
-
-
-
+    df.drop_duplicates(subset=['Email'], inplace=True)
 
     account_cols = ['Email', 'Last_Name', 'First_Name', 'Password', 'User_Account_ID', 'Salt']
     profile_cols = ['User_Account_ID', 'Patient_Num', 'Last_Name', 'First_Name', 'Middle_Initial', 'Dob']

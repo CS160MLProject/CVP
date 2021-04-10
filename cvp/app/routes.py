@@ -108,7 +108,8 @@ def login():
                 # here, get profile info to show profile
                 # obtain user account id from database with entered email
                 account_id = 12345
-                return redirect(url_for('profile', account_id=account_id))
+                token = ts.dumps(account_id, salt='profile-key')
+                return redirect(url_for('profile', token=token))
             elif email == '' or password == '':
                 error = 'Please enter required fields.'
             elif not success:  # not in database or typo
@@ -151,7 +152,7 @@ def forget_password():
 def reset_password(token):
     if request.method == 'GET':
         try:
-            email = ts.loads(token, salt="recovery-key", max_age=43200) # 12 hours
+            email = ts.loads(token, salt='recovery-key', max_age=43200) # 12 hours
             return render_template('password_reset.html')
         except:
             return f'404'
@@ -173,14 +174,15 @@ def reset_password(token):
     return redirect(url_for(login))
 
 
-@app.route('/profile_<account_id>/settings', methods=['GET', 'POST'])
-def change_account_profile(account_id):
+@app.route('/profile_<token>/settings', methods=['GET', 'POST'])
+def change_account_profile(token):
     """
     Invoked when 'Save Changes' is clicked in a page of settings.
     :param account_id: account's id.
     :return: 1) nothing or promlpt to indicates that the saved successfully.
         2) error prompt to indicates that the info was not saved successfully.
     """
+    account_id = ts.loads(token, salt='change-account-profile-key')
     if request.method == 'POST':
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
@@ -190,7 +192,7 @@ def change_account_profile(account_id):
         error_msg = None
         # error_msg = account_database_update(account_id, first_name, last_name, username)
         if not error_msg:
-            return f'saved changes succsessfully'
+            return f'saved changes successfully'
         else:
             return f'error {error_msg}'
 
@@ -198,14 +200,16 @@ def change_account_profile(account_id):
     return None
 
 
-@app.route('/profile_<account_id>', methods=['GET', 'POST'])
-def profile(account_id):
+@app.route('/profile_<token>', methods=['GET', 'POST'])
+def profile(token):
     """
     First main page of application.
     Invoked when (1)login button is clicked and succeeded in login.html
     :param account_id: account's specific id
     :return: (1)profile.html with user information
     """
+    # decrypt token to get account_id
+    account_id = ts.loads(token, salt='profile-key', max_age=900) # 15 min
     # get user info with account_id
     # user_record = get_user_rec_database(account_id)
     # user_record = decrypted_user_rec(user_record)
@@ -217,6 +221,7 @@ def profile(account_id):
     # encrypt account id to be shared through qr
     token = ts.dumps(account_id, salt='sharing-profile-key')
     sharing_url = url_for('shared_profile', token=token, _external=True)
+    print(sharing_url)
     # qr = sharing_qr(sharing_url)
     qr = generage_QR_code(sharing_url, '')
     return render_template('profile.html', profile=user_record, account_info=user_info, qr=qr)
@@ -234,7 +239,7 @@ def shared_profile(token):
             # decode the token
             # get user's account id
             account_id = ts.loads(token, salt="sharing-profile-key", max_age=900) # 15 min
-
+            print(account_id)
             # get user account information with account_id
             # user_record = get_user_rec_database(account_id)
             # user_record = decrypted_user_rec(user_record)

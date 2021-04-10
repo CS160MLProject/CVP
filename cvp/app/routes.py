@@ -50,31 +50,27 @@ def register():
             password = request.form.get('password')
             confirm_password = request.form.get('confirm_password')  # confirmation password named confirm_password
             # profile_pic = request.files["profile_pic"]
-            vaccine_rec_pic = request.files["vaccine_rec"]
-            # pass this vaccine_rec_pic photo to perform OCR
-            # extracted_rec = ocr(vaccine_rec_pit)
-            # extracted_rec = "Sample data that demonstrates OCRed text information " \
-            #                 "to be displayed to user in create_account.html"
-            #
-            #
-            extracted_rec = model.predict(vaccine_rec_pic)
-            error_msg = invalid_register_input(email, password, confirm_password)
-            if not error_msg: # no error in entered information
-                return render_template('create_account.html',
-                                       info=f'Welcome {email=}, {password=}, {confirm_password=} !'
-                                            f'\n Are these info correct? '
-                                            f'\n --OCRed Info \n {extracted_rec}')
+            if 'vaccine_rec' not in request.files:
+                error_msg = 'file is not uploaded.'
+            if not error_msg:
+                vaccine_rec_pic = request.files["vaccine_rec"]
+                extracted_rec = model.predict(vaccine_rec_pic)
+                error_msg = invalid_register_input(email, password, confirm_password)
+                if not error_msg: # no error in entered information
+                    return render_template('create_account.html',
+                                           info=f'Welcome {email=}, {password=}, {confirm_password=} !'
+                                                f'\n Are these info correct? '
+                                                f'\n --OCRed Info \n {extracted_rec}')
 
-            if error_msg: # error found in entered information
-                return render_template("uploading_of_document.html", invalid_input=error_msg)
+            # error found in entered information
+            return render_template("uploading_of_document.html", invalid_input=error_msg)
 
         elif request.form.get('confirm_button'): # process for case(3)
             # obtain all requested information from frontend
-            #confirmed_data = recest.form.get('confirmed_data')
-            confirmed_data = {'data': 'confirmed data of user record'}
+            confirmed_data = request.form.get('confirmed_data')
 
             # check CDC database at this point
-            valid_rec = check_cdc()
+            valid_rec = check_cdc(confirmed_data)
 
             if valid_rec:  # send confirmed account information to database and record them.
                 # pass confirmed OCRed text data to database as their passport info

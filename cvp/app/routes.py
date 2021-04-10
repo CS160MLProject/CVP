@@ -182,6 +182,8 @@ def reset_password(token):
 
             if email == url_email and password == confirm_password: # save to database
                 # account_change_pass(email, password)
+                new_pass, new_salt = generate_hash(password)
+                db.update((new_pass, new_salt), ('Password', 'Salt'), 'account')
                 return f'password reset confirmation with login button to back to login page'
 
     return redirect(url_for(login))
@@ -231,6 +233,7 @@ def profile(account_id):
     # encrypt account id to be shared through qr
     token = ts.dumps(account_id, salt='sharing-profile-key')
     sharing_url = url_for('shared_profile', token=token, _external=True)
+    print(sharing_url)
     # qr = sharing_qr(sharing_url)
     qr = generage_QR_code(sharing_url, '')
     return render_template('profile.html', profile=user_record, account_info=user_info, qr=qr)
@@ -248,11 +251,9 @@ def shared_profile(token):
             # decode the token
             # get user's account id
             account_id = ts.loads(token, salt="sharing-profile-key", max_age=900) # 15 min
-
+            print(account_id)
             # get user account information with account_id
-            # user_record = get_user_rec_database(account_id)
-            # user_record = decrypted_user_rec(user_record)
-            user_record = 'this is decrypted record'
+            user_record = db.select("*", 'profile', f'User_Account_ID = {account_id}')
             return render_template('shared_profile.html', user_record=user_record)
         except:
             return f'404'

@@ -14,3 +14,9 @@ db = Database(db_path)
 account_table = 'accounts'
 profile_table = 'profile'
 
+
+## keys to be changed and removed when deploying
+profile_key = 'profile_key'
+recovery_key = 'recovery_key'
+change_account_key = 'change_account_profile_key'
+sharing_profile_key = 'sharing_key'

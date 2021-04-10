@@ -258,21 +258,19 @@ class Database:
 def main(cvp_db_path: str, cdc_db_path: str):
     logger.info('Preparing ...')
     df = pd.read_csv(ACCOUNT_PATH, sep='\t')
+    df.drop_duplicates(subset=['Email'], inplace=True)
 
     account_cols = ['Email', 'Last_Name', 'First_Name', 'Password', 'User_Account_ID', 'Salt']
     profile_cols = ['User_Account_ID', 'Patient_Num', 'Last_Name', 'First_Name', 'Middle_Initial', 'Dob']
     first_shot_cols = ['User_Account_ID', 'Hospital', 'Vaccine_Name1', 'Vaccine_Date1']
     second_shot_cols = ['User_Account_ID', 'Vaccine_Name2', 'Vaccine_Date2']
 
-    account_df = df[account_cols]
-    print(account_df[account_df.duplicated(subset=['Email'])].to_string())
-
     db = Database(cvp_db_path)
 
     table_name = 'profile'
     attr = {
         'User_Account_ID': 'INTEGER NOT NULL PRIMARY KEY',
-        'Patient_Num': 'INTEGER NOT NULL',
+        'Patient_Num': 'INTEGER',
         'Last_Name': 'VARCHAR NOT NULL',
         'First_Name': 'VARCHAR NOT NULL',
         'Middle_Initial': 'CHAR(1)',
@@ -281,6 +279,8 @@ def main(cvp_db_path: str, cdc_db_path: str):
     db.create_table(attr, table_name)
     df[profile_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
     logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
+
+    logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
 
     table_name = 'account'
     attr = {
@@ -297,6 +297,8 @@ def main(cvp_db_path: str, cdc_db_path: str):
     db.create_table(attr, table_name, foreign_key)
     df[account_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
     logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
+
+    logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
 
     table_name = 'first_shot'
     attr = {
@@ -315,6 +317,8 @@ def main(cvp_db_path: str, cdc_db_path: str):
                                                                                                           index=False)
     logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
 
+    logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
+
     table_name = 'second_shot'
     attr = {
         'User_Account_ID': 'INTEGER NOT NULL',
@@ -330,6 +334,8 @@ def main(cvp_db_path: str, cdc_db_path: str):
                                                                                                            if_exists='append',
                                                                                                            index=False)
     logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
+
+    logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
 
     db.close_connection()
     logger.info('Finished operation')

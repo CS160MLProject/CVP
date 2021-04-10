@@ -149,7 +149,7 @@ class Database:
         Returns:
 
         """
-        SQL_Insert = f'''INSERT INTO {talbe_name} VALUES (?,?,?,?,?,?)'''
+        SQL_Insert = f'''INSERT INTO {talbe_name} VALUES (?,?,?,?,?,?,?,?,?,?,?)'''
         try:
             self.cursor.execute(SQL_Insert, values)
             self.conn.commit()
@@ -175,7 +175,7 @@ class Database:
             table_name (str): name of table
 
         Returns:
-            result (list): list of satisfied selection
+            result (list<tuple>): list of tuples with values
         """
         SQL_Select = f'''SELECT {values} FROM {table_name}'''
 
@@ -262,9 +262,8 @@ def main(cvp_db_path: str, cdc_db_path: str):
     df.drop_duplicates(subset=['Email'], inplace=True)
 
     account_cols = ['Email', 'Last_Name', 'First_Name', 'Password', 'User_Account_ID', 'Salt']
-    profile_cols = ['User_Account_ID', 'Patient_Num', 'Last_Name', 'First_Name', 'Middle_Initial', 'Dob']
-    first_shot_cols = ['User_Account_ID', 'Hospital', 'Vaccine_Name1', 'Vaccine_Date1']
-    second_shot_cols = ['User_Account_ID', 'Vaccine_Name2', 'Vaccine_Date2']
+    profile_cols = ['User_Account_ID', 'Patient_Num', 'Last_Name', 'First_Name', 'Middle_Initial', 'Dob',
+                    'Vaccine_Name1', 'Vaccine_Date1', 'Hospital', 'Vaccine_Name2', 'Vaccine_Date2']
 
     db = Database(cvp_db_path)
 
@@ -275,7 +274,12 @@ def main(cvp_db_path: str, cdc_db_path: str):
         'Last_Name': 'VARCHAR NOT NULL',
         'First_Name': 'VARCHAR NOT NULL',
         'Middle_Initial': 'CHAR(1)',
-        'Dob': 'VARCHAR NOT NULL'
+        'Dob': 'VARCHAR NOT NULL',
+        'Vaccine_Name1': 'VARCHAR NOT NULL',
+        'Vaccine_Date1': 'VARCHAR NOT NULL',
+        'Hospital': 'VARCHAR NOT NULL',
+        'Vaccine_Name2': 'VARCHAR',
+        'Vaccine_Date2': 'VARCHAR'
     }
     db.create_table(attr, table_name)
     df[profile_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
@@ -297,43 +301,6 @@ def main(cvp_db_path: str, cdc_db_path: str):
     }
     db.create_table(attr, table_name, foreign_key)
     df[account_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
-    logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
-
-    logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
-
-    table_name = 'first_shot'
-    attr = {
-        'User_Account_ID': 'INTEGER NOT NULL',
-        'Hospital': 'VARCHAR NOT NULL',
-        'Vaccine_Name': 'VARCHAR NOT NULL',
-        'Date': 'VARCHAR NOT NULL',
-    }
-    foreign_key = {
-        'User_Account_ID': 'profile (User_Account_ID)'
-    }
-    db.create_table(attr, table_name, foreign_key)
-    df[first_shot_cols].rename(columns={'Vaccine_Name1': 'Vaccine_Name', 'Vaccine_Date1': 'Date'}).to_sql(table_name,
-                                                                                                          con=db.engine,
-                                                                                                          if_exists='append',
-                                                                                                          index=False)
-    logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
-
-    logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
-
-    table_name = 'second_shot'
-    attr = {
-        'User_Account_ID': 'INTEGER NOT NULL',
-        'Vaccine_Name': 'VARCHAR NOT NULL',
-        'Date': 'VARCHAR NOT NULL',
-    }
-    foreign_key = {
-        'User_Account_ID': 'profile (User_Account_ID)'
-    }
-    db.create_table(attr, table_name, foreign_key)
-    df[second_shot_cols].rename(columns={'Vaccine_Name2': 'Vaccine_Name', 'Vaccine_Date2': 'Date'}).to_sql(table_name,
-                                                                                                           con=db.engine,
-                                                                                                           if_exists='append',
-                                                                                                           index=False)
     logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
 
     logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")

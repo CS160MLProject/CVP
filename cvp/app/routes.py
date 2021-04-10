@@ -2,10 +2,10 @@
 
 
 from flask import render_template, request, redirect, url_for
-
 from utils import *
 from cvp.features.transform import generate_hash, generage_QR_code
 from utils import ts
+from app import *
 from cvp.model.ocr_model import OCR_Model
 from services.email_service import *
 
@@ -108,7 +108,7 @@ def login():
                 # here, get profile info to show profile
                 # obtain user account id from database with entered email
                 account_id = 12345
-                token = ts.dumps(account_id, salt='profile-key')
+                token = ts.dumps(account_id, salt=profile_key)
                 return redirect(url_for('profile', token=token))
             elif email == '' or password == '':
                 error = 'Please enter required fields.'
@@ -137,7 +137,7 @@ def forget_password():
         if request.form.get('send_button'):
             subject = 'Password Reset Requested'
             email = request.form.get('email')
-            token = ts.dumps(email, salt='recovery-key')
+            token = ts.dumps(email, salt=recovery_key)
             recover_url = url_for('reset_password', token=token, _external=True)
             html = render_template('email/password_recovery.html', recover_url=recover_url)
             # send email with setup link
@@ -152,7 +152,7 @@ def forget_password():
 def reset_password(token):
     if request.method == 'GET':
         try:
-            email = ts.loads(token, salt='recovery-key', max_age=43200) # 12 hours
+            email = ts.loads(token, salt=recovery_key, max_age=43200) # 12 hours
             return render_template('password_reset.html')
         except:
             return f'404'
@@ -162,7 +162,7 @@ def reset_password(token):
             return redirect(url_for('login'))
 
         if request.form.get('reset_button'):
-            url_email = ts.loads(token, salt="recovery-key", max_age=43200)
+            url_email = ts.loads(token, salt=recovery_key, max_age=43200)
             email = request.form.get('email')
             password = request.form.get('password')
             confirm_password = request.form.get('confirm_password')
@@ -182,7 +182,7 @@ def change_account_profile(token):
     :return: 1) nothing or promlpt to indicates that the saved successfully.
         2) error prompt to indicates that the info was not saved successfully.
     """
-    account_id = ts.loads(token, salt='change-account-profile-key')
+    account_id = ts.loads(token, salt=change_account_key)
     if request.method == 'POST':
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
@@ -209,7 +209,7 @@ def profile(token):
     :return: (1)profile.html with user information
     """
     # decrypt token to get account_id
-    account_id = ts.loads(token, salt='profile-key', max_age=900) # 15 min
+    account_id = ts.loads(token, salt=profile_key, max_age=900) # 15 min
     # get user info with account_id
     # user_record = get_user_rec_database(account_id)
     # user_record = decrypted_user_rec(user_record)
@@ -219,7 +219,7 @@ def profile(token):
     user_info = 'this is user\'s account info'
 
     # encrypt account id to be shared through qr
-    token = ts.dumps(account_id, salt='sharing-profile-key')
+    token = ts.dumps(account_id, salt=sharing_profile_key)
     sharing_url = url_for('shared_profile', token=token, _external=True)
     print(sharing_url)
     # qr = sharing_qr(sharing_url)
@@ -238,7 +238,7 @@ def shared_profile(token):
         try:
             # decode the token
             # get user's account id
-            account_id = ts.loads(token, salt="sharing-profile-key", max_age=900) # 15 min
+            account_id = ts.loads(token, salt=sharing_profile_key, max_age=900) # 15 min
             print(account_id)
             # get user account information with account_id
             # user_record = get_user_rec_database(account_id)

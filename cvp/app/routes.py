@@ -8,6 +8,7 @@ from app import *
 import sqlite3
 import hmac
 from services.email_service import *
+from base64 import b64decode
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -111,8 +112,8 @@ def login():
             email = request.form.get('email')
             password = request.form.get('password')
 
-            email = 'timothy.anderson@patient.abc.com'
-            password = 'timothyanderson'
+            email = 'margaret.hall@patient.abc.com'
+            password = 'margarethall'
 
             if email == '' or password == '':
                 error = 'Please enter required fields.'
@@ -128,13 +129,12 @@ def login():
                 db.close_connection()
 
             print(acc)
-            salt = r'\xcc\x8c\xb7\xa7\x9e\xf867\xb9\xf1\xb5\xaf\xb4\x03\xdaP'
-            # salt = acc[0][5]
-            salt = bytes(salt, 'utf-8')
-            hashed_pass, hashed_salt = generate_hash(password=password, salt=salt)
+            db_password, db_salt = b64decode(acc[0][3]), b64decode(acc[0][5])
+            hashed_pass, _ = generate_hash(password=password, salt=db_salt)
             if not error and acc: # if this is in database, check password
-                if hmac.compare_digest(hashed_salt, salt): # login
-                    return redirect(url_for('profile', account_id=acc[0][4]))
+                if hmac.compare_digest(hashed_pass, db_password): # login
+                    url_token = ts.dumps(acc[0][4], salt=profile_key)
+                    return redirect(url_for('profile', token=url_token))
                 else: # incorrect password
                     error = 'Password did not match'
             if not error and not acc: # this email is not in database
@@ -232,18 +232,22 @@ def profile(token):
     """
     First main page of application.
     Invoked when (1)login button is clicked and succeeded in login.html
-    :param account_id: account's specific id
+    :param token: user specific token encoded in login.
     :return: (1)profile.html with user information
     """
     # decrypt token to get account_id
     account_id = ts.loads(token, salt=profile_key, max_age=900) # 15 min
     # get user info with account_id
     # user_record = get_user_rec_database(account_id)
-    # user_record = decrypted_user_rec(user_record)
-    user_record = 'this is decrypted record'
-
-    # get user's account info such as first, last names
-    user_info = 'this is user\'s account info'
+    db = Database(db_path)
+    try:
+        db.create_connection(db_path)
+        user_record = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')
+        user_info = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')
+    except sqlite3.Error as e:
+        raise Exception(e)
+    finally:
+        db.close_connection()
 
     # encrypt account id to be shared through qr
     token = ts.dumps(account_id, salt=sharing_profile_key)
@@ -251,7 +255,7 @@ def profile(token):
     print(sharing_url)
     # qr = sharing_qr(sharing_url)
     qr = generage_QR_code(sharing_url, '')
-    return render_template('profile.html', profile=user_record, account_info=user_info, qr=qr)
+    return render_template('profile.html', profile=user_record, account_info=user_info, sharing_url=sharing_url)
 
 
 @app.route('/info_<token>', methods=['GET'])

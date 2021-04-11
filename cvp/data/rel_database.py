@@ -294,7 +294,7 @@ def main(cvp_db_path: str, cdc_db_path: str):
         'Email': 'VARCHAR NOT NULL PRIMARY KEY',
         'Last_Name': 'VARCHAR NOT NULL',
         'First_Name': 'VARCHAR NOT NULL',
-        'Password': 'BLOB NOT NULL',
+        'Password': 'VARCHAR NOT NULL',
         'User_Account_ID': 'INTEGER NOT NULL',
         'Salt': 'VARCHAR NOT NULL'
     }
@@ -348,6 +348,23 @@ def test_db(db_path: str, table_name: str, attr: dict):
     select = '*'
     results = db.select(select, table_name)
     logger.debug(results)
+    
+    account_selection = db.select('Password, salt', 'account', 'User_Account_ID = 1')
+
+    password, salt = b64decode(account_selection[0][0]), b64decode(account_selection[0][1])
+    last = db.select('Last_Name', 'profile', 'User_Account_ID = 1')[0][0]
+    first = db.select('First_Name', 'profile', 'User_Account_ID = 1')[0][0]
+    logger.debug(f"Password: {password}\t Salt: {salt}\t Last: {last}\t First: {first}")
+
+    from cvp.features.transform import generate_hash
+    input_password = f"{first.lower()}{last.lower()}"
+    logger.debug(input_password)
+    logger.debug(type(password))
+    logger.debug(type(salt))
+    user_password, _ = generate_hash(input_password, salt)
+
+    import hmac
+    logger.debug(hmac.compare_digest(password, user_password))
 
     db.close_connection()
 

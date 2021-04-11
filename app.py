@@ -11,9 +11,8 @@ model = OCR_Model()
 db_path = 'dataset/external/cvp.db'
 
 
-account_table = 'accounts'
+account_table = 'account'
 profile_table = 'profile'
-
 
 ## keys to be changed and removed when deploying
 profile_key = 'profile_key'

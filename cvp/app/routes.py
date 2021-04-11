@@ -1,14 +1,12 @@
 """Covid-19 Vaccine Passport Application"""
 
-
 from flask import render_template, request, redirect, url_for
 from utils import *
 from cvp.features.transform import generate_hash, generage_QR_code
 from utils import ts
 from app import *
 import sqlite3
-from sqlite3 import Error
-from cvp.model.ocr_model import OCR_Model
+import hmac
 from services.email_service import *
 
 
@@ -67,27 +65,27 @@ def register():
 
         elif request.form.get('confirm_button'): # process for case(3)
             # obtain all requested information from frontend
-            confirmed_data = request.form.get('confirmed_data')
+            confirmed_data = request.form.to_dict('confirmed_data')
 
             # check CDC database at this point
             valid_rec = check_cdc(confirmed_data)
 
             if valid_rec:  # send confirmed account information to database and record them.
-                # pass confirmed OCRed text data to database as their passport info
-                # encrypt before passing to database
-                # encrypted_user_rec = rec_encrypt(confirmed_data)
-
-                #
                 # insert this data to db
-                new_account_id = db.select(values='count(account_ID)', table_name='account')
-                account_data = list(confirmed_data.values())
-                db.insert(0, new_account_id)
-
-                # handle exception here
+                db = Database(db_path)
                 try:
-                    db.insert(tuple(account_data), 'account')
+
+                    new_account_id = db.select(values='count(account_ID)', table_name=account_table)
+                    account_data = list(confirmed_data.values())
+                    # align confirmed data to the order of schema of db
+
+                    # handle exception here
+                    db.create_connection(db_path)
+                    db.insert(tuple(account_data), account_table)
                 except sqlite3.Error as e:
-                    return f'error {e}'
+                    raise Exception(e)
+                finally:
+                    db.close_connection()
 
                 return render_template('success_welcome.html', success="Success! Welcome.")
             else:  # the information is not in CDC database, return (something_went_wrong.html)
@@ -112,8 +110,9 @@ def login():
         if request.form.get("login_button"): # process for case(2)
             email = request.form.get('email')
             password = request.form.get('password')
-            # password = 'temp'
-            hashed_pass, _ = generate_hash(password)
+
+            email = 'timothy.anderson@patient.abc.com'
+            password = 'timothyanderson'
 
             if email == '' or password == '':
                 error = 'Please enter required fields.'
@@ -122,18 +121,20 @@ def login():
             db = Database(db_path)
             try:
                 db.create_connection(db_path)
-                acc = db.select('*', account_table, f'Email = {email}')
+                acc = db.select('*', account_table, f'Email = \"{email}\"')
             except sqlite3.Error as e:
-                print(e)
                 raise Exception(e)
             finally:
                 db.close_connection()
 
             print(acc)
-
+            salt = r'\xcc\x8c\xb7\xa7\x9e\xf867\xb9\xf1\xb5\xaf\xb4\x03\xdaP'
+            # salt = acc[0][5]
+            salt = bytes(salt, 'utf-8')
+            hashed_pass, hashed_salt = generate_hash(password=password, salt=salt)
             if not error and acc: # if this is in database, check password
-                if acc[1] == hashed_pass: # login
-                    return redirect(url_for('profile', account_id=acc[4]))
+                if hmac.compare_digest(hashed_salt, salt): # login
+                    return redirect(url_for('profile', account_id=acc[0][4]))
                 else: # incorrect password
                     error = 'Password did not match'
             if not error and not acc: # this email is not in database

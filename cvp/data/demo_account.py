@@ -14,7 +14,7 @@ VACCINE_START = datetime.date(2020, 11, 1)  # possible earliest vaccine date
 TODAY = datetime.date.today()
 RECOMMENDED_INTERVAL = 42 # CDC's recommended interval is within 42 after first dose.
 DELIM = '\t'  # deliminator for txt file
-ACCOUNT_SIZE = 100
+ACCOUNT_SIZE = 200
 
 
 def __get_names(first_names, middle_initials, last_names, inputfile):

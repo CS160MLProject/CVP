@@ -273,6 +273,7 @@ def shared_profile(token):
             print(account_id)
             # get user account information with account_id
             # user_record = db.select("*", 'profile', f'User_Account_ID = {account_id}')
+            user_record = 'record'
             return render_template('shared_profile.html', user_record=user_record)
         except:
             return f'404'

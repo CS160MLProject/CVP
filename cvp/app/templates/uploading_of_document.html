@@ -13,3 +13,65 @@
         </body>
 
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="static/stylesheet.css">
+    <meta charset="UTF-8">
+    <title>CVP | Upload Document</title>
+</head>
+<body>
+    <div class="left-panel">
+        <h1 class="page-header">Create your account</h1>
+        <img class="new-account-icon" src="{{url_for('static', filename='images/create-new-account.png')}}" alt="An icon of a person with a plus symbol beside it.">
+        <h2>MISC</h2>
+    </div>
+
+    <div class="right-panel">
+        <form action={{url_for("register")}} method="POST">
+            <div class="input-field">
+                <div class="field-label">
+                    <img class="field-icon" src="{{url_for('static', filename='images/email-icon.png')}}" alt="A black icon of a mail">
+                    <label class="text-label" for="email">Email:</label>
+                </div>
+                <p class="field-note">Your email address will become your username</p>
+                <input class="text-field" type="text" id="email" name="email" placeholder="hello@cvp.org">
+            </div>
+
+            <div class="input-field">
+                <div class="field-label">
+                    <img class="field-icon" src="{{url_for('static', filename='images/lock-icon.png')}}" alt="A black icon of a padlock">
+                    <label class="text-label" for="password">Password:</label>
+                </div>
+                <input class="text-field" type="text" id="password" name="password" placeholder="Password">
+            </div>
+
+            <div class="input-field">
+                <div class="field-label">
+                    <img class="field-icon" src="{{url_for('static', filename='images/lock-icon.png')}}" alt="A black icon of a padlock">
+                    <label class="text-label" for="confirm_password">Confirm password:</label>
+                </div>
+                <input class="text-field" type="text" id="confirm_password" name="confirm_password" placeholder="Password">
+            </div>
+
+            <div class="padding-div">
+
+            </div>
+
+            <div class="input-field">
+                <div class="file-upload">
+                    <input type="file" id="myFile" name="filename">
+                    <button class="inline-button">Upload Document</button>
+                    <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
+                </div>
+            </div>
+
+            <div class="input-field">
+                <button class="inline-button" name="continue_button" value="continue_button" type="continue">Continue</button>
+            </div>
+        </form>
+        <p>{{invalid_input}}</p> <!--Testing out the error message, TODO: integrate the error messages better in the html file-->
+    </div>
+</body>
+</html>

@@ -9,6 +9,7 @@ import sqlite3
 import hmac
 from services.email_service import *
 from base64 import b64decode
+import itsdangerous
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -48,18 +49,21 @@ def register():
             email = request.form.get('email')
             password = request.form.get('password')
             confirm_password = request.form.get('confirm_password')  # confirmation password named confirm_password
+            print(request.files)
             # profile_pic = request.files["profile_pic"]
             if 'vaccine_rec' not in request.files:
                 error_msg = 'file is not uploaded.'
+
             if not error_msg:
-                vaccine_rec_pic = request.files["vaccine_rec"]
-                extracted_rec = model.predict(vaccine_rec_pic)
                 error_msg = invalid_register_input(email, password, confirm_password)
                 if not error_msg: # no error in entered information
+                    # vaccine_rec_pic = request.files["vaccine_rec"]
+                    vaccine_rec_pic = 'Vaccine_1.png'
+                    extracted_rec = model.predict(vaccine_rec_pic)
                     return render_template('create_account.html',
                                            info=f'Welcome {email=}, {password=}, {confirm_password=} !'
                                                 f'\n Are these info correct? '
-                                                f'\n --OCRed Info \n {extracted_rec}')
+                                                f'\n --OCRed Info \n {extracted_rec} {extracted_rec}')
 
             # error found in entered information
             return render_template("uploading_of_document.html", invalid_input=error_msg)
@@ -76,11 +80,10 @@ def register():
                 db = Database(db_path)
                 try:
 
-                    new_account_id = db.select(values='count(account_ID)', table_name=account_table)
+                    new_account_id = db.select(values='count(*)', table_name=account_table)
                     account_data = list(confirmed_data.values())
                     # align confirmed data to the order of schema of db
 
-                    # handle exception here
                     db.create_connection(db_path)
                     db.insert(tuple(account_data), account_table)
                 except sqlite3.Error as e:
@@ -205,7 +208,7 @@ def reset_password(token):
 def change_account_profile(token):
     """
     Invoked when 'Save Changes' is clicked in a page of settings.
-    :param account_id: account's id.
+    :param token: user specific encoded token.
     :return: 1) nothing or promlpt to indicates that the saved successfully.
         2) error prompt to indicates that the info was not saved successfully.
     """
@@ -233,7 +236,7 @@ def profile(token):
     First main page of application.
     Invoked when (1)login button is clicked and succeeded in login.html
     :param token: user specific token encoded in login.
-    :return: (1)profile.html with user information
+    :return: (1)profile.html with user profile, account information, sharing_url and name of qr file.
     """
     # decrypt token to get account_id
     account_id = ts.loads(token, salt=profile_key, max_age=900) # 15 min
@@ -253,9 +256,11 @@ def profile(token):
     token = ts.dumps(account_id, salt=sharing_profile_key)
     sharing_url = url_for('shared_profile', token=token, _external=True)
     print(sharing_url)
-    # qr = sharing_qr(sharing_url)
-    qr = generage_QR_code(sharing_url, '')
-    return render_template('profile.html', profile=user_record, account_info=user_info, sharing_url=sharing_url)
+
+    # generate qr
+    generage_QR_code(sharing_url, str(account_id), save=True)
+    return render_template('profile.html', profile=user_record, account_info=user_info,
+                           sharing_url=sharing_url, qr=f'{account_id}.png')
 
 
 @app.route('/info_<token>', methods=['GET'])
@@ -273,10 +278,10 @@ def shared_profile(token):
             print(account_id)
             # get user account information with account_id
             # user_record = db.select("*", 'profile', f'User_Account_ID = {account_id}')
-            user_record = 'record'
+            user_record = ''
             return render_template('shared_profile.html', user_record=user_record)
-        except:
-            return f'404'
+        except itsdangerous.exc.SignatureExpired as link_expried:
+            raise Exception(link_expried)
 
     return f'404'
 

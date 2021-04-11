@@ -3,6 +3,7 @@
 import datetime
 import random
 import string
+from base64 import b64encode
 
 # import generate_hash under feature
 from cvp.features.transform import generate_hash
@@ -77,8 +78,8 @@ def __account(first, last, middle_i, hospital, acc_id):
     email = first.lower() + '.' + last.lower() + domain
     password = first.lower() + last.lower()
     hashed_pass, salt = generate_hash(password)  # get hashed_pass and salt for this password
-    hashed_pass = str(hashed_pass)
-    salt = str(salt)
+    hashed_pass = b64encode(hashed_pass).decode('utf-8')
+    salt = b64encode(salt).decode('utf-8')
     patient_num = str(random.randint(1, 9999))  # randomly chosen patient id
 
     # capitalize names

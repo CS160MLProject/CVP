@@ -1,5 +1,5 @@
-import hmac
 import sys
+import hmac
 
 # Standard Dist
 import pytest

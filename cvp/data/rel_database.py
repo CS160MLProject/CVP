@@ -261,6 +261,9 @@ class Database:
 
 def main(db_path: dict):
     logger.info('Preparing ...')
+    if os.path.exists(db_path.get('cvp')):
+        os.remove(db_path.get('cvp'))
+
     df = pd.read_csv(ACCOUNT_PATH, sep='\t')
     df.drop_duplicates(subset=['Email'], inplace=True)
 
@@ -318,72 +321,3 @@ if __name__ == "__main__":
         'cdc': 'dataset/external/cdc.db'
     }
     main(db_path)
-
-"""
-def test_db(db_path: str, table_name: str, attr: dict):
-
-    db = Database(db_path)
-
-    db.create_table(attr, table_name)
-
-    values = (1, 1, 'test', 'test', 'I', 'June 27, 2021')
-    db.insert(values, table_name)
-
-    values = (2, 2, 'test', 'test', 'I', 'June 27, 2021')
-    db.insert(values, table_name)
-
-    select = '*'
-    results = db.select(select, 'profile')
-    logger.debug(results)
-
-    table_col = ('patient_num', 'last_name', 'middle_initial', 'dob')
-    update_values = (4567, 'Tran', 'H', '06/27/2021')
-    priority = 'last_name = "test"'
-    db.update(update_values, table_col, table_name, priority)
-
-    select = '*'
-    results = db.select(select, table_name)
-    logger.debug(results)
-
-    priority = 'userID = 2'
-    db.delete(table_name, priority)
-
-    select = '*'
-    results = db.select(select, table_name)
-    logger.debug(results)
-    
-    account_selection = db.select('Password, salt', 'account', 'User_Account_ID = 1')
-
-    password, salt = b64decode(account_selection[0][0]), b64decode(account_selection[0][1])
-    last = db.select('Last_Name', 'profile', 'User_Account_ID = 1')[0][0]
-    first = db.select('First_Name', 'profile', 'User_Account_ID = 1')[0][0]
-    logger.debug(f"Password: {password}\t Salt: {salt}\t Last: {last}\t First: {first}")
-
-    from cvp.features.transform import generate_hash
-    input_password = f"{first.lower()}{last.lower()}"
-    logger.debug(input_password)
-    logger.debug(type(password))
-    logger.debug(type(salt))
-    user_password, _ = generate_hash(input_password, salt)
-
-    import hmac
-    logger.debug(hmac.compare_digest(password, user_password))
-
-    db.close_connection()
-
-
-
-if __name__ == "__main__":
-    db_path = 'dataset/external/cvp.db'
-    name = 'profile'
-    attr = {
-        'userID': 'INTEGER NOT NULL PRIMARY KEY',
-        'patient_num': 'INTEGER NOT NULL',
-        'last_name': 'VARCHAR NOT NULL',
-        'first_name': 'VARCHAR NOT NULL',
-        'middle_initial': 'CHAR(1)',
-        'dob': 'VARCHAR NOT NULL'
-    }
-
-    test_db(db_path, name, attr)
-"""

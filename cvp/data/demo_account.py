@@ -9,7 +9,6 @@ from base64 import b64encode
 from cvp.features.transform import generate_hash
 
 # constant values
-ACCOUNTS = 'dataset/processed/accounts.txt'
 OLDEST_DOB = datetime.date(1910, 1, 1)  # possible oldest dob
 VACCINE_START = datetime.date(2020, 11, 1)  # possible earliest vaccine date
 TODAY = datetime.date.today()
@@ -110,7 +109,7 @@ def __account(first, last, middle_i, hospital, acc_id):
          dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2])
 
 
-def generate_accounts(inputfile):
+def generate_accounts(inputfile, outputfile):
     """
     Generate and write account based on the ACCOUNT_SIZE.
     :param inputfile: file to be read to extract sample names
@@ -122,7 +121,7 @@ def generate_accounts(inputfile):
 
     # make all set to tuple
     first_names, middle_initials, last_names = tuple(first_names), tuple(middle_initials), tuple(last_names)
-    with open(ACCOUNTS, 'w') as account_file:
+    with open(outputfile, 'w') as account_file:
         account_file.write('User_Account_ID\tEmail\tPassword\tSalt\tPatient_Num\tLast_Name\tFirst_Name\tMiddle_Initial\t'
                            'Dob\tHospital\tVaccine_Name1\tVaccine_Date1\tVaccine_Name2\tVaccine_Date2\n')
         for acc_id in range(1, ACCOUNT_SIZE + 1):
@@ -133,4 +132,6 @@ def generate_accounts(inputfile):
 
 if __name__ == '__main__':
     NAMES = 'dataset/raw/names.txt'
-    generate_accounts(NAMES)
+    ACCOUNTS = 'dataset/processed/accounts.txt'
+
+    generate_accounts(NAMES, ACCOUNTS)

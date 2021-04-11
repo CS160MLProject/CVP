@@ -8,8 +8,11 @@ import sqlalchemy
 
 # Project Level Imports
 
-
 from cvp.data.rel_database import *
+
+TEST_DB_PATH = 'tests/data/test.db'
+if os.path.exists(TEST_DB_PATH):
+    os.remove(TEST_DB_PATH)
 
 class TestRelDatabase():
 
@@ -189,10 +192,11 @@ class TestRelDatabase():
             'cvp': 'tests/data/test_cvp.db',
             'cdc': 'tests/data/test_cdc.db'
         }
-        os.remove(test_db_path.get('cvp'))
+        if os.path.exists(test_db_path.get('cvp')):
+            os.remove(test_db_path.get('cvp'))
 
         # === Expected Output ===#
-        expected_size = 189
+        expected_size = 197
 
         # === Trigger Output ===#
         main(test_db_path)

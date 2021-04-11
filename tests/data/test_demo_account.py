@@ -22,4 +22,6 @@ def test_accounts_txt():
             tokens = account.split(DELIM)
             assert len(tokens) == TOKEN_SIZE, \
                 f'Output\'s token size should be {TOKEN_SIZE}, returned {len(tokens)}'
+            assert tokens[10] == tokens[12], f'Should take same type of vaccine for first and second dose.'
+            assert tokens[11] < tokens[13], f'Should take second vaccine after first dose.'
         assert counter == ACCOUNT_SIZE, f'Output file\'s account size should be {ACCOUNT_SIZE}, returned {counter}'

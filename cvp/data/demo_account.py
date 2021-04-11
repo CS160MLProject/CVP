@@ -12,8 +12,9 @@ from cvp.features.transform import generate_hash
 OLDEST_DOB = datetime.date(1910, 1, 1)  # possible oldest dob
 VACCINE_START = datetime.date(2020, 11, 1)  # possible earliest vaccine date
 TODAY = datetime.date.today()
+RECOMMENDED_INTERVAL = 42 # CDC's recommended interval is within 42 after first dose.
 DELIM = '\t'  # deliminator for txt file
-ACCOUNT_SIZE = 200
+ACCOUNT_SIZE = 100
 
 
 def __get_names(first_names, middle_initials, last_names, inputfile):
@@ -49,7 +50,7 @@ def __get_random_date(start, end):
     :return: date of randomly chosen date between start date and end date
     """
     date_range = (end - start).days  # get range in days
-    rd_date = random.randrange(date_range)  # get random date from date_range
+    rd_date = random.randrange(0, stop=date_range)  # get random date from date_range
     return start + datetime.timedelta(days=rd_date)  # add rd_date to start date
 
 
@@ -89,19 +90,15 @@ def __account(first, last, middle_i, hospital, acc_id):
     middle = middle_i if middle_i else 'None'
     dob = str(__get_random_date(OLDEST_DOB, TODAY))
     hospital = hospital + random.choice(('MedicalCenter', 'Hospital'))
-    vaccine_name1 = __vaccine_name()
+
+    vaccine_name1 = vaccine_name2 = __vaccine_name()
     vaccine_date1 = __get_random_date(VACCINE_START, TODAY)
-
-    # initialize second vaccine info
-    vaccine_name2, vaccine_date2 = 'None', 'None'
-
-    # randomly select True or False of second vaccine shot
-    # if second vaccine is True and fist shot is not today
-    if random.choice((True, False)) and vaccine_date1 != TODAY:
-        vaccine_name2 = __vaccine_name()
-        vaccine_date2 = str(__get_random_date(vaccine_date1, TODAY))
-
+    recommended_latest = vaccine_date1 + datetime.timedelta(days=RECOMMENDED_INTERVAL)
+    day_after_first_dose = vaccine_date1+datetime.timedelta(days=1)
+    # ideally second dose should be taked within 42 days from first dose.
+    vaccine_date2 = __get_random_date(day_after_first_dose, min(TODAY, recommended_latest))
     vaccine_date1 = str(vaccine_date1)
+    vaccine_date2 = str(vaccine_date2)
 
     # return all information in string
     return DELIM.join(

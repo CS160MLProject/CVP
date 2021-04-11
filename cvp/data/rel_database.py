@@ -134,7 +134,7 @@ class Database:
             logger.error(e)
             raise Exception(e)
 
-    def insert(self, values: tuple, talbe_name: str):
+    def insert(self, values: tuple, table_name: str):
         """ Insert new values into existed table
 
         Usage:
@@ -149,11 +149,16 @@ class Database:
         Returns:
 
         """
-        SQL_Insert = f'''INSERT INTO {talbe_name} VALUES (?,?,?,?,?,?,?,?,?,?,?)'''
+        SQL_Insert = f'''INSERT INTO {table_name} VALUES (?'''
+
+        for i in range(len(values)-1):
+            SQL_Insert += ',?'
+        SQL_Insert += ')'
+
         try:
             self.cursor.execute(SQL_Insert, values)
             self.conn.commit()
-            logger.info(f'SUCCESS: Insert into `{talbe_name}` successfully!')
+            logger.info(f'SUCCESS: Insert into `{table_name}` successfully!')
         except sqlite3.Error as e:
             logger.error(e)
             raise Exception(e)
@@ -218,7 +223,6 @@ class Database:
             SQL_Update += f'''{col} = ?, '''
         SQL_Update = SQL_Update[:-2] + f''' WHERE {condition}'''
 
-        logger.debug(SQL_Update)
         try:
             self.cursor.execute(SQL_Update, values)
             self.conn.commit()
@@ -255,7 +259,7 @@ class Database:
             raise Exception(e)
 
 
-def main(cvp_db_path: str, cdc_db_path: str):
+def main(db_path: dict):
     logger.info('Preparing ...')
     df = pd.read_csv(ACCOUNT_PATH, sep='\t')
     df.drop_duplicates(subset=['Email'], inplace=True)
@@ -264,7 +268,7 @@ def main(cvp_db_path: str, cdc_db_path: str):
     profile_cols = ['User_Account_ID', 'Patient_Num', 'Last_Name', 'First_Name', 'Middle_Initial', 'Dob',
                     'Vaccine_Name1', 'Vaccine_Date1', 'Hospital', 'Vaccine_Name2', 'Vaccine_Date2']
 
-    db = Database(cvp_db_path)
+    db = Database(db_path.get('cvp'))
 
     table_name = 'profile'
     attr = {
@@ -309,9 +313,11 @@ def main(cvp_db_path: str, cdc_db_path: str):
 
 
 if __name__ == "__main__":
-    cvp_db_path = 'dataset/external/cvp.db'
-    cdc_db_path = 'dataset/external/cdc.db'
-    main(cvp_db_path, cdc_db_path)
+    db_path = {
+        'cvp': 'dataset/external/cvp.db',
+        'cdc': 'dataset/external/cdc.db'
+    }
+    main(db_path)
 
 """
 def test_db(db_path: str, table_name: str, attr: dict):

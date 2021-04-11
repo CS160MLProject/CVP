@@ -22,3 +22,21 @@ class TestTransform():
 
         with pytest.raises(TypeError):
             password_hash, _ = generate_hash(USER_INPUT_PASSWORD, "WRONG_SALT")
+
+    def test_generate_QR_code(self):
+        #=== Test Inputs ===#
+        LINK = 'https://www.youtube.com/'
+        USER_ID = '777'
+        SAVE_FOLDER = 'tests/features'
+
+        #=== Expected Output ===#
+        expected_file = 'tests/features/777.png'
+
+        #=== Trigger Output ===#
+        generate_QR_code(LINK, USER_ID, save=True, save_folder=SAVE_FOLDER)
+
+        assert os.path.exists(expected_file)
+
+        with pytest.raises(FileNotFoundError):
+            save_folder = 'WRONG/FOLDER'
+            generate_QR_code(LINK, USER_ID, save=True, save_folder=save_folder)

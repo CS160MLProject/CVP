@@ -57,10 +57,11 @@ def generate_hash(password: str, salt: bytes=None):
     return password_hash, salt
 
 
-def generage_QR_code(link: str, user_account_id: str, save_folder: str = None, save=False):
+def generate_QR_code(link: str, user_account_id: str, save=False, save_folder: str = None):
     """ Generate QR code with a given profile link
 
     Args:
+        save_folder (str): directory to save the QR image
         link (str): profile link
         user_account_id (str): unique account id
         save (bool): save image as png or not
@@ -76,10 +77,10 @@ def generage_QR_code(link: str, user_account_id: str, save_folder: str = None, s
 
     qr_code = pyqrcode.create(link)
 
-    logger.debug(f'{os.path.join(QR_CODE_FOLDER, user_account_id + ".png")}')
+    logger.debug(f'{os.path.join(save_folder, user_account_id + ".png")}')
 
     if save:
-        qr_code.png(os.path.join(QR_CODE_FOLDER, user_account_id + '.png'), scale=8)
+        qr_code.png(os.path.join(save_folder, user_account_id + '.png'), scale=8)
         logger.info('SUCCESS: QR_Code saved!')
 
     logger.info('Finished operation')

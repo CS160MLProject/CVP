@@ -83,9 +83,3 @@ def generage_QR_code(link: str, user_account_id: str, save_folder: str = None, s
         logger.info('SUCCESS: QR_Code saved!')
 
     logger.info('Finished operation')
-
-"""
-if __name__ == '__main__':
-    link = 'https://www.google.com/'
-    generage_QR_code(link, '1234', save=True)
-"""

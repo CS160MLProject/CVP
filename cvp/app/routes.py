@@ -195,7 +195,7 @@ def reset_password(token):
             if email == url_email and password == confirm_password: # save to database
                 # account_change_pass(email, password)
                 new_pass, new_salt = generate_hash(password)
-                db.update((new_pass, new_salt), ('Password', 'Salt'), 'account')
+                # db.update((new_pass, new_salt), ('Password', 'Salt'), 'account')
                 return f'password reset confirmation with login button to back to login page'
 
     return redirect(url_for(login))
@@ -272,7 +272,8 @@ def shared_profile(token):
             account_id = ts.loads(token, salt=sharing_profile_key, max_age=900) # 15 min
             print(account_id)
             # get user account information with account_id
-            user_record = db.select("*", 'profile', f'User_Account_ID = {account_id}')
+            # user_record = db.select("*", 'profile', f'User_Account_ID = {account_id}')
+            user_record = ''
             return render_template('shared_profile.html', user_record=user_record)
         except:
             return f'404'

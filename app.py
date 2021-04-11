@@ -9,7 +9,7 @@ model = OCR_Model()
 
 # db operation
 db_path = 'dataset/external/cvp.db'
-db = Database(db_path)
+
 
 account_table = 'accounts'
 profile_table = 'profile'

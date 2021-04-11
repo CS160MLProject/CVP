@@ -112,14 +112,25 @@ def login():
         if request.form.get("login_button"): # process for case(2)
             email = request.form.get('email')
             password = request.form.get('password')
-            password = 'temp'
+            # password = 'temp'
             hashed_pass, _ = generate_hash(password)
 
             if email == '' or password == '':
                 error = 'Please enter required fields.'
 
             # check database with email and hashed_pass
-            acc = db.select('*', 'account', f'email = {email}')
+            db = Database(db_path)
+            try:
+                db.create_connection(db_path)
+                acc = db.select('*', account_table, f'Email = {email}')
+            except sqlite3.Error as e:
+                print(e)
+                raise Exception(e)
+            finally:
+                db.close_connection()
+
+            print(acc)
+
             if not error and acc: # if this is in database, check password
                 if acc[1] == hashed_pass: # login
                     return redirect(url_for('profile', account_id=acc[4]))

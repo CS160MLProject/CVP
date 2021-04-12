@@ -122,7 +122,7 @@ def login():
                 error = 'Please enter required fields.'
 
             # authentication of login with email and password
-            acc = authenticate(email, password)
+            acc = authenticate(password, email=email)
 
             if type(acc) == tuple:  # logged in
                 url_token = ts.dumps(acc[4], salt=profile_key)
@@ -285,24 +285,18 @@ def change_password(token):
         new_pass = request.form.get('new_password')
         conf_pass = request.form.get('confirm_password')
 
+        account_id = ts.loads(token, salt=profile_key, max_age=900)  # 15 min
+
         # check if the current_pass is in the database
-        hashed_pass, _ = generate_hash(current_pass)
-        # check database with email and hashed_pass
-        # success = db_login(account_id, hashed_pass)
-        success = True
-        if not success: # current password is not correct.
-            error_msg = f'Current Password is not correct.'
-            return error_msg # return change_pass.html with error msg
+        acc = authenticate(current_pass, account_id=account_id)
 
-        # check if new password and confirm password match.
-        success = new_pass == conf_pass
-        if not success: # they does not match
-            error_msg = f'New Password and Confim Password did not match.'
-            return error_msg # return change_pass.html with error msg
-
-        # success, change password
-        # db_account_change_pass(new_password)
-        return None # return change_pass.html with success confirmation.
+        if type(acc) == tuple: # authentication succeeded
+            if new_pass == conf_pass:
+                # update database
+                return f'baack to profile?'
+            return f'New Password and Confim Password did not match.'
+        else:
+            return f'unexpected error'
 
     # ---return change_pass.html as landing page.
     return None

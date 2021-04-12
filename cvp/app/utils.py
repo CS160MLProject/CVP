@@ -80,18 +80,24 @@ def check_cdc(confirmed_data):
     return True
 
 
-def authenticate(email, password):
+def authenticate(password, email=None, account_id=None):
     """
     Authenticate user's email and password with database.
+    Has to have email or account_id to find account information. Only one of them is required.
     :param email: email of user
     :param password: password of user
+    :param account_id: user's account_id
     return tuple of account information if succeeded else return error message
     """
     db = Database(db_path)
     try:
         db.create_connection(db_path)
-        acc = db.select('*', account_table, f'Email = \"{email}\"')
-
+        if email:
+            acc = db.select('*', account_table, f'Email = \"{email}\"')
+        elif account_id:
+            acc = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')
+        else:
+            return 'Error in select'
         if not acc: # account was not found with this email
             return 'Account was not found.'
         if acc: # account with this email is in our database
@@ -107,3 +113,5 @@ def authenticate(email, password):
         db.close_connection()
 
     return 'Error'
+
+

@@ -107,4 +107,3 @@ class OCR_Model(object):
 
         logger.info('Finished!')
         return info
-

@@ -5,13 +5,14 @@ import pytest
 from cvp.data.demo_account import *
 TOKEN_SIZE = 14  # token length of output line
 NAMES = 'dataset/raw/names.txt'
+ACCOUNTS = 'tests/data/test_accounts.txt'
 
 
 def test_accounts_txt():
     """Test output file accounts.txt."""
-    generate_accounts(NAMES)
+    generate_accounts(NAMES, ACCOUNTS)
     with pytest.raises(OSError):
-        generate_accounts(inputfile='Wrong file directory')
+        generate_accounts(inputfile='Wrong file directory', outputfile=ACCOUNTS)
     # open output file
     with open(ACCOUNTS) as output_file:
         counter = 0 # initiate counter to count number of accounts generated
@@ -24,4 +25,3 @@ def test_accounts_txt():
             assert tokens[10] == tokens[12], f'Should take same type of vaccine for first and second dose.'
             assert tokens[11] < tokens[13], f'Should take second vaccine after first dose.'
         assert counter == ACCOUNT_SIZE, f'Output file\'s account size should be {ACCOUNT_SIZE}, returned {counter}'
-

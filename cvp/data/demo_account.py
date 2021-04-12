@@ -3,18 +3,18 @@
 import datetime
 import random
 import string
+from base64 import b64encode
 
 # import generate_hash under feature
 from cvp.features.transform import generate_hash
 
 # constant values
-ACCOUNTS = 'dataset/processed/accounts.txt'
 OLDEST_DOB = datetime.date(1910, 1, 1)  # possible oldest dob
 VACCINE_START = datetime.date(2020, 11, 1)  # possible earliest vaccine date
 TODAY = datetime.date.today()
 RECOMMENDED_INTERVAL = 42 # CDC's recommended interval is within 42 after first dose.
 DELIM = '\t'  # deliminator for txt file
-ACCOUNT_SIZE = 100
+ACCOUNT_SIZE = 200
 
 
 def __get_names(first_names, middle_initials, last_names, inputfile):
@@ -78,8 +78,8 @@ def __account(first, last, middle_i, hospital, acc_id):
     email = first.lower() + '.' + last.lower() + domain
     password = first.lower() + last.lower()
     hashed_pass, salt = generate_hash(password)  # get hashed_pass and salt for this password
-    hashed_pass = str(hashed_pass)
-    salt = str(salt)
+    hashed_pass = b64encode(hashed_pass).decode('utf-8')
+    salt = b64encode(salt).decode('utf-8')
     patient_num = str(random.randint(1, 9999))  # randomly chosen patient id
 
     # capitalize names
@@ -106,7 +106,7 @@ def __account(first, last, middle_i, hospital, acc_id):
          dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2])
 
 
-def generate_accounts(inputfile):
+def generate_accounts(inputfile, outputfile):
     """
     Generate and write account based on the ACCOUNT_SIZE.
     :param inputfile: file to be read to extract sample names
@@ -118,9 +118,9 @@ def generate_accounts(inputfile):
 
     # make all set to tuple
     first_names, middle_initials, last_names = tuple(first_names), tuple(middle_initials), tuple(last_names)
-    with open(ACCOUNTS, 'w') as account_file:
-        account_file.write('User_Account_ID, Email, Hashed_Pass, Salt, Patient_Num, Last_Name, First_Name, Middle, '
-                           'Dob, Hospital, Vaccine_Name1, Vaccine_Date1, Vaccine_Name2, Vaccine_Date2\n')
+    with open(outputfile, 'w') as account_file:
+        account_file.write('User_Account_ID\tEmail\tPassword\tSalt\tPatient_Num\tLast_Name\tFirst_Name\tMiddle_Initial\t'
+                           'Dob\tHospital\tVaccine_Name1\tVaccine_Date1\tVaccine_Name2\tVaccine_Date2\n')
         for acc_id in range(1, ACCOUNT_SIZE + 1):
             acc = __account(random.choice(tuple(first_names)), random.choice(tuple(last_names)),
                             random.choice(tuple(middle_initials)), random.choice(tuple(last_names)), acc_id)
@@ -129,4 +129,6 @@ def generate_accounts(inputfile):
 
 if __name__ == '__main__':
     NAMES = 'dataset/raw/names.txt'
-    generate_accounts(NAMES)
+    ACCOUNTS = 'dataset/processed/accounts.txt'
+
+    generate_accounts(NAMES, ACCOUNTS)

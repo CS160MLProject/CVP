@@ -2,7 +2,7 @@
 from itsdangerous import URLSafeTimedSerializer
 from app import *
 import sqlite3
-from base64 import b64decode
+from base64 import b64decode, b64encode
 import hmac
 from cvp.features.transform import generate_hash
 import re
@@ -134,3 +134,26 @@ def is_user(email):
         raise Exception(e)
     finally:
         db.close_connection()
+
+
+def update_password(email, password):
+    """
+    Update account's password.
+    :param email: email
+    :param password: password
+    :return: True if succeeded else False.
+    """
+    acc = authenticate(password, email=email)
+    db = Database(db_path)
+    if acc:
+        try:
+            hashed_pass, hashed_salt = generate_hash(password)
+            hashed_pass = b64encode(hashed_pass).decode('utf-8')
+            hashed_salt = b64encode(hashed_salt).decode('utf-8')
+            db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'Email = \"{email}\"')
+            return True
+        except sqlite3.Error as e:
+            raise Exception(e)
+        finally:
+            db.close_connection()
+    return False

@@ -172,26 +172,29 @@ def forget_password():
 def reset_password(token):
     if request.method == 'GET':
         try:
-            email = ts.loads(token, salt=recovery_key, max_age=43200) # 12 hours
+            email = ts.loads(token, salt=recovery_key, max_age=3600) # 1 hours
             return render_template('password_reset.html')
-        except:
-            return f'404'
+        except itsdangerous.exc.SignatureExpired as link_expried:
+            raise Exception(link_expried)
 
     if request.method == 'POST':
         if request.form.get('login_button'):
             return redirect(url_for('login'))
 
         if request.form.get('reset_button'):
-            url_email = ts.loads(token, salt=recovery_key, max_age=43200)
-            email = request.form.get('email')
-            password = request.form.get('password')
-            confirm_password = request.form.get('confirm_password')
+            try:
+                url_email = ts.loads(token, salt=recovery_key, max_age=3600) # 1 hour
+                email = request.form.get('email')
+                password = request.form.get('password')
+                confirm_password = request.form.get('confirm_password')
 
-            if email == url_email and password == confirm_password: # save to database
-                # account_change_pass(email, password)
-                new_pass, new_salt = generate_hash(password)
-                # db.update((new_pass, new_salt), ('Password', 'Salt'), 'account')
-                return f'password reset confirmation with login button to back to login page'
+                if email == url_email and password == confirm_password: # save to database
+                    if update_password(email, password)
+                        return f'password reset confirmation with login button to back to login page'
+                    else: return f'Update Password Failed'
+
+            except itsdangerous.exc.SignatureExpired as link_expried:
+                raise Exception(link_expried)
 
     return redirect(url_for(login))
 

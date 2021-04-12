@@ -146,19 +146,26 @@ def forget_password():
     Invoked when 'Continue' is clicked in a page of password recovery.
     :return: Prompt of saying 'link is sent to your email.'
     """
+    error = None
     if request.method == 'POST':
         if request.form.get('send_button'):
-            subject = 'Password Reset Requested'
             email = request.form.get('email')
-            token = ts.dumps(email, salt=recovery_key)
-            recover_url = url_for('reset_password', token=token, _external=True)
-            html = render_template('email/password_recovery.html', recover_url=recover_url)
-            # send email with setup link
-            send_email(subject, html, email)
-            return f'A link has been sent to the email.'
+
+            # check if this email is in the database
+            if is_user(email):
+                # encrypt link to reset password
+                token = ts.dumps(email, salt=recovery_key)
+                recover_url = url_for('reset_password', token=token, _external=True)
+                html = render_template('email/password_recovery.html', recover_url=recover_url)
+
+                # send email with setup link
+                subject = 'Password Reset Requested'
+                send_email(subject, html, email)
+                return f'A link has been sent to the email.'
+            else: error = f'Account was not found with this email.'
 
     # ---return html of Sign out pop up - 4 if implemented.
-    return render_template('recovery.html')
+    return render_template('recovery.html', error=error)
 
 
 @app.route('/login/reset/<token>', methods=['GET', 'POST'])

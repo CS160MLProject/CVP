@@ -115,3 +115,22 @@ def authenticate(password, email=None, account_id=None):
     return 'Error'
 
 
+def is_user(email):
+    """
+    Check if this email is in the database.
+    :param email: email of the user to be searched.
+    :return: account information if found else False
+    """
+    db = Database(db_path)
+    try:
+        db.create_connection(db_path)
+        acc = db.select('*', account_table, f'Email = \"{email}\"')
+        if not acc: # account was not found with this email
+            return False
+        else:
+            return acc[0]
+
+    except sqlite3.Error as e:
+        raise Exception(e)
+    finally:
+        db.close_connection()

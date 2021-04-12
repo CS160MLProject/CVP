@@ -21,7 +21,6 @@ import os
 import sqlite3
 import sys
 import coloredlogs
-from base64 import b64decode
 
 # Third party imports
 from sqlite3 import Error
@@ -135,7 +134,7 @@ class Database:
             logger.error(e)
             raise Exception(e)
 
-    def insert(self, values: tuple, talbe_name: str):
+    def insert(self, values: tuple, table_name: str):
         """ Insert new values into existed table
 
         Usage:
@@ -150,11 +149,16 @@ class Database:
         Returns:
 
         """
-        SQL_Insert = f'''INSERT INTO {talbe_name} VALUES (?,?,?,?,?,?,?,?,?,?,?)'''
+        SQL_Insert = f'''INSERT INTO {table_name} VALUES (?'''
+
+        for i in range(len(values)-1):
+            SQL_Insert += ',?'
+        SQL_Insert += ')'
+
         try:
             self.cursor.execute(SQL_Insert, values)
             self.conn.commit()
-            logger.info(f'SUCCESS: Insert into `{talbe_name}` successfully!')
+            logger.info(f'SUCCESS: Insert into `{table_name}` successfully!')
         except sqlite3.Error as e:
             logger.error(e)
             raise Exception(e)
@@ -219,7 +223,6 @@ class Database:
             SQL_Update += f'''{col} = ?, '''
         SQL_Update = SQL_Update[:-2] + f''' WHERE {condition}'''
 
-        logger.debug(SQL_Update)
         try:
             self.cursor.execute(SQL_Update, values)
             self.conn.commit()
@@ -256,8 +259,11 @@ class Database:
             raise Exception(e)
 
 
-def main(cvp_db_path: str, cdc_db_path: str):
+def main(db_path: dict):
     logger.info('Preparing ...')
+    if os.path.exists(db_path.get('cvp')):
+        os.remove(db_path.get('cvp'))
+
     df = pd.read_csv(ACCOUNT_PATH, sep='\t')
     df.drop_duplicates(subset=['Email'], inplace=True)
 
@@ -265,7 +271,7 @@ def main(cvp_db_path: str, cdc_db_path: str):
     profile_cols = ['User_Account_ID', 'Patient_Num', 'Last_Name', 'First_Name', 'Middle_Initial', 'Dob',
                     'Vaccine_Name1', 'Vaccine_Date1', 'Hospital', 'Vaccine_Name2', 'Vaccine_Date2']
 
-    db = Database(cvp_db_path)
+    db = Database(db_path.get('cvp'))
 
     table_name = 'profile'
     attr = {
@@ -310,75 +316,8 @@ def main(cvp_db_path: str, cdc_db_path: str):
 
 
 if __name__ == "__main__":
-    cvp_db_path = 'dataset/external/cvp.db'
-    cdc_db_path = 'dataset/external/cdc.db'
-    main(cvp_db_path, cdc_db_path)
-
-"""
-def test_db(db_path: str, table_name: str, attr: dict):
-
-    db = Database(db_path)
-
-    db.create_table(attr, table_name)
-
-    values = (1, 1, 'test', 'test', 'I', 'June 27, 2021')
-    db.insert(values, table_name)
-
-    values = (2, 2, 'test', 'test', 'I', 'June 27, 2021')
-    db.insert(values, table_name)
-
-    select = '*'
-    results = db.select(select, 'profile')
-    logger.debug(results)
-
-    table_col = ('patient_num', 'last_name', 'middle_initial', 'dob')
-    update_values = (4567, 'Tran', 'H', '06/27/2021')
-    priority = 'last_name = "test"'
-    db.update(update_values, table_col, table_name, priority)
-
-    select = '*'
-    results = db.select(select, table_name)
-    logger.debug(results)
-
-    priority = 'userID = 2'
-    db.delete(table_name, priority)
-
-    select = '*'
-    results = db.select(select, table_name)
-    logger.debug(results)
-    
-    account_selection = db.select('Password, salt', 'account', 'User_Account_ID = 1')
-
-    password, salt = b64decode(account_selection[0][0]), b64decode(account_selection[0][1])
-    last = db.select('Last_Name', 'profile', 'User_Account_ID = 1')[0][0]
-    first = db.select('First_Name', 'profile', 'User_Account_ID = 1')[0][0]
-    logger.debug(f"Password: {password}\t Salt: {salt}\t Last: {last}\t First: {first}")
-
-    from cvp.features.transform import generate_hash
-    input_password = f"{first.lower()}{last.lower()}"
-    logger.debug(input_password)
-    logger.debug(type(password))
-    logger.debug(type(salt))
-    user_password, _ = generate_hash(input_password, salt)
-
-    import hmac
-    logger.debug(hmac.compare_digest(password, user_password))
-
-    db.close_connection()
-
-
-
-if __name__ == "__main__":
-    db_path = 'dataset/external/cvp.db'
-    name = 'profile'
-    attr = {
-        'userID': 'INTEGER NOT NULL PRIMARY KEY',
-        'patient_num': 'INTEGER NOT NULL',
-        'last_name': 'VARCHAR NOT NULL',
-        'first_name': 'VARCHAR NOT NULL',
-        'middle_initial': 'CHAR(1)',
-        'dob': 'VARCHAR NOT NULL'
+    db_path = {
+        'cvp': 'dataset/external/cvp.db',
+        'cdc': 'dataset/external/cdc.db'
     }
-
-    test_db(db_path, name, attr)
-"""
+    main(db_path)

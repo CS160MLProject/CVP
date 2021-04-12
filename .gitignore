@@ -3,4 +3,5 @@ venv
 *.pyc
 .coverage
 .coveragerc
+Google_Vision_OCR_Credentials.json
 htmlcov/

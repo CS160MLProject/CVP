@@ -1,7 +1,10 @@
 """Utilities for routes.py"""
 from itsdangerous import URLSafeTimedSerializer
-from app import app
-
+from app import *
+import sqlite3
+from base64 import b64decode
+import hmac
+from cvp.features.transform import generate_hash
 import re
 import os
 
@@ -75,3 +78,32 @@ def send_recovery_email(email, account_id):
 
 def check_cdc(confirmed_data):
     return True
+
+
+def authenticate(email, password):
+    """
+    Authenticate user's email and password with database.
+    :param email: email of user
+    :param password: password of user
+    return tuple of account information if succeeded else return error message
+    """
+    db = Database(db_path)
+    try:
+        db.create_connection(db_path)
+        acc = db.select('*', account_table, f'Email = \"{email}\"')
+
+        if not acc: # account was not found with this email
+            return 'Account was not found.'
+        if acc: # account with this email is in our database
+            db_password, db_salt = b64decode(acc[0][3]), b64decode(acc[0][5])
+            hashed_pass, _ = generate_hash(password=password, salt=db_salt)
+            if hmac.compare_digest(hashed_pass, db_password):  # login
+                return acc[0]
+            else: return 'Password did not match'
+
+    except sqlite3.Error as e:
+        raise Exception(e)
+    finally:
+        db.close_connection()
+
+    return 'Error'

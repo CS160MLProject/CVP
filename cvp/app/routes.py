@@ -110,8 +110,8 @@ def login():
         (3)redirect to homepage function
     """
     if request.method == 'POST':
-        error = None
         if request.form.get("login_button"): # process for case(2)
+            d = request.form.to_dict()
             email = request.form.get('email')
             password = request.form.get('password')
 
@@ -121,27 +121,12 @@ def login():
             if email == '' or password == '':
                 error = 'Please enter required fields.'
 
-            # check database with email and hashed_pass
-            db = Database(db_path)
-            try:
-                db.create_connection(db_path)
-                acc = db.select('*', account_table, f'Email = \"{email}\"')
-            except sqlite3.Error as e:
-                raise Exception(e)
-            finally:
-                db.close_connection()
+            # authentication of login with email and password
+            acc = authenticate(email, password)
 
-            print(acc)
-            db_password, db_salt = b64decode(acc[0][3]), b64decode(acc[0][5])
-            hashed_pass, _ = generate_hash(password=password, salt=db_salt)
-            if not error and acc: # if this is in database, check password
-                if hmac.compare_digest(hashed_pass, db_password): # login
-                    url_token = ts.dumps(acc[0][4], salt=profile_key)
-                    return redirect(url_for('profile', token=url_token))
-                else: # incorrect password
-                    error = 'Password did not match'
-            if not error and not acc: # this email is not in database
-                error = 'Invalid email'
+            if type(acc) == tuple:  # logged in
+                url_token = ts.dumps(acc[4], salt=profile_key)
+                return redirect(url_for('profile', token=url_token))
 
         if request.form.get('cancel_button'): # process for case(3)
             return redirect(url_for('homepage'))
@@ -149,7 +134,7 @@ def login():
         if request.form.get('forgot_password_button'):
             return redirect(url_for('forget_password'))
 
-        return render_template('login.html', error=error)
+        return render_template('login.html', error=acc)
 
     # default. process for case(1)
     return render_template('login.html')
@@ -286,12 +271,12 @@ def shared_profile(token):
     return f'404'
 
 
-@app.route('/profile_<account_id>/setting/change_password', methods=['GET', 'POST'])
-def change_password(account_id):
+@app.route('/profile_<token>/setting/change_password', methods=['GET', 'POST'])
+def change_password(token):
     """
     Change password of user account.
     Invoked when 'Save Change' is clicked in a page of Change Password in setting.
-    :param account_id: account's id.
+    :param token: user specific encoded token.
     :return: 1) nothing or prompt to indicates that the saved successfully.
         2) error prompt to indicates that the new password was not saved successfully.
     """

@@ -56,3 +56,71 @@ def test_get_file_ext():
     assert get_file_ext(image_file) == 'image', f'Should return \'image\' for {image_file}'
     assert get_file_ext(pdf_file) == 'pdf', f'Should return \'pdf\' for {pdf_file}'
     assert get_file_ext(other_file) is None, f'Should return None for {other_file}'
+
+
+def test_authenticate():
+    """
+    """
+    db = Database(db_path)
+    try:
+        db.create_connection(db_path)
+        # get the existing information and test if it authenticate correctly
+        email, lname, fname, password,  acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+        password = f'{fname}{lname}'.lower()
+        assert type(authenticate(password, email=email)) == tuple, \
+            'Authentication with existing account failed using email.'
+        assert type(authenticate(password, account_id=acc_id)) == tuple, \
+            'Authentication with existing account failed using account id.'
+
+        # test if authentication failed with correct email and incorrect password
+        wrong_pass = 'wrong_pass'
+        assert type(authenticate(wrong_pass, email)) == str, \
+            'Authentication with correct email and incorrect password should be failed'
+
+        # test authentication of fail if checked with incorrect information
+        email = 'fake email'
+        acc_id = -1
+        assert type(authenticate(wrong_pass, email=email)) == str, \
+            'Authentication with fake email and password should be failed.'
+        assert type(authenticate(wrong_pass, account_id=acc_id)) == str, \
+            'Authentication with fake id and password should be failed.'
+
+    finally:
+        db.close_connection()
+
+
+def test_is_user():
+    """
+
+    """
+    db = Database(db_path)
+    try:
+        db.create_connection(db_path)
+        # get the existing information and test if it return True correctly
+        email, lname, fname, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+        password = f'{fname}{lname}'.lower()
+        assert type(is_user(email)) == tuple, 'should return account info with existing email.'
+
+        # test if return False with fake email
+        fake_email = 'fake email'
+        assert not is_user(fake_email), 'Should return False with fake email.'
+
+    finally:
+        db.close_connection()
+
+
+def test_update_password():
+    db = Database(db_path)
+    try:
+        db.create_connection(db_path)
+        # get the existing information and test if it return True correctly
+        email, lname, fname, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"2\"')[0]
+        new_pass = 'new_password'
+        assert update_password(email, new_pass), 'should return True if updated successfully.'
+
+        # test if return False with fake email
+        fake_email = 'fake email'
+        assert not update_password(fake_email, new_pass), 'Should return False with fake email.'
+
+    finally:
+        db.close_connection()

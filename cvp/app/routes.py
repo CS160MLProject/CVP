@@ -2,13 +2,10 @@
 
 from flask import render_template, request, redirect, url_for
 from utils import *
-from cvp.features.transform import generate_hash, generate_QR_code
+from cvp.features.transform import generate_QR_code
 from utils import ts
-from app import *
 import sqlite3
-import hmac
 from services.email_service import *
-from base64 import b64decode
 import itsdangerous
 
 
@@ -189,7 +186,7 @@ def reset_password(token):
                 confirm_password = request.form.get('confirm_password')
 
                 if email == url_email and password == confirm_password: # save to database
-                    if update_password(email, password)
+                    if update_password(email, password):
                         return f'password reset confirmation with login button to back to login page'
                     else: return f'Update Password Failed'
 
@@ -240,7 +237,7 @@ def profile(token):
     db = Database(db_path)
     try:
         db.create_connection(db_path)
-        user_record = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')
+        user_record = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[:-3]
         user_info = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')
     except sqlite3.Error as e:
         raise Exception(e)

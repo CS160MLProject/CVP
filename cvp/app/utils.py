@@ -72,10 +72,6 @@ def get_file_ext(filename):
     return None
 
 
-def send_recovery_email(email, account_id):
-    msg_body = 'this is recovery email. Please follow the link\n'
-
-
 def check_cdc(confirmed_data):
     return True
 
@@ -107,8 +103,6 @@ def authenticate(password, email=None, account_id=None):
                 return acc[0]
             else: return 'Password did not match'
 
-    except sqlite3.Error as e:
-        raise Exception(e)
     finally:
         db.close_connection()
 
@@ -130,8 +124,6 @@ def is_user(email):
         else:
             return acc[0]
 
-    except sqlite3.Error as e:
-        raise Exception(e)
     finally:
         db.close_connection()
 
@@ -145,15 +137,13 @@ def update_password(email, password):
     """
     acc = authenticate(password, email=email)
     db = Database(db_path)
-    if acc:
+    if type(acc) == tuple:
         try:
             hashed_pass, hashed_salt = generate_hash(password)
             hashed_pass = b64encode(hashed_pass).decode('utf-8')
             hashed_salt = b64encode(hashed_salt).decode('utf-8')
             db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'Email = \"{email}\"')
             return True
-        except sqlite3.Error as e:
-            raise Exception(e)
         finally:
             db.close_connection()
     return False

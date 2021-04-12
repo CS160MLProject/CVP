@@ -92,8 +92,7 @@ def authenticate(password, email=None, account_id=None):
             acc = db.select('*', account_table, f'Email = \"{email}\"')
         elif account_id:
             acc = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')
-        else:
-            return 'Error in select'
+
         if not acc: # account was not found with this email
             return 'Account was not found.'
         if acc: # account with this email is in our database
@@ -105,8 +104,6 @@ def authenticate(password, email=None, account_id=None):
 
     finally:
         db.close_connection()
-
-    return 'Error'
 
 
 def is_user(email):

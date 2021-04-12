@@ -25,3 +25,4 @@ def test_accounts_txt():
             assert tokens[10] == tokens[12], f'Should take same type of vaccine for first and second dose.'
             assert tokens[11] < tokens[13], f'Should take second vaccine after first dose.'
         assert counter == ACCOUNT_SIZE, f'Output file\'s account size should be {ACCOUNT_SIZE}, returned {counter}'
+

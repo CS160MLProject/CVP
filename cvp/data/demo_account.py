@@ -38,7 +38,6 @@ def __get_names(first_names, middle_initials, last_names, inputfile):
                 middle_initials.add(middle)
                 last_names.add(last)
     except OSError:
-        print(inputfile)
         raise OSError("Error in reading names file.")
 
 
@@ -92,7 +91,8 @@ def __account(first, last, middle_i, hospital, acc_id):
     hospital = hospital + random.choice(('MedicalCenter', 'Hospital'))
 
     vaccine_name1 = vaccine_name2 = __vaccine_name()
-    vaccine_date1 = __get_random_date(VACCINE_START, TODAY)
+    vaccine1_latest = TODAY-datetime.timedelta(days=7)
+    vaccine_date1 = __get_random_date(VACCINE_START, vaccine1_latest)
     recommended_latest = vaccine_date1 + datetime.timedelta(days=RECOMMENDED_INTERVAL)
     day_after_first_dose = vaccine_date1+datetime.timedelta(days=1)
     # ideally second dose should be taked within 42 days from first dose.

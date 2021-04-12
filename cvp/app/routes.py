@@ -2,7 +2,7 @@
 
 from flask import render_template, request, redirect, url_for
 from utils import *
-from cvp.features.transform import generate_hash, generage_QR_code
+from cvp.features.transform import generate_hash, generate_QR_code
 from utils import ts
 from app import *
 import sqlite3
@@ -154,7 +154,7 @@ def forget_password():
             recover_url = url_for('reset_password', token=token, _external=True)
             html = render_template('email/password_recovery.html', recover_url=recover_url)
             # send email with setup link
-            send_email(email, subject, html)
+            send_email(subject, html, email)
             return f'A link has been sent to the email.'
 
     # ---return html of Sign out pop up - 4 if implemented.
@@ -243,7 +243,7 @@ def profile(token):
     print(sharing_url)
 
     # generate qr
-    generage_QR_code(sharing_url, str(account_id), save=True)
+    generate_QR_code(sharing_url, str(account_id), save=True)
     return render_template('profile.html', profile=user_record, account_info=user_info,
                            sharing_url=sharing_url, qr=f'{account_id}.png')
 

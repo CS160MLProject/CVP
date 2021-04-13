@@ -95,11 +95,11 @@ def login():
     """
     if request.method == 'POST':
         if request.form.get("login_button"): # process for case(2)
-            # email = request.form.get('email')
-            # password = request.form.get('password')
+            email = request.form.get('email')
+            password = request.form.get('password')
 
-            email = 'margaret.hall@patient.abc.com'
-            password = 'margarethall'
+            # email = 'margaret.hall@patient.abc.com'
+            # password = 'margarethall'
 
             if email == '' or password == '':
                 error = 'Please enter required fields.'

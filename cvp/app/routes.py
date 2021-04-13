@@ -59,10 +59,8 @@ def register():
                     extracted_rec = model.predict(vaccine_rec_pic)
                     session['email'] = email
                     session['password'] = password
-                    return render_template('create_account.html',
-                                           info=f'Welcome {email=}, {password=}, {confirm_password=} !'
-                                                f'\n Are these info correct? '
-                                                f'\n --OCRed Info \n {extracted_rec} {extracted_rec}')
+                    session['extracted_record'] = extracted_rec
+                    return render_template('create_account.html', info=f'Welcome')
 
             # error found in entered information
             return render_template("uploading_of_document.html", invalid_input=error_msg)
@@ -97,9 +95,8 @@ def login():
     """
     if request.method == 'POST':
         if request.form.get("login_button"): # process for case(2)
-            d = request.form.to_dict()
-            email = request.form.get('email')
-            password = request.form.get('password')
+            # email = request.form.get('email')
+            # password = request.form.get('password')
 
             email = 'margaret.hall@patient.abc.com'
             password = 'margarethall'

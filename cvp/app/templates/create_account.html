@@ -2,6 +2,12 @@
     <body>
         <h3>{{ info }}</h3>
     </body>
+
+
+    <!--Extract saved information from session. -->
+    {{ session['extracted_record'] }} {{ session['email'] }}
+
+
     <form action={{url_for("register")}} method="post">
 
         <button type="confirm" name="confirm_button" value="confirm_button">Confirm</button>

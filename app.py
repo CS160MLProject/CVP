@@ -2,11 +2,8 @@ from flask import Flask
 from flask_mail import Mail
 from cvp.model.ocr_model import OCR_Model
 from credentials import *
+# from cvp.app.routes import *
 
-
-# app = None
-# mail = None
-# model = None
 
 # db operation
 db_path = 'dataset/external/cvp.db'

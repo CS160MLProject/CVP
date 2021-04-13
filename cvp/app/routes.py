@@ -1,13 +1,12 @@
 """Covid-19 Vaccine Passport Application"""
 
 from flask import render_template, request, redirect, url_for
-from cvp.data.rel_database import Database
-from utils import *
 from cvp.features.transform import generate_QR_code
-from utils import ts
 import sqlite3
-from services.email_service import *
+from cvp.app.services.email_service import *
 import itsdangerous
+from cvp.app.utils import *
+from app import app
 
 
 @app.route('/', methods=['GET', 'POST'])

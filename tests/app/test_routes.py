@@ -1,4 +1,4 @@
-from app import app
+from cvp.app.routes import app
 
 
 def test_homepage_get(test_client):
@@ -8,7 +8,7 @@ def test_homepage_get(test_client):
     THEN check that the response is valid
     """
     response = test_client.get('/')
-    assert response.status_code == 200
+    assert response.status_code == 200, f'{app.url_map}'
 
 
 # class TestRoutes:

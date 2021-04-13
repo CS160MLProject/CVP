@@ -1,14 +1,15 @@
 """Utilities for routes.py"""
 from itsdangerous import URLSafeTimedSerializer
 from app import *
-import sqlite3
+from credentials import *
 from base64 import b64decode, b64encode
 import hmac
+from cvp.data.rel_database import Database
 from cvp.features.transform import generate_hash
 import re
 import os
 
-ts = URLSafeTimedSerializer('secret-key')
+ts = URLSafeTimedSerializer(secret_key=secret_key)
 
 
 def sharing_qr(account_id):

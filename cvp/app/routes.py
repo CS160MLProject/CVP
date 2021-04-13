@@ -49,11 +49,11 @@ def register():
             confirm_password = request.form.get('confirm_password')  # confirmation password named confirm_password
             print(request.files)
             # profile_pic = request.files["profile_pic"]
-            if 'vaccine_rec' not in request.files:
-                error_msg = 'file is not uploaded.'
-
+            # if 'vaccine_rec' not in request.files:
+            #     error_msg = 'file is not uploaded.'
+            #
             if not error_msg:
-                error_msg = invalid_register_input(email, password, confirm_password)
+                # error_msg = invalid_register_input(email, password, confirm_password)
                 if not error_msg: # no error in entered information
                     # vaccine_rec_pic = request.files["vaccine_rec"]
                     vaccine_rec_pic = 'Vaccine_1.png'
@@ -132,7 +132,7 @@ def login():
         if request.form.get('forgot_password_button'):
             return redirect(url_for('forget_password'))
 
-        return render_template('login.html', error=acc)
+        return render_template('login.html')
 
     # default. process for case(1)
     return render_template('login.html')

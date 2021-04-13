@@ -1,6 +1,6 @@
 """Covid-19 Vaccine Passport Application"""
 
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session
 from cvp.features.transform import generate_QR_code
 import sqlite3
 from cvp.app.services.email_service import *
@@ -47,17 +47,18 @@ def register():
             email = request.form.get('email')
             password = request.form.get('password')
             confirm_password = request.form.get('confirm_password')  # confirmation password named confirm_password
-            print(request.files)
             # profile_pic = request.files["profile_pic"]
-            # if 'vaccine_rec' not in request.files:
-            #     error_msg = 'file is not uploaded.'
-            #
+            if 'vaccine_rec' not in request.files:
+                error_msg = 'file is not uploaded.'
+
             if not error_msg:
                 # error_msg = invalid_register_input(email, password, confirm_password)
                 if not error_msg: # no error in entered information
-                    # vaccine_rec_pic = request.files["vaccine_rec"]
-                    vaccine_rec_pic = 'Vaccine_1.png'
+                    vaccine_rec_pic = request.files["vaccine_rec"]
+                    # vaccine_rec_pic = 'Vaccine_1.png' # to test
                     extracted_rec = model.predict(vaccine_rec_pic)
+                    session['email'] = email
+                    session['password'] = password
                     return render_template('create_account.html',
                                            info=f'Welcome {email=}, {password=}, {confirm_password=} !'
                                                 f'\n Are these info correct? '
@@ -75,20 +76,7 @@ def register():
 
             if valid_rec:  # send confirmed account information to database and record them.
                 # insert this data to db
-                db = Database(db_path)
-                try:
-
-                    new_account_id = db.select(values='count(*)', table_name=account_table)
-                    account_data = list(confirmed_data.values())
-                    # align confirmed data to the order of schema of db
-
-                    db.create_connection(db_path)
-                    db.insert(tuple(account_data), account_table)
-                except sqlite3.Error as e:
-                    raise Exception(e)
-                finally:
-                    db.close_connection()
-
+                generate_account(session, confirmed_data)
                 return render_template('success_welcome.html', success="Success! Welcome.")
             else:  # the information is not in CDC database, return (something_went_wrong.html)
                 error_msg = 'Something went wrong'

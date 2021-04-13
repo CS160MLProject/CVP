@@ -15,6 +15,7 @@ def create_app():
     app = Flask(__name__, template_folder='cvp/app/templates')
     app.config['DEBUG'] = True
     app.config['TESTING'] = True
+    app.secret_key = secret_key
     return app
 
 

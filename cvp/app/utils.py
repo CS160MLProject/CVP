@@ -94,14 +94,15 @@ def authenticate(password, email=None, account_id=None):
         elif account_id:
             acc = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')
 
-        if not acc: # account was not found with this email
+        if not acc:  # account was not found with this email
             return 'Account was not found.'
-        if acc: # account with this email is in our database
+        if acc:  # account with this email is in our database
             db_password, db_salt = b64decode(acc[0][3]), b64decode(acc[0][5])
             hashed_pass, _ = generate_hash(password=password, salt=db_salt)
             if hmac.compare_digest(hashed_pass, db_password):  # login
                 return acc[0]
-            else: return 'Password did not match'
+            else:
+                return 'Password did not match'
 
     finally:
         db.close_connection()
@@ -117,7 +118,7 @@ def is_user(email):
     try:
         db.create_connection(db_path)
         acc = db.select('*', account_table, f'Email = \"{email}\"')
-        if not acc: # account was not found with this email
+        if not acc:  # account was not found with this email
             return False
         else:
             return acc[0]
@@ -145,3 +146,28 @@ def update_password(email, password):
         finally:
             db.close_connection()
     return False
+
+
+def generate_account(session, profile_data):
+    db = Database(db_path)
+    try:
+        db.create_connection(db_path)
+        new_account_id = db.select(values='count(*)', table_name=account_table)
+
+        hashed_pass, hashed_salt = generate_hash(session['password'])
+        hashed_pass = b64encode(hashed_pass).decode('utf-8')
+        hashed_salt = b64encode(hashed_salt).decode('utf-8')
+        account_value = (session['email'], profile_data['last_name'], profile_data['first_name'],
+                         hashed_pass, new_account_id, hashed_salt)
+        # dob is not in the html
+        dob = 'dob'
+        profile_value = (new_account_id, profile_data['patient_num'], profile_data['last_name'],
+                         profile_data['first_name'], profile_data['mid_initial'], dob, profile_data['first_dose'],
+                         profile_data['date_first'], profile_data['clinic_site'], profile_data['second_dose'],
+                         profile_data['date_second'])
+
+        db.insert(account_value, account_table)
+        db.insert(profile_value, profile_table)
+        return True
+    finally:
+        db.close_connection()

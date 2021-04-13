@@ -1,10 +1,17 @@
 from flask import Flask
 from flask_mail import Mail
-from cvp.data.rel_database import Database
 from cvp.model.ocr_model import OCR_Model
 from credentials import *
 
-app = Flask(__name__, template_folder='cvp/app/templates')  # , instance_relative_config=True)
+
+def create_app():
+    cvp_app = Flask(__name__, template_folder='cvp/app/templates')
+    cvp_app.config['DEBUG'] = True
+    cvp_app.config['TESTING'] = True
+    return cvp_app
+
+
+app = create_app()
 model = OCR_Model()
 
 # mail
@@ -22,3 +29,5 @@ account_table = 'account'
 profile_table = 'profile'
 
 
+if __name__ == '__main__':
+    app.run(debug=True)

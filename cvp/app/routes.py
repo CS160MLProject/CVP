@@ -1,6 +1,8 @@
 """Covid-19 Vaccine Passport Application"""
 
 from flask import render_template, request, redirect, url_for
+
+from cvp.data.rel_database import Database
 from utils import *
 from cvp.features.transform import generate_QR_code
 from utils import ts
@@ -20,6 +22,7 @@ def homepage():
         (2)redirect to register function
         (3)redirect to login function
     """
+    print(app.url_map)
     if request.method == 'POST':  # user clicked the option buttons
         if request.form.get('register_button'):  # process for case(2)
             return redirect(url_for('register'))
@@ -301,7 +304,7 @@ def change_password(token):
             if new_pass == conf_pass:
                 # update database
                 return f'baack to profile?'
-            return f'New Password and Confim Password did not match.'
+            return f'New Password and Confirm Password did not match.'
         else:
             return f'unexpected error'
 
@@ -309,5 +312,4 @@ def change_password(token):
     return None
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+

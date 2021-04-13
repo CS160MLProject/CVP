@@ -1,7 +1,6 @@
 """Covid-19 Vaccine Passport Application"""
 
 from flask import render_template, request, redirect, url_for
-
 from cvp.data.rel_database import Database
 from utils import *
 from cvp.features.transform import generate_QR_code
@@ -312,4 +311,6 @@ def change_password(token):
     return None
 
 
+if __name__ == '__main__':
+    app.run()
 

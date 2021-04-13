@@ -7,9 +7,9 @@ def test_homepage_get(test_client):
     WHEN the '/' (homepage) is requested (GET)
     THEN check that the response is valid
     """
-
     response = test_client.get('/')
-    assert response.status_code == 200, f'{response.data.decode()}///{app.url_map}'
+    assert response.status_code == 200
+
 
 # class TestRoutes:
 #     def test_homepage_get(self, test_client):

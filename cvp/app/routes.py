@@ -100,9 +100,6 @@ def login():
             email = request.form.get('email')
             password = request.form.get('password')
 
-            # email = 'margaret.hall@patient.abc.com'
-            # password = 'margarethall'
-
             if email == '' or password == '':
                 error_msg = 'Please enter required fields.'
 
@@ -113,8 +110,9 @@ def login():
                 # generate encrypted token to be url
                 url_token = ts.dumps(acc[4], salt=profile_key)
                 return redirect(url_for('profile', token=url_token))
+            else: error_msg = acc # if authentication failed, show error message from authenticate()
 
-            return redirect(url_for('login.html', error=error_msg))
+            return render_template('login.html', error=error_msg) # login.html with error message
         if request.form.get('cancel_button'): # process for case(3)
             return redirect(url_for('homepage'))
 
@@ -130,13 +128,19 @@ def login():
 @app.route('/login/reset', methods=['GET', 'POST'])
 def forget_password():
     """
-    Invoked when 'Continue' is clicked in a page of password recovery.
-    :return: Prompt of saying 'link is sent to your email.'
+    Invoked when (1)'Send email' is clicked in recover.html
+        (2)'Resend Link' is clicked in a resend.html
+    :return: (1)resend.html
+        (2)resend.html
     """
-    error = None
+    error_msg = ''
     if request.method == 'POST':
-        if request.form.get('send_button'):
-            email = request.form.get('email')
+        if request.form.get('send_button') or request.form.get('resend_button'):
+            if request.form.get('resend_button'):
+                email = session['email']
+            else:
+                email = request.form.get('email')
+                session['email'] = email
 
             # check if this email is in the database
             if is_user(email):
@@ -148,11 +152,14 @@ def forget_password():
                 # send email with setup link
                 subject = 'Password Reset Requested'
                 send_email(subject, html, email)
-                return f'A link has been sent to the email.'
-            else: error = f'Account was not found with this email.'
+                return render_template('resend.html')
+
+            else: error_msg = f'Account was not found with this email.'
+
+        return render_template('recover.html', error=error_msg) # return with error message
 
     # ---return html of Sign out pop up - 4 if implemented.
-    return render_template('recovery.html', error=error)
+    return render_template('recover.html')
 
 
 @app.route('/login/reset/<token>', methods=['GET', 'POST'])

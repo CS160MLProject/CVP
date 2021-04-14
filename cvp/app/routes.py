@@ -93,6 +93,7 @@ def login():
     :return: (1)login.html
         (2)redirect to profile function if logged in successfully else login.html with error message
         (3)redirect to homepage function
+        (4)redirect to reset password html.
     """
     if request.method == 'POST':
         if request.form.get("login_button"): # process for case(2)
@@ -116,8 +117,8 @@ def login():
         if request.form.get('cancel_button'): # process for case(3)
             return redirect(url_for('homepage'))
 
-        if request.form.get('forgot_password_button'):
-            return redirect(url_for('forget_password'))
+        if request.form.get('forgot_password_button'): # process for case(4)
+            return redirect(url_for('forget_password')) # process for case(4)
 
         return render_template('login.html')
 

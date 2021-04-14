@@ -1,3 +1,20 @@
+<html>
+    <form action={{url_for("login")}} method="post">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" placeholder="email">
+        <label for="password">Password:</label>
+        <input type="text" id="password" name="password" placeholder="password">
+        <button type="login" name="cancel_button" value="cancel_button">Cancel</button>
+        <button type="login" name="login_button" value="login_button">Login</button>
+        <button type="login" name="forgot_password" value="forgot_password_button">Forgot Password?</button>
+    </form>
+        <body>
+            <h1>{{ error }}</h1>
+        </body>
+
+</html>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +28,7 @@
         <img class="new-account-icon" src="{{url_for('static', filename='images/login-icon.png')}}" alt="A blue icon of a person.">
         <h2>MISC</h2>
     </div>
-    
+
     <div class="right-panel">
         <form action={{url_for("login")}} method="POST">
             <div class="input-field">
@@ -21,13 +38,13 @@
                 </div>
                 <p class="field-note">Your email address will become your username</p>
                 <input class="text-field" type="text" id="email" name="email" placeholder="hello@cvp.org">
-            </div>  
+            </div>
 
             <div class="input-field">
                 <div class="field-label">
                     <img class="field-icon" src="{{url_for('static', filename='images/lock-icon.png')}}" alt="A black icon of a padlock">
                     <label class="text-label" for="password">Password:</label>
-                    <a class="forgot-password" href=""> Forgot password?</a>
+                    <a class="forgot-password" name="forgot_password_button" value="forgot_password_button"href=""> Forgot password?</a>
                 </div>
                 <input class="text-field" type="text" id="password" name="password" placeholder="Enter your Password here">
             </div>
@@ -37,8 +54,10 @@
             <div class="input-field">
                 <button class="inline-button smaller" name="cancel_button" value="cancel_button" type="cancel">Cancel</button> <!--there are two classes being applied here, which allows two different styles to cascade-->
                 <button class="inline-button smaller" name="login_button" value="login_button"type="login">Log in</button> <!--for this instance, inline-button gets applied first, then the smaller second-->
+                <button class="forgot-password" name="forgot_password_button" value="forgot_password_button"type="login">Forgot Pass</button> <!--for this instance, inline-button gets applied first, then the smaller second-->
+
             </div>
-            
+
         </form>
     </div>
 </body>

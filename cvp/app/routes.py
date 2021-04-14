@@ -2,7 +2,6 @@
 
 from flask import render_template, request, redirect, url_for, session
 from cvp.features.transform import generate_QR_code
-import sqlite3
 from cvp.app.services.email_service import *
 import itsdangerous
 from cvp.app.utils import *
@@ -27,7 +26,7 @@ def homepage():
         if request.form.get('login_button'):  # process for case(3)
             return redirect(url_for('login'))
     # default. process for case(1)
-    return render_template('index.html', title='this is title of homepage', body='option to register and login')
+    return render_template('index.html')
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -52,7 +51,7 @@ def register():
                 error_msg = 'file is not uploaded.'
 
             if not error_msg:
-                # error_msg = invalid_register_input(email, password, confirm_password)
+                error_msg = invalid_register_input(email, password, confirm_password)
                 if not error_msg: # no error in entered information
                     vaccine_rec_pic = request.files["vaccine_rec"]
                     # vaccine_rec_pic = 'Vaccine_1.png' # to test
@@ -93,17 +92,16 @@ def login():
     :return: (1)login.html
         (2)redirect to profile function if logged in successfully else login.html with error message
         (3)redirect to homepage function
+        (4)redirect to reset password html.
     """
+    error_msg = ''
     if request.method == 'POST':
         if request.form.get("login_button"): # process for case(2)
             email = request.form.get('email')
             password = request.form.get('password')
 
-            #email = 'margaret.hall@patient.abc.com'
-            #password = 'margarethall'
-
             if email == '' or password == '':
-                error = 'Please enter required fields.'
+                error_msg = 'Please enter required fields.'
 
             # authentication of login with email and password
             acc = authenticate(password, email=email)
@@ -112,11 +110,14 @@ def login():
                 # generate encrypted token to be url
                 url_token = ts.dumps(acc[4], salt=profile_key)
                 return redirect(url_for('profile', token=url_token))
+            else: error_msg = acc # if authentication failed, show error message from authenticate()
+
+            return render_template('login.html', error=error_msg) # login.html with error message
         if request.form.get('cancel_button'): # process for case(3)
             return redirect(url_for('homepage'))
 
-        if request.form.get('forgot_password_button'):
-            return redirect(url_for('forget_password'))
+        if request.form.get('forgot_password_button'): # process for case(4)
+            return redirect(url_for('forget_password')) # process for case(4)
 
         return render_template('login.html')
 
@@ -127,13 +128,19 @@ def login():
 @app.route('/login/reset', methods=['GET', 'POST'])
 def forget_password():
     """
-    Invoked when 'Continue' is clicked in a page of password recovery.
-    :return: Prompt of saying 'link is sent to your email.'
+    Invoked when (1)'Send email' is clicked in recover.html
+        (2)'Resend Link' is clicked in a resend.html
+    :return: (1)resend.html
+        (2)resend.html
     """
-    error = None
+    error_msg = ''
     if request.method == 'POST':
-        if request.form.get('send_button'):
-            email = request.form.get('email')
+        if request.form.get('send_button') or request.form.get('resend_button'):
+            if request.form.get('resend_button'):
+                email = session['email']
+            else:
+                email = request.form.get('email')
+                session['email'] = email
 
             # check if this email is in the database
             if is_user(email):
@@ -145,11 +152,14 @@ def forget_password():
                 # send email with setup link
                 subject = 'Password Reset Requested'
                 send_email(subject, html, email)
-                return f'A link has been sent to the email.'
-            else: error = f'Account was not found with this email.'
+                return render_template('resend.html')
+
+            else: error_msg = f'Account was not found with this email.'
+
+        return render_template('recover.html', error=error_msg) # return with error message
 
     # ---return html of Sign out pop up - 4 if implemented.
-    return render_template('recovery.html', error=error)
+    return render_template('recover.html')
 
 
 @app.route('/login/reset/<token>', methods=['GET', 'POST'])
@@ -223,11 +233,8 @@ def profile(token):
     # user_record = get_user_rec_database(account_id)
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
         user_record = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[:-3]
         user_info = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')
-    except sqlite3.Error as e:
-        raise Exception(e)
     finally:
         db.close_connection()
 

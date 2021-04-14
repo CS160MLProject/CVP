@@ -88,7 +88,7 @@ def authenticate(password, email=None, account_id=None):
     """
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
+        # db.create_connection(db_path)
         if email:
             acc = db.select('*', account_table, f'Email = \"{email}\"')
         elif account_id:

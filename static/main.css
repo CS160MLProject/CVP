@@ -78,7 +78,14 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     /* background-color: #ffffff; */
     width: 74.5%;
     height: 900px;
+}
 
+.right-panel-close{
+    display: inline-block;
+    vertical-align: top;
+    /* background-color: #ffffff; */
+    width: 74.5%;
+    height: 900px;
 }
 
 .motto{

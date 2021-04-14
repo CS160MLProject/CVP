@@ -16,7 +16,7 @@
                 </li>
                 <li>
                     <img class="field-icon" src="{{ url_for('static', filename='images/share-icon.png')}}" field-icon alt="A gear icon">
-                    <a href="#">Share</a>
+                    <a href="#qr-code">Share</a>
                 </li>
                 <li>
                     <img class="field-icon" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
@@ -31,20 +31,35 @@
     </div>
     
     <div class="right-panel">
-        <div class="profile-info">
-            <p class="full-name">{{profile}}</p>
-            <p class="vaccine-status">Vaccination Status: Displayed Here{{ account_id }}</p>
+        <div>
+            <div class="profile-info">
+                <p class="full-name">{{profile}}</p>
+                <p class="vaccine-status">Vaccination Status: Displayed Here{{ account_id }}</p>
+            </div>
+
+            <div class="profile-info">
+                <div class="dose"> <!--The labels should be anchor tags or something that can link to toggling the display of the 'dose info'-->
+                    <p class="dose-label">First Dose: </p>
+                    <p class="dose-info">dose info here</p>
+                </div>
+                <div class="dose">
+                    <p class="dose-label">Second Dose: </p>
+                    <p class="dose-info">dose info here</p>
+                </div>
+            </div>
         </div>
 
-        <div class="profile-info">
-            <div class="dose"> <!--The labels should be anchor tags or something that can link to toggling the display of the 'dose info'-->
-                <p class="dose-label">First Dose: </p>
-                <p class="dose-info">dose info here</p>
+        <div id="qr-code" class="container top-margin-big">
+            <button class="inline-button smaller">QR Code</button>
+            <button class="inline-button smaller">URL</button>
+
+            <div>
+                <img class="qr-img inline-item" src="{{ url_for('static', filename='images/qrcode.png') }}" alt="a fake qrcode">
+                <input class="text-field centered inline-item" type="text" id="url" name="url" placeholder="Generated URL will be displayed here">
             </div>
-            <div class="dose">
-                <p class="dose-label">Second Dose: </p>
-                <p class="dose-info">dose info here</p>
-            </div>
+        </div>
+
+        <div class="padding-div">
 
         </div>
     </div>

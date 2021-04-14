@@ -26,7 +26,11 @@ body{
 }
 
 .top-margin-big{
-    margin-top: 10%;
+    margin-top: 40%;
+}
+
+.inline-item {
+    display: inline-block;
 }
 
 /* Left side of the Home Page*/

@@ -121,7 +121,7 @@ def login():
         return render_template('login.html')
 
     # default. process for case(1)
-    return render_template('profile.html')
+    return render_template('login.html')
 
 
 @app.route('/login/reset', methods=['GET', 'POST'])

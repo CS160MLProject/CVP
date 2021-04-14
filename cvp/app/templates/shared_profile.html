@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/static/main.css">
+    <meta charset="UTF-8">
+    <title>CVP | Shared Profile</title>
+</head>
+<body>
+    <div class="left-panel">
+        <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">
+    </div>
+
+    <div class="right-panel">
+        <div>
+            <div class="profile-info">
+                <p class="full-name">{{profile}}</p>
+                <p class="vaccine-status">Vaccination Status: Displayed Here{{ account_id }}</p>
+            </div>
+
+            <div class="profile-info">
+                <div class="dose"> <!--The labels should be anchor tags or something that can link to toggling the display of the 'dose info'-->
+                    <p class="dose-label">First Dose: </p>
+                    <p class="dose-info">dose info here</p>
+                </div>
+                <div class="dose">
+                    <p class="dose-label">Second Dose: </p>
+                    <p class="dose-info">dose info here</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="qr-code" class="container top-margin-big">
+            <button class="inline-button smaller">QR Code</button>
+            <button class="inline-button smaller">URL</button>
+
+            <div>
+                <img class="qr-img inline-item" src="{{ url_for('static', filename='images/qrcode.png') }}" alt="a fake qrcode">
+                <input class="text-field centered inline-item" type="text" id="url" name="url" placeholder="Generated URL will be displayed here">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

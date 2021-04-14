@@ -3,33 +3,13 @@
 <head>
     <link rel="stylesheet" href="/static/main.css">
     <meta charset="UTF-8">
-    <title>CVP | Profile</title>
+    <title>CVP | Shared Profile</title>
 </head>
 <body>
     <div class="left-panel">
         <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">
-        <nav>
-            <ul>
-                <li>
-                    <img class="field-icon" src="{{ url_for('static', filename='images/login-icon-black.png') }}" alt="A small blue icon of a person">
-                    <a href="#">User Name</a>
-                </li>
-                <li>
-                    <img class="field-icon" src="{{ url_for('static', filename='images/share-icon.png')}}" field-icon alt="A gear icon">
-                    <a href="#qr-code">Share</a>
-                </li>
-                <li>
-                    <img class="field-icon" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
-                    <a href="#">Settings</a>
-                </li>
-                <li>
-                    <img class="field-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
-                    <a href="#">Sign Out</a>
-                </li>
-            </ul>
-        </nav>
     </div>
-    
+
     <div class="right-panel">
         <div>
             <div class="profile-info">
@@ -57,10 +37,6 @@
                 <img class="qr-img inline-item" src="{{ url_for('static', filename='images/qrcode.png') }}" alt="a fake qrcode">
                 <input class="text-field centered inline-item" type="text" id="url" name="url" placeholder="Generated URL will be displayed here">
             </div>
-        </div>
-
-        <div class="padding-div">
-
         </div>
     </div>
 </body>

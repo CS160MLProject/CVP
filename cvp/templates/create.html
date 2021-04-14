@@ -3,7 +3,7 @@
 
 <!--The head element consists of links, title and meta tags, which are used to define what the HTML page contains-->
 <head> 
-    <link rel="stylesheet" href="../static/stylesheet.css"> <!--Links to the external stylesheet so that the page uses the CSS from it-->
+    <link rel="stylesheet" href="static/stylesheet.css"> <!--Links to the external stylesheet so that the page uses the CSS from it-->
     <meta charset="UTF-8">
     <title>CVP | Create Account</title> <!--This is the title that you see displayed in the tab section-->
 </head>
@@ -15,13 +15,13 @@
     <!--This is the container for the left panel of the window-->
     <div class="left-panel"> 
         <h1>Create your account</h1>
-        <img class="new-account-icon" src="images/create-new-account.png" alt="An icon of a person with a plus symbol beside it.">
+        <img class="new-account-icon" src="{{url_for('static', filename='images/create-new-account.png')}}" alt="An icon of a person with a plus symbol beside it.">
         <h2>MISC</h2>
     </div>
 
     <!--While this is the container for the right panel of the window-->
     <div class="right-panel">
-        <form action= method="post">   <!--TODO, wire this according to the backend structure later! I removed the URL attribute here atm-->
+        <form action={{url_for("register")}} method="POST">
             <div class="container">
 
                 <!--This div contains one column of fields you see on the page-->
@@ -98,7 +98,7 @@
                     </div>
     
                     <div class="input-field">
-                        <button class="home-button" type="continue">Continue</button>
+                        <button class="home-button" name="confirm_button" value="confirm_button" type="confirm">CONFIRM</button>
                     </div>
         
                 </div>

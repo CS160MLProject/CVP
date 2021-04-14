@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="../static/stylesheet.css">
+    <link rel="stylesheet" href="/static/main.css">
     <meta charset="UTF-8">
     <title>CVP | Settings</title>
 </head>
 <body>
     <div class="left-panel">
-        <img class="img-logo" src="images/CompanyLogo.png" alt="The company logo">
+        <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">
         <nav>
             <ul>
                 <li>
@@ -17,7 +17,7 @@
                     <a href="#">Change Password</a>
                 </li>
                 <li>
-                    <img class="field-icon" src="images/sign-out-icon.png" field-icon alt="A share icon">
+                    <img class="field-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
                     <a href="#">Sign Out</a>
                 </li>
             </ul>
@@ -25,7 +25,7 @@
     </div>
     
     <div class="right-panel">
-        <div class="container top-margin-big">
+        <div class="container">
             <div class="input-field"> 
 
                 <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
@@ -60,8 +60,8 @@
             </div> 
 
             <div class="input-field">
-                <button class="inline-button smaller" type="back">Back</button>
-                <button class="inline-button smaller" type="save_changes">Save Changes</button>
+                <button class="inline-button smaller">Back</button>
+                <button class="inline-button smaller" type="submit">Save Changes</button>
             </div>
         </div>
     </div>

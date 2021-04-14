@@ -26,11 +26,19 @@ body{
 }
 
 .top-margin-big{
-    margin-top: 10%;
+    margin-top: 40%;
+}
+.top-margin-small{
+    margin-top: 20%;
+}
+
+.inline-item {
+    display: inline-block;
 }
 
 /* Left side of the Home Page*/
 .left-panel{
+    position: fixed;
     display: inline-block;
     vertical-align: top;
     background-color: #ffffff;
@@ -61,19 +69,26 @@ Not ideal but shows a way to apply CSS in a broad manner*/
 /* Same idea but affects the h2 elements*/
 .left-panel h2{
     text-align: center;
-    color:#3d3d3d;
+    color: #3d3d3d;
     padding-top: 350px;
 }
 
 /* Right side of the Home Page. */
 .right-panel{
     display: inline-block;
-    position: relative;
+    vertical-align: top;
+    margin-left: 25%;
+    /* background-color: #ffffff; */
+    width: 74.5%;
+    height: 900px;
+}
+
+.right-panel-close{
+    display: inline-block;
     vertical-align: top;
     /* background-color: #ffffff; */
     width: 74.5%;
     height: 900px;
-
 }
 
 .motto{
@@ -82,7 +97,7 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     color:#3d3d3d;
     position: absolute;
     top: 20px;
-    left: 20px;
+    left: 30%;
 }
 
 .message {
@@ -224,6 +239,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     border-color:#0D0065;
     padding: auto;
     margin: 0 auto 10px 50px;
+    outline: none;
     cursor: pointer;
 }
 
@@ -367,4 +383,38 @@ ul li a:hover{
     margin: 10px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 35px;
+}
+
+
+.file-upload{
+    display: inline-flex;
+    align-items: center;
+    font-size: 36px;
+    height: 80px;
+    width: 800px;
+}
+
+.file-upload-input{
+    display: none;
+}
+
+.file-upload-button{
+    -webkit-appearance: none;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 80px;
+    width: 700px;
+    font-size: 1em;
+    padding: 0.5em 0.8em;
+    text-align: center;
+    border-radius: 20px;
+    border-color:#0D0065;
+    outline: none;
+    margin: 0 20px 10px 50px;
+    cursor: pointer;
+}
+
+.nav-anchor{
+    position: fixed;
 }

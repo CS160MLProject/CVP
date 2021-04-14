@@ -17,7 +17,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="../../../static/main.css">
+    <link rel="stylesheet" href="/static/main.css">
     <meta charset="UTF-8">
     <title>CVP | Upload Document</title>
 </head>
@@ -61,11 +61,39 @@
 
             <div class="input-field">
                 <div class="file-upload">
-                    <input type="file" id="myFile" name="filename">
-                    <button class="inline-button">Upload Document</button>
+                    <input class="file-upload-input" type="file" id="myFile" name="filename">
+                    <button class="file-upload-button" type="button">Upload Document</button>
+                    <span class="file-upload-label"></span>
                     <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
                 </div>
             </div>
+            <!--Handles the hidden default upload button.
+            This script triggers the hidden file input instead when the
+            Custom Upload button is pressed.-->
+            <script>
+                Array.prototype.forEach.call(document.querySelectorAll('.file-upload-button'), function(button){
+                    const hiddenInput = button.parentElement.querySelector('.file-upload-input');
+                    const label = button.parentElement.querySelector('.file-upload-label');
+                    const defaultLabelText = 'No File selected';
+
+                    label.textContent = defaultLabelText;
+                    label.title = defaultLabelText;
+                    <!--Utilizes an event listener to call the function that triggers the default input button-->
+                    button.addEventListener('click', function(){
+                        hiddenInput.click();
+                    });
+
+                    hiddenInput.addEventListener('change', function(){
+                        console.log(hiddenInput.files);
+                        const filenameList = Array.prototype.map.call(hiddenInput.files, function(file) {
+                            return file.name;
+                        });
+
+                        label.textContent = filenameList.join(', ') || defaultLabelText;
+                        label.title = label.textContent;
+                    });
+                });
+            </script>
 
             <div class="input-field">
                 <button class="inline-button" name="continue_button" value="continue_button" type="continue">Continue</button>

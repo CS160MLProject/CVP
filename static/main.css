@@ -389,12 +389,30 @@ ul li a:hover{
 .file-upload{
     display: inline-flex;
     align-items: center;
-    width: 500px;
+    font-size: 36px;
     height: 80px;
+    width: 800px;
 }
 
 .file-upload-input{
     display: none;
+}
+
+.file-upload-button{
+    -webkit-appearance: none;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 80px;
+    width: 700px;
+    font-size: 1em;
+    padding: 0.5em 0.8em;
+    text-align: center;
+    border-radius: 20px;
+    border-color:#0D0065;
+    outline: none;
+    margin: 0 20px 10px 50px;
+    cursor: pointer;
 }
 
 .nav-anchor{

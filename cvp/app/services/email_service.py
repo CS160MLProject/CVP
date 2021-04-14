@@ -1,21 +1,18 @@
 from flask_mail import Message
+from app import *
+
 from threading import Thread
 
-from app import app
-from app import mail
+
+def __send_password_recovery_email(app, msg):
+    with app.app_context():
+        mail.send(msg)
 
 
-# def send_async_email(app, msg):
-#     with app.app_context():
-#         try:
-#             mail.send(msg)
-#         except ConnectionRefusedError:
-#             raise InternalServerError("[MAIL SERVER] not working")
-
-
-def send_email(email, subject, html):
-    # msg = Message(subject, sender=sender, recipients=recipients)
-    # msg.body = text_body
-    # msg.html = html_body
-    # Thread(target=send_async_email, args=(app, msg)).start()
-    print(email, subject, html)
+def send_email(subject, html, recipient):
+    msg = Message()
+    msg.subject = subject
+    msg.recipients = [recipient]
+    msg.sender = support_email
+    msg.body = f'{subject}, {html}'
+    Thread(target=__send_password_recovery_email, args=(app, msg)).start()

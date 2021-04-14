@@ -3,15 +3,16 @@
 import datetime
 import random
 import string
+from base64 import b64encode
 
 # import generate_hash under feature
 from cvp.features.transform import generate_hash
 
 # constant values
-ACCOUNTS = 'dataset/processed/accounts.txt'
 OLDEST_DOB = datetime.date(1910, 1, 1)  # possible oldest dob
 VACCINE_START = datetime.date(2020, 11, 1)  # possible earliest vaccine date
 TODAY = datetime.date.today()
+RECOMMENDED_INTERVAL = 42 # CDC's recommended interval is within 42 after first dose.
 DELIM = '\t'  # deliminator for txt file
 ACCOUNT_SIZE = 200
 
@@ -37,7 +38,6 @@ def __get_names(first_names, middle_initials, last_names, inputfile):
                 middle_initials.add(middle)
                 last_names.add(last)
     except OSError:
-        print(inputfile)
         raise OSError("Error in reading names file.")
 
 
@@ -49,7 +49,7 @@ def __get_random_date(start, end):
     :return: date of randomly chosen date between start date and end date
     """
     date_range = (end - start).days  # get range in days
-    rd_date = random.randrange(date_range)  # get random date from date_range
+    rd_date = random.randrange(0, stop=date_range)  # get random date from date_range
     return start + datetime.timedelta(days=rd_date)  # add rd_date to start date
 
 
@@ -77,8 +77,8 @@ def __account(first, last, middle_i, hospital, acc_id):
     email = first.lower() + '.' + last.lower() + domain
     password = first.lower() + last.lower()
     hashed_pass, salt = generate_hash(password)  # get hashed_pass and salt for this password
-    hashed_pass = str(hashed_pass)
-    salt = str(salt)
+    hashed_pass = b64encode(hashed_pass).decode('utf-8')
+    salt = b64encode(salt).decode('utf-8')
     patient_num = str(random.randint(1, 9999))  # randomly chosen patient id
 
     # capitalize names
@@ -89,19 +89,16 @@ def __account(first, last, middle_i, hospital, acc_id):
     middle = middle_i if middle_i else 'None'
     dob = str(__get_random_date(OLDEST_DOB, TODAY))
     hospital = hospital + random.choice(('MedicalCenter', 'Hospital'))
-    vaccine_name1 = __vaccine_name()
-    vaccine_date1 = __get_random_date(VACCINE_START, TODAY)
 
-    # initialize second vaccine info
-    vaccine_name2, vaccine_date2 = 'None', 'None'
-
-    # randomly select True or False of second vaccine shot
-    # if second vaccine is True and fist shot is not today
-    if random.choice((True, False)) and vaccine_date1 != TODAY:
-        vaccine_name2 = __vaccine_name()
-        vaccine_date2 = str(__get_random_date(vaccine_date1, TODAY))
-
+    vaccine_name1 = vaccine_name2 = __vaccine_name()
+    vaccine1_latest = TODAY-datetime.timedelta(days=7)
+    vaccine_date1 = __get_random_date(VACCINE_START, vaccine1_latest)
+    recommended_latest = vaccine_date1 + datetime.timedelta(days=RECOMMENDED_INTERVAL)
+    day_after_first_dose = vaccine_date1+datetime.timedelta(days=1)
+    # ideally second dose should be taked within 42 days from first dose.
+    vaccine_date2 = __get_random_date(day_after_first_dose, min(TODAY, recommended_latest))
     vaccine_date1 = str(vaccine_date1)
+    vaccine_date2 = str(vaccine_date2)
 
     # return all information in string
     return DELIM.join(
@@ -109,7 +106,7 @@ def __account(first, last, middle_i, hospital, acc_id):
          dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2])
 
 
-def generate_accounts(inputfile):
+def generate_accounts(inputfile, outputfile):
     """
     Generate and write account based on the ACCOUNT_SIZE.
     :param inputfile: file to be read to extract sample names
@@ -121,9 +118,9 @@ def generate_accounts(inputfile):
 
     # make all set to tuple
     first_names, middle_initials, last_names = tuple(first_names), tuple(middle_initials), tuple(last_names)
-    with open(ACCOUNTS, 'w') as account_file:
-        account_file.write('User_Account_ID, Email, Hashed_Pass, Salt, Patient_Num, Last_Name, First_Name, Middle, '
-                           'Dob, Hospital, Vaccine_Name1, Vaccine_Date1, Vaccine_Name2, Vaccine_Date2\n')
+    with open(outputfile, 'w') as account_file:
+        account_file.write('User_Account_ID\tEmail\tPassword\tSalt\tPatient_Num\tLast_Name\tFirst_Name\tMiddle_Initial\t'
+                           'Dob\tHospital\tVaccine_Name1\tVaccine_Date1\tVaccine_Name2\tVaccine_Date2\n')
         for acc_id in range(1, ACCOUNT_SIZE + 1):
             acc = __account(random.choice(tuple(first_names)), random.choice(tuple(last_names)),
                             random.choice(tuple(middle_initials)), random.choice(tuple(last_names)), acc_id)
@@ -132,4 +129,6 @@ def generate_accounts(inputfile):
 
 if __name__ == '__main__':
     NAMES = 'dataset/raw/names.txt'
-    generate_accounts(NAMES)
+    ACCOUNTS = 'dataset/processed/accounts.txt'
+
+    generate_accounts(NAMES, ACCOUNTS)

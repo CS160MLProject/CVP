@@ -1,12 +1,12 @@
 """Covid-19 Vaccine Passport Application"""
 
-
-from flask import render_template, request, redirect, url_for
-
-from utils import *
-from cvp.features.transform import generate_hash
-from utils import ts
-from services.email_service import *
+from flask import render_template, request, redirect, url_for, session
+from cvp.features.transform import generate_QR_code
+import sqlite3
+from cvp.app.services.email_service import *
+import itsdangerous
+from cvp.app.utils import *
+from app import app
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -20,6 +20,7 @@ def homepage():
         (2)redirect to register function
         (3)redirect to login function
     """
+    print(app.url_map)
     if request.method == 'POST':  # user clicked the option buttons
         if request.form.get('register_button'):  # process for case(2)
             return redirect(url_for('register'))
@@ -47,31 +48,33 @@ def register():
             password = request.form.get('password')
             confirm_password = request.form.get('confirm_password')  # confirmation password named confirm_password
             # profile_pic = request.files["profile_pic"]
-            # vaccine_rec_pic = request.files["vaccine_rec"]
-            # pass this vaccine_rec_pic photo to perform OCR
-            # extracted_rec = ocr(vaccine_rec_pit)
-            extracted_rec = "Sample data that demonstrates OCRed text information " \
-                            "to be displayed to user in create_acount.html"
+            if 'vaccine_rec' not in request.files:
+                error_msg = 'file is not uploaded.'
 
-            error_msg = invalid_register_input(email, password, confirm_password)
-            if not error_msg: # no error in entered information
-                return render_template('create_account.html',
-                                       info=f'Welcome {email=}, {password=}, {confirm_password=} !'
-                                            f'\n Are these info correct? '
-                                            f'\n --OCRed Info \n {extracted_rec}')
+            if not error_msg:
+                # error_msg = invalid_register_input(email, password, confirm_password)
+                if not error_msg: # no error in entered information
+                    vaccine_rec_pic = request.files["vaccine_rec"]
+                    # vaccine_rec_pic = 'Vaccine_1.png' # to test
+                    extracted_rec = model.predict(vaccine_rec_pic)
+                    session['email'] = email
+                    session['password'] = password
+                    session['extracted_record'] = extracted_rec
+                    return render_template('create_account.html', info=f'Welcome')
 
-            if error_msg: # error found in entered information
-                return render_template("uploading_of_document.html", invalid_input=error_msg)
+            # error found in entered information
+            return render_template("uploading_of_document.html", invalid_input=error_msg)
 
         elif request.form.get('confirm_button'): # process for case(3)
             # obtain all requested information from frontend
-            confirmed_data = 'confirmed data of user record'
+            confirmed_data = request.form.to_dict('confirmed_data')
+
             # check CDC database at this point
-            valid_rec = True
+            valid_rec = check_cdc(confirmed_data)
+
             if valid_rec:  # send confirmed account information to database and record them.
-                # pass confirmed OCRed text data to database as their passport info
-                # encrypt before passing to database
-                # encrypted_user_rec = rec_encrypt(confirmed_data)
+                # insert this data to db
+                generate_account(session, confirmed_data)
                 return render_template('success_welcome.html', success="Success! Welcome.")
             else:  # the information is not in CDC database, return (something_went_wrong.html)
                 error_msg = 'Something went wrong'
@@ -91,24 +94,22 @@ def login():
         (3)redirect to homepage function
     """
     if request.method == 'POST':
-        error = None
         if request.form.get("login_button"): # process for case(2)
             email = request.form.get('email')
             password = request.form.get('password')
-            password = 'temp'
-            hashed_pass, _ = generate_hash(password)
 
-            # check database with email and hashed_pass
-            success = True
-            if success:  # login
-                # here, get profile info to show profile
-                # obtain user account id from database with entered email
-                account_id = 12345
-                return redirect(url_for('profile', account_id=account_id))
-            elif email == '' or password == '':
+            # email = 'margaret.hall@patient.abc.com'
+            # password = 'margarethall'
+
+            if email == '' or password == '':
                 error = 'Please enter required fields.'
-            elif not success:  # not in database or typo
-                error = 'Invalid email or password'
+
+            # authentication of login with email and password
+            acc = authenticate(password, email=email)
+
+            if type(acc) == tuple:  # logged in
+                url_token = ts.dumps(acc[4], salt=profile_key)
+                return redirect(url_for('profile', token=url_token))
 
         if request.form.get('cancel_button'): # process for case(3)
             return redirect(url_for('homepage'))
@@ -116,7 +117,7 @@ def login():
         if request.form.get('forgot_password_button'):
             return redirect(url_for('forget_password'))
 
-        return render_template('login.html', error=error)
+        return render_template('login.html')
 
     # default. process for case(1)
     return render_template('login.html')
@@ -128,55 +129,68 @@ def forget_password():
     Invoked when 'Continue' is clicked in a page of password recovery.
     :return: Prompt of saying 'link is sent to your email.'
     """
+    error = None
     if request.method == 'POST':
         if request.form.get('send_button'):
-            subject = 'Password Reset Requested'
             email = request.form.get('email')
-            token = ts.dumps(email, salt='recovery-key')
-            recover_url = url_for('reset_password', token=token, _external=True)
-            html = render_template('email/password_recovery.html', recover_url=recover_url)
-            # send email with setup link
-            send_email(email, subject, html)
-            return f'A link has been sent to the email.'
+
+            # check if this email is in the database
+            if is_user(email):
+                # encrypt link to reset password
+                token = ts.dumps(email, salt=recovery_key)
+                recover_url = url_for('reset_password', token=token, _external=True)
+                html = render_template('email/password_recovery.html', recover_url=recover_url)
+
+                # send email with setup link
+                subject = 'Password Reset Requested'
+                send_email(subject, html, email)
+                return f'A link has been sent to the email.'
+            else: error = f'Account was not found with this email.'
 
     # ---return html of Sign out pop up - 4 if implemented.
-    return render_template('recovery.html')
+    return render_template('recovery.html', error=error)
 
 
 @app.route('/login/reset/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     if request.method == 'GET':
         try:
-            email = ts.loads(token, salt="recovery-key", max_age=43200) # 12 hours
+            email = ts.loads(token, salt=recovery_key, max_age=3600) # 1 hours
             return render_template('password_reset.html')
-        except:
-            return f'404'
+        except itsdangerous.exc.SignatureExpired as link_expried:
+            raise Exception(link_expried)
 
     if request.method == 'POST':
         if request.form.get('login_button'):
             return redirect(url_for('login'))
 
         if request.form.get('reset_button'):
-            url_email = ts.loads(token, salt="recovery-key", max_age=43200)
-            email = request.form.get('email')
-            password = request.form.get('password')
-            confirm_password = request.form.get('confirm_password')
+            try:
+                url_email = ts.loads(token, salt=recovery_key, max_age=3600) # 1 hour
+                email = request.form.get('email')
+                password = request.form.get('password')
+                confirm_password = request.form.get('confirm_password')
 
-            if email == url_email and password == confirm_password: # save to database
-                # account_change_pass(email, password)
-                return f'password reset confirmation with login button to back to login page'
+                if email == url_email and password == confirm_password: # save to database
+                    if update_password(email, password):
+                        return f'password reset confirmation with login button to back to login page'
+                    else: return f'Update Password Failed'
+
+            except itsdangerous.exc.SignatureExpired as link_expried:
+                raise Exception(link_expried)
 
     return redirect(url_for(login))
 
 
-@app.route('/profile_<account_id>/settings', methods=['GET', 'POST'])
-def change_account_profile(account_id):
+@app.route('/profile_<token>/settings', methods=['GET', 'POST'])
+def change_account_profile(token):
     """
     Invoked when 'Save Changes' is clicked in a page of settings.
-    :param account_id: account's id.
+    :param token: user specific encoded token.
     :return: 1) nothing or promlpt to indicates that the saved successfully.
         2) error prompt to indicates that the info was not saved successfully.
     """
+    account_id = ts.loads(token, salt=change_account_key)
     if request.method == 'POST':
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
@@ -186,7 +200,7 @@ def change_account_profile(account_id):
         error_msg = None
         # error_msg = account_database_update(account_id, first_name, last_name, username)
         if not error_msg:
-            return f'saved changes succsessfully'
+            return f'saved changes successfully'
         else:
             return f'error {error_msg}'
 
@@ -194,23 +208,37 @@ def change_account_profile(account_id):
     return None
 
 
-@app.route('/profile_<account_id>', methods=['GET', 'POST'])
-def profile(account_id):
+@app.route('/profile_<token>', methods=['GET', 'POST'])
+def profile(token):
     """
     First main page of application.
     Invoked when (1)login button is clicked and succeeded in login.html
-    :param account_id: account's specific id
-    :return: (1)profile.html with user information
+    :param token: user specific token encoded in login.
+    :return: (1)profile.html with user profile, account information, sharing_url and name of qr file.
     """
+    # decrypt token to get account_id
+    account_id = ts.loads(token, salt=profile_key, max_age=900) # 15 min
     # get user info with account_id
     # user_record = get_user_rec_database(account_id)
-    # user_record = decrypted_user_rec(user_record)
-    user_record = 'this is decrypted record'
+    db = Database(db_path)
+    try:
+        db.create_connection(db_path)
+        user_record = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[:-3]
+        user_info = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')
+    except sqlite3.Error as e:
+        raise Exception(e)
+    finally:
+        db.close_connection()
 
-    # get user's account info such as first, last names
-    user_info = 'this is user\'s account info'
-    qr = sharing_qr(account_id)
-    return render_template('profile.html', profile=user_record, account_info=user_info, qr=qr)
+    # encrypt account id to be shared through qr
+    token = ts.dumps(account_id, salt=sharing_profile_key)
+    sharing_url = url_for('shared_profile', token=token, _external=True)
+    print(sharing_url)
+
+    # generate qr
+    generate_QR_code(sharing_url, str(account_id), save=True)
+    return render_template('profile.html', profile=user_record, account_info=user_info,
+                           sharing_url=sharing_url, qr=f'{account_id}.png')
 
 
 @app.route('/info_<token>', methods=['GET'])
@@ -224,25 +252,24 @@ def shared_profile(token):
         try:
             # decode the token
             # get user's account id
-            account_id = ts.loads(token, salt="sharing-profile-key", max_age=900) # 15 min
-
+            account_id = ts.loads(token, salt=sharing_profile_key, max_age=900) # 15 min
+            print(account_id)
             # get user account information with account_id
-            # user_record = get_user_rec_database(account_id)
-            # user_record = decrypted_user_rec(user_record)
-            user_record = 'this is decrypted record'
+            # user_record = db.select("*", 'profile', f'User_Account_ID = {account_id}')
+            user_record = ''
             return render_template('shared_profile.html', user_record=user_record)
-        except:
-            return f'404'
+        except itsdangerous.exc.SignatureExpired as link_expried:
+            raise Exception(link_expried)
 
     return f'404'
 
 
-@app.route('/profile_<account_id>/setting/change_password', methods=['GET', 'POST'])
-def change_password(account_id):
+@app.route('/profile_<token>/setting/change_password', methods=['GET', 'POST'])
+def change_password(token):
     """
     Change password of user account.
     Invoked when 'Save Change' is clicked in a page of Change Password in setting.
-    :param account_id: account's id.
+    :param token: user specific encoded token.
     :return: 1) nothing or prompt to indicates that the saved successfully.
         2) error prompt to indicates that the new password was not saved successfully.
     """
@@ -251,28 +278,23 @@ def change_password(account_id):
         new_pass = request.form.get('new_password')
         conf_pass = request.form.get('confirm_password')
 
+        account_id = ts.loads(token, salt=profile_key, max_age=900)  # 15 min
+
         # check if the current_pass is in the database
-        hashed_pass, _ = generate_hash(current_pass)
-        # check database with email and hashed_pass
-        # success = db_login(account_id, hashed_pass)
-        success = True
-        if not success: # current password is not correct.
-            error_msg = f'Current Password is not correct.'
-            return error_msg # return change_pass.html with error msg
+        acc = authenticate(current_pass, account_id=account_id)
 
-        # check if new password and confirm password match.
-        success = new_pass == conf_pass
-        if not success: # they does not match
-            error_msg = f'New Password and Confim Password did not match.'
-            return error_msg # return change_pass.html with error msg
-
-        # success, change password
-        # db_account_change_pass(new_password)
-        return None # return change_pass.html with success confirmation.
+        if type(acc) == tuple: # authentication succeeded
+            if new_pass == conf_pass:
+                # update database
+                return f'baack to profile?'
+            return f'New Password and Confirm Password did not match.'
+        else:
+            return f'unexpected error'
 
     # ---return change_pass.html as landing page.
     return None
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
+

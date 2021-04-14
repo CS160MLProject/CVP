@@ -51,7 +51,7 @@ def register():
                 error_msg = 'file is not uploaded.'
 
             if not error_msg:
-                # error_msg = invalid_register_input(email, password, confirm_password)
+                error_msg = invalid_register_input(email, password, confirm_password)
                 if not error_msg: # no error in entered information
                     vaccine_rec_pic = request.files["vaccine_rec"]
                     # vaccine_rec_pic = 'Vaccine_1.png' # to test

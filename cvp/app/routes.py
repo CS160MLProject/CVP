@@ -2,7 +2,6 @@
 
 from flask import render_template, request, redirect, url_for, session
 from cvp.features.transform import generate_QR_code
-import sqlite3
 from cvp.app.services.email_service import *
 import itsdangerous
 from cvp.app.utils import *
@@ -27,7 +26,7 @@ def homepage():
         if request.form.get('login_button'):  # process for case(3)
             return redirect(url_for('login'))
     # default. process for case(1)
-    return render_template('index.html', title='this is title of homepage', body='option to register and login')
+    return render_template('index.html')
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -95,6 +94,7 @@ def login():
         (3)redirect to homepage function
         (4)redirect to reset password html.
     """
+    error_msg = ''
     if request.method == 'POST':
         if request.form.get("login_button"): # process for case(2)
             email = request.form.get('email')
@@ -104,7 +104,7 @@ def login():
             # password = 'margarethall'
 
             if email == '' or password == '':
-                error = 'Please enter required fields.'
+                error_msg = 'Please enter required fields.'
 
             # authentication of login with email and password
             acc = authenticate(password, email=email)
@@ -114,6 +114,7 @@ def login():
                 url_token = ts.dumps(acc[4], salt=profile_key)
                 return redirect(url_for('profile', token=url_token))
 
+            return redirect(url_for('login.html', error=error_msg))
         if request.form.get('cancel_button'): # process for case(3)
             return redirect(url_for('homepage'))
 
@@ -225,11 +226,8 @@ def profile(token):
     # user_record = get_user_rec_database(account_id)
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
         user_record = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[:-3]
         user_info = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')
-    except sqlite3.Error as e:
-        raise Exception(e)
     finally:
         db.close_connection()
 

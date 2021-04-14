@@ -89,6 +89,7 @@ def login():
     Invoked when (1)login button is clicked in homepage.html
         (2)login button is clicked in login.html
         (3)cancel button is clicked in login.html.
+        (4)forgot password is clicked in login.html.
     :return: (1)login.html
         (2)redirect to profile function if logged in successfully else login.html with error message
         (3)redirect to homepage function
@@ -108,6 +109,7 @@ def login():
             acc = authenticate(password, email=email)
 
             if type(acc) == tuple:  # logged in
+                # generate encrypted token to be url
                 url_token = ts.dumps(acc[4], salt=profile_key)
                 return redirect(url_for('profile', token=url_token))
 

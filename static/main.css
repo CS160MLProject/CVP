@@ -28,6 +28,9 @@ body{
 .top-margin-big{
     margin-top: 40%;
 }
+.top-margin-small{
+    margin-top: 20%;
+}
 
 .inline-item {
     display: inline-block;

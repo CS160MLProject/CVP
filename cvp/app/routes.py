@@ -262,7 +262,7 @@ def shared_profile(token):
         except itsdangerous.exc.SignatureExpired as link_expried:
             raise Exception(link_expried)
 
-    return f'404'
+    return render_template('shared_profile.html')
 
 
 @app.route('/profile_<token>/setting/change_password', methods=['GET', 'POST'])
@@ -293,7 +293,7 @@ def change_password(token):
             return f'unexpected error'
 
     # ---return change_pass.html as landing page.
-    return None
+    return render_template('change_pass.html')
 
 
 if __name__ == '__main__':

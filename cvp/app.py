@@ -25,7 +25,7 @@ def homepage():
         if request.form.get('login_button'):  # process for case(3)
             return redirect(url_for('login'))
     # default. process for case(1)
-    return render_template('index.html')
+    return render_template('deprecated/index.html')
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -66,7 +66,7 @@ def register():
             # check CDC database at this point
             valid_rec = True
             if valid_rec:  # send confirmed account information to database and record them.
-                return render_template('login.html', success="Success! Welcome.")
+                return render_template('deprecated/login.html', success="Success! Welcome.")
             else:  # the information is not in CDC database, return (something_went_wrong.html)
                 error_msg = 'Something went wrong'
                 return f'<h1> {error_msg} <h1>'
@@ -106,10 +106,10 @@ def login():
 
         if request.form.get("cancel_button"): # process for case(3)
             return redirect(url_for('homepage'))
-        return render_template('login.html', error=error)
+        return render_template('deprecated/login.html', error=error)
 
     # default. process for case(1)
-    return render_template('login.html')
+    return render_template('deprecated/login.html')
 
 
 @app.route('/profile_<account_id>', methods=['GET', 'POST'])
@@ -121,7 +121,7 @@ def profile(account_id):
     """
     # get user info with account_id
     user_info = f'this is your profile but who is this? \nYou cheated.'
-    return render_template('profile.html', profile=user_info)
+    return render_template('app/templates/profile.html', profile=user_info)
 
 
 def __invalid_register_input(email, password, confirm_password):

@@ -62,7 +62,7 @@ Not ideal but shows a way to apply CSS in a broad manner*/
 /* Same idea but affects the h2 elements*/
 .left-panel h2{
     text-align: center;
-    color:#3d3d3d;
+    color: #3d3d3d;
     padding-top: 350px;
 }
 

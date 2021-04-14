@@ -2,8 +2,8 @@
 <html lang="en">
 
 <!--The head element consists of links, title and meta tags, which are used to define what the HTML page contains-->
-<head> 
-    <link rel="stylesheet" href="static/stylesheet.css"> <!--Links to the external stylesheet so that the page uses the CSS from it-->
+<head>
+    <link rel="stylesheet" href="/static/main.css"> <!--Links to the external stylesheet so that the page uses the CSS from it-->
     <meta charset="UTF-8">
     <title>COVID Vaccine Passport | Home</title> <!--This is the title that you see displayed in the tab section-->
 </head>
@@ -20,10 +20,11 @@
         More importantly, 'class' allows us to target specific div elements with CSS. -->
     <div class="left-panel">
         <h1>Company Name</h1>
+        <!--Here the double-brackets are Flask injections that allow the Flask app to load the image into the HTML document.-->
         <img class="img-logo" src="{{url_for('static', filename='images/CompanyLogoNamed.png')}}" alt="An Awesome Company Logo with a name at the bottom.">
         <h2>MISC</h2>
     </div>
-    
+
     <!--This is an example of a simple nested div-->
     <div class="right-panel">
         <div class="vert-crop">
@@ -31,12 +32,13 @@
         </div>
         <h2 class="motto">Company Motto</h2>
         <p class="description">COVID-19 Vaccine Passport allows you to register you vaccination status into a cloud where you can access and share to others.</p>
-        <form action={{url_for("homepage")}} method ="POST">
+        <form action={{url_for("homepage")}} method="POST">
             <!-- The form here has an action that calls the homepage method in app.py
              Apparently, the 'name' of the button gets passed into the logic of the homepage method
 
-             AMBIGUITY: I tested just having 'name' or 'value' defined and it seems that the two has to
-             be defined the same way together for the logic in the app.py to work. Needs more looking into.-->
+             AMBIGUITY: Apparently, the 'name' of the button gets passed into the logic of the homepage method,
+             I tried using just the 'value' and the logic doesn't seem to work, so I think the if-else blocks
+             in the homepage method uses the 'name' of the button that was pressed.-->
             <button class="home-button" name="login_button" value="login_button">Log In</button>
             <button class="home-button" name="register_button" value="register_button">Register</button>
         </form>

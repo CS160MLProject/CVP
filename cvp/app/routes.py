@@ -99,8 +99,8 @@ def login():
             email = request.form.get('email')
             password = request.form.get('password')
 
-            # email = 'margaret.hall@patient.abc.com'
-            # password = 'margarethall'
+            #email = 'margaret.hall@patient.abc.com'
+            #password = 'margarethall'
 
             if email == '' or password == '':
                 error = 'Please enter required fields.'
@@ -112,7 +112,6 @@ def login():
                 # generate encrypted token to be url
                 url_token = ts.dumps(acc[4], salt=profile_key)
                 return redirect(url_for('profile', token=url_token))
-
         if request.form.get('cancel_button'): # process for case(3)
             return redirect(url_for('homepage'))
 
@@ -122,7 +121,7 @@ def login():
         return render_template('login.html')
 
     # default. process for case(1)
-    return render_template('login.html')
+    return render_template('profile.html')
 
 
 @app.route('/login/reset', methods=['GET', 'POST'])

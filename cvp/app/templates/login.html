@@ -30,7 +30,8 @@
     </div>
 
     <div class="right-panel">
-        <form action={{url_for("login")}} method="POST">
+        <div class="container top-margin-small">
+            <form action={{url_for("login")}} method="POST">
             <div class="input-field">
                 <div class="field-label">
                     <img class="field-icon" src="{{url_for('static', filename='images/email-icon.png')}}" alt="A black icon of a mail">
@@ -49,16 +50,13 @@
                 <input class="text-field" type="password" id="password" name="password" placeholder="Enter your Password here">
             </div>
 
-            <div class="padding-div"></div>
-
             <div class="input-field">
                 <button class="inline-button smaller" name="cancel_button" value="cancel_button" type="cancel">Cancel</button> <!--there are two classes being applied here, which allows two different styles to cascade-->
                 <button class="inline-button smaller" name="login_button" value="login_button"type="login">Log in</button> <!--for this instance, inline-button gets applied first, then the smaller second-->
                 <button class="forgot-password" name="forgot_password_button" value="forgot_password_button"type="login">Forgot Pass</button> <!--for this instance, inline-button gets applied first, then the smaller second-->
-
             </div>
-
         </form>
+        </div>
     </div>
 </body>
 </html>

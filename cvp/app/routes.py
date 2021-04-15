@@ -193,7 +193,8 @@ def reset_password(token):
     return redirect(url_for(login))
 
 
-@app.route('/profile_<token>/settings', methods=['GET', 'POST'])
+# This was similar to the route for the main settings so I changed it
+@app.route('/profile_<token>/change_settings', methods=['GET', 'POST'])
 def change_account_profile(token):
     """
     Invoked when 'Save Changes' is clicked in a page of settings.
@@ -227,6 +228,11 @@ def profile(token):
     :param token: user specific token encoded in login.
     :return: (1)profile.html with user profile, account information, sharing_url and name of qr file.
     """
+    saved_token = token  # Added this in so I can use url_for() in profile.html and repass the token
+    if request.method == 'POST':  # user clicked the option buttons
+        if request.form.get('settings_button'):
+            return redirect(url_for('settings', token=saved_token))
+
     # decrypt token to get account_id
     account_id = ts.loads(token, salt=profile_key, max_age=900) # 15 min
     # get user info with account_id
@@ -246,7 +252,65 @@ def profile(token):
     # generate qr
     generate_QR_code(sharing_url, str(account_id), save=True)
     return render_template('profile.html', profile=user_record, account_info=user_info,
-                           sharing_url=sharing_url, qr=f'{account_id}.png')
+                           sharing_url=sharing_url, qr=f'{account_id}.png', token=saved_token)
+
+
+@app.route('/profile_<token>/settings', methods=['GET', 'POST'])
+def settings(token):
+    """
+    Settings page of application.
+    Invoked when (1)Settings button is clicked in the profile.html
+    :param token: user specific token encoded in login.
+    :return: (1)settings.html that includes user's basic info(name, email) and a form to change password.
+    """
+    # account_id = ts.loads(token, salt=change_account_key)
+    if request.method == 'POST':
+        if request.form.get('profile_save'):
+            first_name = request.form.get('first_name')
+            last_name = request.form.get('last_name')
+            username = request.form.get('username_email')
+
+            # save the info with database with account_id
+            error_msg = None
+            # error_msg = account_database_update(account_id, first_name, last_name, username)
+            if not error_msg:
+                return f'saved changes successfully'
+            else:
+                return f'error {error_msg}'
+        elif request.form.get('password_save'):
+            current_pass = request.form.get('current_password')
+            new_pass = request.form.get('new_password')
+            conf_pass = request.form.get('confirm_password')
+
+            account_id = ts.loads(token, salt=profile_key, max_age=900)  # 15 min
+
+            # check if the current_pass is in the database
+            acc = authenticate(current_pass, account_id=account_id)
+
+            if type(acc) == tuple:  # authentication succeeded
+                if new_pass == conf_pass:
+                    # update database
+                    return f'baack to profile?'
+                return f'New Password and Confirm Password did not match.'
+            else:
+                return f'unexpected error'
+        elif request.form.get('back_button'):
+            return redirect(url_for('profile', token=token))
+
+        # Copied the following from def profile()
+        # decrypt token to get account_id
+        # account_id = ts.loads(token, salt=profile_key, max_age=900)  # 15 min
+        # get user info with account_id
+        # user_record = get_user_rec_database(account_id)
+        # db = Database(db_path)
+        # try:
+        #    user_record = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[:-3]
+        #    user_info = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')
+        # finally:
+        #    db.close_connection()
+
+    return render_template('settings.html', token=token)
+    # , profile=user_record) # Pass in the record to display on the form as placeholders
 
 
 @app.route('/info_<token>', methods=['GET'])

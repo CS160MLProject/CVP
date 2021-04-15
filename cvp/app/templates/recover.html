@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="../static/stylesheet.css">
+    <link rel="stylesheet" href="/static/main.css">
     <meta charset="UTF-8">
     <title>CVP | Recover Password</title>
 </head>
 <body>
     <div class="left-panel">
         <h1 class="page-header">Recover Password</h1>
-        <img class="new-account-icon" src="images/lock-icon.png" alt="A black icon of a padlock.">
+        <img class="new-account-icon" src="{{ url_for('static', filename='images/lock-icon.png') }}" alt="A black icon of a padlock.">
         <h2>MISC</h2>
     </div>
     
@@ -18,7 +18,7 @@
         <form action= method="">
             <div class="input-field">
                 <div class="field-label">
-                    <img class="field-icon" src="images/email-icon.png" alt="A black icon of a mail">
+                    <img class="field-icon" src="{{ url_for('static', filename='images/email-icon.png') }}" alt="A black icon of a mail">
                     <label class="text-label" for="email">Email:</label>
                 </div>
                 <input class="text-field" type="text" id="email" name="email" placeholder="Enter your email here">

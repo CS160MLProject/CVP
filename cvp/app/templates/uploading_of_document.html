@@ -14,7 +14,7 @@
     </div>
 
     <div class="right-panel">
-        <form action={{url_for("register")}} method="POST">
+        <form action={{url_for("register")}} method="POST" enctype="multipart/form-data">
             <div class="input-field">
                 <div class="field-label">
                     <img class="field-icon" src="{{url_for('static', filename='images/email-icon.png')}}" alt="A black icon of a mail">
@@ -40,49 +40,48 @@
                 <input class="text-field" type="text" id="confirm_password" name="confirm_password" placeholder="Password">
             </div>
 
-            <div class="padding-div">
-
-            </div>
-
-            <div class="input-field">
-                <div class="file-upload">
-                    <input class="file-upload-input" type="file" id="myFile" name="filename">
-                    <button class="file-upload-button" type="button">Upload Document</button>
-                    <span class="file-upload-label"></span>
-                    <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
+            <div class="top-margin-small">
+                <div class="input-field">
+                    <div class="file-upload">
+                        <input class="file-upload-input" type="file" id="myFile" name="vaccine_rec">
+                        <button class="file-upload-button" type="button">Upload Document</button>
+                        <span class="file-upload-label"></span>
+                        <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
+                    </div>
                 </div>
-            </div>
-            <!--Handles the hidden default upload button.
-            This script triggers the hidden file input instead when the
-            Custom Upload button is pressed.-->
-            <script>
-                Array.prototype.forEach.call(document.querySelectorAll('.file-upload-button'), function(button){
-                    const hiddenInput = button.parentElement.querySelector('.file-upload-input');
-                    const label = button.parentElement.querySelector('.file-upload-label');
-                    const defaultLabelText = 'No File selected';
+                <!--Handles the hidden default upload button.
+                This script triggers the hidden file input instead when the
+                Custom Upload button is pressed.-->
+                <script>
+                    Array.prototype.forEach.call(document.querySelectorAll('.file-upload-button'), function(button){
+                        const hiddenInput = button.parentElement.querySelector('.file-upload-input');
+                        const label = button.parentElement.querySelector('.file-upload-label');
+                        const defaultLabelText = 'No File selected';
 
-                    label.textContent = defaultLabelText;
-                    label.title = defaultLabelText;
-                    <!--Utilizes an event listener to call the function that triggers the default input button-->
-                    button.addEventListener('click', function(){
-                        hiddenInput.click();
-                    });
-
-                    hiddenInput.addEventListener('change', function(){
-                        console.log(hiddenInput.files);
-                        const filenameList = Array.prototype.map.call(hiddenInput.files, function(file) {
-                            return file.name;
+                        label.textContent = defaultLabelText;
+                        label.title = defaultLabelText;
+                        <!--Utilizes an event listener to call the function that triggers the default input button-->
+                        button.addEventListener('click', function(){
+                            hiddenInput.click();
                         });
 
-                        label.textContent = filenameList.join(', ') || defaultLabelText;
-                        label.title = label.textContent;
-                    });
-                });
-            </script>
+                        hiddenInput.addEventListener('change', function(){
+                            console.log(hiddenInput.files);
+                            const filenameList = Array.prototype.map.call(hiddenInput.files, function(file) {
+                                return file.name;
+                            });
 
-            <div class="input-field">
-                <button class="inline-button" name="continue_button" value="continue_button" type="continue">Continue</button>
+                            label.textContent = filenameList.join(', ') || defaultLabelText;
+                            label.title = label.textContent;
+                        });
+                    });
+                </script>
+
+                <div class="input-field">
+                    <button class="inline-button" name="continue_button" value="continue_button" type="continue">Continue</button>
+                </div>
             </div>
+
         </form>
         <p>{{invalid_input}}</p> <!--Testing out the error message, TODO: integrate the error messages better in the html file-->
     </div>

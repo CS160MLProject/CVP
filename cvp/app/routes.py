@@ -194,30 +194,30 @@ def reset_password(token):
 
 
 # This was similar to the route for the main settings so I changed it
-@app.route('/profile_<token>/change_settings', methods=['GET', 'POST'])
-def change_account_profile(token):
-    """
-    Invoked when 'Save Changes' is clicked in a page of settings.
-    :param token: user specific encoded token.
-    :return: 1) nothing or promlpt to indicates that the saved successfully.
-        2) error prompt to indicates that the info was not saved successfully.
-    """
-    account_id = ts.loads(token, salt=change_account_key)
-    if request.method == 'POST':
-        first_name = request.form.get('first_name')
-        last_name = request.form.get('last_name')
-        username = request.form.get('username_email')
-
-        # save the info with database with account_id
-        error_msg = None
-        # error_msg = account_database_update(account_id, first_name, last_name, username)
-        if not error_msg:
-            return f'saved changes successfully'
-        else:
-            return f'error {error_msg}'
-
-    # ---return Sign out pop up if implemented.
-    return None
+# @app.route('/profile_<token>/change_settings', methods=['GET', 'POST'])
+# def change_account_profile(token):
+#     """
+#     Invoked when 'Save Changes' is clicked in a page of settings.
+#     :param token: user specific encoded token.
+#     :return: 1) nothing or promlpt to indicates that the saved successfully.
+#         2) error prompt to indicates that the info was not saved successfully.
+#     """
+#     account_id = ts.loads(token, salt=change_account_key)
+#     if request.method == 'POST':
+#         first_name = request.form.get('first_name')
+#         last_name = request.form.get('last_name')
+#         username = request.form.get('username_email')
+#
+#         # save the info with database with account_id
+#         error_msg = None
+#         # error_msg = account_database_update(account_id, first_name, last_name, username)
+#         if not error_msg:
+#             return f'saved changes successfully'
+#         else:
+#             return f'error {error_msg}'
+#
+#     # ---return Sign out pop up if implemented.
+#     return None
 
 
 @app.route('/profile_<token>', methods=['GET', 'POST'])
@@ -273,18 +273,17 @@ def settings(token):
     """
     # account_id = ts.loads(token, salt=change_account_key)
     if request.method == 'POST':
+        error_msg = ''
         if request.form.get('profile_save'): # Process of Case(2)
             first_name = request.form.get('first_name')
             last_name = request.form.get('last_name')
             username = request.form.get('username_email')
 
             # save the info with database with account_id
-            error_msg = ''
+
             # error_msg = account_database_update(account_id, first_name, last_name, username)
             if not error_msg:
                 return f'saved changes successfully'
-            else:
-                return f'error {error_msg}'
 
         elif request.form.get('password_save'): # Process of Case(3)
             current_pass = request.form.get('current_password')
@@ -297,15 +296,18 @@ def settings(token):
             acc = authenticate(current_pass, account_id=account_id)
 
             if type(acc) == tuple:  # authentication succeeded
-                if new_pass == conf_pass:
+                if new_pass == conf_pass: # check new password and confirm password
                     # update database
+                    # update_password(email, password)
                     return f'back to profile?'
-                return f'New Password and Confirm Password did not match.'
-            else:
-                return f'unexpected error'
+                else:
+                    error_msg = 'New Password and Confirm Password did not match.'
+            elif not error_msg: # failed authentication with the 'current password'
+                error_msg = 'Current password did not match.'
         elif request.form.get('back_button'):
             return redirect(url_for('profile', token=token))
 
+        return render_template('settings.html', token=token, error=error_msg)
         # Copied the following from def profile()
         # decrypt token to get account_id
         # account_id = ts.loads(token, salt=profile_key, max_age=900)  # 15 min
@@ -345,35 +347,35 @@ def shared_profile(token):
     return f'404'
 
 
-@app.route('/profile_<token>/setting/change_password', methods=['GET', 'POST'])
-def change_password(token):
-    """
-    Change password of user account.
-    Invoked when 'Save Change' is clicked in a page of Change Password in setting.
-    :param token: user specific encoded token.
-    :return: 1) nothing or prompt to indicates that the saved successfully.
-        2) error prompt to indicates that the new password was not saved successfully.
-    """
-    if request.method == 'POST':
-        current_pass = request.form.get('current_password')
-        new_pass = request.form.get('new_password')
-        conf_pass = request.form.get('confirm_password')
-
-        account_id = ts.loads(token, salt=profile_key, max_age=900)  # 15 min
-
-        # check if the current_pass is in the database
-        acc = authenticate(current_pass, account_id=account_id)
-
-        if type(acc) == tuple: # authentication succeeded
-            if new_pass == conf_pass:
-                # update database
-                return f'baack to profile?'
-            return f'New Password and Confirm Password did not match.'
-        else:
-            return f'unexpected error'
-
-    # ---return change_pass.html as landing page.
-    return None
+# @app.route('/profile_<token>/setting/change_password', methods=['GET', 'POST'])
+# def change_password(token):
+#     """
+#     Change password of user account.
+#     Invoked when 'Save Change' is clicked in a page of Change Password in setting.
+#     :param token: user specific encoded token.
+#     :return: 1) nothing or prompt to indicates that the saved successfully.
+#         2) error prompt to indicates that the new password was not saved successfully.
+#     """
+#     if request.method == 'POST':
+#         current_pass = request.form.get('current_password')
+#         new_pass = request.form.get('new_password')
+#         conf_pass = request.form.get('confirm_password')
+#
+#         account_id = ts.loads(token, salt=profile_key, max_age=900)  # 15 min
+#
+#         # check if the current_pass is in the database
+#         acc = authenticate(current_pass, account_id=account_id)
+#
+#         if type(acc) == tuple: # authentication succeeded
+#             if new_pass == conf_pass:
+#                 # update database
+#                 return f'baack to profile?'
+#             return f'New Password and Confirm Password did not match.'
+#         else:
+#             return f'unexpected error'
+#
+#     # ---return change_pass.html as landing page.
+#     return None
 
 
 if __name__ == '__main__':

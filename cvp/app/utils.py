@@ -86,6 +86,8 @@ def authenticate(password, email=None, account_id=None):
     :param account_id: user's account_id
     return tuple of account information if succeeded else return error message
     """
+    if not password:
+        return 'Incorrect input.'
     db = Database(db_path)
     try:
         # db.create_connection(db_path)
@@ -97,6 +99,7 @@ def authenticate(password, email=None, account_id=None):
         if not acc:  # account was not found with this email
             return 'Account was not found.'
         if acc:  # account with this email is in our database
+            # handle incorrect input
             db_password, db_salt = b64decode(acc[0][3]), b64decode(acc[0][5])
             hashed_pass, _ = generate_hash(password=password, salt=db_salt)
             if hmac.compare_digest(hashed_pass, db_password):  # login

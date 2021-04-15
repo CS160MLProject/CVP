@@ -259,25 +259,34 @@ def profile(token):
 def settings(token):
     """
     Settings page of application.
-    Invoked when (1)Settings button is clicked in the profile.html
+    Invoked when (1)'Settings' button is clicked in the profile.html
+        (2)'Save Changes' button for account info is clicked in the settings.html
+        (3)'Save Changes' button for password change is clicked in the settings.html
+        (4)'Back' button is clicked in the settings.html
     :param token: user specific token encoded in login.
     :return: (1)settings.html that includes user's basic info(name, email) and a form to change password.
+        (2)settings.html with success notice if new account info is changed successfully
+            else settings.html with error message
+        (3)settings.html with success notice if new password is changed successfully
+            else settings.html with error message
+        (4)profile.html
     """
     # account_id = ts.loads(token, salt=change_account_key)
     if request.method == 'POST':
-        if request.form.get('profile_save'):
+        if request.form.get('profile_save'): # Process of Case(2)
             first_name = request.form.get('first_name')
             last_name = request.form.get('last_name')
             username = request.form.get('username_email')
 
             # save the info with database with account_id
-            error_msg = None
+            error_msg = ''
             # error_msg = account_database_update(account_id, first_name, last_name, username)
             if not error_msg:
                 return f'saved changes successfully'
             else:
                 return f'error {error_msg}'
-        elif request.form.get('password_save'):
+
+        elif request.form.get('password_save'): # Process of Case(3)
             current_pass = request.form.get('current_password')
             new_pass = request.form.get('new_password')
             conf_pass = request.form.get('confirm_password')
@@ -290,7 +299,7 @@ def settings(token):
             if type(acc) == tuple:  # authentication succeeded
                 if new_pass == conf_pass:
                     # update database
-                    return f'baack to profile?'
+                    return f'back to profile?'
                 return f'New Password and Confirm Password did not match.'
             else:
                 return f'unexpected error'
@@ -309,7 +318,7 @@ def settings(token):
         # finally:
         #    db.close_connection()
 
-    return render_template('settings.html', token=token)
+    return render_template('settings.html', token=token) # process of case(1) (GET)
     # , profile=user_record) # Pass in the record to display on the form as placeholders
 
 

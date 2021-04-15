@@ -14,7 +14,7 @@
                     <a href="#">Profile Settings</a>
                 </li>
                 <li>
-                    <a href="#">Change Password</a>
+                    <a href="#changepass">Change Password</a>
                 </li>
                 <li>
                     <img class="field-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
@@ -25,7 +25,7 @@
     </div>
     
     <div class="right-panel">
-        <div class="container">
+        <div class="container top-margin-small">
             <div class="input-field"> 
 
                 <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
@@ -34,7 +34,7 @@
                 </div>
     
                 <!--Finally the text field for the user to enter data into.-->
-                <input class="text-field-short" type="text" id="first_name" name="first_name" placeholder="First Name">
+                <input class="text-field" type="text" id="first_name" name="first_name" placeholder="First Name">
             </div> 
     
             <div class="input-field"> 
@@ -45,7 +45,7 @@
                 </div>
     
                 <!--Finally the text field for the user to enter data into.-->
-                <input class="text-field-short" type="text" id="last_name" name="last_name" placeholder="Last Name">
+                <input class="text-field" type="text" id="last_name" name="last_name" placeholder="Last Name">
             </div> 
     
             <div class="input-field"> 
@@ -64,6 +64,49 @@
                 <button class="inline-button smaller" type="submit">Save Changes</button>
             </div>
         </div>
+        <div id="changepass" class="container top-margin-med">
+            <div class="input-field">
+
+                <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                <div class="field-label">
+                    <label class="text-label" for="old_pass">Current Password:</label>
+                </div>
+
+                <!--Finally the text field for the user to enter data into.-->
+                <input class="text-field" type="text" id="old_pass" name="old_pass" placeholder="Current Password">
+            </div>
+
+            <div class="input-field">
+
+                <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                <div class="field-label">
+                    <label class="text-label" for="new_pass">New Password:</label>
+                </div>
+
+                <!--Finally the text field for the user to enter data into.-->
+                <input class="text-field" type="text" id="new_pass" name="new_pass" placeholder="New Password">
+            </div>
+
+            <div class="input-field">
+
+                <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                <div class="field-label">
+                    <label class="text-label" for="confirm_pass">Confirm New Password:</label>
+                </div>
+
+                <!--Finally the text field for the user to enter data into.-->
+                <input class="text-field" type="text" id="confirm_pass" name="confirm_pass" placeholder="New Password">
+            </div>
+
+            <div class="input-field">
+                <button class="inline-button smaller">Back</button>
+                <button class="inline-button smaller" type="submit">Save Changes</button>
+            </div>
+
+            <div class="padding-div">
+
+                 COVID Vaccine Passport 2021.
+            </div>
     </div>
 </body>
 </html>

@@ -7,27 +7,29 @@
 </head>
 <body>
     <div class="left-panel">
-        <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">
-        <nav>
-            <ul>
-                <li>
-                    <img class="field-icon" src="{{ url_for('static', filename='images/login-icon-black.png') }}" alt="A small blue icon of a person">
-                    <a href="#">User Name</a>
-                </li>
-                <li>
-                    <img class="field-icon" src="{{ url_for('static', filename='images/share-icon.png')}}" field-icon alt="A gear icon">
-                    <a href="#qr-code">Share</a>
-                </li>
-                <li>
-                    <img class="field-icon" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
-                    <a href="#">Settings</a>
-                </li>
-                <li>
-                    <img class="field-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
-                    <a href="#">Sign Out</a>
-                </li>
-            </ul>
-        </nav>
+        <form action={{url_for('profile', token=token)}} method="POST">
+            <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">
+            <nav>
+                <ul>
+                    <li>
+                        <img class="field-icon" src="{{ url_for('static', filename='images/login-icon-black.png') }}" alt="A small blue icon of a person">
+                        <a href="#">User Name</a>
+                    </li>
+                    <li>
+                        <img class="field-icon" src="{{ url_for('static', filename='images/share-icon.png')}}" field-icon alt="A gear icon">
+                        <a href="#qr-code">Share</a>
+                    </li>
+                    <li>
+                        <img class="field-icon" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
+                        <button value="settings_button" name="settings_button" href="#">Settings</button>
+                    </li>
+                    <li>
+                        <img class="field-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
+                        <a href="#">Sign Out</a>
+                    </li>
+                </ul>
+            </nav>
+        </form>
     </div>
     
     <div class="right-panel">

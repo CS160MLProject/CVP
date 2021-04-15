@@ -28,8 +28,11 @@ body{
 .top-margin-big{
     margin-top: 40%;
 }
+.top-margin-med{
+    margin-top: 30%;
+}
 .top-margin-small{
-    margin-top: 20%;
+    margin-top: 10%;
 }
 
 .inline-item {
@@ -301,7 +304,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .padding-div {
-    margin: 80px;
+    margin: 25%;
 }
 
 /* Classes for the navigation bar in the Profile page */

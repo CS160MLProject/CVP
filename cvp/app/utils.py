@@ -1,28 +1,16 @@
 """Utilities for routes.py"""
-from itsdangerous import URLSafeTimedSerializer
 from app import *
 from credentials import *
-from base64 import b64decode, b64encode
-import hmac
 from cvp.data.rel_database import Database
 from cvp.features.transform import generate_hash
 import itsdangerous
+from itsdangerous import URLSafeTimedSerializer
+from base64 import b64decode, b64encode
+import hmac
 import re
 import os
 
 ts = URLSafeTimedSerializer(secret_key=secret_key)
-
-
-def sharing_qr(account_id):
-    """
-    Obtain qr for sharing user's profile.
-    :param account_id: account's specific id
-    :return: Directory of QR code created for user.
-    """
-    url = f'www.application_home/info_{account_id}.com'
-    # directory = get_qr(url)
-    directory = f'dataset/user/{account_id}.png'
-    return directory
 
 
 def invalid_register_input(email, password, confirm_password):

@@ -28,44 +28,44 @@
         <form action={{url_for('settings', token=token)}} method="POST">
             <div class="container top-margin-small">
 
-            <div class="input-field">
+                <div class="input-field">
 
-                <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
-                <div class="field-label">
-                    <label class="text-label" for="first_name">First Name:</label>
+                    <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                    <div class="field-label">
+                        <label class="text-label" for="first_name">First Name:</label>
+                    </div>
+
+                    <!--Finally the text field for the user to enter data into.-->
+                    <input class="text-field" type="text" id="first_name" name="first_name" placeholder="First Name">
                 </div>
 
-                <!--Finally the text field for the user to enter data into.-->
-                <input class="text-field" type="text" id="first_name" name="first_name" placeholder="First Name">
-            </div>
+                <div class="input-field">
 
-            <div class="input-field">
+                    <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                    <div class="field-label">
+                        <label class="text-label" for="last_name">Last Name:</label>
+                    </div>
 
-                <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
-                <div class="field-label">
-                    <label class="text-label" for="last_name">Last Name:</label>
+                    <!--Finally the text field for the user to enter data into.-->
+                    <input class="text-field" type="text" id="last_name" name="last_name" placeholder="Last Name">
                 </div>
 
-                <!--Finally the text field for the user to enter data into.-->
-                <input class="text-field" type="text" id="last_name" name="last_name" placeholder="Last Name">
-            </div>
+                <div class="input-field">
 
-            <div class="input-field">
+                    <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                    <div class="field-label">
+                        <label class="text-label" for="email">Email:</label>
+                    </div>
 
-                <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
-                <div class="field-label">
-                    <label class="text-label" for="email">Email:</label>
+                    <!--Finally the text field for the user to enter data into.-->
+                    <input class="text-field" type="text" id="email" name="email" placeholder="hello@cvp.org">
                 </div>
 
-                <!--Finally the text field for the user to enter data into.-->
-                <input class="text-field" type="text" id="email" name="email" placeholder="hello@cvp.org">
+                <div class="input-field">
+                    <button class="inline-button smaller" name="back_button" value="back_button">Back</button>
+                    <button class="inline-button smaller" name="profile_save" value="profile_save" type="submit">Save Changes</button>
+                </div>
             </div>
-
-            <div class="input-field">
-                <button class="inline-button smaller" name="back_button" value="back_button">Back</button>
-                <button class="inline-button smaller" name="profile_save" value="profile_save" type="submit">Save Changes</button>
-            </div>
-        </div>
             <div id="changepass" class="container top-margin-med">
                 <div class="input-field">
 
@@ -111,5 +111,17 @@
                 </div>
         </form>
     </div>
+
+<script>
+        document.getElementById('sign-out-button').addEventListener('click',
+        function(){
+            document.querySelector('.sign-out-modal').style.display = 'flex';
+        });
+
+        document.getElementById('sign-back').addEventListener('click',
+        function(){
+            document.querySelector('.sign-out-modal').style.display = 'none';
+        });
+</script>
 </body>
 </html>

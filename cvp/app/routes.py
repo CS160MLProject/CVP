@@ -18,7 +18,6 @@ def homepage():
         (2)redirect to register function
         (3)redirect to login function
     """
-    print(app.url_map)
     if request.method == 'POST':  # user clicked the option buttons
         if request.form.get('register_button'):  # process for case(2)
             return redirect(url_for('register'))
@@ -157,57 +156,27 @@ def forgot_password():
 
 @app.route('/login/reset/<token>', methods=['GET', 'POST'])
 def reset_password(token):
-    if request.method == 'GET':
-        email = decode_token(token, salt=recovery_key, time=3600)  # 1 hours
+    """
+    Reset password. User recieve their specific link to reset password from the email.
+    Invoked when (1)User clicked the link of password recovery in the email.
+        (2)'Reset' button is clicked in the password_reset.html
+    """
+    email = decode_token(token, salt=recovery_key, time=3600)  # 1 hours
+    if email: # process of case(1)
         return render_template('password_reset.html')
 
     if request.method == 'POST':
-        if request.form.get('login_button'):
-            return redirect(url_for('login'))
+        if request.form.get('reset_button'): # process of case(2)
+            password = request.form.get('password')
+            confirm_password = request.form.get('confirm_password')
 
-        if request.form.get('reset_button'):
-            try:
-                url_email = ts.loads(token, salt=recovery_key, max_age=3600) # 1 hour
-                email = request.form.get('email')
-                password = request.form.get('password')
-                confirm_password = request.form.get('confirm_password')
+            if password == confirm_password:  # save to database
+                if update_password(password, email=email):
+                    return f'password reset confirmation with login button to back to login page'
+                else:
+                    return f'Update Password Failed'
 
-                if email == url_email and password == confirm_password: # save to database
-                    if update_password(password, email=email):
-                        return f'password reset confirmation with login button to back to login page'
-                    else: return f'Update Password Failed'
-
-            except itsdangerous.exc.SignatureExpired as link_expried:
-                raise Exception(link_expried)
-
-    return redirect(url_for(login))
-
-
-# This was similar to the route for the main settings so I changed it
-# @app.route('/profile_<token>/change_settings', methods=['GET', 'POST'])
-# def change_account_profile(token):
-#     """
-#     Invoked when 'Save Changes' is clicked in a page of settings.
-#     :param token: user specific encoded token.
-#     :return: 1) nothing or promlpt to indicates that the saved successfully.
-#         2) error prompt to indicates that the info was not saved successfully.
-#     """
-#     account_id = ts.loads(token, salt=change_account_key)
-#     if request.method == 'POST':
-#         first_name = request.form.get('first_name')
-#         last_name = request.form.get('last_name')
-#         username = request.form.get('username_email')
-#
-#         # save the info with database with account_id
-#         error_msg = None
-#         # error_msg = account_database_update(account_id, first_name, last_name, username)
-#         if not error_msg:
-#             return f'saved changes successfully'
-#         else:
-#             return f'error {error_msg}'
-#
-#     # ---return Sign out pop up if implemented.
-#     return None
+    return redirect(url_for('login')) # link has expired
 
 
 @app.route('/profile_<token>', methods=['GET', 'POST'])
@@ -306,55 +275,16 @@ def settings(token):
 @app.route('/info_<token>', methods=['GET'])
 def shared_profile(token):
     """
-    Invoked when user open sharned url.
+    Invoked when user open shared link.
     :param token: encrypted url for sharing info.
-    :return: shared profile page.
+    :return: shared profile page with dict formatted user record.
     """
     if request.method == 'GET':
-        try:
-            # decode the token
-            # get user's account id
-            account_id = ts.loads(token, salt=sharing_profile_key, max_age=900) # 15 min
-            print(account_id)
-            # get user account information with account_id
-            # user_record = db.select("*", 'profile', f'User_Account_ID = {account_id}')
-            user_record = ''
-            return render_template('shared_profile.html', user_record=user_record)
-        except itsdangerous.exc.SignatureExpired as link_expried:
-            raise Exception(link_expried)
+        account_id = decode_token(token, salt=sharing_profile_key, time=900)
+        user_record = get_profile(account_id)
+        return render_template('shared_profile.html', user_record=user_record)
 
     return f'404'
-
-
-# @app.route('/profile_<token>/setting/change_password', methods=['GET', 'POST'])
-# def change_password(token):
-#     """
-#     Change password of user account.
-#     Invoked when 'Save Change' is clicked in a page of Change Password in setting.
-#     :param token: user specific encoded token.
-#     :return: 1) nothing or prompt to indicates that the saved successfully.
-#         2) error prompt to indicates that the new password was not saved successfully.
-#     """
-#     if request.method == 'POST':
-#         current_pass = request.form.get('current_password')
-#         new_pass = request.form.get('new_password')
-#         conf_pass = request.form.get('confirm_password')
-#
-#         account_id = ts.loads(token, salt=profile_key, max_age=900)  # 15 min
-#
-#         # check if the current_pass is in the database
-#         acc = authenticate(current_pass, account_id=account_id)
-#
-#         if type(acc) == tuple: # authentication succeeded
-#             if new_pass == conf_pass:
-#                 # update database
-#                 return f'baack to profile?'
-#             return f'New Password and Confirm Password did not match.'
-#         else:
-#             return f'unexpected error'
-#
-#     # ---return change_pass.html as landing page.
-#     return None
 
 
 if __name__ == '__main__':

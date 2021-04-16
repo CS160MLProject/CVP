@@ -15,7 +15,7 @@
     <div class="right-panel">
 
         <div class="padding-div"></div>
-        <form action= method="">
+        <form action={{ url_for('forget_password') }} method="POST">
             <div class="input-field">
                 <div class="field-label">
                     <img class="field-icon" src="{{ url_for('static', filename='images/email-icon.png') }}" alt="A black icon of a mail">
@@ -27,7 +27,7 @@
             <div class="padding-div"></div>
 
             <div class="input-field">
-                <button class="inline-button" type="recover" name="send_recovery_button" value="send_recovery_button">Send Recovery Link</button>
+                <button class="inline-button" type="submit" name="send_recovery_button" value="send_recovery_button">Send Recovery Link</button>
                 <h1>{{ error }}</h1>
             </div>
         </form>

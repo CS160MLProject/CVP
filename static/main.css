@@ -139,7 +139,8 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     font-size: 42px;
     text-align: center;
     border-radius: 70px;
-    border-color:#0D0065;
+    /*border-color:#0D0065;*/
+    border-width: 0;
     padding: 37px 150px 37px 150px; /* pixels derived from adobe xd values. */
     margin: 35px auto;
     cursor: pointer;
@@ -239,7 +240,8 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     font-size: 36px;
     text-align: center;
     border-radius: 20px;
-    border-color:#0D0065;
+    /*border-color:#0D0065;*/
+    border-width: 0;
     padding: auto;
     margin: 0 auto 10px 50px;
     outline: none;

@@ -116,11 +116,11 @@ def test_update_password():
         # get the existing information and test if it return True correctly
         email, lname, fname, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"2\"')[0]
         new_pass = 'new_password'
-        assert update_password(email, new_pass), 'should return True if updated successfully.'
+        assert update_password(new_pass, email=email), 'should return True if updated successfully.'
 
         # test if return False with fake email
         fake_email = 'fake email'
-        assert not update_password(fake_email, new_pass), 'Should return False with fake email.'
+        assert not update_password(new_pass, email=fake_email), 'Should return False with fake email.'
 
     finally:
         db.close_connection()

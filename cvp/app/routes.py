@@ -182,7 +182,7 @@ def reset_password(token):
                 confirm_password = request.form.get('confirm_password')
 
                 if email == url_email and password == confirm_password: # save to database
-                    if update_password(email, password):
+                    if update_password(password, email=email):
                         return f'password reset confirmation with login button to back to login page'
                     else: return f'Update Password Failed'
 
@@ -270,9 +270,14 @@ def settings(token):
             else settings.html with error message
         (4)profile.html
     """
-    account_id = ts.loads(token, salt=change_account_key)
+    # account_id = decode_token(token, salt=profile_key, time=900)
+
     if request.method == 'POST':
         error_msg = ''
+        account_id, token = renew_token(token, salt=profile_key, time=900) # 15 min
+        if not account_id: # could not decode the account_id (the link has expired)
+            return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
+
         if request.form.get('profile_save'): # Process of Case(2)
             first_name = request.form.get('first_name')
             last_name = request.form.get('last_name')
@@ -282,14 +287,12 @@ def settings(token):
             error_msg = update_account(account_id, first_name, last_name, email)
 
             if not error_msg:
-                return f'saved changes successfully'
+                return f'saved changes successfully' # return to setting or profile with message
 
         elif request.form.get('password_save'): # Process of Case(3)
             current_pass = request.form.get('current_password')
             new_pass = request.form.get('new_password')
             conf_pass = request.form.get('confirm_password')
-
-            account_id = ts.loads(token, salt=profile_key, max_age=900)  # 15 min
 
             # check if the current_pass is in the database
             acc = authenticate(current_pass, account_id=account_id)
@@ -297,7 +300,7 @@ def settings(token):
             if type(acc) == tuple:  # authentication succeeded
                 if new_pass == conf_pass: # check new password and confirm password
                     # update database
-                    # update_password(email, password)
+                    update_password(new_pass, acc=account_id)
                     return f'back to profile?'
                 else:
                     error_msg = 'New Password and Confirm Password did not match.'
@@ -307,18 +310,8 @@ def settings(token):
             return redirect(url_for('profile', token=token))
 
         return render_template('settings.html', token=token, error=error_msg)
-        # Copied the following from def profile()
-        # decrypt token to get account_id
-        # account_id = ts.loads(token, salt=profile_key, max_age=900)  # 15 min
-        # get user info with account_id
-        # user_record = get_user_rec_database(account_id)
-        # db = Database(db_path)
-        # try:
-        #    user_record = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[:-3]
-        #    user_info = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')
-        # finally:
-        #    db.close_connection()
 
+    account_id, token = renew_token(token, salt=profile_key, time=900)
     return render_template('settings.html', token=token) # process of case(1) (GET)
     # , profile=user_record) # Pass in the record to display on the form as placeholders
 

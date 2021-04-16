@@ -131,14 +131,16 @@ def is_user(email):
         db.close_connection()
 
 
-def update_password(email, password):
+def update_password(password, email=None, acc=None):
     """
     Update account's password.
     :param email: email
     :param password: password
     :return: True if succeeded else False.
     """
-    acc = authenticate(password, email=email)
+    if not acc:
+        acc = authenticate(password, email=email)
+
     db = Database(db_path)
     if type(acc) == tuple:
         try:
@@ -204,4 +206,7 @@ def decode_token(token, salt, time):
 
 def renew_token(token, salt, time):
     extracted = decode_token(token, salt, time)
-    return encode_token(extracted, salt)
+    if extracted:
+        token = encode_token(extracted, salt)
+
+    return extracted, token

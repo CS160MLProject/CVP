@@ -6,3 +6,5 @@ venv
 Google_Vision_OCR_Credentials.json
 htmlcov/
 /credentials.py
+/dataset/external/
+/dataset/processed/QR_Code/

@@ -348,14 +348,19 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     text-shadow: #1f1f1f;
     height: 65px;
     width: 200px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 36px;
     text-align: center;
     border-radius: 40px;
     border-color:#0D0065;
-    padding: auto;
+    padding: 5px 0 0 0;
     margin: 20px auto 20px 100px;
     outline: none;
     cursor: pointer;
+}
+
+.modal-button:active{
+    opacity: 80%;
 }
 
 /* Classes for the navigation bar in the Profile page */

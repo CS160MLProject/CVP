@@ -72,14 +72,19 @@
 
         </div>
         <p class="modal-text">You're about to sign out!</p>
-        <button class="modal-button">Back</button>
-        <button class="modal-button">Sign Out</button>
+        <a id="sign-back" class="modal-button" name="sign-out-back-profile" value="sign-out-back-profile">Back</a>
+        <a class="modal-button" name="sign-out-profile" value="sign-out-profile">Sign Out</a>
     </div>
 </div>
 <script>
         document.getElementById('sign-out-button').addEventListener('click',
         function(){
             document.querySelector('.sign-out-modal').style.display = 'flex';
+        });
+
+        document.getElementById('sign-back').addEventListener('click',
+        function(){
+            document.querySelector('.sign-out-modal').style.display = 'none';
         });
 </script>
 </body>

@@ -223,29 +223,30 @@ def reset_password(token):
 def profile(token):
     """
     First main page of application.
-    Invoked when (1)login button is clicked and succeeded in login.html
+    Invoked when (1)login button is clicked in login.html.
+        (2)'settings_button' is clicked in profile.html.
     :param token: user specific token encoded in login.
-    :return: (1)profile.html with user profile, account information, sharing_url and name of qr file.
+    :return: (1)redirect to settings page.
+        (2)profile.html with user profile, sharing_url and name of qr file.
     """
     account_id, profile_token = renew_token(token, salt=profile_key, time=900)  # 15 min
     if not account_id:  # could not decode the account_id (the link has expired)
         return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
 
-    if request.method == 'POST':  # user clicked the option buttons
+    if request.method == 'POST':  # process for case(1)
         if request.form.get('settings_button'):
             return redirect(url_for('settings', token=profile_token))
 
-    # decrypt token to get account_id
+    # process for case(2) (GET)
     user_profile = get_profile(account_id)
 
-    # encrypt account id to be shared through qr
+    # encrypt account id to be shared through qr or url
     sharing_token = encode_token(account_id, salt=sharing_profile_key)
     sharing_url = url_for('shared_profile', token=sharing_token, _external=True)
-    print(sharing_url)
 
     # generate qr
     generate_QR_code(sharing_url, str(account_id), save=True)
-    return render_template('profile.html', profile=user_profile, account_info='',
+    return render_template('profile.html', profile=user_profile,
                            sharing_url=sharing_url, qr=f'{account_id}.png', token=profile_token)
 
 

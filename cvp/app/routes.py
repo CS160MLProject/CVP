@@ -94,8 +94,8 @@ def login():
         (3)redirect to homepage function
         (4)redirect to reset password html.
     """
-    error_msg = ''
     if request.method == 'POST':
+        error_msg = ''
         if request.form.get("login_button"): # process for case(2)
             email = request.form.get('email')
             password = request.form.get('password')
@@ -110,16 +110,15 @@ def login():
                 # generate encrypted token to be url
                 url_token = ts.dumps(acc[4], salt=profile_key)
                 return redirect(url_for('profile', token=url_token))
-            else: error_msg = acc # if authentication failed, show error message from authenticate()
+            elif not error_msg: error_msg = acc # if authentication failed, show error message from authenticate()
 
-            return render_template('login.html', error=error_msg) # login.html with error message
         if request.form.get('cancel_button'): # process for case(3)
             return redirect(url_for('homepage'))
 
         if request.form.get('forgot_password_button'): # process for case(4)
             return redirect(url_for('forget_password')) # process for case(4)
 
-        return render_template('login.html')
+        return render_template('login.html', error=error_msg)  # login.html with error message
 
     # default. process for case(1)
     return render_template('login.html')
@@ -327,7 +326,7 @@ def settings(token):
 @app.route('/info_<token>', methods=['GET'])
 def shared_profile(token):
     """
-    Invoked when user open shared url.
+    Invoked when user open sharned url.
     :param token: encrypted url for sharing info.
     :return: shared profile page.
     """

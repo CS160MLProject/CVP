@@ -327,6 +327,24 @@ ul li{
     padding: 15px;
 }
 
+ul li button{
+    display: inline-block;
+    vertical-align: middle;
+    text-decoration: none;
+    color: #0D0065;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    padding:20px 20px 20px 20px;
+    border-width: 0;
+    background-color: rgba(0,0,0,0);
+    outline: none;
+}
+ul li button:hover{
+    opacity: 80%;
+    cursor: pointer;
+}
+
 ul li a{
     display: inline-block;
     vertical-align: middle;
@@ -339,7 +357,7 @@ ul li a{
 }
 
 ul li a:hover{
-    opacity: 70%;
+    opacity: 80%;
 }
 
 .profile-info{

@@ -172,7 +172,7 @@ def reset_password(token):
             confirm_password = request.form.get('confirm_password')
 
             if password == confirm_password:  # save to database
-                if update_password(password, email=email):
+                if reset_account_password(password, email=email):
                     return f'password reset confirmation with login button to back to login page'
                 else:
                     return f'Update Password Failed'
@@ -263,7 +263,7 @@ def settings(token):
             if type(acc) == tuple:  # authentication succeeded
                 if new_pass == conf_pass: # check new password and confirm password
                     # update database
-                    update_password(new_pass, acc=account_id)
+                    update_password(current_pass, new_pass, acc=account_id)
                     return f'back to profile?'
                 else:
                     error_msg = 'New Password and Confirm Password did not match.'

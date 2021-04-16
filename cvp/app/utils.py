@@ -119,27 +119,28 @@ def is_user(email):
         db.close_connection()
 
 
-def update_password(password, email=None, acc=None):
+def update_password(new_password, email=None, acc=None):
     """
     Update account's password.
     :param email: email
-    :param password: password
+    :param new_password: new password
+    :param acc: account id
     :return: True if succeeded else False.
     """
-    if not acc:
-        acc = authenticate(password, email=email)
-
     db = Database(db_path)
-    if type(acc) == tuple:
-        try:
-            hashed_pass, hashed_salt = generate_hash(password)
-            hashed_pass = b64encode(hashed_pass).decode('utf-8')
-            hashed_salt = b64encode(hashed_salt).decode('utf-8')
+    try:
+        hashed_pass, hashed_salt = generate_hash(new_password)
+        hashed_pass = b64encode(hashed_pass).decode('utf-8')
+        hashed_salt = b64encode(hashed_salt).decode('utf-8')
+        if acc:
+            db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'User_Account_ID = \"{acc}\"')
+        elif email and type(is_user(email)) == tuple:
             db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'Email = \"{email}\"')
-            return True
-        finally:
-            db.close_connection()
-    return False
+        else:
+            return False
+        return True
+    finally:
+        db.close_connection()
 
 
 def update_account(account_id, fname=None, lname=None, email=None):

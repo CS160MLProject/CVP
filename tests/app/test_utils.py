@@ -151,3 +151,36 @@ def test_update_account():
 
     finally:
         db.close_connection()
+
+
+def test_generate_account():
+    db = Database(db_path)
+    try:
+        size = db.select(values='count(*)', table_name=account_table)[0][0]
+    finally:
+        db.close_connection()
+
+    new_session = dict()
+    new_session['email'] = f'email{size}@test.com'
+    new_session['password'] = 'password'
+
+    profile_data = dict()
+    profile_data['last_name'] = 'lastname'
+    profile_data['first_name'] = 'firstname'
+    profile_data['patient_num'] = '1234'
+    profile_data['mid_initial'] = 'T'
+    profile_data['dob'] = 'Apr 16, 1990'
+    profile_data['first_dose'] = 'Something'
+    profile_data['date_first'] = 'Apr 08, 2021'
+    profile_data['clinic_site'] = 'Hospital'
+    profile_data['second_dose'] = 'Something2'
+    profile_data['date_second'] = 'Apr 12, 2021'
+
+    assert generate_account(new_session, profile_data), f'Did not generate account successfully with valid data'
+
+
+def test_get_profile():
+    assert type(get_profile(1)) == dict, f'Did not get profile with valid ID'
+
+
+

@@ -160,20 +160,18 @@ def generate_account(session, profile_data):
     db = Database(db_path)
     try:
         # db.create_connection(db_path)
-        new_account_id = db.select(values='count(*)', table_name=account_table)
+        new_account_id = db.select(values='count(*)', table_name=account_table)[0][0]
 
         hashed_pass, hashed_salt = generate_hash(session['password'])
         hashed_pass = b64encode(hashed_pass).decode('utf-8')
         hashed_salt = b64encode(hashed_salt).decode('utf-8')
         account_value = (session['email'], profile_data['last_name'], profile_data['first_name'],
                          hashed_pass, new_account_id, hashed_salt)
-        # dob is not in the html
-        dob = 'dob'
-        profile_value = (new_account_id, profile_data['patient_num'], profile_data['last_name'],
-                         profile_data['first_name'], profile_data['mid_initial'], dob, profile_data['first_dose'],
-                         profile_data['date_first'], profile_data['clinic_site'], profile_data['second_dose'],
-                         profile_data['date_second'])
 
+        profile_value = (new_account_id, profile_data['patient_num'], profile_data['last_name'],
+                         profile_data['first_name'], profile_data['mid_initial'], profile_data['dob'],
+                         profile_data['first_dose'], profile_data['date_first'], profile_data['clinic_site'],
+                         profile_data['second_dose'], profile_data['date_second'])
         db.insert(account_value, account_table)
         db.insert(profile_value, profile_table)
         return True

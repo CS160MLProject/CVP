@@ -511,7 +511,8 @@ ul li a:hover{
     padding: 0.5em 0.8em;
     text-align: center;
     border-radius: 20px;
-    border-color:#0D0065;
+    /*border-color:#0D0065;*/
+    border-width: 0;
     outline: none;
     margin: 0 20px 10px 50px;
     cursor: pointer;

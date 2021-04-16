@@ -5,5 +5,4 @@ venv
 .coveragerc
 Google_Vision_OCR_Credentials.json
 htmlcov/
-/dataset/external/cvp.db
 /credentials.py

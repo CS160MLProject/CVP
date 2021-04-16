@@ -1,6 +1,8 @@
 """Covid-19 Vaccine Passport Application"""
 
+import os
 from flask import render_template, request, redirect, url_for, session
+from werkzeug.utils import secure_filename
 from cvp.features.transform import generate_QR_code
 from cvp.app.services.email_service import *
 from cvp.app.utils import *
@@ -49,11 +51,16 @@ def register():
                 error_msg = 'file is not uploaded.'
 
             if not error_msg:
+                uploads_dir = os.path.join(app.instance_path, 'upload_doc')
+                os.rmdir(uploads_dir) # Removing the directory if it exists so the app can
+                os.makedirs(uploads_dir) # Create a new directory for the upload
                 error_msg = invalid_register_input(email, password, confirm_password)
                 if not error_msg: # no error in entered information
                     vaccine_rec_pic = request.files["vaccine_rec"]
+                    filename = secure_filename(vaccine_rec_pic.filename)
+                    vaccine_rec_pic.save(os.path.join(uploads_dir, filename))
                     # vaccine_rec_pic = 'Vaccine_1.png' # to test
-                    extracted_rec = model.predict(vaccine_rec_pic)
+                    extracted_rec = model.predict(uploads_dir+"\\"+filename)
                     session['email'] = email
                     session['password'] = password
                     session['extracted_record'] = extracted_rec

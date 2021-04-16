@@ -214,8 +214,8 @@ def decode_token(token, salt, time):
     try:
         return ts.loads(token, salt=salt, max_age=time)
 
-    except itsdangerous.exc.SignatureExpired as e:
-        return None
+    except itsdangerous.exc.SignatureExpired:
+        return False
 
 
 def renew_token(token, salt, time):

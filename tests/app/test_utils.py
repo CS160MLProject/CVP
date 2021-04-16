@@ -1,5 +1,5 @@
 from cvp.app.utils import *
-
+import time
 
 def test_invalid_register_input():
     """
@@ -182,5 +182,24 @@ def test_generate_account():
 def test_get_profile():
     assert type(get_profile(1)) == dict, f'Did not get profile with valid ID'
 
+
+def test_encode_decode_token():
+    to_be_encrypted = 'Super Secret'
+    test_key = 'TEST_KEY'
+    # test encoded token can decode and obtain the same value as encrypted.
+    assert decode_token(encode_token(to_be_encrypted, salt=test_key), salt=test_key, time=10) == to_be_encrypted, \
+        f'Decode function with encoded token should return the same as the to_be_encrypted.'
+
+
+def test_renew_token():
+    to_be_encrypted = 'Super Secret'
+    test_key = 'TEST_KEY'
+    token = encode_token(to_be_encrypted, salt=test_key)
+    extracted, token = renew_token(token, salt=test_key, time=1)
+    assert extracted == to_be_encrypted, f'Did not extract the encrypted value.'
+    time.sleep(2)
+    extracted, token = renew_token(token, salt=test_key, time=1)
+
+    assert not extracted, f'Expired token should not extract any value and should return False.'
 
 

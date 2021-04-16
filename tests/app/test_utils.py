@@ -1,15 +1,6 @@
 from cvp.app.utils import *
 
 
-def test_sharing_qr():
-    """
-    Test if sharing_qr obtain qr file correctly.
-    """
-    account_id = 12345
-    qr_file = sharing_qr(account_id=account_id)
-    assert qr_file == f'dataset/user/{account_id}.png', f'The qr file is not created in the expected directory.'
-
-
 def test_invalid_register_input():
     """
     Test if invalid_register_input return error message if there is any errors.
@@ -63,7 +54,6 @@ def test_authenticate():
     """
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
         # get the existing information and test if it authenticate correctly
         email, lname, fname, password,  acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
         password = f'{fname}{lname}'.lower()
@@ -95,15 +85,14 @@ def test_is_user():
     """
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
         # get the existing information and test if it return True correctly
         email, lname, fname, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
-        password = f'{fname}{lname}'.lower()
+        # password = f'{fname}{lname}'.lower()
         assert type(is_user(email)) == tuple, 'should return account info with existing email.'
 
         # test if return False with fake email
         fake_email = 'fake email'
-        assert not is_user(fake_email), 'Should return False with fake email.'
+        assert type(is_user(fake_email)) == str, 'Should return error message with fake email.'
 
     finally:
         db.close_connection()
@@ -112,15 +101,52 @@ def test_is_user():
 def test_update_password():
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
         # get the existing information and test if it return True correctly
         email, lname, fname, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"2\"')[0]
         new_pass = 'new_password'
-        assert update_password(new_pass, email=email), 'should return True if updated successfully.'
+        assert update_password(password, new_pass, email=email), 'should return True if updated successfully.'
 
         # test if return False with fake email
         fake_email = 'fake email'
-        assert not update_password(new_pass, email=fake_email), 'Should return False with fake email.'
+        assert not update_password(password, new_pass, email=fake_email), 'Should return False with fake email.'
+
+    finally:
+        db.close_connection()
+
+
+def test_update_account():
+    db = Database(db_path)
+    try:
+        # get the existing information to test
+        original_email, original_lname, original_fname, _, acc_id, _ = \
+            db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+
+        new_lname = 'new_lname'
+        new_fname = 'new_fname'
+        new_email = 'new_email@email.com'
+
+        # test one by one
+        # test first name update
+        update_account(acc_id, fname=new_fname)
+        _, _, fname, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+        assert fname == new_fname, f'New first name is not updated correctly'
+
+        # test last name update
+        update_account(acc_id, lname=new_lname)
+        _, lname, _, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+        assert lname == new_lname, f'New last name is not updated correctly'
+
+        # test email update
+        update_account(acc_id, email=new_email)
+        email, _, _, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+        assert email == new_email, f'New email is not updated correctly'
+
+        # test all update
+        update_account(acc_id, fname=original_fname, lname=original_lname, email=original_email)
+        email, lname, fname, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+        assert email == original_email, f'Email is not updated correctly'
+        assert lname == original_lname, f'Email is not updated correctly'
+        assert fname == original_fname, f'Email is not updated correctly'
 
     finally:
         db.close_connection()

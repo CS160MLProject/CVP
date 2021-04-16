@@ -123,7 +123,7 @@ def is_user(email):
         db.create_connection(db_path)
         acc = db.select('*', account_table, f'Email = \"{email}\"')
         if not acc:  # account was not found with this email
-            return False
+            return f'Account was not found with this email.'
         else:
             return acc[0]
 

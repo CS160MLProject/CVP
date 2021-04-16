@@ -113,7 +113,7 @@ def login():
             return redirect(url_for('homepage'))
 
         if request.form.get('forgot_password_button'): # process for case(4)
-            return redirect(url_for('forget_password')) # process for case(4)
+            return redirect(url_for('forgot_password')) # process for case(4)
 
         return render_template('login.html', error=error_msg)  # login.html with error message
 
@@ -122,50 +122,44 @@ def login():
 
 
 @app.route('/login/reset', methods=['GET', 'POST'])
-def forget_password():
+def forgot_password():
     """
-    Invoked when (1)'Send email' is clicked in recover.html
+    Invoked when (1)'Send Recovery Link' is clicked in recover.html
         (2)'Resend Link' is clicked in a resend.html
-    :return: (1)resend.html
+    :return: (1)resend.html if the email is in the database else return recover.html with error message.
         (2)resend.html
     """
-    error_msg = ''
     if request.method == 'POST':
-        if request.form.get('send_button') or request.form.get('resend_button'):
-            if request.form.get('resend_button'):
+        error_msg = ''
+        if request.form.get('send_recovery_link_button') or request.form.get('resend_button'): # process of case(1), (2)
+            if request.form.get('resend_button'): # if case(2)
                 email = session['email']
-            else:
+
+            else: # if case(1)
                 email = request.form.get('email')
                 session['email'] = email
 
             # check if this email is in the database
-            if is_user(email):
+            if type(error_msg := is_user(email)) == tuple:
                 # encrypt link to reset password
-                token = ts.dumps(email, salt=recovery_key)
+                token = encode_token(email, salt=recovery_key)
                 recover_url = url_for('reset_password', token=token, _external=True)
                 html = render_template('email/password_recovery.html', recover_url=recover_url)
 
                 # send email with setup link
-                subject = 'Password Reset Requested'
-                send_email(subject, html, email)
+                send_password_recovery_email(html, email)
                 return render_template('resend.html')
 
-            else: error_msg = f'Account was not found with this email.'
+        return render_template('recover.html', error=error_msg) # return with error message (email is not in db)
 
-        return render_template('recover.html', error=error_msg) # return with error message
-
-    # ---return html of Sign out pop up - 4 if implemented.
-    return render_template('recover.html')
+    return render_template('recover.html') # process of case(1)
 
 
 @app.route('/login/reset/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     if request.method == 'GET':
-        try:
-            email = ts.loads(token, salt=recovery_key, max_age=3600) # 1 hours
-            return render_template('password_reset.html')
-        except itsdangerous.exc.SignatureExpired as link_expried:
-            raise Exception(link_expried)
+        email = decode_token(token, salt=recovery_key, time=3600)  # 1 hours
+        return render_template('password_reset.html')
 
     if request.method == 'POST':
         if request.form.get('login_button'):

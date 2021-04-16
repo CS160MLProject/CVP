@@ -3,7 +3,6 @@
 from flask import render_template, request, redirect, url_for, session
 from cvp.features.transform import generate_QR_code
 from cvp.app.services.email_service import *
-import itsdangerous
 from cvp.app.utils import *
 from app import app
 

@@ -206,7 +206,7 @@ def __form_dict(acc, record):
     res = dict()
     res['email'] = acc[0]
     res['last_name'] = acc[1]
-    res['fist_name'] = acc[2]
+    res['first_name'] = acc[2]
     res['patient_num'] = record[1]
     res['middle_initial']: record[4]
     res['dob'] = record[5]

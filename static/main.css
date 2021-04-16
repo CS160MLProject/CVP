@@ -144,6 +144,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     padding: 37px 150px 37px 150px; /* pixels derived from adobe xd values. */
     margin: 35px auto;
     cursor: pointer;
+    outline: none;
 }
 
 /* This adds an effect when you hover on the buttons*/

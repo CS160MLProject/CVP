@@ -6,6 +6,7 @@
     <title>CVP | Settings</title>
 </head>
 <body>
+<form action={{url_for('settings', token=token)}} method="POST">
     <div class="left-panel">
         <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">
         <nav>
@@ -18,14 +19,14 @@
                 </li>
                 <li>
                     <img class="field-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
-                    <a href="#">Sign Out</a>
+                    <a href="#" id="sign-out-button">Sign Out</a>
                 </li>
             </ul>
         </nav>
     </div>
     
     <div class="right-panel">
-        <form action={{url_for('settings', token=token)}} method="POST">
+
             <div class="container top-margin-small">
 
                 <div class="input-field">
@@ -109,9 +110,19 @@
 
                      COVID Vaccine Passport 2021.
                 </div>
-        </form>
     </div>
+    </div>
+    <div class="sign-out-modal">
+        <div class="modal-content">
+            <div class="modal-header">
 
+            </div>
+        <p class="modal-text">You're about to sign out!</p>
+        <a id="sign-back" class="modal-anchor" name="sign-out-back-profile" value="sign-out-back-profile">Back</a>
+        <button class="modal-button" name="sign-out-profile" value="sign-out-profile" type="submit">Sign Out</button>
+        </div>
+    </div>
+</form>
 <script>
         document.getElementById('sign-out-button').addEventListener('click',
         function(){

@@ -441,6 +441,10 @@ ul li a:hover{
     opacity: 80%;
 }
 
+ul li a :focus{
+    font-size: 35px;
+}
+
 .profile-info{
     padding: 20px;
 }

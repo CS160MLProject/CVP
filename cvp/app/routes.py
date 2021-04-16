@@ -99,16 +99,14 @@ def login():
             email = request.form.get('email')
             password = request.form.get('password')
 
-            if email == '' or password == '':
-                error_msg = 'Please enter required fields.'
-
             # authentication of login with email and password
             acc = authenticate(password, email=email)
 
             if type(acc) == tuple:  # logged in
                 # generate encrypted token to be url
-                url_token = ts.dumps(acc[4], salt=profile_key)
+                url_token = encode_token(acc[4], salt=profile_key)
                 return redirect(url_for('profile', token=url_token))
+
             elif not error_msg: error_msg = acc # if authentication failed, show error message from authenticate()
 
         if request.form.get('cancel_button'): # process for case(3)
@@ -298,11 +296,14 @@ def settings(token):
                     return f'back to profile?'
                 else:
                     error_msg = 'New Password and Confirm Password did not match.'
+
             elif not error_msg: # failed authentication with the 'current password'
                 error_msg = 'Current password did not match.'
-        elif request.form.get('back_button'):
+
+        elif request.form.get('back_button'): # process of case(4)
             return redirect(url_for('profile', token=token))
 
+        # return with error message for POST
         return render_template('settings.html', token=token, error=error_msg)
 
     return render_template('settings.html', token=token) # process of case(1) (GET)

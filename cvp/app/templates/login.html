@@ -1,20 +1,3 @@
-<html>
-    <form action={{url_for("login")}} method="post">
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" placeholder="email">
-        <label for="password">Password:</label>
-        <input type="text" id="password" name="password" placeholder="password">
-        <button type="login" name="cancel_button" value="cancel_button">Cancel</button>
-        <button type="login" name="login_button" value="login_button">Login</button>
-        <button type="login" name="forgot_password" value="forgot_password_button">Forgot Password?</button>
-    </form>
-        <body>
-            <h1>{{ error }}</h1>
-        </body>
-
-</html>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,6 +21,7 @@
                     <label class="text-label" for="email">Email:</label>
                 </div>
                 <p class="field-note">Your email address will become your username</p>
+                {{ error }}<!-- not sure where to put error -->
                 <input class="text-field" type="text" id="email" name="email" placeholder="hello@cvp.org">
             </div>
 

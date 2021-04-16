@@ -87,7 +87,7 @@ def authenticate(password, email=None, account_id=None):
     :param account_id: user's account_id
     return tuple of account information if succeeded else return error message
     """
-    if not password:
+    if not password or (not email and not account_id):
         return 'Incorrect input.'
     db = Database(db_path)
     try:

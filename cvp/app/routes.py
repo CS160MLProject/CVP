@@ -270,13 +270,12 @@ def settings(token):
             else settings.html with error message
         (4)profile.html
     """
-    # account_id = decode_token(token, salt=profile_key, time=900)
+    account_id, token = renew_token(token, salt=profile_key, time=900)  # 15 min
+    if not account_id:  # could not decode the account_id (the link has expired)
+        return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
 
     if request.method == 'POST':
         error_msg = ''
-        account_id, token = renew_token(token, salt=profile_key, time=900) # 15 min
-        if not account_id: # could not decode the account_id (the link has expired)
-            return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
 
         if request.form.get('profile_save'): # Process of Case(2)
             first_name = request.form.get('first_name')
@@ -311,9 +310,7 @@ def settings(token):
 
         return render_template('settings.html', token=token, error=error_msg)
 
-    account_id, token = renew_token(token, salt=profile_key, time=900)
     return render_template('settings.html', token=token) # process of case(1) (GET)
-    # , profile=user_record) # Pass in the record to display on the form as placeholders
 
 
 @app.route('/info_<token>', methods=['GET'])

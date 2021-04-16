@@ -53,8 +53,8 @@ def register():
 
             if not error_msg:
 
-                uploads_dir = os.path.join(app.instance_path, 'upload_doc')
-                shutil.rmtree(uploads_dir)
+                uploads_dir = os.path.join(app.instance_path, 'upload_doc') # generate a path for the upload
+                shutil.rmtree(uploads_dir) # Clear the files in the directory to avoid duplicates
                 os.makedirs(uploads_dir, exist_ok=True) # Create a new directory for the upload
                 error_msg = invalid_register_input(email, password, confirm_password)
 

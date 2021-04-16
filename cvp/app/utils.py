@@ -108,7 +108,7 @@ def is_user(email):
     """
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
+        # db.create_connection(db_path)
         acc = db.select('*', account_table, f'Email = \"{email}\"')
         if not acc:  # account was not found with this email
             return f'Account was not found with this email.'
@@ -158,7 +158,7 @@ def update_account(account_id, fname=None, lname=None, email=None):
 def generate_account(session, profile_data):
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
+        # db.create_connection(db_path)
         new_account_id = db.select(values='count(*)', table_name=account_table)
 
         hashed_pass, hashed_salt = generate_hash(session['password'])
@@ -193,9 +193,11 @@ def get_profile(account_id):
 def __form_dict(acc, record):
     res = dict()
     res['email'] = acc[0]
-    res['last_name'] = acc[1]
-    res['first_name'] = acc[2]
+    res['account_last_name'] = acc[1]
+    res['account_first_name'] = acc[2]
     res['patient_num'] = record[1]
+    res['record_last_name'] = record[2]
+    res['record_first_name'] = record[3]
     res['middle_initial']: record[4]
     res['dob'] = record[5]
     res['vaccine_name'] = record[6]

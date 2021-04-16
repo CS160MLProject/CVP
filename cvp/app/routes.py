@@ -209,8 +209,11 @@ def profile(token):
 
     # generate qr
     generate_QR_code(sharing_url, str(account_id), save=True)
+
+    msg = session['message'] if session.get('message') else ''
+
     return render_template('profile.html', profile=user_profile,
-                           sharing_url=sharing_url, qr=f'{account_id}.png', token=profile_token)
+                           sharing_url=sharing_url, qr=f'{account_id}.png', token=profile_token, msg=msg)
 
 
 @app.route('/profile_<token>/settings', methods=['GET', 'POST'])
@@ -229,6 +232,7 @@ def settings(token):
             else settings.html with error message
         (4)profile.html
     """
+
     account_id, token = renew_token(token, salt=profile_key, time=900)  # 15 min
     if not account_id:  # could not decode the account_id (the link has expired)
         return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
@@ -245,7 +249,8 @@ def settings(token):
             error_msg = update_account(account_id, first_name, last_name, email)
 
             if not error_msg:
-                return f'saved changes successfully' # return to setting or profile with message
+                session['message'] = 'Saved change successfully'
+                return redirect(url_for('profile', token=token)) # return to setting or profile with message
 
         elif request.form.get('password_save'): # Process of Case(3)
             current_pass = request.form.get('current_password')

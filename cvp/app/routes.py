@@ -270,17 +270,17 @@ def settings(token):
             else settings.html with error message
         (4)profile.html
     """
-    # account_id = ts.loads(token, salt=change_account_key)
+    account_id = ts.loads(token, salt=change_account_key)
     if request.method == 'POST':
         error_msg = ''
         if request.form.get('profile_save'): # Process of Case(2)
             first_name = request.form.get('first_name')
             last_name = request.form.get('last_name')
-            username = request.form.get('username_email')
+            email = request.form.get('username_email')
 
             # save the info with database with account_id
+            error_msg = update_account(account_id, first_name, last_name, email)
 
-            # error_msg = account_database_update(account_id, first_name, last_name, username)
             if not error_msg:
                 return f'saved changes successfully'
 

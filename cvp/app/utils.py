@@ -152,6 +152,19 @@ def update_password(email, password):
     return False
 
 
+def update_account(account_id, fname=None, lname=None, email=None):
+    db = Database(db_path)
+    try:
+        if fname:
+            db.update((fname,), ('First_Name',), account_table, f'User_Account_ID = \"{account_id}\"')
+        if lname:
+            db.update((lname,), ('Last_Name',), account_table, f'User_Account_ID = \"{account_id}\"')
+        if email:
+            db.update((email,), ('Email',), account_table, f'User_Account_ID = \"{account_id}\"')
+    finally:
+        db.close_connection()
+
+
 def generate_account(session, profile_data):
     db = Database(db_path)
     try:

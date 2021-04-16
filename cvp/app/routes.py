@@ -279,12 +279,12 @@ def shared_profile(token):
     :param token: encrypted url for sharing info.
     :return: shared profile page with dict formatted user record.
     """
-    if request.method == 'GET':
-        account_id = decode_token(token, salt=sharing_profile_key, time=900)
-        user_record = get_profile(account_id)
-        return render_template('shared_profile.html', user_record=user_record)
-
-    return f'404'
+    account_id = decode_token(token, salt=sharing_profile_key, time=900)
+    if not account_id: # link has expried
+        return f'404'
+    # obtain user record
+    user_record = get_profile(account_id)
+    return render_template('shared_profile.html', user_record=user_record)
 
 
 if __name__ == '__main__':

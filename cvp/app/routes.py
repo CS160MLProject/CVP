@@ -131,7 +131,7 @@ def forgot_password():
     """
     if request.method == 'POST':
         error_msg = ''
-        if request.form.get('send_recovery_link_button') or request.form.get('resend_button'): # process of case(1), (2)
+        if request.form.get('send_button') or request.form.get('resend_button'): # process of case(1), (2)
             if request.form.get('resend_button'): # if case(2)
                 email = session['email']
 
@@ -273,6 +273,10 @@ def settings(token):
 
         elif request.form.get('back_button'): # process of case(4)
             return redirect(url_for('profile', token=token))
+
+        elif request.form.get('sign-out-settings'):
+            session.pop('logged_in', None)
+            return redirect(url_for('homepage'))
 
         # return with error message for POST
         return render_template('settings.html', token=token, error=error_msg)

@@ -227,31 +227,26 @@ def profile(token):
     :param token: user specific token encoded in login.
     :return: (1)profile.html with user profile, account information, sharing_url and name of qr file.
     """
-    saved_token = token  # Added this in so I can use url_for() in profile.html and repass the token
+    account_id, profile_token = renew_token(token, salt=profile_key, time=900)  # 15 min
+    if not account_id:  # could not decode the account_id (the link has expired)
+        return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
+
     if request.method == 'POST':  # user clicked the option buttons
         if request.form.get('settings_button'):
-            return redirect(url_for('settings', token=saved_token))
+            return redirect(url_for('settings', token=profile_token))
 
     # decrypt token to get account_id
-    account_id = ts.loads(token, salt=profile_key, max_age=900) # 15 min
-    # get user info with account_id
-    # user_record = get_user_rec_database(account_id)
-    db = Database(db_path)
-    try:
-        user_record = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[:-3]
-        user_info = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')
-    finally:
-        db.close_connection()
+    user_profile = get_profile(account_id)
 
     # encrypt account id to be shared through qr
-    token = ts.dumps(account_id, salt=sharing_profile_key)
-    sharing_url = url_for('shared_profile', token=token, _external=True)
+    sharing_token = encode_token(account_id, salt=sharing_profile_key)
+    sharing_url = url_for('shared_profile', token=sharing_token, _external=True)
     print(sharing_url)
 
     # generate qr
     generate_QR_code(sharing_url, str(account_id), save=True)
-    return render_template('profile.html', profile=user_record, account_info=user_info,
-                           sharing_url=sharing_url, qr=f'{account_id}.png', token=saved_token)
+    return render_template('profile.html', profile=user_profile, account_info='',
+                           sharing_url=sharing_url, qr=f'{account_id}.png', token=profile_token)
 
 
 @app.route('/profile_<token>/settings', methods=['GET', 'POST'])

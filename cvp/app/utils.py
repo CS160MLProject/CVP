@@ -192,6 +192,31 @@ def generate_account(session, profile_data):
         db.close_connection()
 
 
+def get_profile(account_id):
+    db = Database(db_path)
+    try:
+        acc = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[0][:-3]
+        record = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')[0]
+        return __form_dict(acc, record)
+    finally:
+        db.close_connection()
+
+
+def __form_dict(acc, record):
+    res = dict()
+    res['email'] = acc[0]
+    res['last_name'] = acc[1]
+    res['fist_name'] = acc[2]
+    res['patient_num'] = record[1]
+    res['middle_initial']: record[4]
+    res['dob'] = record[5]
+    res['vaccine_name'] = record[6]
+    res['vaccine_date1'] = record[7]
+    res['hospital'] = record[8]
+    res['vaccine_date2'] = record[10]
+    return res
+
+
 def encode_token(to_be_encrypted, salt):
     return ts.dumps(to_be_encrypted, salt)
 

@@ -51,16 +51,18 @@ def register():
                 error_msg = 'file is not uploaded.'
 
             if not error_msg:
+
                 uploads_dir = os.path.join(app.instance_path, 'upload_doc')
-                os.rmdir(uploads_dir) # Removing the directory if it exists so the app can
+                os.rmdir(uploads_dir) # Removing the directory if it exists so the app can create it
                 os.makedirs(uploads_dir) # Create a new directory for the upload
                 error_msg = invalid_register_input(email, password, confirm_password)
+
                 if not error_msg: # no error in entered information
                     vaccine_rec_pic = request.files["vaccine_rec"]
                     filename = secure_filename(vaccine_rec_pic.filename)
                     vaccine_rec_pic.save(os.path.join(uploads_dir, filename))
                     # vaccine_rec_pic = 'Vaccine_1.png' # to test
-                    extracted_rec = model.predict(uploads_dir+"\\"+filename)
+                    extracted_rec = model.predict(uploads_dir+"\\"+filename) # is there a better way to do this file pathing?
                     session['email'] = email
                     session['password'] = password
                     session['extracted_record'] = extracted_rec

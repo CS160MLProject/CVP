@@ -5,7 +5,7 @@
 
 
     <!--Extract saved information from session. -->
-    {{ session['extracted_record'] }} {{ session['email'] }}
+    {{ session['extracted_record'] }} WELP {{ session['email'] }}
 
 
     <form action={{url_for("register")}} method="post">
@@ -22,7 +22,7 @@
 
 <!--The head element consists of links, title and meta tags, which are used to define what the HTML page contains-->
 <head>
-    <link rel="stylesheet" href="../../../static/main.css"> <!--Links to the external stylesheet so that the page uses the CSS from it-->
+    <link rel="stylesheet" href="/static/main.css"> <!--Links to the external stylesheet so that the page uses the CSS from it-->
     <meta charset="UTF-8">
     <title>CVP | Create Account</title> <!--This is the title that you see displayed in the tab section-->
 </head>
@@ -55,35 +55,35 @@
                         </div>
 
                         <!--Finally the text field for the user to enter data into.-->
-                        <input class="text-field-short" type="text" id="first_name" name="first_name" placeholder="First Name">
+                        <input class="text-field-short" type="text" id="first_name" name="first_name" placeholder="{{ session['extracted_record']['first'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="mid_initial">Middle Initial:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="mid_initial" name="mid_initial" placeholder="Middle Initial">
+                        <input class="text-field-short" type="text" id="mid_initial" name="mid_initial" placeholder="{{ session['extracted_record']['mi'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="date_second">Date of Birth:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="dob" name="dob" placeholder="mm / dd / yyyy">
+                        <input class="text-field-short" type="text" id="dob" name="dob" placeholder="{{ session['extracted_record']['dob'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="first_dose">First Dose:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="first_dose" name="first_dose" placeholder="Vaccine Name - Lot Number">
+                        <input class="text-field-short" type="text" id="first_dose" name="first_dose" placeholder="{{ session['extracted_record']['product_1'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="second_dose">Second Dose:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="second_dose" name="second_dose" placeholder="Vaccine Name - Lot Number">
+                        <input class="text-field-short" type="text" id="second_dose" name="second_dose" placeholder="{{ session['extracted_record']['product_2'] }}">
                     </div>
 
 
@@ -94,35 +94,35 @@
                         <div class="field-label">
                             <label class="text-label" for="last_name">Last Name:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="last_name" name="last_name" placeholder="Last Name">
+                        <input class="text-field-short" type="text" id="last_name" name="last_name" placeholder="{{ session['extracted_record']['last'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="patient_num">Patient Number:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="patient_num" name="patient_num" placeholder="1234">
+                        <input class="text-field-short" type="text" id="patient_num" name="patient_num" placeholder="{{ session['extracted_record']['ssn'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="clinic_site">Clinic Site:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="clinic_site" name="clinic_site" placeholder="Clinic Site">
+                        <input class="text-field-short" type="text" id="clinic_site" name="clinic_site" placeholder="{{ session['extracted_record']['site_1'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="date_first">Issue Date:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="date_first" name="date_first" placeholder="mm / dd / yyyy">
+                        <input class="text-field-short" type="text" id="date_first" name="date_first" placeholder="{{ session['extracted_record']['date_1'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="date_second">Issue Date:</label>
                         </div>
-                        <input class="text-field-short" type="text" id="date_second" name="date_second" placeholder="mm / dd / yyyy">
+                        <input class="text-field-short" type="text" id="date_second" name="date_second" placeholder="{{ session['extracted_record']['date_2'] }}">
                     </div>
 
 

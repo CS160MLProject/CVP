@@ -109,6 +109,7 @@ def login():
             if type(acc) == tuple:  # logged in
                 # generate encrypted token to be url
                 url_token = ts.dumps(acc[4], salt=profile_key)
+                session['logged_in'] = True
                 return redirect(url_for('profile', token=url_token))
             else: error_msg = acc # if authentication failed, show error message from authenticate()
 
@@ -232,7 +233,9 @@ def profile(token):
     if request.method == 'POST':  # user clicked the option buttons
         if request.form.get('settings_button'):
             return redirect(url_for('settings', token=saved_token))
-
+        if request.form.get('sign-out-profile'):
+            session.pop('logged_in', None)
+            return redirect(url_for('homepage'))
     # decrypt token to get account_id
     account_id = ts.loads(token, salt=profile_key, max_age=900) # 15 min
     # get user info with account_id

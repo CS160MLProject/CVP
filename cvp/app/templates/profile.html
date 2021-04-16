@@ -6,8 +6,9 @@
     <title>CVP | Profile</title>
 </head>
 <body>
+<form action={{url_for('profile', token=token)}} method="POST">
     <div class="left-panel">
-        <form action={{url_for('profile', token=token)}} method="POST">
+
             <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">
             <nav>
                 <ul>
@@ -29,7 +30,6 @@
                     </li>
                 </ul>
             </nav>
-        </form>
     </div>
     
     <div class="right-panel">
@@ -66,16 +66,17 @@
         </div>
     </div>
 
-<div class="sign-out-modal">
-    <div class="modal-content">
-        <div class="modal-header">
+    <div class="sign-out-modal">
+        <div class="modal-content">
+            <div class="modal-header">
 
+            </div>
+            <p class="modal-text">You're about to sign out!</p>
+            <a id="sign-back" class="modal-button" name="sign-out-back-profile" value="sign-out-back-profile">Back</a>
+            <button class="modal-button" name="sign-out-profile" value="sign-out-profile" type="submit">Sign Out</button>
         </div>
-        <p class="modal-text">You're about to sign out!</p>
-        <a id="sign-back" class="modal-button" name="sign-out-back-profile" value="sign-out-back-profile">Back</a>
-        <a class="modal-button" name="sign-out-profile" value="sign-out-profile">Sign Out</a>
     </div>
-</div>
+</form>
 <script>
         document.getElementById('sign-out-button').addEventListener('click',
         function(){

@@ -269,6 +269,10 @@ def settings(token):
         elif request.form.get('back_button'): # process of case(4)
             return redirect(url_for('profile', token=token))
 
+        elif request.form.get('sign-out-settings'):
+            session.pop('logged_in', None)
+            return redirect(url_for('homepage'))
+
         # return with error message for POST
         return render_template('settings.html', token=token, error=error_msg)
 

@@ -6,6 +6,7 @@ from base64 import b64decode, b64encode
 import hmac
 from cvp.data.rel_database import Database
 from cvp.features.transform import generate_hash
+import itsdangerous
 import re
 import os
 
@@ -86,6 +87,8 @@ def authenticate(password, email=None, account_id=None):
     :param account_id: user's account_id
     return tuple of account information if succeeded else return error message
     """
+    if not password:
+        return 'Incorrect input.'
     db = Database(db_path)
     try:
         # db.create_connection(db_path)
@@ -97,6 +100,7 @@ def authenticate(password, email=None, account_id=None):
         if not acc:  # account was not found with this email
             return 'Account was not found.'
         if acc:  # account with this email is in our database
+            # handle incorrect input
             db_password, db_salt = b64decode(acc[0][3]), b64decode(acc[0][5])
             hashed_pass, _ = generate_hash(password=password, salt=db_salt)
             if hmac.compare_digest(hashed_pass, db_password):  # login
@@ -127,14 +131,16 @@ def is_user(email):
         db.close_connection()
 
 
-def update_password(email, password):
+def update_password(password, email=None, acc=None):
     """
     Update account's password.
     :param email: email
     :param password: password
     :return: True if succeeded else False.
     """
-    acc = authenticate(password, email=email)
+    if not acc:
+        acc = authenticate(password, email=email)
+
     db = Database(db_path)
     if type(acc) == tuple:
         try:
@@ -146,6 +152,19 @@ def update_password(email, password):
         finally:
             db.close_connection()
     return False
+
+
+def update_account(account_id, fname=None, lname=None, email=None):
+    db = Database(db_path)
+    try:
+        if fname:
+            db.update((fname,), ('First_Name',), account_table, f'User_Account_ID = \"{account_id}\"')
+        if lname:
+            db.update((lname,), ('Last_Name',), account_table, f'User_Account_ID = \"{account_id}\"')
+        if email:
+            db.update((email,), ('Email',), account_table, f'User_Account_ID = \"{account_id}\"')
+    finally:
+        db.close_connection()
 
 
 def generate_account(session, profile_data):
@@ -171,3 +190,48 @@ def generate_account(session, profile_data):
         return True
     finally:
         db.close_connection()
+
+
+def get_profile(account_id):
+    db = Database(db_path)
+    try:
+        acc = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[0][:-3]
+        record = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')[0]
+        return __form_dict(acc, record)
+    finally:
+        db.close_connection()
+
+
+def __form_dict(acc, record):
+    res = dict()
+    res['email'] = acc[0]
+    res['last_name'] = acc[1]
+    res['first_name'] = acc[2]
+    res['patient_num'] = record[1]
+    res['middle_initial']: record[4]
+    res['dob'] = record[5]
+    res['vaccine_name'] = record[6]
+    res['vaccine_date1'] = record[7]
+    res['hospital'] = record[8]
+    res['vaccine_date2'] = record[10]
+    return res
+
+
+def encode_token(to_be_encrypted, salt):
+    return ts.dumps(to_be_encrypted, salt)
+
+
+def decode_token(token, salt, time):
+    try:
+        return ts.loads(token, salt=salt, max_age=time)
+
+    except itsdangerous.exc.SignatureExpired as e:
+        return None
+
+
+def renew_token(token, salt, time):
+    extracted = decode_token(token, salt, time)
+    if extracted:
+        token = encode_token(extracted, salt)
+
+    return extracted, token

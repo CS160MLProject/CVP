@@ -6,6 +6,7 @@ from base64 import b64decode, b64encode
 import hmac
 from cvp.data.rel_database import Database
 from cvp.features.transform import generate_hash
+import itsdangerous
 import re
 import os
 
@@ -174,3 +175,20 @@ def generate_account(session, profile_data):
         return True
     finally:
         db.close_connection()
+
+
+def encode_token(to_be_encrypted, salt):
+    return ts.dumps(to_be_encrypted, salt)
+
+
+def decode_token(token, salt, time):
+    try:
+        return ts.loads(token, salt=salt, max_age=time)
+
+    except itsdangerous.exc.SignatureExpired as e:
+        return None
+
+
+def renew_token(token, salt, time):
+    extracted = decode_token(token, salt, time)
+    return encode_token(extracted, salt)

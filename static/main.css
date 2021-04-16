@@ -263,6 +263,11 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     color:rgb(46, 46, 46);
 }
 
+.recover-button:active{
+    background-color: #10CC0A;
+    color: white;
+}
+
 .resend {
     display: inline-block;
     vertical-align: middle;
@@ -300,6 +305,8 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     margin-left: 250px;
     background-color: rgba(0,0,0,0);
     border-width: 0;
+    outline: none;
+    cursor: pointer;
 }
 
 .page-header {

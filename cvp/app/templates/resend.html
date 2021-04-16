@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="../static/stylesheet.css">
+    <link rel="stylesheet" href="/static/main.css">
     <meta charset="UTF-8">
     <title>CVP | Recover Password</title>
 </head>
 <body>
     <div class="left-panel">
         <h1 class="page-header">Recover Password</h1>
-        <img class="new-account-icon" src="images/lock-icon.png" alt="A black icon of a padlock.">
+        <img class="new-account-icon" src="{{ url_for('static', filename='images/lock-icon.png') }}" alt="A black icon of a padlock.">
         <h2>MISC</h2>
     </div>
     
     <div class="right-panel">
-
-        <div class="padding-div"></div>
-        <form action= method="post"></form>
+        <div class="container top-margin-med">
+            <form action={{ url_for('forget_password') }} method="POST"></form>
             <div class="input-field">
                 <p class="message">A link has been sent to the email you provided! Didn't receive?</p>
-            </div>  
+            </div>
 
             <div class="input-field">
                 <button class="resend" type="resend" name="resend_button" value="resend_button">Resend Link</button>
             </div>
         </form>
+        </div>
+
     </div>
 </body>
 </html>

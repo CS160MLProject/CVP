@@ -9,10 +9,10 @@ def __send_password_recovery_email(app, msg):
         mail.send(msg)
 
 
-def send_email(subject, html, recipient):
+def send_password_recovery_email(html, recipient):
     msg = Message()
-    msg.subject = subject
+    msg.subject = 'Password Reset Requested'
     msg.recipients = [recipient]
     msg.sender = support_email
-    msg.body = f'{subject}, {html}'
+    msg.body = f'{msg.subject}, {html}'
     Thread(target=__send_password_recovery_email, args=(app, msg)).start()

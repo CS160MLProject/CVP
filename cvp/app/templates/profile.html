@@ -25,7 +25,7 @@
                     </li>
                     <li>
                         <img class="field-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
-                        <a href="#">Sign Out</a>
+                        <a id="sign-out-button" href="#">Sign Out</a>
                     </li>
                 </ul>
             </nav>
@@ -65,5 +65,22 @@
 
         </div>
     </div>
+
+<div class="sign-out-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+
+        </div>
+        <p class="modal-text">You're about to sign out!</p>
+        <button class="modal-button">Back</button>
+        <button class="modal-button">Sign Out</button>
+    </div>
+</div>
+<script>
+        document.getElementById('sign-out-button').addEventListener('click',
+        function(){
+            document.querySelector('.sign-out-modal').style.display = 'flex';
+        });
+</script>
 </body>
 </html>

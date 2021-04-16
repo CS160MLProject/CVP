@@ -3,6 +3,7 @@
 import os
 from flask import render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
+import shutil
 from cvp.features.transform import generate_QR_code
 from cvp.app.services.email_service import *
 from cvp.app.utils import *
@@ -53,8 +54,8 @@ def register():
             if not error_msg:
 
                 uploads_dir = os.path.join(app.instance_path, 'upload_doc')
-                os.rmdir(uploads_dir) # Removing the directory if it exists so the app can create it
-                os.makedirs(uploads_dir) # Create a new directory for the upload
+                shutil.rmtree(uploads_dir)
+                os.makedirs(uploads_dir, exist_ok=True) # Create a new directory for the upload
                 error_msg = invalid_register_input(email, password, confirm_password)
 
                 if not error_msg: # no error in entered information

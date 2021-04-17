@@ -53,17 +53,23 @@ def register():
 
             if not error_msg:
 
-                uploads_dir = os.path.join(app.instance_path, 'upload_doc') # generate a path for the upload
-                shutil.rmtree(uploads_dir) # Clear the files in the directory to avoid duplicates
-                os.makedirs(uploads_dir, exist_ok=True) # Create a new directory for the upload
+                uploads_dir = 'dataset/processed/upload_vaccine_record'
+
+                # Create a new directory for the upload
+                os.makedirs(uploads_dir, exist_ok=True)
                 error_msg = invalid_register_input(email, password, confirm_password)
 
                 if not error_msg: # no error in entered information
                     vaccine_rec_pic = request.files["vaccine_rec"]
                     filename = secure_filename(vaccine_rec_pic.filename)
+
+                    # Save file to local folder
                     vaccine_rec_pic.save(os.path.join(uploads_dir, filename))
-                    # vaccine_rec_pic = 'Vaccine_1.png' # to test
-                    extracted_rec = model.predict(uploads_dir+"\\"+filename) # is there a better way to do this file pathing?
+                    extracted_rec = model.predict(filename, folder_path=uploads_dir)
+
+                    # Remove File after OCR returned the prediction
+                    os.remove(os.path.join(uploads_dir, filename))
+
                     session['email'] = email
                     session['password'] = password
                     session['extracted_record'] = extracted_rec

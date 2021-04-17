@@ -154,6 +154,6 @@ class TestRoutes:
         return get_profile(1)
 
     def __get_profile_url(self, data):
-        pattern = r'profile_[\w.-]+'
+        pattern = r'profile_([\w.-]+)'
         found = re.findall(pattern, data)
         return found[0]

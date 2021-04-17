@@ -49,6 +49,9 @@ class TestRoutes:
         assert 'continue_button' in html, f'Should contain continue button'
         assert response.status_code == 200
 
+        response = self.__click_button(test_client, '/register', 'continue_button')
+        assert response.status_code == 200
+
     def test_login_get(self, test_client):
         """
         GIVEN a flask app configuration as test client

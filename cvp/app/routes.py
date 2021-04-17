@@ -207,10 +207,9 @@ def profile(token):
     # encrypt account id to be shared through qr or url
     sharing_token = encode_token(account_id, salt=sharing_profile_key)
     sharing_url = url_for('shared_profile', token=sharing_token, _external=True)
-
+    print(sharing_url)
     # generate qr
     generate_QR_code(sharing_url, str(account_id), save=True)
-
     msg = session['message'] if session.get('message') else ''
 
     return render_template('profile.html', profile=user_profile,

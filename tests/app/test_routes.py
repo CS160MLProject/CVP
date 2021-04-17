@@ -2,10 +2,8 @@ from cvp.app.routes import app
 from cvp.app.utils import get_profile
 import re
 
-class TestRoutes:
 
-    # def __init__(self):
-    #     self.test_account_info = get_profile(1)
+class TestRoutes:
 
     def test_homepage_get(self, test_client):
         """

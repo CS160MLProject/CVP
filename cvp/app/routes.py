@@ -131,7 +131,7 @@ def forgot_password():
     """
     if request.method == 'POST':
         error_msg = ''
-        if request.form.get('send_button') or request.form.get('resend_button'): # process of case(1), (2)
+        if request.form.get('send_recovery_link_button') or request.form.get('resend_button'): # process of case(1), (2)
             if request.form.get('resend_button'): # if case(2)
                 email = session['email']
 

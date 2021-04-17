@@ -139,8 +139,12 @@ class TestRoutes:
 
         login = self.__click_button_post(test_client, '/login', 'login_button', data=test_account_info)
         url = self.__get_profile_url(login.data.decode())
-        response = test_client.get(f'/profile_{url}')
-        assert response.status_code == 200, f'{login.data.decode()} {url}'
+
+        response = self.__click_button_post(test_client, f'/profile_{url}', 'settings_button')
+        assert response.status_code == 302 # redirect
+
+        response = self.__click_button_post(test_client, f'/profile_{url}', 'sign_out_button')
+        assert response.status_code == 302
 
     def __click_button_post(self, test_client, url, button, data=None):
         if data: # with data

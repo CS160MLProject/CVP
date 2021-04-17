@@ -198,7 +198,7 @@ def profile(token):
     if request.method == 'POST':  # process for case(1)
         if request.form.get('settings_button'):
             return redirect(url_for('settings', token=profile_token))
-        if request.form.get('sign-out-profile'):
+        if request.form.get('sign_out_button'):
             session.pop('logged_in', None)
             return redirect(url_for('homepage'))
     # process for case(2) (GET)

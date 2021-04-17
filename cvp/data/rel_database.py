@@ -260,9 +260,13 @@ class Database:
 
 
 def main(db_path: dict):
-    logger.info('Preparing ...')
+    # Make cvp.db
+    logger.info('Preparing to make cvp database...')
     if os.path.exists(db_path.get('cvp')):
         os.remove(db_path.get('cvp'))
+
+    if os.path.exists(db_path.get('cdc')):
+        os.remove(db_path.get('cdc'))
 
     df = pd.read_csv(ACCOUNT_PATH, sep='\t')
     df.drop_duplicates(subset=['Email'], inplace=True)
@@ -312,6 +316,46 @@ def main(db_path: dict):
     logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
 
     db.close_connection()
+
+    # Make cdc.db
+    logger.info('Preparing to make cdc database...')
+    table_name = 'profile'
+    attr = {
+        'Email': 'VARCHAR NOT NULL PRIMARY KEY',
+        'Patient_Num': 'INTEGER',
+        'Last_Name': 'VARCHAR NOT NULL',
+        'First_Name': 'VARCHAR NOT NULL',
+        'Middle_Initial': 'CHAR(1)',
+        'Dob': 'VARCHAR NOT NULL',
+        'Vaccine_Name1': 'VARCHAR NOT NULL',
+        'Vaccine_Date1': 'VARCHAR NOT NULL',
+        'Hospital': 'VARCHAR NOT NULL',
+        'Vaccine_Name2': 'VARCHAR',
+        'Vaccine_Date2': 'VARCHAR'
+    }
+    profile_cols = ['Email', 'Patient_Num', 'Last_Name', 'First_Name', 'Middle_Initial', 'Dob',
+                    'Vaccine_Name1', 'Vaccine_Date1', 'Hospital', 'Vaccine_Name2', 'Vaccine_Date2']
+
+    db = Database(db_path.get('cdc'))
+    db.create_table(attr, table_name)
+    df[profile_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
+    logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
+
+    tuplex = [("jotaro.kujo@patient.abc.com", 195, 'Kujo', 'Jotaro', '', 'July 27, 1970', 'PFIZER-1234', '01/01/21',
+              'TKYH Dr. Star', 'PFIZER-1234', '01/30/21'),
+              ('quangduytran99@gmail.com', None, 'Tran', 'Quang Duy', '', '11/19/1999', 'JANSSEN', '04/08/21',
+               'MO VAX', None, None),
+              ('ysdog1029@gmail.com', 1111, 'Yoshida', 'Soma', '', '10/29/1998', 'MODERNA-2657', '03/05/2021',
+               'RYHN Dr. Emma', 'MODERNA-6695', '03/26/2021'),
+              ('jerom.estrada7@gmail.com', 4567, 'Estrada', 'Jerom', '', '07/27/1997', 'PFIZER-9371', '02/15/2021',
+               'KPWT Dr. Johnny', 'PFIZER-2435', '03/08/2021')]
+    for element in tuplex:
+        db.insert(element, table_name)
+
+    logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
+
+    db.close_connection()
+
     logger.info('Finished operation')
 
 

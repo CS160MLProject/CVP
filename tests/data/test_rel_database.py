@@ -195,8 +195,12 @@ class TestRelDatabase():
         if os.path.exists(test_db_path.get('cvp')):
             os.remove(test_db_path.get('cvp'))
 
+        if os.path.exists(test_db_path.get('cdc')):
+            os.remove(test_db_path.get('cdc'))
+
         # === Expected Output ===#
-        expected_size = 197
+        cvp_expected_size = 190
+        cdc_expected_size = 194
 
         # === Trigger Output ===#
         main(test_db_path)
@@ -204,9 +208,13 @@ class TestRelDatabase():
         db = Database(test_db_path.get('cvp'))
         selection1 = db.select('COUNT(*)', 'profile')
         selection2 = db.select('COUNT(*)', 'account')
-        print(selection1, selection2)
         profile_size = selection1[0][0]
         account_size = selection2[0][0]
 
-        assert profile_size == expected_size
-        assert account_size == expected_size
+        assert profile_size == cvp_expected_size
+        assert account_size == cvp_expected_size
+
+        db = Database(test_db_path.get('cdc'))
+        selection1 = db.select('COUNT(*)', 'profile')
+        profile_size = selection1[0][0]
+        assert profile_size == cdc_expected_size

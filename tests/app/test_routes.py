@@ -1,11 +1,11 @@
 from cvp.app.routes import app
 from cvp.app.utils import get_profile
-
+import re
 
 class TestRoutes:
 
-    def __init__(self):
-        self.test_account_info = get_profile(1)
+    # def __init__(self):
+    #     self.test_account_info = get_profile(1)
 
     def test_homepage_get(self, test_client):
         """
@@ -103,7 +103,8 @@ class TestRoutes:
         THEN check that the response is valid
         """
         data = dict()
-        data['email'] = self.test_account_info['email']
+        test_account_info = get_profile(1)
+        data['email'] = test_account_info['email']
 
         # test when user click 'Send Recovery Link' button in recover.html
         response = self.__click_button_post(test_client, '/login/reset', 'send_recovery_link_button')
@@ -113,12 +114,48 @@ class TestRoutes:
         response = self.__click_button_post(test_client, '/login/reset', 'resend_button')
         assert response.status_code == 200 # render template
 
+    def test_profile_get(self, test_client):
+        """
+        GIVEN a flask app configuration as test client
+        WHEN the '/' (homepage) is requested (GET)
+        THEN check that the response is valid
+        """
+        test_account_info = self.__get_test_account_info()
+        test_account_info['password'] = \
+            f'{test_account_info["record_first_name"]}{test_account_info["record_last_name"]}'.lower()
+
+        login = self.__click_button_post(test_client, '/login', 'login_button', data=test_account_info)
+        url = self.__get_profile_url(login.data.decode())
+        response = test_client.get(f'/profile_{url}')
+        assert response.status_code == 200, f'{login.data.decode()} {url}'
+
+    def test_profile_post(self, test_client):
+        """
+        GIVEN a flask app configuration as test client
+        WHEN the '/' (homepage) is post (POST)
+        THEN check that the response is valid
+        """
+        test_account_info = self.__get_test_account_info()
+        test_account_info['password'] = \
+            f'{test_account_info["record_first_name"]}{test_account_info["record_last_name"]}'.lower()
+
+        login = self.__click_button_post(test_client, '/login', 'login_button', data=test_account_info)
+        url = self.__get_profile_url(login.data.decode())
+        response = test_client.get(f'/profile_{url}')
+        assert response.status_code == 200, f'{login.data.decode()} {url}'
+
     def __click_button_post(self, test_client, url, button, data=None):
         if data: # with data
             data[button] = button
-            return test_client.post(url, data=data)
+            return test_client.post(url, data=data, follow_redirects=False)
 
         # only button
         return test_client.post(url, data={button: button})
 
+    def __get_test_account_info(self):
+        return get_profile(1)
 
+    def __get_profile_url(self, data):
+        pattern = r'profile_[\w.-]+'
+        found = re.findall(pattern, data)
+        return found[0]

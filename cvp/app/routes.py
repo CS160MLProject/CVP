@@ -105,6 +105,7 @@ def login():
                 # generate encrypted token to be url
                 url_token = encode_token(acc[4], salt=profile_key)
                 session['logged_in'] = True
+                session['url'] = url_token
                 return redirect(url_for('profile', token=url_token))
 
             elif not error_msg: error_msg = acc # if authentication failed, show error message from authenticate()

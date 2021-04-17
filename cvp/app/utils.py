@@ -214,7 +214,7 @@ def decode_token(token, salt, time):
     try:
         return ts.loads(token, salt=salt, max_age=time)
 
-    except itsdangerous.exc.SignatureExpired:
+    except itsdangerous.exc.SignatureExpired or itsdangerous.exc.BadSignature or itsdangerous.exc.BadTimeSignature:
         return False
 
 

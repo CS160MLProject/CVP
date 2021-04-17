@@ -23,6 +23,12 @@ class TestRoutes:
         assert 'login_button' in html, f'Should contain login button'
         assert response.status_code == 200
 
+        response = self.__click_button(test_client, '/', 'register_button')
+        assert response.status_code == 302 # redirect
+
+        response = self.__click_button(test_client, '/', 'login_button')
+        assert response.status_code == 302
+
     def test_register_get(self, test_client):
         """
         GIVEN a flask app configuration as test client
@@ -72,3 +78,6 @@ class TestRoutes:
     def test_login_password_recovery(self, test_client):
         response = test_client.get('/login/reset')
         assert response.status_code == 200, f'{response.data.decode()}'
+
+    def __click_button(self, test_client, url, button):
+        return test_client.post(url, data={button: button})

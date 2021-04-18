@@ -3,7 +3,6 @@
 import os
 from flask import render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
-import shutil
 from cvp.features.transform import generate_QR_code
 from cvp.app.services.email_service import *
 from cvp.app.utils import *
@@ -83,7 +82,7 @@ def register():
             confirmed_data = request.form.to_dict('confirmed_data')
 
             # check CDC database at this point
-            valid_rec = check_cdc(confirmed_data)
+            valid_rec = check_cdc(confirmed_data, session['email'])
 
             if valid_rec:  # send confirmed account information to database and record them.
                 # insert this data to db
@@ -312,4 +311,3 @@ def shared_profile(token):
 
 if __name__ == '__main__':
     app.run()
-

@@ -133,7 +133,6 @@ class TestRoutes:
         response = self.__click_button_post(test_client, '/login/reset', 'resend_button')
         assert response.status_code == 200
 
-
     def test_reset_password_get(self, test_client):
         """
         GIVEN a flask app configuration as test client

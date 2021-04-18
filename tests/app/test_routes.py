@@ -124,6 +124,16 @@ class TestRoutes:
         response = self.__click_button_post(test_client, '/login/reset', 'send_recovery_link_button', data=data)
         assert response.status_code == 200  # render template
 
+        # test when user click 'Send Recovery Link' button with incorrect email
+        data['email'] = 'wrong@email.com'
+        response = self.__click_button_post(test_client, '/login/reset', 'send_recovery_link_button', data=data)
+        assert 'Account was not found with this email.' in response.data.decode()
+
+        # test shen user click 'Resend Link' button in recover.html
+        response = self.__click_button_post(test_client, '/login/reset', 'resend_button')
+        assert response.status_code == 200
+
+
     def test_reset_password_get(self, test_client):
         """
         GIVEN a flask app configuration as test client

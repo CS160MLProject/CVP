@@ -201,8 +201,6 @@ def generate_account(session, profile_data):
     try:
         # Get largest account_id in database and increment account_id by 1
         new_account_id = db.select(values='max(User_Account_ID)', table_name=account_table)[0][0] + 1
-        # db.create_connection(db_path)
-        new_account_id = db.select(values='count(*)', table_name=account_table)[0][0]
 
         hashed_pass, hashed_salt = generate_hash(session['password'])
         hashed_pass = b64encode(hashed_pass).decode('utf-8')

@@ -159,27 +159,28 @@ def is_user(email):
         db.close_connection()
 
 
-def update_password(password, email=None, acc=None):
+def update_password(new_password, email=None, acc=None):
     """
     Update account's password.
     :param email: email
-    :param password: password
+    :param new_password: new password
+    :param acc: account id
     :return: True if succeeded else False.
     """
-    if not acc:
-        acc = authenticate(password, email=email)
-
     db = Database(db_path)
-    if type(acc) == tuple:
-        try:
-            hashed_pass, hashed_salt = generate_hash(password)
-            hashed_pass = b64encode(hashed_pass).decode('utf-8')
-            hashed_salt = b64encode(hashed_salt).decode('utf-8')
+    try:
+        hashed_pass, hashed_salt = generate_hash(new_password)
+        hashed_pass = b64encode(hashed_pass).decode('utf-8')
+        hashed_salt = b64encode(hashed_salt).decode('utf-8')
+        if acc:
+            db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'User_Account_ID = \"{acc}\"')
+        elif email and type(is_user(email)) == tuple:
             db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'Email = \"{email}\"')
-            return True
-        finally:
-            db.close_connection()
-    return False
+        else:
+            return False
+        return True
+    finally:
+        db.close_connection()
 
 
 def update_account(account_id, fname=None, lname=None, email=None):
@@ -200,21 +201,19 @@ def generate_account(session, profile_data):
     try:
         # Get largest account_id in database and increment account_id by 1
         new_account_id = db.select(values='max(User_Account_ID)', table_name=account_table)[0][0] + 1
+        # db.create_connection(db_path)
+        new_account_id = db.select(values='count(*)', table_name=account_table)[0][0]
 
         hashed_pass, hashed_salt = generate_hash(session['password'])
         hashed_pass = b64encode(hashed_pass).decode('utf-8')
         hashed_salt = b64encode(hashed_salt).decode('utf-8')
         account_value = (session['email'], profile_data['last_name'], profile_data['first_name'],
                          hashed_pass, new_account_id, hashed_salt)
-        profile_value = (new_account_id, profile_data['patient_num'], profile_data['last_name'],
-                         profile_data['first_name'], profile_data['mid_initial'], profile_data['dob'], profile_data['first_dose'],
-                         profile_data['date_first'], profile_data['clinic_site'], profile_data['second_dose'],
-                         profile_data['date_second'])
-        # print(db.select('*', account_table, 'Email = "jotaro.kujo@gmail.com"'))
-        # print(session['email'])
-        # print(profile_data)
-        # print(profile_value)
 
+        profile_value = (new_account_id, profile_data['patient_num'], profile_data['last_name'],
+                         profile_data['first_name'], profile_data['mid_initial'], profile_data['dob'],
+                         profile_data['first_dose'], profile_data['date_first'], profile_data['clinic_site'],
+                         profile_data['second_dose'], profile_data['date_second'])
         db.insert(account_value, account_table)
         db.insert(profile_value, profile_table)
         return True
@@ -235,9 +234,11 @@ def get_profile(account_id):
 def __form_dict(acc, record):
     res = dict()
     res['email'] = acc[0]
-    res['last_name'] = acc[1]
-    res['first_name'] = acc[2]
+    res['account_last_name'] = acc[1]
+    res['account_first_name'] = acc[2]
     res['patient_num'] = record[1]
+    res['record_last_name'] = record[2]
+    res['record_first_name'] = record[3]
     res['middle_initial']: record[4]
     res['dob'] = record[5]
     res['vaccine_name'] = record[6]
@@ -255,8 +256,8 @@ def decode_token(token, salt, time):
     try:
         return ts.loads(token, salt=salt, max_age=time)
 
-    except itsdangerous.exc.SignatureExpired as e:
-        return None
+    except itsdangerous.exc.SignatureExpired or itsdangerous.exc.BadSignature or itsdangerous.exc.BadTimeSignature:
+        return False
 
 
 def renew_token(token, salt, time):

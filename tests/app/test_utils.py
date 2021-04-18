@@ -1,14 +1,5 @@
 from cvp.app.utils import *
-
-
-def test_sharing_qr():
-    """
-    Test if sharing_qr obtain qr file correctly.
-    """
-    account_id = 12345
-    qr_file = sharing_qr(account_id=account_id)
-    assert qr_file == f'dataset/user/{account_id}.png', f'The qr file is not created in the expected directory.'
-
+import time
 
 def test_invalid_register_input():
     """
@@ -63,7 +54,6 @@ def test_authenticate():
     """
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
         # get the existing information and test if it authenticate correctly
         email, lname, fname, password,  acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
         password = f'{fname}{lname}'.lower()
@@ -95,15 +85,14 @@ def test_is_user():
     """
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
         # get the existing information and test if it return True correctly
         email, lname, fname, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
-        password = f'{fname}{lname}'.lower()
+        # password = f'{fname}{lname}'.lower()
         assert type(is_user(email)) == tuple, 'should return account info with existing email.'
 
         # test if return False with fake email
         fake_email = 'fake email'
-        assert not is_user(fake_email), 'Should return False with fake email.'
+        assert type(is_user(fake_email)) == str, 'Should return error message with fake email.'
 
     finally:
         db.close_connection()
@@ -112,7 +101,6 @@ def test_is_user():
 def test_update_password():
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
         # get the existing information and test if it return True correctly
         email, lname, fname, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"2\"')[0]
         new_pass = 'new_password'
@@ -122,5 +110,96 @@ def test_update_password():
         fake_email = 'fake email'
         assert not update_password(new_pass, email=fake_email), 'Should return False with fake email.'
 
+        assert update_password(new_pass, acc=acc_id)
     finally:
         db.close_connection()
+
+
+def test_update_account():
+    db = Database(db_path)
+    try:
+        # get the existing information to test
+        original_email, original_lname, original_fname, _, acc_id, _ = \
+            db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+
+        new_lname = 'new_lname'
+        new_fname = 'new_fname'
+        new_email = 'new_email@email.com'
+
+        # test one by one
+        # test first name update
+        update_account(acc_id, fname=new_fname)
+        _, _, fname, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+        assert fname == new_fname, f'New first name is not updated correctly'
+
+        # test last name update
+        update_account(acc_id, lname=new_lname)
+        _, lname, _, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+        assert lname == new_lname, f'New last name is not updated correctly'
+
+        # test email update
+        update_account(acc_id, email=new_email)
+        email, _, _, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+        assert email == new_email, f'New email is not updated correctly'
+
+        # test all update
+        update_account(acc_id, fname=original_fname, lname=original_lname, email=original_email)
+        email, lname, fname, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+        assert email == original_email, f'Email is not updated correctly'
+        assert lname == original_lname, f'Email is not updated correctly'
+        assert fname == original_fname, f'Email is not updated correctly'
+
+    finally:
+        db.close_connection()
+
+
+def test_generate_account():
+    db = Database(db_path)
+    try:
+        size = db.select(values='count(*)', table_name=account_table)[0][0]
+    finally:
+        db.close_connection()
+
+    new_session = dict()
+    new_session['email'] = f'email{size}@test.com'
+    new_session['password'] = 'password'
+
+    profile_data = dict()
+    profile_data['last_name'] = 'lastname'
+    profile_data['first_name'] = 'firstname'
+    profile_data['patient_num'] = '1234'
+    profile_data['mid_initial'] = 'T'
+    profile_data['dob'] = 'Apr 16, 1990'
+    profile_data['first_dose'] = 'Something'
+    profile_data['date_first'] = 'Apr 08, 2021'
+    profile_data['clinic_site'] = 'Hospital'
+    profile_data['second_dose'] = 'Something2'
+    profile_data['date_second'] = 'Apr 12, 2021'
+
+    assert generate_account(new_session, profile_data), f'Did not generate account successfully with valid data'
+
+
+def test_get_profile():
+    assert type(get_profile(1)) == dict, f'Did not get profile with valid ID'
+
+
+def test_encode_decode_token():
+    to_be_encrypted = 'Super Secret'
+    test_key = 'TEST_KEY'
+    # test encoded token can decode and obtain the same value as encrypted.
+    assert decode_token(encode_token(to_be_encrypted, salt=test_key), salt=test_key, time=10) == to_be_encrypted, \
+        f'Decode function with encoded token should return the same as the to_be_encrypted.'
+
+
+def test_renew_token():
+    to_be_encrypted = 'Super Secret'
+    test_key = 'TEST_KEY'
+    token = encode_token(to_be_encrypted, salt=test_key)
+    extracted, token = renew_token(token, salt=test_key, time=1)
+    assert extracted == to_be_encrypted, f'Did not extract the encrypted value.'
+    time.sleep(2)
+    extracted, token = renew_token(token, salt=test_key, time=1)
+
+    assert not extracted, f'Expired token should not extract any value and should return False.'
+
+

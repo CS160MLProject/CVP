@@ -210,13 +210,11 @@ def generate_account(session, profile_data):
                          profile_data['first_name'], profile_data['mid_initial'], profile_data['dob'], profile_data['first_dose'],
                          profile_data['date_first'], profile_data['clinic_site'], profile_data['second_dose'],
                          profile_data['date_second'])
-        # print(db.select('*', account_table, 'Email = "jotaro.kujo@gmail.com"'))
-        # print(session['email'])
-        # print(profile_data)
-        # print(profile_value)
 
         db.insert(account_value, account_table)
         db.insert(profile_value, profile_table)
+
+        db.close_connection()
         return True
     finally:
         db.close_connection()

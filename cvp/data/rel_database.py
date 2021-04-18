@@ -1,5 +1,4 @@
 """Filename: rel_database
-
 Description: CRUD functions to interact with a database, offer the following methods:
 - create_connection
 - close_connection
@@ -8,11 +7,9 @@ Description: CRUD functions to interact with a database, offer the following met
 - select
 - update
 - delete
-
 USAGE
 -----
 $ python cvp/data/rel_database.py
-
 """
 
 # Standard Dist
@@ -42,12 +39,9 @@ class Database:
 
     def __init__(self, db_path):
         """ construct the database
-
         Usage
-
         >>> from cvp.data.rel_database import Database
         >>> db = Database(db_path)
-
         Args:
              db_path (str): path to the database
         """
@@ -59,10 +53,8 @@ class Database:
 
     def create_connection(self, db_path):
         """ Create a connection to database
-
         Args:
             db_path (str): path to database
-
         Returns:
              conn: Connection object or None
         """
@@ -77,17 +69,12 @@ class Database:
 
     def close_connection(self):
         """ Close the connection to database
-
         Usage:
-
         >>> from cvp.data.rel_database import Database
         >>> db = Database(db_path)
         >>> db.close_connection()
-
         Args:
-
         Returns:
-
         """
         if self.conn != None:
             self.conn.close()
@@ -99,13 +86,10 @@ class Database:
 
     def create_table(self, attr: dict, table_name: str, foreign_key: dict = None):
         """ Create new table
-
         Usage:
-
         >>> from cvp.data.rel_database import Database
         >>> db = Database(db_path)
         >>> db.create_table(attr, table_name)
-
         Args:
             attr (dict): column name and type
                 key = column_name, value = type of column
@@ -115,7 +99,6 @@ class Database:
                 Ex: foreign_key = {'user_account_id': 'profile (user_id)'}
             table_name (str): name of table
         Returns:
-
         """
         SQL_CreateTable = f'''CREATE TABLE IF NOT EXISTS {table_name} ('''
         for key, value in attr.items():
@@ -136,18 +119,14 @@ class Database:
 
     def insert(self, values: tuple, table_name: str):
         """ Insert new values into existed table
-
         Usage:
-
         >>> from cvp.data.rel_database import Database
         >>> db = Database(db_path)
         >>> db.insert(values, table_name)
-
         Args:
             values (tuple): new values to insert
             talbe_name (str): name of table
         Returns:
-
         """
         SQL_Insert = f'''INSERT INTO {table_name} VALUES (?'''
 
@@ -165,20 +144,16 @@ class Database:
 
     def select(self, values: str, table_name: str, condition: str = None):
         """ Select values from existed table
-
         Usage:
-
         >>> from cvp.data.rel_database import Database
         >>> db = Database(db_path)
         >>> db.select(values, table_name, priority, condition=True)
-
         Args:
             values (str): columns to select from database
                 Ex: values = 'userID, last_name, dob'
             condition (str): condition to select value
                 Ex: condition = 'userID = 1 and last_name = "last"'
             table_name (str): name of table
-
         Returns:
             result (list<tuple>): list of tuples with values
         """
@@ -199,13 +174,10 @@ class Database:
 
     def update(self, values: tuple, table_cols: tuple, table_name: str, condition: str):
         """ Update values from existed table
-
         Usage:
-
         >>> from cvp.data.rel_database import Database
         >>> db = Database(db_path)
         >>> db.update(values, table_cols, table_name, condition)
-
         Args:
             table_cols (tuple): columns need to update
                 Ex: table_cols = ('userID', 'last_name', 'dob')
@@ -214,9 +186,7 @@ class Database:
             condition (str): condition to select value
                 Ex: condition = 'userID = 1 and first_name = "first"'
             table_name (str): name of table
-
         Returns:
-
         """
         SQL_Update = f'''UPDATE {table_name} SET '''
         for col in table_cols:
@@ -233,20 +203,15 @@ class Database:
 
     def delete(self, table_name: str, condition: str):
         """ Detele values from existed table
-
         Usage:
-
         >>> from cvp.data.rel_database import Database
         >>> db = Database(db_path)
         >>> db.delete(table_name, condition)
-
         Args:
             table_name (str): name of table
             condition (str): condition to select values
                 Ex: condition = 'userID = 1234'
-
         Returns:
-
         """
         SQL_Delete = f'''DELETE FROM {table_name} WHERE {condition}'''
 
@@ -260,9 +225,13 @@ class Database:
 
 
 def main(db_path: dict):
-    logger.info('Preparing ...')
+    # Make cvp.db
+    logger.info('Preparing to make cvp database...')
     if os.path.exists(db_path.get('cvp')):
         os.remove(db_path.get('cvp'))
+
+    if os.path.exists(db_path.get('cdc')):
+        os.remove(db_path.get('cdc'))
 
     df = pd.read_csv(ACCOUNT_PATH, sep='\t')
     df.drop_duplicates(subset=['Email'], inplace=True)
@@ -312,6 +281,46 @@ def main(db_path: dict):
     logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
 
     db.close_connection()
+
+    # Make cdc.db
+    logger.info('Preparing to make cdc database...')
+    table_name = 'profile'
+    attr = {
+        'Email': 'VARCHAR NOT NULL PRIMARY KEY',
+        'Patient_Num': 'INTEGER',
+        'Last_Name': 'VARCHAR NOT NULL',
+        'First_Name': 'VARCHAR NOT NULL',
+        'Middle_Initial': 'CHAR(1)',
+        'Dob': 'VARCHAR NOT NULL',
+        'Vaccine_Name1': 'VARCHAR NOT NULL',
+        'Vaccine_Date1': 'VARCHAR NOT NULL',
+        'Hospital': 'VARCHAR NOT NULL',
+        'Vaccine_Name2': 'VARCHAR',
+        'Vaccine_Date2': 'VARCHAR'
+    }
+    profile_cols = ['Email', 'Patient_Num', 'Last_Name', 'First_Name', 'Middle_Initial', 'Dob',
+                    'Vaccine_Name1', 'Vaccine_Date1', 'Hospital', 'Vaccine_Name2', 'Vaccine_Date2']
+
+    db = Database(db_path.get('cdc'))
+    db.create_table(attr, table_name)
+    df[profile_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
+    logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
+
+    tuplex = [("jotaro.kujo@gmail.com", 195, 'Kujo', 'Jotaro', '', 'July 27, 1970', 'PFIZER-1234', '01/01/21',
+              'TKYH Dr. Star', 'PFIZER-1234', '01/30/21'),
+              ('quangduytran99@gmail.com', None, 'Tran', 'Quang Duy', '', '11/19/1999', 'JANSSEN', '04/08/21',
+               'MO VAX', None, None),
+              ('ysdog1029@gmail.com', 1111, 'Yoshida', 'Soma', '', '10/29/1998', 'MODERNA-2657', '03/05/2021',
+               'RYHN Dr. Emma', 'MODERNA-6695', '03/26/2021'),
+              ('jerom.estrada7@gmail.com', 4567, 'Estrada', 'Jerom', 'B', '07/27/1997', 'PFIZER-9371', '02/15/2021',
+               'KPWT Dr. Johnny', 'PFIZER-2435', '03/08/2021')]
+    for element in tuplex:
+        db.insert(element, table_name)
+
+    logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
+
+    db.close_connection()
+
     logger.info('Finished operation')
 
 

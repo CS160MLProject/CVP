@@ -148,7 +148,7 @@ def is_user(email):
     """
     db = Database(db_path)
     try:
-        # db.create_connection(db_path)
+        db.create_connection(db_path)
         acc = db.select('*', account_table, f'Email = \"{email}\"')
         if not acc:  # account was not found with this email
             return f'Account was not found with this email.'
@@ -209,11 +209,14 @@ def generate_account(session, profile_data):
                          hashed_pass, new_account_id, hashed_salt)
 
         profile_value = (new_account_id, profile_data['patient_num'], profile_data['last_name'],
-                         profile_data['first_name'], profile_data['mid_initial'], profile_data['dob'],
-                         profile_data['first_dose'], profile_data['date_first'], profile_data['clinic_site'],
-                         profile_data['second_dose'], profile_data['date_second'])
+                         profile_data['first_name'], profile_data['mid_initial'], profile_data['dob'], profile_data['first_dose'],
+                         profile_data['date_first'], profile_data['clinic_site'], profile_data['second_dose'],
+                         profile_data['date_second'])
+
         db.insert(account_value, account_table)
         db.insert(profile_value, profile_table)
+
+        db.close_connection()
         return True
     finally:
         db.close_connection()

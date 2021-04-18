@@ -14,7 +14,7 @@
                 <ul>
                     <li>
                         <img class="field-icon" src="{{ url_for('static', filename='images/login-icon-black.png') }}" alt="A small blue icon of a person">
-                        <a href="#">User Name</a>
+                        <a href="#">{{profile['account_first_name']}} {{profile['account_last_name']}}</a>
                     </li>
                     <li>
                         <img class="field-icon" src="{{ url_for('static', filename='images/share-icon.png')}}" field-icon alt="A gear icon">
@@ -35,10 +35,7 @@
     <div class="right-panel">
         <div>
             <div class="profile-info">
-                <p class="message">{{msg}}</p>
-                <p class="full-name">{{profile}}</p>
-                <p class="vaccine-status">Vaccination Status: Displayed Here{{ account_id }}</p>
-                <p class="full-name">{{profile['first_name']}} {{profile['mi']}} {{profile['last_name']}}</p>
+                <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
                 <p class="vaccine-status">Vaccination Status: Displayed Here</p>
             </div>
 
@@ -121,5 +118,7 @@
         });
 
 </script>
+
+
 </body>
 </html>

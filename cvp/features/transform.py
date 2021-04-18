@@ -76,7 +76,7 @@ def generate_QR_code(link: str, user_account_id: str, save=False, save_folder: s
     if not os.path.exists(save_folder):
         raise FileNotFoundError(f"File {save_folder} was not found. Current dir: {os.getcwd()}")
 
-    if not os.path.exists(save_file):
+    if os.path.exists(save_file):
         os.remove(save_file)
 
     qr_code = pyqrcode.create(link)

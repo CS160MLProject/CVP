@@ -62,7 +62,47 @@ def get_file_ext(filename):
     return None
 
 
-def check_cdc(confirmed_data):
+def check_cdc(confirmed_data: dict, email: str) -> bool:
+    """ Check if user's data is found in CDC Database to prevent fraud vaccine cards
+
+    Usage:
+
+        >>> from cvp.app.utils import check_cdc
+        >>> bool_ = check_cdc(confirmed_data, email)
+
+    Args:
+        confirmed_data (dict): Data from users' vaccine cards
+        email (str): user's email that associate with CDC Database
+
+    Returns:
+        flag (bool): False if account email not found in CDC Database or data does not match. True otherwise
+    """
+    db = Database(cdc_db_path)
+    try:
+        acc = db.select('*', profile_table, f'Email = "{email}"')
+        if not acc:
+            return False  # Account was not found.
+        acc_dict = {
+            'first_name': acc[0][3],
+            'mid_initial': acc[0][4],
+            'dob': acc[0][5],
+            'first_dose': acc[0][6],
+            'second_dose': acc[0][9],
+            'last_name': acc[0][2],
+            'patient_num': acc[0][1],
+            'clinic_site': acc[0][8],
+            'date_first': acc[0][7],
+            'date_second': acc[0][10]
+        }
+        for key, value in acc_dict.items():
+            if re.sub(r'\s+', '', str(acc_dict[key])) == re.sub(r'\s+', '', str(confirmed_data[key])):
+                continue
+            else:
+                db.close_connection()
+                return False
+
+    finally:
+        db.close_connection()
     return True
 
 
@@ -159,8 +199,8 @@ def update_account(account_id, fname=None, lname=None, email=None):
 def generate_account(session, profile_data):
     db = Database(db_path)
     try:
-        # db.create_connection(db_path)
-        new_account_id = db.select(values='count(*)', table_name=account_table)[0][0]
+        # Get largest account_id in database and increment account_id by 1
+        new_account_id = db.select(values='max(User_Account_ID)', table_name=account_table)[0][0] + 1
 
         hashed_pass, hashed_salt = generate_hash(session['password'])
         hashed_pass = b64encode(hashed_pass).decode('utf-8')

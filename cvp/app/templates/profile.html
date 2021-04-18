@@ -38,16 +38,20 @@
                 <p class="message">{{msg}}</p>
                 <p class="full-name">{{profile}}</p>
                 <p class="vaccine-status">Vaccination Status: Displayed Here{{ account_id }}</p>
+                <p class="full-name">{{profile['first_name']}} {{profile['mi']}} {{profile['last_name']}}</p>
+                <p class="vaccine-status">Vaccination Status: Displayed Here</p>
             </div>
 
             <div class="profile-info">
                 <div class="dose"> <!--The labels should be anchor tags or something that can link to toggling the display of the 'dose info'-->
-                    <p class="dose-label">First Dose: </p>
-                    <p class="dose-info">dose info here</p>
+                    <p id="info-toggle"class="dose-label">First Dose: </p>
+                    <p id="hidden-info" class="dose-info hidden-info">Date: {{profile['vaccine_date1'] }}</p>
+                    <p id="hidden-info" class="dose-info hidden-info">Vaccine: {{profile['vaccine_name'] }} </p>
                 </div>
                 <div class="dose">
-                    <p class="dose-label">Second Dose: </p>
-                    <p class="dose-info">dose info here</p>
+                    <p id="info-toggle2" class="dose-label">Second Dose: </p>
+                    <p id="hidden-info2" class="dose-info hidden-info2">Date: {{profile['vaccine_date2'] }}</p>
+                    <p id="hidden-info2" class="dose-info hidden-info2">Vaccine: {{profile['vaccine_name'] }} </p>
                 </div>
             </div>
         </div>
@@ -88,6 +92,34 @@
         function(){
             document.querySelector('.sign-out-modal').style.display = 'none';
         });
+
+        <!--Handle the toggling of the information on the page.-->
+        let toggled = false;
+        document.getElementById('info-toggle').addEventListener('click',
+        function(){
+            if(!toggled){
+                 document.querySelector('.hidden-info').style.display = 'inline-block';
+                 toggled = true;
+            }
+            else{
+                document.querySelector('.hidden-info').style.display = 'none';
+                toggled = false;
+            }
+        });
+
+        let toggled2 = false;
+        document.getElementById('info-toggle2').addEventListener('click',
+        function(){
+            if(!toggled2){
+                 document.querySelector('.hidden-info2').style.display = 'inline-block';
+                 toggled2 = true;
+            }
+            else{
+                document.querySelector('.hidden-info2').style.display = 'none';
+                toggled2 = false;
+            }
+        });
+
 </script>
 </body>
 </html>

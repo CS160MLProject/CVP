@@ -1,6 +1,8 @@
 """Covid-19 Vaccine Passport Application"""
 
+import os
 from flask import render_template, request, redirect, url_for, session
+from werkzeug.utils import secure_filename
 from cvp.features.transform import generate_QR_code
 from cvp.app.services.email_service import *
 from cvp.app.utils import *
@@ -49,11 +51,24 @@ def register():
                 error_msg = 'file is not uploaded.'
 
             if not error_msg:
+
+                uploads_dir = 'dataset/processed/upload_vaccine_record'
+
+                # Create a new directory for the upload
+                os.makedirs(uploads_dir, exist_ok=True)
                 error_msg = invalid_register_input(email, password, confirm_password)
+
                 if not error_msg: # no error in entered information
                     vaccine_rec_pic = request.files["vaccine_rec"]
-                    # vaccine_rec_pic = 'Vaccine_1.png' # to test
-                    extracted_rec = model.predict(vaccine_rec_pic)
+                    filename = secure_filename(vaccine_rec_pic.filename)
+
+                    # Save file to local folder
+                    vaccine_rec_pic.save(os.path.join(uploads_dir, filename))
+                    extracted_rec = model.predict(filename, folder_path=uploads_dir)
+
+                    # Remove File after OCR returned the prediction
+                    os.remove(os.path.join(uploads_dir, filename))
+
                     session['email'] = email
                     session['password'] = password
                     session['extracted_record'] = extracted_rec
@@ -67,7 +82,7 @@ def register():
             confirmed_data = request.form.to_dict('confirmed_data')
 
             # check CDC database at this point
-            valid_rec = check_cdc(confirmed_data)
+            valid_rec = check_cdc(confirmed_data, session['email'])
 
             if valid_rec:  # send confirmed account information to database and record them.
                 # insert this data to db
@@ -303,4 +318,3 @@ def shared_profile(token):
 
 if __name__ == '__main__':
     app.run()
-

@@ -7,6 +7,7 @@ from credentials import *
 
 # db operation
 db_path = 'dataset/external/cvp.db'
+cdc_db_path = 'dataset/external/cdc.db'
 account_table = 'account'
 profile_table = 'profile'
 

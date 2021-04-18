@@ -487,9 +487,29 @@ ul li a :focus{
     display: inline-block;
     vertical-align: middle;
     text-align: center;
-    margin: 10px;
+    margin-right: 10%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 35px;
+}
+
+.hidden-info{
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin-right: 10%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 35px;
+    display: none;
+}
+
+.hidden-info2{
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    margin-right: 10%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 35px;
+    display: none;
 }
 
 

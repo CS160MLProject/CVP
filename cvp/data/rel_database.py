@@ -225,6 +225,7 @@ class Database:
 
 
 def main(db_path: dict):
+    os.makedirs('dataset/external', exist_ok=True)
     # Make cvp.db
     logger.info('Preparing to make cvp database...')
     if os.path.exists(db_path.get('cvp')):

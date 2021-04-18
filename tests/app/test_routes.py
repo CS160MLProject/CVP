@@ -96,7 +96,7 @@ class TestRoutes:
 
         # login test of cancel button
         response = self.__click_button_post(test_client, '/login', 'cancel_button', data=test_account_info)
-        assert response.status_code == 302 # render template
+        assert response.status_code == 200 # render template
 
         # login test of forgot password button
         response = self.__click_button_post(test_client, '/login', 'forgot_password_button')
@@ -167,18 +167,88 @@ class TestRoutes:
         response = self.__click_button_post(test_client, f'/profile_{url}', 'sign_out_button')
         assert response.status_code == 302
 
+    def test_settings_get(self, test_client):
+        test_account_info = self.__get_test_account_info()
+        test_account_info['password'] = \
+            f'{test_account_info["record_first_name"]}{test_account_info["record_last_name"]}'.lower()
+
+        login = self.__click_button_post(test_client, '/login', 'login_button', data=test_account_info)
+        url = self.__get_profile_url(login.data.decode())
+
+        response = test_client.get(f'/profile_{url}/settings')
+        assert response.status_code == 200 # render template
+
+    def test_settings_post(self, test_client):
+        """
+        Need change the way to detect button for same web page.
+        """
+        token, test_account_info = self.__login(test_client)
+
+        # test profile_save button
+        saving_data = dict()
+        saving_data['first_name'] = test_account_info['account_first_name']
+        saving_data['last_name'] = test_account_info['account_last_name']
+        saving_data['username_email'] = test_account_info['email']
+        response = self.__click_button_post(test_client, f'/profile_{token}/settings',
+                                            'profile_save', data=test_account_info)
+        assert response.status_code == 200 # redirect
+        assert 'Saved change successfully' in response.data.decode(), f'Should return with saved notice.'
+
+        # test password_save button
+        saving_data = dict()
+        saving_data['current_password'] = saving_data['new_password'] = \
+            saving_data['confirm_password'] = test_account_info['password']
+
+        response = self.__click_button_post(test_client, f'/profile_{token}/settings',
+                                            'password_save_button', data=test_account_info)
+        assert response.status_code == 200  # redirect
+        assert 'Saved change successfully' in response.data.decode(), f'Should return with saved notice.'
+
+        # test back_button
+        response = self.__click_button_post(test_client, f'/profile_{token}/settings',
+                                            'back_button', data=test_account_info)
+        assert response.status_code == 200  # redirect
+
+        # test sign_out button
+        response = self.__click_button_post(test_client, f'/profile_{token}/settings',
+                                            'sign_out_button', data=test_account_info)
+        assert response.status_code == 200
+
+    def test_shared_profile(self, test_client):
+        token, test_account_info = self.__login(test_client)
+        response = test_client.get(f'/profile_{token}')
+        token = self.__get_sharing_url(response.data.decode())
+        response = test_client.get(f'/info_{token}')
+        assert response.status_code == 200
+
+    def __login(self, test_client):
+        url = '/login'
+        button = 'login_button'
+        test_account_info = self.__get_test_account_info()
+        test_account_info['password'] = \
+            f'{test_account_info["record_first_name"]}{test_account_info["record_last_name"]}'.lower()
+
+        login = self.__click_button_post(test_client, url, button, data=test_account_info)
+        token = self.__get_profile_url(login.data.decode())
+        return token, test_account_info
+
     def __click_button_post(self, test_client, url, button, data=None):
         if data: # with data
-            data[button] = button
-            return test_client.post(url, data=data, follow_redirects=False)
+            data[button] = True
+            return test_client.post(url, data=data, follow_redirects=True)
 
         # only button
-        return test_client.post(url, data={button: button})
+        return test_client.post(url, data={button: True})
 
     def __get_test_account_info(self):
         return get_profile(1)
 
     def __get_profile_url(self, data):
         pattern = r'profile_([\w.-]+)'
+        found = re.findall(pattern, data)
+        return found[0]
+
+    def __get_sharing_url(self, data):
+        pattern = r'info_([\w.-]+)'
         found = re.findall(pattern, data)
         return found[0]

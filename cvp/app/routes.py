@@ -207,13 +207,14 @@ def profile(token):
     # encrypt account id to be shared through qr or url
     sharing_token = encode_token(account_id, salt=sharing_profile_key)
     sharing_url = url_for('shared_profile', token=sharing_token, _external=True)
-    print(sharing_url)
+
     # generate qr
     generate_QR_code(sharing_url, str(account_id), save=True)
     msg = session['message'] if session.get('message') else ''
+    session['qr'] = f'{account_id}.png'
+    session['sharing_url'] = sharing_url
 
-    return render_template('profile.html', profile=user_profile,
-                           sharing_url=sharing_url, qr=f'{account_id}.png', token=profile_token, msg=msg)
+    return render_template('profile.html', profile=user_profile, token=profile_token, msg=msg)
 
 
 @app.route('/profile_<token>/settings', methods=['GET', 'POST'])
@@ -239,7 +240,6 @@ def settings(token):
 
     if request.method == 'POST':
         error_msg = ''
-
         if request.form.get('profile_save'): # Process of Case(2)
             first_name = request.form.get('first_name')
             last_name = request.form.get('last_name')
@@ -252,7 +252,7 @@ def settings(token):
                 session['message'] = 'Saved change successfully'
                 return redirect(url_for('profile', token=token)) # return to setting or profile with message
 
-        elif request.form.get('password_save'): # Process of Case(3)
+        elif request.form.get('password_save_button'): # Process of Case(3)
             current_pass = request.form.get('current_password')
             new_pass = request.form.get('new_password')
             conf_pass = request.form.get('confirm_password')
@@ -264,7 +264,9 @@ def settings(token):
                 if new_pass == conf_pass: # check new password and confirm password
                     # update database
                     update_password(new_pass, acc=account_id)
-                    return f'back to profile?'
+                    session['message'] = 'Saved change successfully'
+                    return redirect(url_for('profile', token=token)) # return to setting or profile with message
+
                 else:
                     error_msg = 'New Password and Confirm Password did not match.'
 
@@ -274,7 +276,7 @@ def settings(token):
         elif request.form.get('back_button'): # process of case(4)
             return redirect(url_for('profile', token=token))
 
-        elif request.form.get('sign-out-settings'):
+        elif request.form.get('sign_out_button'):
             session.pop('logged_in', None)
             return redirect(url_for('homepage'))
 

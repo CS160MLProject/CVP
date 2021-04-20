@@ -124,12 +124,13 @@ def authenticate(password, email=None, account_id=None):
             acc = db.select('*', account_table, f'Email = \"{email}\"')
         elif account_id:
             acc = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')
+        else: acc = None
 
         if not acc:  # account was not found with this email
             return 'Account was not found.'
         if acc:  # account with this email is in our database
             # handle incorrect input
-            db_password, db_salt = b64decode(acc[0][3]), b64decode(acc[0][5])
+            db_password, db_salt = b64decode(acc[0][1]), b64decode(acc[0][3])
             hashed_pass, _ = generate_hash(password=password, salt=db_salt)
             if hmac.compare_digest(hashed_pass, db_password):  # login
                 return acc[0]
@@ -225,7 +226,7 @@ def generate_account(session, profile_data):
 def get_profile(account_id):
     db = Database(db_path)
     try:
-        acc = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[0][:-3]
+        acc = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[0]
         record = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')[0]
         return __form_dict(acc, record)
     finally:
@@ -235,8 +236,7 @@ def get_profile(account_id):
 def __form_dict(acc, record):
     res = dict()
     res['email'] = acc[0]
-    res['account_last_name'] = acc[1]
-    res['account_first_name'] = acc[2]
+    res['user_name'] = acc[4]
     res['patient_num'] = record[1]
     res['record_last_name'] = record[2]
     res['record_first_name'] = record[3]

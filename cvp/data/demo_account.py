@@ -92,11 +92,11 @@ def __account(first, last, middle_i, hospital, acc_id):
     hospital = hospital + random.choice(('MedicalCenter', 'Hospital'))
 
     vaccine_name1 = vaccine_name2 = __vaccine_name()
-    vaccine_date1 = __get_random_date(VACCINE_START, TODAY)
-    recommended_latest = vaccine_date1 + datetime.timedelta(days=RECOMMENDED_INTERVAL)
+    first_dose_latest = TODAY - datetime.timedelta(days=RECOMMENDED_INTERVAL)
+    vaccine_date1 = __get_random_date(VACCINE_START, first_dose_latest)
     day_after_first_dose = vaccine_date1+datetime.timedelta(days=1)
     # ideally second dose should be taked within 42 days from first dose.
-    vaccine_date2 = __get_random_date(day_after_first_dose, min(TODAY, recommended_latest))
+    vaccine_date2 = __get_random_date(day_after_first_dose, TODAY)
     vaccine_date1 = str(vaccine_date1)
     vaccine_date2 = str(vaccine_date2)
 

@@ -59,8 +59,6 @@ def get_file_ext(filename):
     if ext == '.pdf':
         return 'pdf'
 
-    return None
-
 
 def check_cdc(confirmed_data: dict, email: str) -> bool:
     """ Check if user's data is found in CDC Database to prevent fraud vaccine cards
@@ -98,7 +96,6 @@ def check_cdc(confirmed_data: dict, email: str) -> bool:
             if re.sub(r'\s+', '', str(acc_dict[key])) == re.sub(r'\s+', '', str(confirmed_data[key])):
                 continue
             else:
-                db.close_connection()
                 return False
 
     finally:
@@ -119,7 +116,6 @@ def authenticate(password, email=None, account_id=None):
         return 'Incorrect input.'
     db = Database(db_path)
     try:
-        # db.create_connection(db_path)
         if email:
             acc = db.select('*', account_table, f'Email = \"{email}\"')
         elif account_id:
@@ -134,8 +130,7 @@ def authenticate(password, email=None, account_id=None):
             hashed_pass, _ = generate_hash(password=password, salt=db_salt)
             if hmac.compare_digest(hashed_pass, db_password):  # login
                 return acc[0]
-            else:
-                return 'Password did not match'
+            else: return 'Password did not match'
 
     finally:
         db.close_connection()
@@ -149,12 +144,10 @@ def is_user(email):
     """
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
         acc = db.select('*', account_table, f'Email = \"{email}\"')
         if not acc:  # account was not found with this email
             return f'Account was not found with this email.'
-        else:
-            return acc[0]
+        else: return acc[0]
 
     finally:
         db.close_connection()
@@ -177,9 +170,9 @@ def update_password(new_password, email=None, acc=None):
             db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'User_Account_ID = \"{acc}\"')
         elif email and type(is_user(email)) == tuple:
             db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'Email = \"{email}\"')
-        else:
-            return False
+        else: return False
         return True
+
     finally:
         db.close_connection()
 
@@ -216,8 +209,6 @@ def generate_account(session, profile_data):
 
         db.insert(account_value, account_table)
         db.insert(profile_value, profile_table)
-
-        db.close_connection()
         return True
     finally:
         db.close_connection()

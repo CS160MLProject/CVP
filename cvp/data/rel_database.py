@@ -226,6 +226,7 @@ class Database:
 
 def main(db_path: dict):
     os.makedirs('dataset/external', exist_ok=True)
+
     # Make cvp.db
     logger.info('Preparing to make cvp database...')
     if os.path.exists(db_path.get('cvp')):
@@ -237,16 +238,20 @@ def main(db_path: dict):
     df = pd.read_csv(ACCOUNT_PATH, sep='\t')
     df.drop_duplicates(subset=['Email'], inplace=True)
 
-    account_cols = ['Email', 'Last_Name', 'First_Name', 'Password', 'User_Account_ID', 'Salt']
+    account_cols = ['Email', 'First_Name', 'Last_Name', 'Password', 'User_Account_ID', 'Salt']
     profile_cols = ['User_Account_ID', 'Patient_Num', 'Last_Name', 'First_Name', 'Middle_Initial', 'Dob',
                     'Vaccine_Name1', 'Vaccine_Date1', 'Hospital', 'Vaccine_Name2', 'Vaccine_Date2']
 
     db = Database(db_path.get('cvp'))
 
+    account_df = df[account_cols].copy()
+    account_df['Username'] = account_df['First_Name'] + " " + account_df['Last_Name']
+    account_df.drop(['First_Name', 'Last_Name'], axis=1, inplace=True)
+
     table_name = 'profile'
     attr = {
         'User_Account_ID': 'INTEGER NOT NULL PRIMARY KEY',
-        'Patient_Num': 'INTEGER',
+        'Patient_Num': 'CHAR(4)',
         'Last_Name': 'VARCHAR NOT NULL',
         'First_Name': 'VARCHAR NOT NULL',
         'Middle_Initial': 'CHAR(1)',
@@ -266,17 +271,16 @@ def main(db_path: dict):
     table_name = 'account'
     attr = {
         'Email': 'VARCHAR NOT NULL PRIMARY KEY',
-        'Last_Name': 'VARCHAR NOT NULL',
-        'First_Name': 'VARCHAR NOT NULL',
         'Password': 'VARCHAR NOT NULL',
         'User_Account_ID': 'INTEGER NOT NULL',
-        'Salt': 'VARCHAR NOT NULL'
+        'Salt': 'VARCHAR NOT NULL',
+        'Username': 'VARCHAR NOT NULL'
     }
     foreign_key = {
         'User_Account_ID': 'profile (User_Account_ID)'
     }
     db.create_table(attr, table_name, foreign_key)
-    df[account_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
+    account_df.to_sql(table_name, con=db.engine, if_exists='append', index=False)
     logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
 
     logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
@@ -307,13 +311,13 @@ def main(db_path: dict):
     df[profile_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
     logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
 
-    tuplex = [("jotaro.kujo@gmail.com", 195, 'Kujo', 'Jotaro', '', 'July 27, 1970', 'PFIZER-1234', '01/01/21',
+    tuplex = [("jotaro.kujo@gmail.com", '0195', 'Kujo', 'Jotaro', '', 'July 27, 1970', 'PFIZER-1234', '01/01/21',
               'TKYH Dr. Star', 'PFIZER-1234', '01/30/21'),
               ('quangduytran99@gmail.com', None, 'Tran', 'Quang Duy', '', '11/19/1999', 'JANSSEN', '04/08/21',
                'MO VAX', None, None),
-              ('ysdog1029@gmail.com', 1111, 'Yoshida', 'Soma', '', '10/29/1998', 'MODERNA-2657', '03/05/2021',
+              ('ysdog1029@gmail.com', '1111', 'Yoshida', 'Soma', '', '10/29/1998', 'MODERNA-2657', '03/05/2021',
                'RYHN Dr. Emma', 'MODERNA-6695', '03/26/2021'),
-              ('jerom.estrada7@gmail.com', 4567, 'Estrada', 'Jerom', 'B', '07/27/1997', 'PFIZER-9371', '02/15/2021',
+              ('jerom.estrada7@gmail.com', '4567', 'Estrada', 'Jerom', 'B', '07/27/1997', 'PFIZER-9371', '02/15/2021',
                'KPWT Dr. Johnny', 'PFIZER-2435', '03/08/2021')]
     for element in tuplex:
         db.insert(element, table_name)

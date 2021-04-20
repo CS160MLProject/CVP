@@ -1,6 +1,5 @@
 """Covid-19 Vaccine Passport Application"""
 
-import os
 from flask import render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 from cvp.features.transform import generate_QR_code

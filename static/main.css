@@ -8,8 +8,12 @@
     but I'm sticking with this one for now.*/
     margin: 0; /* margin is the space around the element*/
     padding: 0; /* while padding is the space around the data inside the element*/
-}
 
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
 
 /* Then I apply my CSS from here*/
 
@@ -59,6 +63,7 @@ Not ideal but shows a way to apply CSS in a broad manner*/
 
 /* Similar idea as the one above but affects images instead*/
 .img-logo{
+    width: 100%;
     display: block;
     transform: scale(0.5);
     margin: 0;
@@ -104,7 +109,7 @@ Not ideal but shows a way to apply CSS in a broad manner*/
 }
 
 .message {
-    color:3d3d3d;
+    color: #3d3d3d;
     text-align: left;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
@@ -148,12 +153,12 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 /* This adds an effect when you hover on the buttons*/
-.right-panel button:hover {
+.home-button:hover {
     opacity: 90%;
 }
 
 /* A simple animation that makes the button mimic getting pressed when you click it*/
-.right-panel button:active {
+.home-button:active {
     transform: scale(0.98);
     background-color: #78caec;
     color:rgb(46, 46, 46);
@@ -220,7 +225,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 
 .input-field {
     margin: 30px 80px 30px 10%;
-    padding: 0 auto;
+    padding: 0;
 }
 
 .fields-column {
@@ -243,7 +248,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     border-radius: 20px;
     /*border-color:#0D0065;*/
     border-width: 0;
-    padding: auto;
+    padding: 0;
     margin: 0 auto 10px 50px;
     outline: none;
     cursor: pointer;
@@ -281,7 +286,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     text-align: center;
     border-radius: 20px;
     border-color:#0D0065;
-    padding: auto;
+    padding: 0;
     margin: 0 auto 10px 60px;
     cursor: pointer;
 }
@@ -447,7 +452,8 @@ ul li a :focus{
 }
 
 .profile-info{
-    padding: 20px;
+    padding: 0;
+    margin: 0;
 }
 
 .full-name{
@@ -459,21 +465,38 @@ ul li a :focus{
 
 .vaccine-status{
     text-align: center;
-    margin: 5px;
+    margin-bottom: 5%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 25px;
     font-style: italic;
 }
 
 .dose {
-    text-align: center;
+    position: relative;
+    /*text-align: center;*/
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 25%;
+    padding-right: 25%;
+    /*background-color: #0A92CC;*/
 }
 
 .dose-label {
-    display: inline-block;
-    vertical-align: middle;
-    text-align: center;
-    margin: 20px;
+    position: absolute;
+    top: 0;
+    left: 30%;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    /*display: inline-block;*/
+    /*vertical-align: middle;*/
+    /*text-align: center;*/
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+    margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 35px;
     text-decoration: underline;
@@ -483,32 +506,86 @@ ul li a :focus{
     cursor: pointer;
 }
 
+.second-label{
+    position: absolute;
+    top: 50px;
+    left: 30%;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    /*display: inline-block;*/
+    /*vertical-align: middle;*/
+    /*text-align: center;*/
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 35px;
+    text-decoration: underline;
+}
+
+.second-label:hover{
+    cursor: pointer;
+}
+
+
 .dose-info{
     display: inline-block;
     vertical-align: middle;
     text-align: center;
-    margin-right: 10%;
+    margin-left: 55%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 35px;
+    font-size: 30px;
 }
 
-.hidden-info{
+.dose-info2{
     display: inline-block;
     vertical-align: middle;
     text-align: center;
-    margin-right: 10%;
+    margin-top: 8%;
+    margin-left: 55%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 35px;
+    font-size: 30px;
+}
+
+.hidden-info{
+    vertical-align: middle;
+    text-align: center;
+    margin-right: 5%;
+    margin-top: 1%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30px;
     display: none;
 }
 
 .hidden-info2{
-    display: inline-block;
     vertical-align: middle;
     text-align: center;
     margin-right: 10%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 35px;
+    font-size: 30px;
+    display: none;
+}
+
+.hidden-info3{
+    vertical-align: middle;
+    text-align: center;
+    margin-top: 8%;
+    margin-right: 5%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30px;
+    display: none;
+}
+
+.hidden-info4{
+    vertical-align: middle;
+    text-align: center;
+    margin-top: 8%;
+    margin-right: 10%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30px;
     display: none;
 }
 

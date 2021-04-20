@@ -74,13 +74,13 @@ def __account(first, last, middle_i, hospital, acc_id):
     :return: combined single-line string for this account
     """
     user_account_id = str(acc_id)  # store acc_id in string
-    domain = '@patient.abc.com'  # sample domain for email address
+    domain = '@abc.com'  # sample domain for email address
     email = first.lower() + '.' + last.lower() + domain
     password = first.lower() + last.lower()
     hashed_pass, salt = generate_hash(password)  # get hashed_pass and salt for this password
     hashed_pass = b64encode(hashed_pass).decode('utf-8')
     salt = b64encode(salt).decode('utf-8')
-    patient_num = str(random.randint(1, 9999))  # randomly chosen patient id
+    patient_num = str(random.randint(1000, 9999))  # randomly chosen patient id
 
     # capitalize names
     last_name = last.capitalize()

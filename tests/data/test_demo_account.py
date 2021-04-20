@@ -24,4 +24,6 @@ def test_accounts_txt():
                 f'Output\'s token size should be {TOKEN_SIZE}, returned {len(tokens)}'
             assert tokens[10] == tokens[12], f'Should take same type of vaccine for first and second dose.'
             assert tokens[11] < tokens[13], f'Should take second vaccine after first dose.'
+            assert int(tokens[4]) <= 9999, f'Patient number should be less than or equal to 9999'
+            assert int(tokens[4]) >= 1000, f'Patient number should be greater than or equal to 1000'
         assert counter == ACCOUNT_SIZE, f'Output file\'s account size should be {ACCOUNT_SIZE}, returned {counter}'

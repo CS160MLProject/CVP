@@ -38,7 +38,6 @@ def __get_names(first_names, middle_initials, last_names, inputfile):
                 middle_initials.add(middle)
                 last_names.add(last)
     except OSError:
-        print(inputfile)
         raise OSError("Error in reading names file.")
 
 
@@ -74,13 +73,13 @@ def __account(first, last, middle_i, hospital, acc_id):
     :return: combined single-line string for this account
     """
     user_account_id = str(acc_id)  # store acc_id in string
-    domain = '@abc.com'  # sample domain for email address
+    domain = '@patient.abc.com'  # sample domain for email address
     email = first.lower() + '.' + last.lower() + domain
     password = first.lower() + last.lower()
     hashed_pass, salt = generate_hash(password)  # get hashed_pass and salt for this password
     hashed_pass = b64encode(hashed_pass).decode('utf-8')
     salt = b64encode(salt).decode('utf-8')
-    patient_num = str(random.randint(1000, 9999))  # randomly chosen patient id
+    patient_num = str(random.randint(1, 9999))  # randomly chosen patient id
 
     # capitalize names
     last_name = last.capitalize()
@@ -92,11 +91,12 @@ def __account(first, last, middle_i, hospital, acc_id):
     hospital = hospital + random.choice(('MedicalCenter', 'Hospital'))
 
     vaccine_name1 = vaccine_name2 = __vaccine_name()
-    first_dose_latest = TODAY - datetime.timedelta(days=RECOMMENDED_INTERVAL)
-    vaccine_date1 = __get_random_date(VACCINE_START, first_dose_latest)
+    vaccine1_latest = TODAY-datetime.timedelta(days=7)
+    vaccine_date1 = __get_random_date(VACCINE_START, vaccine1_latest)
+    recommended_latest = vaccine_date1 + datetime.timedelta(days=RECOMMENDED_INTERVAL)
     day_after_first_dose = vaccine_date1+datetime.timedelta(days=1)
     # ideally second dose should be taked within 42 days from first dose.
-    vaccine_date2 = __get_random_date(day_after_first_dose, TODAY)
+    vaccine_date2 = __get_random_date(day_after_first_dose, min(TODAY, recommended_latest))
     vaccine_date1 = str(vaccine_date1)
     vaccine_date2 = str(vaccine_date2)
 

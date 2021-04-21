@@ -188,6 +188,7 @@ class TestRelDatabase():
 
     def test_main(self):
         #=== Test Inputs ===#
+        account_path = 'tests/data/test_accounts.txt'
         test_db_path = {
             'cvp': 'tests/data/test_cvp.db',
             'cdc': 'tests/data/test_cdc.db'
@@ -199,11 +200,11 @@ class TestRelDatabase():
             os.remove(test_db_path.get('cdc'))
 
         # === Expected Output ===#
-        cvp_expected_size = 190
-        cdc_expected_size = 194
+        cvp_expected_size = 194
+        cdc_expected_size = 198
 
         # === Trigger Output ===#
-        main(test_db_path)
+        main(test_db_path, account_path)
 
         db = Database(test_db_path.get('cvp'))
         selection1 = db.select('COUNT(*)', 'profile')
@@ -215,6 +216,11 @@ class TestRelDatabase():
         assert account_size == cvp_expected_size
 
         db = Database(test_db_path.get('cdc'))
+        print(db.select('*', 'profile LIMIT 1'))
         selection1 = db.select('COUNT(*)', 'profile')
         profile_size = selection1[0][0]
         assert profile_size == cdc_expected_size
+
+        with pytest.raises(FileNotFoundError):
+            WRONG_PATH = "WRONG/PATH"
+            main(test_db_path, WRONG_PATH)

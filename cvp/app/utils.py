@@ -46,6 +46,31 @@ def valid_email(email):
         return True
     return False
 
+def valid_password(password:str):
+    """Validate password. Password must follow these conditions:
+    - 8 characters minimum
+    - 21 characters maximum
+    - At least 1 uppercase character
+    - At least 1 lowercase character
+    - Must contains at least 1 special character: @, $, !, %, *, #, ?, &
+
+    Usage:
+
+        >>> from cvp.app.utils import valid_password
+        >>> bool_ = valid_password(password)
+
+    Args:
+        password (str): user registration password
+
+    Returns:
+        flag (bool): True if password matches all the conditions. False otherwise
+
+    """
+    pass_reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,21}$"
+    if re.search(re.compile(pass_reg), password):
+        return True
+    return False
+
 
 def get_file_ext(filename):
     """
@@ -60,7 +85,7 @@ def get_file_ext(filename):
         return 'pdf'
 
 
-def check_cdc(confirmed_data: dict, email: str) -> bool:
+def check_cdc(confirmed_data: dict, email: str, db_path: str = None) -> bool:
     """ Check if user's data is found in CDC Database to prevent fraud vaccine cards
 
     Usage:
@@ -74,8 +99,13 @@ def check_cdc(confirmed_data: dict, email: str) -> bool:
 
     Returns:
         flag (bool): False if account email not found in CDC Database or data does not match. True otherwise
+
     """
-    db = Database(cdc_db_path)
+    db_path = db_path or cdc_db_path
+    if not os.path.exists(db_path):
+        raise FileNotFoundError(f"File {db_path} was not found. Current dir: {os.getcwd()}")
+
+    db = Database(db_path)
     try:
         acc = db.select('*', profile_table, f'Email = "{email}"')
         if not acc:

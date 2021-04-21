@@ -256,12 +256,11 @@ def settings(token):
     if request.method == 'POST':
         error_msg = ''
         if request.form.get('profile_save'): # Process of Case(2)
-            first_name = request.form.get('first_name')
-            last_name = request.form.get('last_name')
+            first_name = request.form.get('user_name')
             email = request.form.get('username_email')
 
             # save the info with database with account_id
-            error_msg = update_account(account_id, first_name, last_name, email)
+            error_msg = update_account(account_id, first_name, email)
 
             if not error_msg:
                 session['message'] = 'Saved change successfully'
@@ -298,7 +297,7 @@ def settings(token):
         # return with error message for POST
         return render_template('settings.html', token=token, error=error_msg)
 
-    return render_template('settings.html', token=token) # process of case(1) (GET)
+    return render_template('settings.html', token=token)  # process of case(1) (GET)
 
 
 @app.route('/info_<token>', methods=['GET'])

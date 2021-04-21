@@ -206,6 +206,7 @@ def profile(token):
         (2)profile.html with user profile, sharing_url and name of qr file.
     """
     account_id, profile_token = renew_token(token, salt=profile_key, time=900)  # 15 min
+    print(account_id)
     if not account_id:  # could not decode the account_id (the link has expired)
         return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
 

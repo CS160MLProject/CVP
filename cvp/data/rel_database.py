@@ -315,14 +315,14 @@ def main(db_path: dict, account_path: str = None):
     df[profile_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
     logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
 
-    tuplex = [("jotaro.kujo@gmail.com", '0195', 'Kujo', 'Jotaro', '', 'July 27, 1970', 'PFIZER-1234', '01/01/21',
+    tuplex = [("jotaro.kujo@gmail.com", '0195', 'Kujo', 'Jotaro', None, 'July 27, 1970', 'PFIZER-1234', '01/01/21',
               'TKYH Dr. Star', 'PFIZER-1234', '01/30/21'),
-              ('quangduytran99@gmail.com', None, 'Tran', 'Quang Duy', '', '11/19/1999', 'JANSSEN', '04/08/21',
+              ('quangduytran99@gmail.com', None, 'Tran', 'Quang Duy', None, '11/19/1999', 'JANSSEN', '04/08/21',
                'MO VAX', None, None),
-              ('ysdog1029@gmail.com', '1111', 'Yoshida', 'Soma', '', '10/29/1998', 'MODERNA-2657', '03/05/2021',
-               'RYHN Dr. Emma', 'MODERNA-6695', '03/26/2021'),
-              ('jerom.estrada7@gmail.com', '4567', 'Estrada', 'Jerom', 'B', '07/27/1997', 'PFIZER-9371', '02/15/2021',
-               'KPWT Dr. Johnny', 'PFIZER-2435', '03/08/2021')]
+              ('ysdog1029@gmail.com', '1111', 'Yoshida', 'Soma', None, '10/29/1998', 'MODERNA-2657', '03/05/21',
+               'RYHN Dr. Emma', 'MODERNA-6695', '03/26/21'),
+              ('jerom.estrada7@gmail.com', '4567', 'Estrada', 'Jerom', 'B', '07/27/1997', 'PFIZER-9371', '02/15/21',
+               'KPWT Dr. Johnny', 'PFIZER-2435', '03/08/21')]
     for element in tuplex:
         db.insert(element, table_name)
 

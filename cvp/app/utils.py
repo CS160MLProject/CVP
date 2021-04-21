@@ -123,7 +123,13 @@ def check_cdc(confirmed_data: dict, email: str, db_path: str = None) -> bool:
             'date_second': acc[0][10]
         }
         for key, value in acc_dict.items():
-            if re.sub(r'\s+', '', str(acc_dict[key])) == re.sub(r'\s+', '', str(confirmed_data[key])):
+            # acc_dict will return `none` from database if the column in null,
+            # and confirmed_data will have '' if column is empty or not filled
+            # Hence we need to fill the empty string with `none` before comparing them
+            if not str(confirmed_data[key]):
+                confirmed_data[key] = 'none'
+
+            if re.sub(r'\s+', '', str(acc_dict[key])).lower() == re.sub(r'\s+', '', str(confirmed_data[key])).lower():
                 continue
             else:
                 return False
@@ -229,8 +235,8 @@ def generate_account(session, profile_data):
         hashed_pass, hashed_salt = generate_hash(session['password'])
         hashed_pass = b64encode(hashed_pass).decode('utf-8')
         hashed_salt = b64encode(hashed_salt).decode('utf-8')
-        account_value = (session['email'], profile_data['last_name'], profile_data['first_name'],
-                         hashed_pass, new_account_id, hashed_salt)
+        username = profile_data['first_name'] + ' ' + profile_data['last_name']
+        account_value = (session['email'], hashed_pass, new_account_id, hashed_salt, username)
 
         profile_value = (new_account_id, profile_data['patient_num'], profile_data['last_name'],
                          profile_data['first_name'], profile_data['mid_initial'], profile_data['dob'], profile_data['first_dose'],

@@ -16,13 +16,13 @@ $ python cvp/data/rel_database.py
 import logging
 import os
 import sqlite3
-import sys
 import coloredlogs
 
 # Third party imports
 from sqlite3 import Error
 from pathlib import Path
 from sqlalchemy import create_engine
+from credentials import tuplex
 import pandas as pd
 
 # Project Level Imports
@@ -311,14 +311,6 @@ def main(db_path: dict):
     df[profile_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
     logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
 
-    tuplex = [("jotaro.kujo@gmail.com", '0195', 'Kujo', 'Jotaro', None, 'July 27, 1970', 'PFIZER-1234', '01/01/21',
-              'TKYH Dr. Star', 'PFIZER-1234', '01/30/21'),
-              ('quangduytran99@gmail.com', None, 'Tran', 'Quang Duy', None, '11/19/1999', 'JANSSEN', '04/08/21',
-               'MO VAX', None, None),
-              ('ysdog1029@gmail.com', '1111', 'Yoshida', 'Soma', None, '10/29/1998', 'MODERNA-2657', '03/05/21',
-               'RYHN Dr. Emma', 'MODERNA-6695', '03/26/21'),
-              ('jerom.estrada7@gmail.com', '4567', 'Estrada', 'Jerom', 'B', '07/27/1997', 'PFIZER-9371', '02/15/21',
-               'KPWT Dr. Johnny', 'PFIZER-2435', '03/08/21')]
     for element in tuplex:
         db.insert(element, table_name)
 

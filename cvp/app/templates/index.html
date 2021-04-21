@@ -19,7 +19,7 @@
         but there is another attribute called 'id' which is similar but provides more unique functionalities compared to 'class'
         More importantly, 'class' allows us to target specific div elements with CSS. -->
     <div class="left-panel">
-        <h1>Company Name</h1>
+        <h1 class="header1">CVP Inc.</h1>
         <!--Here the double-brackets are Flask injections that allow the Flask app to load the image into the HTML document.-->
         <img class="img-logo" src="{{url_for('static', filename='images/CompanyLogoNamed.png')}}" alt="An Awesome Company Logo with a name at the bottom.">
         <h2>MISC</h2>
@@ -30,7 +30,7 @@
         <div class="vert-crop">
             <img class="img-banner" src="{{url_for('static', filename='images/healthcare.jpg')}}" alt="A healthcare associate in a scrub suit.">
         </div>
-        <h2 class="motto">Company Motto</h2>
+        <h2 class="motto">Convenience for everyone</h2>
         <p class="description">COVID-19 Vaccine Passport allows you to register you vaccination status into a cloud where you can access and share to others.</p>
         <form action={{url_for("homepage")}} method="POST">
             <!-- The form here has an action that calls the homepage method in app.py

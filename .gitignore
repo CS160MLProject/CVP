@@ -10,3 +10,7 @@ htmlcov/
 /dataset/processed/QR_Code/
 /tests/features/777.png
 /static/QR_Code/
+
+/credentials.py
+/dataset/external/
+/dataset/processed/QR_Code/

@@ -14,7 +14,7 @@
                 <ul>
                     <li>
                         <img class="field-icon" src="{{ url_for('static', filename='images/login-icon-black.png') }}" alt="A small blue icon of a person">
-                        <a href="#">{{profile['account_first_name']}} {{profile['account_last_name']}}</a>
+                        <a href="#">Hello, {{ profile['account_first_name'] }} </a>
                     </li>
                     <li>
                         <img class="field-icon" src="{{ url_for('static', filename='images/share-icon.png')}}" field-icon alt="A gear icon">
@@ -31,40 +31,46 @@
                 </ul>
             </nav>
     </div>
-    
+</form>
     <div class="right-panel">
-        <div>
-            <div class="profile-info">
-                <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
-                <p class="vaccine-status">Vaccination Status: Displayed Here</p>
-            </div>
+        <div class="profile-info top-margin-small">
+            <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
+            <p class="vaccine-status">2-Shots Vaccination</p>
+        </div>
 
+        <div class="colored-section">
             <div class="profile-info">
                 <div class="dose"> <!--The labels should be anchor tags or something that can link to toggling the display of the 'dose info'-->
-                    <p id="info-toggle"class="dose-label">First Dose: </p>
-                    <p id="hidden-info" class="dose-info hidden-info">Date: {{profile['vaccine_date1'] }}</p>
-                    <p id="hidden-info" class="dose-info hidden-info">Vaccine: {{profile['vaccine_name'] }} </p>
+                    <button id="info-toggle" class="dose-label">First Dose: </button>
+                    <p class="dose-info">Click dose expand</p>
+                    <p id="test" class="hidden-info">Date: {{profile['vaccine_date1'] }}</p>
+                    <p id="hidden-info2" class="hidden-info2">Vaccine: {{profile['vaccine_name'] }} </p>
                 </div>
                 <div class="dose">
-                    <p id="info-toggle2" class="dose-label">Second Dose: </p>
-                    <p id="hidden-info2" class="dose-info hidden-info2">Date: {{profile['vaccine_date2'] }}</p>
-                    <p id="hidden-info2" class="dose-info hidden-info2">Vaccine: {{profile['vaccine_name'] }} </p>
+                    <button id="info-toggle2" class="second-label">Second Dose: </button>
+                    <p class="dose-info2">Click dose expand</p>
+                    <p id="hidden-info" class="hidden-info3">Date: {{profile['vaccine_date2'] }}</p>
+                    <p id="hidden-info2" class="hidden-info4">Vaccine: {{profile['vaccine_name'] }} </p>
                 </div>
-            </div>
+        </div>
         </div>
 
-        <div id="qr-code" class="container top-margin-big">
-            <button class="inline-button smaller">QR Code</button>
-            <button class="inline-button smaller">URL</button>
 
-            <div>
-                <img class="qr-img inline-item" src="{{ url_for('static', filename='QR_Code/1.png') }}" alt="a fake qrcode">
-                <input class="text-field centered inline-item" type="text" id="url" name="url" placeholder={{ session["sharing_url"] }}>
+        <div id="qr-code" class="container top-margin-med">
+            <h2 class="section-label2">Share your profile to others</h2>
+            <div class="block-item">
+                <h3 class="section-label3">URL - People can copy this link to view your profile!</h3>
+                <p class="url">{{ session["sharing_url"] }}</p>
             </div>
-        </div>
 
-        <div class="padding-div">
+            <div class="block-item">
+                <h3 class="section-label3">QR Code - Other people can also scan the code below to see your profile!</h3>
+                <img class="qr-img" src="{{ url_for('static', filename='QR_Code/1.png') }}" alt="QR code for the User's Profile">
+            </div>
 
+            <div class="padding-div">
+                     COVID Vaccine Passport 2021.
+                </div>
         </div>
     </div>
 
@@ -78,7 +84,7 @@
             <button class="modal-button" name="sign_out_button" value=True type="submit">Sign Out</button>
         </div>
     </div>
-</form>
+
 <script>
         document.getElementById('sign-out-button').addEventListener('click',
         function(){
@@ -92,27 +98,62 @@
 
         <!--Handle the toggling of the information on the page.-->
         let toggled = false;
-        document.getElementById('info-toggle').addEventListener('click',
+        togglebutton = document.getElementById('info-toggle');
+        togglebutton2 = document.getElementById('info-toggle2');
+
+        togglebutton.addEventListener('click',
         function(){
             if(!toggled){
-                 document.querySelector('.hidden-info').style.display = 'inline-block';
-                 toggled = true;
+                togglebutton.style.transform = "translate(0, -100%)";
+                togglebutton2.style.transform = "translate(0, -100%)";
+                document.querySelector('.hidden-info').style.display = 'inline-block';
+                document.querySelector('.hidden-info2').style.display = 'inline-block';
+                document.querySelector('.hidden-info3').style.display = 'inline-block';
+                 document.querySelector('.hidden-info4').style.display = 'inline-block';
+
+                document.querySelector('.dose-info').style.display = 'none';
+                document.querySelector('.dose-info2').style.display = 'none';
+                toggled = true;
             }
             else{
+                togglebutton.style.transform = "translate(0, 0)";
+                togglebutton2.style.transform = "translate(0, 0)";
                 document.querySelector('.hidden-info').style.display = 'none';
+                document.querySelector('.hidden-info2').style.display = 'none';
+                document.querySelector('.hidden-info3').style.display = 'none';
+                document.querySelector('.hidden-info4').style.display = 'none';
+
+                document.querySelector('.dose-info').style.display = 'inline-block';
+                document.querySelector('.dose-info2').style.display = 'inline-block';
                 toggled = false;
             }
         });
 
         let toggled2 = false;
-        document.getElementById('info-toggle2').addEventListener('click',
+        togglebutton2.addEventListener('click',
         function(){
             if(!toggled2){
-                 document.querySelector('.hidden-info2').style.display = 'inline-block';
-                 toggled2 = true;
+                togglebutton.style.transform = "translate(0, -100%)";
+                togglebutton2.style.transform = "translate(0, -100%)";
+                document.querySelector('.hidden-info').style.display = 'inline-block';
+                document.querySelector('.hidden-info2').style.display = 'inline-block';
+                document.querySelector('.hidden-info3').style.display = 'inline-block';
+                 document.querySelector('.hidden-info4').style.display = 'inline-block';
+
+                document.querySelector('.dose-info').style.display = 'none';
+                document.querySelector('.dose-info2').style.display = 'none';
+                toggled2 = true;
             }
             else{
+                togglebutton.style.transform = "translate(0, 0)";
+                togglebutton2.style.transform = "translate(0, 0)";
+                document.querySelector('.hidden-info').style.display = 'none';
                 document.querySelector('.hidden-info2').style.display = 'none';
+                document.querySelector('.hidden-info3').style.display = 'none';
+                document.querySelector('.hidden-info4').style.display = 'none';
+
+                document.querySelector('.dose-info').style.display = 'inline-block';
+                document.querySelector('.dose-info2').style.display = 'inline-block';
                 toggled2 = false;
             }
         });

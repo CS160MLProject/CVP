@@ -267,3 +267,4 @@ def renew_token(token, salt, time):
         token = encode_token(extracted, salt)
 
     return extracted, token
+

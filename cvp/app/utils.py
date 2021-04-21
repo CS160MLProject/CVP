@@ -190,13 +190,11 @@ def update_password(new_password, email=None, acc=None):
         db.close_connection()
 
 
-def update_account(account_id, fname=None, lname=None, email=None):
+def update_account(account_id, uname=None, email=None):
     db = Database(db_path)
     try:
-        if fname:
-            db.update((fname,), ('First_Name',), account_table, f'User_Account_ID = \"{account_id}\"')
-        if lname:
-            db.update((lname,), ('Last_Name',), account_table, f'User_Account_ID = \"{account_id}\"')
+        if uname:
+            db.update((uname,), ('Username',), account_table, f'User_Account_ID = \"{account_id}\"')
         if email:
             db.update((email,), ('Email',), account_table, f'User_Account_ID = \"{account_id}\"')
     finally:

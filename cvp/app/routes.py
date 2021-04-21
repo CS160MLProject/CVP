@@ -1,6 +1,5 @@
 """Covid-19 Vaccine Passport Application"""
 
-import os
 from flask import render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
 from cvp.features.transform import generate_QR_code
@@ -118,7 +117,7 @@ def login():
 
             if type(acc) == tuple:  # logged in
                 # generate encrypted token to be url
-                url_token = encode_token(acc[4], salt=profile_key)
+                url_token = encode_token(acc[2], salt=profile_key)
                 session['logged_in'] = True
                 session['url'] = url_token
                 return redirect(url_for('profile', token=url_token))
@@ -224,7 +223,8 @@ def profile(token):
     sharing_url = url_for('shared_profile', token=sharing_token, _external=True)
 
     # generate qr
-    generate_QR_code(sharing_url, str(account_id), save=True)
+    generate_QR_code(sharing_url, str(account_id), save=True, save_folder='static/QR_Code')
+    print(sharing_url)
     msg = session['message'] if session.get('message') else ''
     session['qr'] = f'{account_id}.png'
     session['sharing_url'] = sharing_url

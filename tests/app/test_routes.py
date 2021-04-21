@@ -201,6 +201,7 @@ class TestRoutes:
         saving_data['first_name'] = test_account_info['account_first_name']
         saving_data['last_name'] = test_account_info['account_last_name']
         saving_data['username_email'] = test_account_info['email']
+        response = self.__click_button_post(test_client, f'/profile_{token}', 'settings_button')
         response = self.__click_button_post(test_client, f'/profile_{token}/settings',
                                             'profile_save', data=test_account_info)
         assert response.status_code == 200  # redirect
@@ -210,7 +211,7 @@ class TestRoutes:
         saving_data = dict()
         saving_data['current_password'] = saving_data['new_password'] = \
             saving_data['confirm_password'] = test_account_info['password']
-
+        response = self.__click_button_post(test_client, f'/profile_{token}', 'settings_button')
         response = self.__click_button_post(test_client, f'/profile_{token}/settings',
                                             'password_save_button', data=test_account_info)
         assert response.status_code == 200  # redirect

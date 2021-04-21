@@ -224,11 +224,7 @@ class Database:
             raise Exception(e)
 
 
-def main(db_path: dict, account_path: str = None):
-    account_path = account_path or ACCOUNT_PATH
-    if not os.path.exists(account_path):
-        raise FileNotFoundError(f"File {account_path} was not found. Current dir: {os.getcwd()}")
-
+def main(db_path: dict):
     os.makedirs('dataset/external', exist_ok=True)
 
     # Make cvp.db
@@ -239,7 +235,7 @@ def main(db_path: dict, account_path: str = None):
     if os.path.exists(db_path.get('cdc')):
         os.remove(db_path.get('cdc'))
 
-    df = pd.read_csv(account_path, sep='\t')
+    df = pd.read_csv(ACCOUNT_PATH, sep='\t')
     df.drop_duplicates(subset=['Email'], inplace=True)
 
     account_cols = ['Email', 'First_Name', 'Last_Name', 'Password', 'User_Account_ID', 'Salt']

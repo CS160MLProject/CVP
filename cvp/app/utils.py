@@ -46,6 +46,31 @@ def valid_email(email):
         return True
     return False
 
+def valid_password(password:str) -> bool:
+    """Validate password. Password must follow these conditions:
+    - 8 characters minimum
+    - 21 characters maximum
+    - At least 1 uppercase character
+    - At least 1 lowercase character
+    - Must contains at least 1 special character: @, $, !, %, *, #, ?, &
+
+    Usage:
+
+        >>> from cvp.app.utils import valid_password
+        >>> bool_ = valid_password(password)
+
+    Args:
+        password (str): user registration password
+
+    Returns:
+        flag (bool): True if password matches all the conditions. False otherwise
+
+    """
+    pass_reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,21}$"
+    if re.search(re.compile(pass_reg), password):
+        return True
+    return False
+
 
 def get_file_ext(filename):
     """
@@ -59,10 +84,8 @@ def get_file_ext(filename):
     if ext == '.pdf':
         return 'pdf'
 
-    return None
 
-
-def check_cdc(confirmed_data: dict, email: str) -> bool:
+def check_cdc(confirmed_data: dict, email: str, db_path: str = None) -> bool:
     """ Check if user's data is found in CDC Database to prevent fraud vaccine cards
 
     Usage:
@@ -76,8 +99,13 @@ def check_cdc(confirmed_data: dict, email: str) -> bool:
 
     Returns:
         flag (bool): False if account email not found in CDC Database or data does not match. True otherwise
+
     """
-    db = Database(cdc_db_path)
+    db_path = db_path or cdc_db_path
+    if not os.path.exists(db_path):
+        raise FileNotFoundError(f"File {db_path} was not found. Current dir: {os.getcwd()}")
+
+    db = Database(db_path)
     try:
         acc = db.select('*', profile_table, f'Email = "{email}"')
         if not acc:
@@ -104,7 +132,6 @@ def check_cdc(confirmed_data: dict, email: str) -> bool:
             if re.sub(r'\s+', '', str(acc_dict[key])).lower() == re.sub(r'\s+', '', str(confirmed_data[key])).lower():
                 continue
             else:
-                db.close_connection()
                 return False
 
     finally:
@@ -125,7 +152,6 @@ def authenticate(password, email=None, account_id=None):
         return 'Incorrect input.'
     db = Database(db_path)
     try:
-        # db.create_connection(db_path)
         if email:
             acc = db.select('*', account_table, f'Email = \"{email}\"')
         elif account_id:
@@ -140,8 +166,7 @@ def authenticate(password, email=None, account_id=None):
             hashed_pass, _ = generate_hash(password=password, salt=db_salt)
             if hmac.compare_digest(hashed_pass, db_password):  # login
                 return acc[0]
-            else:
-                return 'Password did not match'
+            else: return 'Password did not match'
 
     finally:
         db.close_connection()
@@ -155,12 +180,10 @@ def is_user(email):
     """
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
         acc = db.select('*', account_table, f'Email = \"{email}\"')
         if not acc:  # account was not found with this email
             return f'Account was not found with this email.'
-        else:
-            return acc[0]
+        else: return acc[0]
 
     finally:
         db.close_connection()
@@ -183,9 +206,9 @@ def update_password(new_password, email=None, acc=None):
             db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'User_Account_ID = \"{acc}\"')
         elif email and type(is_user(email)) == tuple:
             db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'Email = \"{email}\"')
-        else:
-            return False
+        else: return False
         return True
+
     finally:
         db.close_connection()
 
@@ -220,8 +243,6 @@ def generate_account(session, profile_data):
 
         db.insert(account_value, account_table)
         db.insert(profile_value, profile_table)
-
-        db.close_connection()
         return True
     finally:
         db.close_connection()

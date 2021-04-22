@@ -44,6 +44,7 @@ def register():
             error_msg = None
             email = request.form.get('email')
             password = request.form.get('password')
+
             confirm_password = request.form.get('confirm_password')  # confirmation password named confirm_password
             # profile_pic = request.files["profile_pic"]
             if 'vaccine_rec' not in request.files:

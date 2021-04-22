@@ -240,3 +240,23 @@ class TestUtils():
         assert not extracted, f'Expired token should not extract any value and should return False.'
 
 
+    def test_upload_and_download_profile_picture(self):
+        #=== Test Inputs ===#
+        photo_name = 'Duy.jpg'
+        folder_path = 'dataset/raw'
+        save_path = 'tests/app'
+
+        #=== Trigger Output ===#
+        upload_profile_picture(photo_name=photo_name, folder_path=folder_path)
+        get_profile_picture(file_name=photo_name, save_path=save_path)
+
+        assert os.path.exists(os.path.join(save_path, photo_name))
+
+        with pytest.raises(FileNotFoundError):
+            wrong_path = 'wrong/path'
+            upload_profile_picture(photo_name, wrong_path)
+
+        with pytest.raises(FileNotFoundError):
+            non_existed_photo = 'wrong_photo.png'
+            get_profile_picture(non_existed_photo, save_path)
+

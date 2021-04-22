@@ -9,6 +9,7 @@ from base64 import b64decode, b64encode
 import hmac
 import re
 import boto3
+import botocore
 import os
 
 SAVE_PROFILE_PICTURE_PATH = 'dataset/processed'
@@ -389,11 +390,11 @@ def get_profile_picture(file_name: str, save_path: str = None):
 
     s3_download_path = bucket_folder + file_name
     save_file = os.path.join(save_path, file_name)
-    client.download_file(bucket_name, s3_download_path, save_file)
 
-if __name__ == '__main__':
-    image = 'Duy.jpg'
-    path = 'dataset/raw'
-    # resize_and_crop_image(image, path)
-    # upload_profile_picture(image, path)
-    get_profile_picture('Duy.jpg')
+    try:
+        client.download_file(bucket_name, s3_download_path, save_file)
+    except botocore.exceptions.ClientError as err:
+        if err.response['Error']['Code'] == '404':
+            raise FileNotFoundError(f'File {s3_download_path} was not found. Please check S3 Bucket in AWS Console.')
+        else:
+            raise Exception(err)

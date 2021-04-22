@@ -131,8 +131,7 @@ def check_cdc(confirmed_data: dict, email: str, db_path: str = None) -> bool:
 
             if re.sub(r'\s+', '', str(acc_dict[key])).lower() == re.sub(r'\s+', '', str(confirmed_data[key])).lower():
                 continue
-            else:
-                return False
+            else: return False
 
     finally:
         db.close_connection()
@@ -214,6 +213,11 @@ def update_password(new_password, email=None, acc=None):
 
 
 def update_account(account_id, uname=None, email=None):
+    """
+    Update account of username or email.
+    :param uname: new username.
+    :param email: new email.
+    """
     db = Database(db_path)
     try:
         if uname:
@@ -225,6 +229,12 @@ def update_account(account_id, uname=None, email=None):
 
 
 def generate_account(session, profile_data):
+    """
+    Generate account for registration.
+    :param session: dict of session from flask.
+    :param profile_data: dict of profile data from flask.
+    :return: True if successfully generated.
+    """
     db = Database(db_path)
     try:
         # Get largest account_id in database and increment account_id by 1
@@ -237,9 +247,9 @@ def generate_account(session, profile_data):
         account_value = (session['email'], hashed_pass, new_account_id, hashed_salt, username)
 
         profile_value = (new_account_id, profile_data['patient_num'], profile_data['last_name'],
-                         profile_data['first_name'], profile_data['mid_initial'], profile_data['dob'], profile_data['first_dose'],
-                         profile_data['date_first'], profile_data['clinic_site'], profile_data['second_dose'],
-                         profile_data['date_second'])
+                         profile_data['first_name'], profile_data['mid_initial'], profile_data['dob'],
+                         profile_data['first_dose'], profile_data['date_first'], profile_data['clinic_site'],
+                         profile_data['second_dose'], profile_data['date_second'])
 
         db.insert(account_value, account_table)
         db.insert(profile_value, profile_table)
@@ -249,6 +259,11 @@ def generate_account(session, profile_data):
 
 
 def get_profile(account_id):
+    """
+    Get profile with account id.
+    :param account_id: account id.
+    :return: dictionary of the account and record.
+    """
     db = Database(db_path)
     try:
         acc = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[0]
@@ -259,6 +274,12 @@ def get_profile(account_id):
 
 
 def __form_dict(acc, record):
+    """
+    Helper to form dictionary to be returned in get_profile.
+    :param acc: account.
+    :param record: profile record.
+    :return: dictionary of account and record.
+    """
     res = dict()
     res['email'] = acc[0]
     res['user_name'] = acc[4]
@@ -275,10 +296,23 @@ def __form_dict(acc, record):
 
 
 def encode_token(to_be_encrypted, salt):
+    """"
+    Encode token.
+    :param to_be_encrypted: data to be encrypted.
+    :param salt: salt of this token.
+    :return: encrypted token.
+    """
     return ts.dumps(to_be_encrypted, salt)
 
 
 def decode_token(token, salt, time):
+    """
+    Decode token.
+    :param token: token to be decrypted.
+    :param salt: salt used to encrypt this token.
+    :pram time: upper limit of this token's age.
+    :return decoded data.
+    """
     try:
         return ts.loads(token, salt=salt, max_age=time)
 
@@ -287,6 +321,13 @@ def decode_token(token, salt, time):
 
 
 def renew_token(token, salt, time):
+    """
+    Regenerate token and time signature.
+    :param token: to ken to be decrypted.
+    :param salt: salt used to encrypt this token.
+    :pram time: upper limit of this token's age.
+    :return decoded data and new token with new time signature.
+    """
     extracted = decode_token(token, salt, time)
     if extracted:
         token = encode_token(extracted, salt)

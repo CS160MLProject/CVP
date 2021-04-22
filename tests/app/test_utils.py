@@ -257,6 +257,10 @@ class TestUtils():
             upload_profile_picture(photo_name, wrong_path)
 
         with pytest.raises(FileNotFoundError):
+            wrong_path = 'wrong/path'
+            get_profile_picture(photo_name, wrong_path)
+
+        with pytest.raises(FileNotFoundError):
             non_existed_photo = 'wrong_photo.png'
             get_profile_picture(non_existed_photo, save_path)
 

@@ -8,8 +8,10 @@ from itsdangerous import URLSafeTimedSerializer
 from base64 import b64decode, b64encode
 import hmac
 import re
+import boto3
 import os
 
+SAVE_PROFILE_PICTURE_PATH = 'dataset/processed'
 ts = URLSafeTimedSerializer(secret_key=secret_key)
 
 
@@ -54,10 +56,10 @@ def valid_password(password:str) -> bool:
     - At least 1 lowercase character
     - Must contains at least 1 special character: @, $, !, %, *, #, ?, &
 
-    Usage:
-
-        >>> from cvp.app.utils import valid_password
-        >>> bool_ = valid_password(password)
+    Usage
+    -----
+    >>> from cvp.app.utils import valid_password
+    >>> bool_ = valid_password(password)
 
     Args:
         password (str): user registration password
@@ -88,10 +90,10 @@ def get_file_ext(filename):
 def check_cdc(confirmed_data: dict, email: str, db_path: str = None) -> bool:
     """ Check if user's data is found in CDC Database to prevent fraud vaccine cards
 
-    Usage:
-
-        >>> from cvp.app.utils import check_cdc
-        >>> bool_ = check_cdc(confirmed_data, email)
+    Usage
+    -----
+    >>> from cvp.app.utils import check_cdc
+    >>> bool_ = check_cdc(confirmed_data, email)
 
     Args:
         confirmed_data (dict): Data from users' vaccine cards
@@ -334,3 +336,64 @@ def renew_token(token, salt, time):
 
     return extracted, token
 
+
+def upload_profile_picture(photo_name: str, folder_path: str):
+    """ Upload users' profile pictures to AWS S3 Bucket
+
+    Usage
+    -----
+    >>> from cvp.app.utils import upload_profile_picture
+    >>> upload_profile_picture(photo_name, folder_path)
+
+    Args:
+        photo_name: name of photo
+        folder_path: path contains photo
+
+    Returns:
+
+    """
+    if not os.path.exists(folder_path):
+        raise FileNotFoundError(f"Folder {folder_path} was not found. Current dir: {os.getcwd()}")
+
+    local_path = os.path.join(folder_path, photo_name)
+
+    # We have to keep reconnecting to s3 client because it will close after a few second of not using
+    client = boto3.client('s3', aws_access_key_id=s3_key, aws_secret_access_key=s3_secret_key)
+
+    upload_file = bucket_folder + str(photo_name)
+    client.upload_file(local_path, bucket_name, upload_file)
+
+
+def get_profile_picture(file_name: str, save_path: str = None):
+    """ Download file from AWS S3 Bucket to local disk
+
+    Usage
+    -----
+    >>> from cvp.app.utils import get_profile_picture
+    >>> get_profile_picture(file_name)
+
+    Args:
+        file_name: name of file to download from S3 Bucket
+        save_path: local path to save file to
+
+    Returns:
+
+    """
+    save_path = save_path or SAVE_PROFILE_PICTURE_PATH
+
+    if not os.path.exists(save_path):
+        raise FileNotFoundError(f"Folder {save_path} was not found. Current dir: {os.getcwd()}")
+
+    # We have to keep reconnecting to s3 client because it will close after a few second of not using
+    client = boto3.client('s3', aws_access_key_id=s3_key, aws_secret_access_key=s3_secret_key)
+
+    s3_download_path = bucket_folder + file_name
+    save_file = os.path.join(save_path, file_name)
+    client.download_file(bucket_name, s3_download_path, save_file)
+
+if __name__ == '__main__':
+    image = 'Duy.jpg'
+    path = 'dataset/raw'
+    # resize_and_crop_image(image, path)
+    # upload_profile_picture(image, path)
+    get_profile_picture('Duy.jpg')

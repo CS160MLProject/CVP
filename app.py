@@ -11,6 +11,10 @@ cdc_db_path = 'dataset/external/cdc.db'
 account_table = 'account'
 profile_table = 'profile'
 
+# AWS S3 bucket
+bucket_name = 'cvp-profile-photo'
+bucket_folder = 'profile_photo/'
+
 
 def create_app():
     app = Flask(__name__, template_folder='cvp/app/templates')

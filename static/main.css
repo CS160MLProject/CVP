@@ -198,6 +198,8 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .field-label{
+    /*background-color: #10CC0A;*/
+    width: 25vw;
     display: block;
     margin: 10px auto 10px 0;
 }
@@ -224,21 +226,301 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     text-decoration: underline;
 }
 
+.first-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.first-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.mi-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.mi-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.last-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.last-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.dob-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.dob-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.pnum-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.pnum-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.clinic-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.clinic-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.fdose-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.fdose-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.fdate-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.fdate-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.sdose-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.sdose-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.sdate-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.sdate-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
 .text-field{
     display: block;
-    width: 60%;
+    width: 40vw;
     height: 30%;
     border-radius: 5px;
-    font-size: 2.5vw;
-    padding: 10px;
+    font-size: 2.2vw;
+    padding: 1.1%;
     text-align: left;
     color:#333333;
 }
 
 .text-field-short{
-    display: block;
-    width: 400px;
-    height: 35px;
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-first{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-mi{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-last{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-dob{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-pnum{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-clinic{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-fdose{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-fdate{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-sdose{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-sdate{
+    display: none;
+    width: 25vw;
+    height: 30%;
     border-radius: 5px;
     font-size: 30px;
     padding: 10px;
@@ -247,6 +529,8 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .input-field {
+    /*background-color: #10CC0A;*/
+    width: 74%;
     margin: 30px 80px 30px 10%;
     padding: 0;
 }
@@ -256,7 +540,24 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     vertical-align: top;
 }
 
-
+.confirm-button{
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 45%;
+    width: 26vw;
+    font-size: 2vw;
+    text-align: center;
+    border-radius: 20px;
+    /*border-color:#0D0065;*/
+    border-width: 0;
+    padding: 1.5% 4%; /* pixels derived from adobe xd values. */
+    margin: 1% 0 1% 57%;
+    outline: none;
+    cursor: pointer;
+}
 
 .inline-button {
     display: inline-block;
@@ -264,15 +565,15 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     background-color: #0A92CC;
     color:white;
     text-shadow: #1f1f1f;
-    height: 100%;
-    width: 100%;
-    font-size: 2.2vw;
+    height: 45%;
+    width: 26vw;
+    font-size: 2vw;
     text-align: center;
-    border-radius: 40px;
+    border-radius: 20px;
     /*border-color:#0D0065;*/
     border-width: 0;
-    padding: 1% 4%; /* pixels derived from adobe xd values. */
-    margin: 5% auto;
+    padding: 1.5% 4%; /* pixels derived from adobe xd values. */
+    margin: 1% 3.5%;
     outline: none;
     cursor: pointer;
 }
@@ -320,18 +621,20 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 
 .warning-message {
     color: red;
-    text-align: left;
+    text-align: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 20px;
+    font-size: 1.3vw;
     font-weight: bold;
     margin: 10px 150px 10px 60px;
 }
 
 .forgot-password {
+    display: inline-block;
+    vertical-align: middle;
     color:#0A92CC;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 20px;
-    margin-left: 250px;
+    font-size: 1vw;
+    margin-left: 20%;
     background-color: rgba(0,0,0,0);
     border-width: 0;
     outline: none;
@@ -652,9 +955,9 @@ ul li a :focus{
 .file-upload{
     display: inline-flex;
     align-items: center;
-    font-size: 36px;
-    height: 80px;
-    width: 800px;
+    font-size: 2vw;
+    height: 45%;
+    width: 40vw;
 }
 
 .file-upload-input{
@@ -666,8 +969,8 @@ ul li a :focus{
     background-color: #0A92CC;
     color:white;
     text-shadow: #1f1f1f;
-    height: 80px;
-    width: 700px;
+    height: 45%;
+    width: 40vw;
     font-size: 1em;
     padding: 0.5em 0.8em;
     text-align: center;

@@ -8,8 +8,11 @@ from itsdangerous import URLSafeTimedSerializer
 from base64 import b64decode, b64encode
 import hmac
 import re
+import boto3
+import botocore
 import os
 
+SAVE_PROFILE_PICTURE_PATH = 'dataset/processed'
 ts = URLSafeTimedSerializer(secret_key=secret_key)
 
 
@@ -46,6 +49,31 @@ def valid_email(email):
         return True
     return False
 
+def valid_password(password:str) -> bool:
+    """Validate password. Password must follow these conditions:
+    - 8 characters minimum
+    - 21 characters maximum
+    - At least 1 uppercase character
+    - At least 1 lowercase character
+    - Must contains at least 1 special character: @, $, !, %, *, #, ?, &
+
+    Usage
+    -----
+    >>> from cvp.app.utils import valid_password
+    >>> bool_ = valid_password(password)
+
+    Args:
+        password (str): user registration password
+
+    Returns:
+        flag (bool): True if password matches all the conditions. False otherwise
+
+    """
+    pass_reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,21}$"
+    if re.search(re.compile(pass_reg), password):
+        return True
+    return False
+
 
 def get_file_ext(filename):
     """
@@ -60,13 +88,13 @@ def get_file_ext(filename):
         return 'pdf'
 
 
-def check_cdc(confirmed_data: dict, email: str) -> bool:
+def check_cdc(confirmed_data: dict, email: str, db_path: str = None) -> bool:
     """ Check if user's data is found in CDC Database to prevent fraud vaccine cards
 
-    Usage:
-
-        >>> from cvp.app.utils import check_cdc
-        >>> bool_ = check_cdc(confirmed_data, email)
+    Usage
+    -----
+    >>> from cvp.app.utils import check_cdc
+    >>> bool_ = check_cdc(confirmed_data, email)
 
     Args:
         confirmed_data (dict): Data from users' vaccine cards
@@ -74,8 +102,13 @@ def check_cdc(confirmed_data: dict, email: str) -> bool:
 
     Returns:
         flag (bool): False if account email not found in CDC Database or data does not match. True otherwise
+
     """
-    db = Database(cdc_db_path)
+    db_path = db_path or cdc_db_path
+    if not os.path.exists(db_path):
+        raise FileNotFoundError(f"File {db_path} was not found. Current dir: {os.getcwd()}")
+
+    db = Database(db_path)
     try:
         acc = db.select('*', profile_table, f'Email = "{email}"')
         if not acc:
@@ -175,9 +208,9 @@ def update_password(new_password, email=None, acc=None):
             db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'User_Account_ID = \"{acc}\"')
         elif email and type(is_user(email)) == tuple:
             db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'Email = \"{email}\"')
-        else:
-            return False
+        else: return False
         return True
+
     finally:
         db.close_connection()
 
@@ -303,3 +336,65 @@ def renew_token(token, salt, time):
         token = encode_token(extracted, salt)
 
     return extracted, token
+
+
+def upload_profile_picture(photo_name: str, folder_path: str):
+    """ Upload users' profile pictures to AWS S3 Bucket
+
+    Usage
+    -----
+    >>> from cvp.app.utils import upload_profile_picture
+    >>> upload_profile_picture(photo_name, folder_path)
+
+    Args:
+        photo_name: name of photo
+        folder_path: path contains photo
+
+    Returns:
+
+    """
+    if not os.path.exists(folder_path):
+        raise FileNotFoundError(f"Folder {folder_path} was not found. Current dir: {os.getcwd()}")
+
+    local_path = os.path.join(folder_path, photo_name)
+
+    # We have to keep reconnecting to s3 client because it will close after a few second of not using
+    client = boto3.client('s3', aws_access_key_id=s3_key, aws_secret_access_key=s3_secret_key)
+
+    upload_file = bucket_folder + str(photo_name)
+    client.upload_file(local_path, bucket_name, upload_file)
+
+
+def get_profile_picture(file_name: str, save_path: str = None):
+    """ Download file from AWS S3 Bucket to local disk
+
+    Usage
+    -----
+    >>> from cvp.app.utils import get_profile_picture
+    >>> get_profile_picture(file_name)
+
+    Args:
+        file_name: name of file to download from S3 Bucket
+        save_path: local path to save file to
+
+    Returns:
+
+    """
+    save_path = save_path or SAVE_PROFILE_PICTURE_PATH
+
+    if not os.path.exists(save_path):
+        raise FileNotFoundError(f"Folder {save_path} was not found. Current dir: {os.getcwd()}")
+
+    # We have to keep reconnecting to s3 client because it will close after a few second of not using
+    client = boto3.client('s3', aws_access_key_id=s3_key, aws_secret_access_key=s3_secret_key)
+
+    s3_download_path = bucket_folder + file_name
+    save_file = os.path.join(save_path, file_name)
+
+    try:
+        client.download_file(bucket_name, s3_download_path, save_file)
+    except botocore.exceptions.ClientError as err:
+        if err.response['Error']['Code'] == '404':
+            raise FileNotFoundError(f'File {s3_download_path} was not found. Please check S3 Bucket in AWS Console.')
+        else:
+            raise Exception(err)

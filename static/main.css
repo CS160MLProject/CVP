@@ -9,10 +9,10 @@
     margin: 0; /* margin is the space around the element*/
     padding: 0; /* while padding is the space around the data inside the element*/
 
-    -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
-    -o-transition: all 0.5s;
-    transition: all 0.5s;
+    /*-webkit-transition: all 0.5s;*/
+    /*-moz-transition: all 0.5s;*/
+    /*-o-transition: all 0.5s;*/
+    /*transition: all 0.5s;*/
 }
 
 /* Then I apply my CSS from here*/
@@ -271,7 +271,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     border-radius: 20px;
     /*border-color:#0D0065;*/
     border-width: 0;
-    ppadding: 10% 15%; /* pixels derived from adobe xd values. */
+    padding: 10% 15%; /* pixels derived from adobe xd values. */
     margin: 5% auto;
     outline: none;
     cursor: pointer;
@@ -433,7 +433,7 @@ ul{
 ul li{
     list-style: none;
     text-align: left;
-    margin: 2px 0 2px 0px;
+    margin: 2px 0 2px 0;
     padding: 15px;
 }
 
@@ -554,7 +554,7 @@ ul li a :focus{
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2vw;
-    color: #1f1f1f;
+    color: #001780;
     text-decoration: underline;
 }
 
@@ -580,7 +580,7 @@ ul li a :focus{
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2vw;
-    color: #1f1f1f;
+    color: #001780;
     text-decoration: underline;
 }
 

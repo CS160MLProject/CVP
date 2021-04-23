@@ -12,32 +12,91 @@
 
     <div class="right-panel">
         <div>
-            <div class="profile-info">
-                <p class="full-name">{{profile}}</p>
-                <p class="vaccine-status">Vaccination Status: Displayed Here{{ account_id }}</p>
+            <div class="profile-info top-margin-small">
+                <p class="full-name">{{user_record['record_first_name']}} {{user_record['record_last_name']}}</p>
+                <p class="vaccine-status">2-Shots Vaccination</p>
             </div>
 
+            <div class="colored-section">
             <div class="profile-info">
                 <div class="dose"> <!--The labels should be anchor tags or something that can link to toggling the display of the 'dose info'-->
-                    <p class="dose-label">First Dose: </p>
-                    <p class="dose-info">dose info here</p>
+                    <button id="info-toggle" class="dose-label">First Dose: </button>
+                    <p class="dose-info">Click dose expand</p>
+                    <p id="test" class="hidden-info">Date: {{user_record['vaccine_date1'] }}</p>
+                    <p id="hidden-info2" class="hidden-info2">Vaccine: {{user_record['vaccine_name'] }} </p>
                 </div>
                 <div class="dose">
-                    <p class="dose-label">Second Dose: </p>
-                    <p class="dose-info">dose info here</p>
+                    <button id="info-toggle2" class="second-label">Second Dose: </button>
+                    <p class="dose-info2">Click dose expand</p>
+                    <p id="hidden-info" class="hidden-info3">Date: {{user_record['vaccine_date2'] }}</p>
+                    <p id="hidden-info2" class="hidden-info4">Vaccine: {{user_record['vaccine_name'] }} </p>
                 </div>
-            </div>
         </div>
-
-        <div id="qr-code" class="container top-margin-big">
-            <button class="inline-button smaller">QR Code</button>
-            <button class="inline-button smaller">URL</button>
-
-            <div>
-                <img class="qr-img inline-item" src="{{ url_for('static', filename='images/qrcode.png') }}" alt="a fake qrcode">
-                <input class="text-field centered inline-item" type="text" id="url" name="url" placeholder="Generated URL will be displayed here">
-            </div>
         </div>
     </div>
+        <script>
+        <!--Handle the toggling of the information on the page.-->
+        let toggled = false;
+        togglebutton = document.getElementById('info-toggle');
+        togglebutton2 = document.getElementById('info-toggle2');
+
+        togglebutton.addEventListener('click',
+        function(){
+            if(!toggled){
+                togglebutton.style.transform = "translate(0, -100%)";
+                togglebutton2.style.transform = "translate(0, -100%)";
+                document.querySelector('.hidden-info').style.display = 'inline-block';
+                document.querySelector('.hidden-info2').style.display = 'inline-block';
+                document.querySelector('.hidden-info3').style.display = 'inline-block';
+                 document.querySelector('.hidden-info4').style.display = 'inline-block';
+
+                document.querySelector('.dose-info').style.display = 'none';
+                document.querySelector('.dose-info2').style.display = 'none';
+                toggled = true;
+            }
+            else{
+                togglebutton.style.transform = "translate(0, 0)";
+                togglebutton2.style.transform = "translate(0, 0)";
+                document.querySelector('.hidden-info').style.display = 'none';
+                document.querySelector('.hidden-info2').style.display = 'none';
+                document.querySelector('.hidden-info3').style.display = 'none';
+                document.querySelector('.hidden-info4').style.display = 'none';
+
+                document.querySelector('.dose-info').style.display = 'inline-block';
+                document.querySelector('.dose-info2').style.display = 'inline-block';
+                toggled = false;
+            }
+        });
+
+        let toggled2 = false;
+        togglebutton2.addEventListener('click',
+        function(){
+            if(!toggled2){
+                togglebutton.style.transform = "translate(0, -100%)";
+                togglebutton2.style.transform = "translate(0, -100%)";
+                document.querySelector('.hidden-info').style.display = 'inline-block';
+                document.querySelector('.hidden-info2').style.display = 'inline-block';
+                document.querySelector('.hidden-info3').style.display = 'inline-block';
+                 document.querySelector('.hidden-info4').style.display = 'inline-block';
+
+                document.querySelector('.dose-info').style.display = 'none';
+                document.querySelector('.dose-info2').style.display = 'none';
+                toggled2 = true;
+            }
+            else{
+                togglebutton.style.transform = "translate(0, 0)";
+                togglebutton2.style.transform = "translate(0, 0)";
+                document.querySelector('.hidden-info').style.display = 'none';
+                document.querySelector('.hidden-info2').style.display = 'none';
+                document.querySelector('.hidden-info3').style.display = 'none';
+                document.querySelector('.hidden-info4').style.display = 'none';
+
+                document.querySelector('.dose-info').style.display = 'inline-block';
+                document.querySelector('.dose-info2').style.display = 'inline-block';
+                toggled2 = false;
+            }
+        });
+
+        </script>
 </body>
 </html>

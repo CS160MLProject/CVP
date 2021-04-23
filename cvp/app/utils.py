@@ -59,8 +59,6 @@ def get_file_ext(filename):
     if ext == '.pdf':
         return 'pdf'
 
-    return None
-
 
 def check_cdc(confirmed_data: dict, email: str) -> bool:
     """ Check if user's data is found in CDC Database to prevent fraud vaccine cards
@@ -123,7 +121,6 @@ def authenticate(password, email=None, account_id=None):
         return 'Incorrect input.'
     db = Database(db_path)
     try:
-        # db.create_connection(db_path)
         if email:
             acc = db.select('*', account_table, f'Email = \"{email}\"')
         elif account_id:
@@ -138,8 +135,7 @@ def authenticate(password, email=None, account_id=None):
             hashed_pass, _ = generate_hash(password=password, salt=db_salt)
             if hmac.compare_digest(hashed_pass, db_password):  # login
                 return acc[0]
-            else:
-                return 'Password did not match'
+            else: return 'Password did not match'
 
     finally:
         db.close_connection()
@@ -153,12 +149,10 @@ def is_user(email):
     """
     db = Database(db_path)
     try:
-        db.create_connection(db_path)
         acc = db.select('*', account_table, f'Email = \"{email}\"')
         if not acc:  # account was not found with this email
             return f'Account was not found with this email.'
-        else:
-            return acc[0]
+        else: return acc[0]
 
     finally:
         db.close_connection()
@@ -309,4 +303,3 @@ def renew_token(token, salt, time):
         token = encode_token(extracted, salt)
 
     return extracted, token
-

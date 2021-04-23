@@ -268,10 +268,10 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     width: 100%;
     font-size: 2.2vw;
     text-align: center;
-    border-radius: 20px;
+    border-radius: 40px;
     /*border-color:#0D0065;*/
     border-width: 0;
-    padding: 10% 15%; /* pixels derived from adobe xd values. */
+    padding: 1% 4%; /* pixels derived from adobe xd values. */
     margin: 5% auto;
     outline: none;
     cursor: pointer;

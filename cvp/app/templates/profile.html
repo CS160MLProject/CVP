@@ -31,7 +31,7 @@
                 </ul>
             </nav>
     </div>
-</form>
+
     <div class="right-panel">
         <div class="profile-info top-margin-small">
             <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
@@ -41,13 +41,13 @@
         <div class="colored-section">
             <div class="profile-info">
                 <div class="dose"> <!--The labels should be anchor tags or something that can link to toggling the display of the 'dose info'-->
-                    <button id="info-toggle" class="dose-label">First Dose: </button>
+                    <a id="info-toggle" class="dose-label">First Dose: </a>
                     <p class="dose-info">Click dose expand</p>
                     <p id="test" class="hidden-info">Date: {{profile['vaccine_date1'] }}</p>
                     <p id="hidden-info2" class="hidden-info2">Vaccine: {{profile['vaccine_name'] }} </p>
                 </div>
                 <div class="dose">
-                    <button id="info-toggle2" class="second-label">Second Dose: </button>
+                    <a id="info-toggle2" class="second-label">Second Dose: </a>
                     <p class="dose-info2">Click dose expand</p>
                     <p id="hidden-info" class="hidden-info3">Date: {{profile['vaccine_date2'] }}</p>
                     <p id="hidden-info2" class="hidden-info4">Vaccine: {{profile['vaccine_name'] }} </p>
@@ -84,7 +84,7 @@
             <button class="modal-button" name="sign_out_button" value=True type="submit">Sign Out</button>
         </div>
     </div>
-
+</form>
 <script>
         document.getElementById('sign-out-button').addEventListener('click',
         function(){

@@ -44,14 +44,12 @@ def register():
             error_msg = None
             email = request.form.get('email')
             password = request.form.get('password')
-
             confirm_password = request.form.get('confirm_password')  # confirmation password named confirm_password
             # profile_pic = request.files["profile_pic"]
             if 'vaccine_rec' not in request.files:
                 error_msg = 'file is not uploaded.'
 
             if not error_msg:
-
                 uploads_dir = 'dataset/processed/upload_vaccine_record'
 
                 # Create a new directory for the upload
@@ -207,7 +205,6 @@ def profile(token):
         (2)profile.html with user profile, sharing_url and name of qr file.
     """
     account_id, profile_token = renew_token(token, salt=profile_key, time=900)  # 15 min
-    print(account_id)
     if not account_id:  # could not decode the account_id (the link has expired)
         return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
 
@@ -226,7 +223,6 @@ def profile(token):
 
     # generate qr
     generate_QR_code(sharing_url, str(account_id), save=True, save_folder='static/QR_Code')
-    print(sharing_url)
     msg = session['message'] if session.get('message') else ''
     session['qr'] = f'{account_id}.png'
     session['sharing_url'] = sharing_url

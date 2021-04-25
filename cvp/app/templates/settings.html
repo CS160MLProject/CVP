@@ -8,7 +8,10 @@
 <body>
 <form action={{url_for('settings', token=token)}} method="POST">
     <div class="left-panel">
-        <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">
+        <button class="logo">
+{#            <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">#}
+            <p class="full-name">CVP</p>
+        </button>
         <nav>
             <ul>
                 <li>
@@ -18,8 +21,10 @@
                     <a href="#changepass">Change Password</a>
                 </li>
                 <li>
-                    <img class="field-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
-                    <a href="#" id="sign-out-button">Sign Out</a>
+                    <a id="sign-out-button1" class="nav-img" href="#">
+                        <img class="nav-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
+                    </a>
+                    <a id="sign-out-button" href="#">Sign Out</a>
                 </li>
             </ul>
         </nav>

@@ -48,6 +48,7 @@ body{
 }
 
 .block-item{
+    background-color: rgba(10, 146, 204, 0.08);
     display: block;
     margin: 5% 15%;
 }
@@ -216,10 +217,9 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 
 .url{
     display: none;
-    font-size: 2vw;
+    font-size: 1.5vw;
     padding: 5%;
-    margin-left: 15%;
-    text-align: left;
+    text-align: center;
     color: #0D0065;
     text-decoration: underline;
 }
@@ -649,6 +649,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .padding-div {
+    text-align: center;
     margin: 20%;
 }
 
@@ -890,6 +891,7 @@ ul li a :focus{
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2vw;
+    font-weight: bolder;
     color: #001780;
     text-decoration: underline;
 }
@@ -901,12 +903,12 @@ ul li a :focus{
 
 .second-label{
     position: absolute;
-    top: 50%;
+    top: 70%;
     left: 25%;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    -o-transition: all 0.3s;
-    transition: all 0.3s;
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    -o-transition: all 0.25s;
+    transition: all 0.25s;
     /*display: inline-block;*/
     /*vertical-align: middle;*/
     /*text-align: center;*/
@@ -916,6 +918,7 @@ ul li a :focus{
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2vw;
+    font-weight: bolder;
     color: #001780;
     text-decoration: underline;
 }
@@ -931,6 +934,7 @@ ul li a :focus{
     vertical-align: middle;
     text-align: center;
     margin-left: 65%;
+    margin-top: 5%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.2vw;
     font-style: italic;
@@ -956,6 +960,7 @@ ul li a :focus{
     margin-top: 1vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
+    font-weight: bold;
     display: none;
 }
 
@@ -966,26 +971,29 @@ ul li a :focus{
     margin-top: 1vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
+    font-weight: bold;
     display: none;
 }
 
 .hidden-info3{
     vertical-align: middle;
     text-align: center;
-    margin-top: 5vh;
+    margin-top: 7vh;
     margin-right: 5%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
+    font-weight: bold;
     display: none;
 }
 
 .hidden-info4{
     vertical-align: middle;
     text-align: center;
-    margin-top: 5vh;
+    margin-top: 7vh;
     margin-right: 10%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
+    font-weight: bold;
     display: none;
 }
 

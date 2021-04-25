@@ -34,56 +34,36 @@
                         <div class="field-label">
                             <label class="text-label" for="first_name">First Name:</label>
                         </div>
-                        <div>
-                            <p class="first-text">{{ session['extracted_record']['first'] }}</p>
-                            <a class="first-edit" id="first-edit" href="#">Edit</a>
-                        </div>
                         <!--Finally the text field for the user to enter data into.-->
-                        <input class="text-field-short-first" type="text" id="first_name" name="first_name" placeholder="{{ session['extracted_record']['first'] }}">
+                        <input class="text-field-short" type="text" id="first_name" name="first_name" value="{{ session['extracted_record']['first'] }}" placeholder="{{ session['extracted_record']['first'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="mid_initial">Middle Initial:</label>
                         </div>
-                        <div>
-                            <p class="mi-text">{{ session['extracted_record']['mi'] }}</p>
-                            <a class="mi-edit" id="mi-edit" href="#">Edit</a>
-                        </div>
-                        <input class="text-field-short-mi" type="text" id="mid_initial" name="mid_initial" placeholder="{{ session['extracted_record']['mi'] }}">
+                        <input class="text-field-short" type="text" id="mid_initial" name="mid_initial" value="{{ session['extracted_record']['mi'] }}" placeholder="{{ session['extracted_record']['mi'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="date_second">Date of Birth:</label>
                         </div>
-                        <div>
-                            <p class="dob-text">{{ session['extracted_record']['dob'] }}</p>
-                            <a class="dob-edit" id="dob-edit" href="#">Edit</a>
-                        </div>
-                        <input class="text-field-short-dob" type="text" id="dob" name="dob" placeholder="{{ session['extracted_record']['dob'] }}">
+                        <input class="text-field-short" type="text" id="dob" name="dob" value="{{ session['extracted_record']['dob'] }}" placeholder="{{ session['extracted_record']['dob'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="first_dose">First Dose:</label>
                         </div>
-                        <div>
-                            <p class="fdose-text">{{ session['extracted_record']['product_1'] }}</p>
-                            <a class="fdose-edit" id="fdose-edit" href="#">Edit</a>
-                        </div>
-                        <input class="text-field-short-fdose" type="text" id="first_dose" name="first_dose" placeholder="{{ session['extracted_record']['product_1'] }}">
+                        <input class="text-field-short" type="text" id="first_dose" name="first_dose" value="{{ session['extracted_record']['product_1'] }}" placeholder="{{ session['extracted_record']['product_1'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="second_dose">Second Dose:</label>
                         </div>
-                        <div>
-                            <p class="sdose-text">{{ session['extracted_record']['product_2'] }}</p>
-                            <a class="sdose-edit" id="sdose-edit" href="#">Edit</a>
-                        </div>
-                        <input class="text-field-short-sdose" type="text" id="second_dose" name="second_dose" placeholder="{{ session['extracted_record']['product_2'] }}">
+                        <input class="text-field-short" type="text" id="second_dose" name="second_dose" value="{{ session['extracted_record']['product_2'] }}" placeholder="{{ session['extracted_record']['product_2'] }}">
                     </div>
 
 
@@ -94,55 +74,35 @@
                         <div class="field-label">
                             <label class="text-label" for="last_name">Last Name:</label>
                         </div>
-                        <div>
-                            <p class="last-text">{{ session['extracted_record']['last'] }}</p>
-                            <a class="last-edit" id="last-edit" href="#">Edit</a>
-                        </div>
-                        <input class="text-field-short-last" type="text" id="last_name" name="last_name" placeholder="{{ session['extracted_record']['last'] }}">
+                        <input class="text-field-short" type="text" id="last_name" name="last_name" value="{{ session['extracted_record']['last'] }}" placeholder="{{ session['extracted_record']['last'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="patient_num">Patient Number:</label>
                         </div>
-                        <div>
-                            <p class="pnum-text">{{ session['extracted_record']['ssn']  }}</p>
-                            <a class="pnum-edit" id="pnum-edit" href="#">Edit</a>
-                        </div>
-                        <input class="text-field-short-pnum" type="text" id="patient_num" name="patient_num" placeholder="{{ session['extracted_record']['ssn'] }}">
+                        <input class="text-field-short" type="text" id="patient_num" name="patient_num" value="{{ session['extracted_record']['ssn'] }}" placeholder="{{ session['extracted_record']['ssn'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="clinic_site">Clinic Site:</label>
                         </div>
-                        <div>
-                            <p class="clinic-text">{{ session['extracted_record']['site_1'] }}</p>
-                            <a class="clinic-edit" id="clinic-edit" href="#">Edit</a>
-                        </div>
-                        <input class="text-field-short-clinic" type="text" id="clinic_site" name="clinic_site" placeholder="{{ session['extracted_record']['site_1'] }}">
+                        <input class="text-field-short" type="text" id="clinic_site" name="clinic_site" value="{{ session['extracted_record']['site_1'] }}" placeholder="{{ session['extracted_record']['site_1'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="date_first">Issue Date:</label>
                         </div>
-                        <div>
-                            <p class="fdate-text">{{ session['extracted_record']['date_1'] }}</p>
-                            <a class="fdate-edit" id="fdate-edit" href="#">Edit</a>
-                        </div>
-                        <input class="text-field-short-fdate" type="text" id="date_first" name="date_first" placeholder="{{ session['extracted_record']['date_1'] }}">
+                        <input class="text-field-short" type="text" id="date_first" name="date_first" value="{{ session['extracted_record']['date_1'] }}" placeholder="{{ session['extracted_record']['date_1'] }}">
                     </div>
 
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="date_second">Issue Date:</label>
                         </div>
-                        <div>
-                            <p class="sdate-text">{{ session['extracted_record']['date_2'] }}</p>
-                            <a class="sdate-edit" id="sdate-edit" href="#">Edit</a>
-                        </div>
-                        <input class="text-field-short-sdate" type="text" id="date_second" name="date_second" placeholder="{{ session['extracted_record']['date_2'] }}">
+                        <input class="text-field-short" type="text" id="date_second" name="date_second" value="{{ session['extracted_record']['date_2'] }}" placeholder="{{ session['extracted_record']['date_2'] }}">
                     </div>
 
 
@@ -154,171 +114,6 @@
                 THE INFORMATION ARE ACCURATE AND CHANGE ANY ERRORS BEFORE CONFIRMING.</p>
         </form>
     </div>
-
-<script>
-        <!--Handle the toggling of the information on the page.-->
-        let fToggle = false;
-        fEditButton = document.getElementById('first-edit');
-        fEditButton.addEventListener('click',
-        function(){
-            if(!fToggle){
-                document.querySelector('.first-text').style.display = 'none';
-                document.querySelector('.text-field-short-first').style.display = 'inline-block';
-                fToggle = true;
-            }
-            else{
-                document.querySelector('.first-text').style.display = 'inline-block';
-                document.querySelector('.text-field-short-first').style.display = 'none';
-                fToggle = false;
-            }
-        });
-
-        let mToggle = false;
-        mEditButton = document.getElementById('mi-edit');
-        mEditButton.addEventListener('click',
-        function(){
-            if(!mToggle){
-                document.querySelector('.mi-text').style.display = 'none';
-                document.querySelector('.text-field-short-mi').style.display = 'inline-block';
-                mToggle = true;
-            }
-            else{
-                document.querySelector('.mi-text').style.display = 'inline-block';
-                document.querySelector('.text-field-short-mi').style.display = 'none';
-                mToggle = false;
-            }
-        });
-
-        let lToggle = false;
-        lEditButton = document.getElementById('last-edit');
-        lEditButton.addEventListener('click',
-        function(){
-            if(!lToggle){
-                document.querySelector('.last-text').style.display = 'none';
-                document.querySelector('.text-field-short-last').style.display = 'inline-block';
-                lToggle = true;
-            }
-            else{
-                document.querySelector('.last-text').style.display = 'inline-block';
-                document.querySelector('.text-field-short-last').style.display = 'none';
-                lToggle = false;
-            }
-        });
-
-        let cToggle = false;
-        cEditButton = document.getElementById('clinic-edit');
-        cEditButton.addEventListener('click',
-        function(){
-            if(!cToggle){
-                document.querySelector('.clinic-text').style.display = 'none';
-                document.querySelector('.text-field-short-clinic').style.display = 'inline-block';
-                cToggle = true;
-            }
-            else{
-                document.querySelector('.clinic-text').style.display = 'inline-block';
-                document.querySelector('.text-field-short-clinic').style.display = 'none';
-                cToggle = false;
-            }
-        });
-
-        let fdsToggle = false;
-        fdsEditButton = document.getElementById('fdose-edit');
-        fdsEditButton.addEventListener('click',
-        function(){
-            if(!fdsToggle){
-                document.querySelector('.fdose-text').style.display = 'none';
-                document.querySelector('.text-field-short-fdose').style.display = 'inline-block';
-                fdsToggle = true;
-            }
-            else{
-                document.querySelector('.fdose-text').style.display = 'inline-block';
-                document.querySelector('.text-field-short-fdose').style.display = 'none';
-                fdsToggle = false;
-            }
-        });
-
-        let fdtToggle = false;
-        fdtEditButton = document.getElementById('fdate-edit');
-        fdtEditButton.addEventListener('click',
-        function(){
-            if(!fdtToggle){
-                document.querySelector('.fdate-text').style.display = 'none';
-                document.querySelector('.text-field-short-fdate').style.display = 'inline-block';
-                fdtToggle = true;
-            }
-            else{
-                document.querySelector('.fdate-text').style.display = 'inline-block';
-                document.querySelector('.text-field-short-fdate').style.display = 'none';
-                fdtToggle = false;
-            }
-        });
-
-        let sdsToggle = false;
-        sdsEditButton = document.getElementById('sdose-edit');
-        sdsEditButton.addEventListener('click',
-        function(){
-            if(!sdsToggle){
-                document.querySelector('.sdose-text').style.display = 'none';
-                document.querySelector('.text-field-short-sdose').style.display = 'inline-block';
-                sdsToggle = true;
-            }
-            else{
-                document.querySelector('.sdose-text').style.display = 'inline-block';
-                document.querySelector('.text-field-short-sdose').style.display = 'none';
-                sdsToggle = false;
-            }
-        });
-
-        let sdtToggle = false;
-        sdtEditButton = document.getElementById('sdate-edit');
-        sdtEditButton.addEventListener('click',
-        function(){
-            if(!sdtToggle){
-                document.querySelector('.sdate-text').style.display = 'none';
-                document.querySelector('.text-field-short-sdate').style.display = 'inline-block';
-                sdtToggle = true;
-            }
-            else{
-                document.querySelector('.sdate-text').style.display = 'inline-block';
-                document.querySelector('.text-field-short-sdate').style.display = 'none';
-                sdtToggle = false;
-            }
-        });
-
-        let pToggle = false;
-        pEditButton = document.getElementById('pnum-edit');
-        pEditButton.addEventListener('click',
-        function(){
-            if(!pToggle){
-                document.querySelector('.pnum-text').style.display = 'none';
-                document.querySelector('.text-field-short-pnum').style.display = 'inline-block';
-                pToggle = true;
-            }
-            else{
-                document.querySelector('.pnum-text').style.display = 'inline-block';
-                document.querySelector('.text-field-short-pnum').style.display = 'none';
-                pToggle = false;
-            }
-        });
-
-        let dToggle = false;
-        dEditButton = document.getElementById('dob-edit');
-        dEditButton.addEventListener('click',
-        function(){
-            if(!dToggle){
-                document.querySelector('.dob-text').style.display = 'none';
-                document.querySelector('.text-field-short-dob').style.display = 'inline-block';
-                dToggle = true;
-            }
-            else{
-                document.querySelector('.dob-text').style.display = 'inline-block';
-                document.querySelector('.text-field-short-dob').style.display = 'none';
-                dToggle = false;
-            }
-        });
-
-
-</script>
 
 </body>
 </html>

@@ -57,7 +57,7 @@ body{
     position: fixed;
     display: inline-block;
     vertical-align: top;
-    background-color: rgba(10, 146, 204, 0.1);
+    background-color: rgba(10, 146, 204, 0.08);
     width: 20%;
     height: 900px;
 }

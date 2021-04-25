@@ -23,7 +23,7 @@
                 </div>
                 <p class="field-note">Your email address will become your username</p>
                 {{ error }}<!-- not sure where to put error -->
-                <input class="text-field" type="text" id="email" name="email" placeholder="hello@cvp.org">
+                <input class="text-field" onkeydown="checkEnterClick(event)" type="text" id="email" name="email" placeholder="hello@cvp.org">
             </div>
 
             <div class="input-field">
@@ -38,10 +38,42 @@
 
             <div class="input-field">
                 <button class="inline-button smaller" name="cancel_button" value="cancel_button" type="cancel">Cancel</button> <!--there are two classes being applied here, which allows two different styles to cascade-->
-                <button class="inline-button smaller" name="login_button" value="login_button"type="login">Log in</button> <!--for this instance, inline-button gets applied first, then the smaller second-->
+                <button class="inline-button smaller login" id="login" name="login_button" value="login_button"type="login">Log in</button> <!--for this instance, inline-button gets applied first, then the smaller second-->
             </div>
         </form>
         </div>
     </div>
+    <script>
+        // Script taken from https://www.w3schools.com/howto/howto_js_trigger_button_enter.asp
+        // modified to work with this document
+
+        // handle pressing Enter key in the email box
+        let input = document.getElementById("email");
+        // Execute a function when the user releases a key on the keyboard
+        input.addEventListener("keydown", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("login").click();
+          }
+        });
+
+        // handle pressing Enter key in the password box
+        let input2 = document.getElementById("password");
+        // Execute a function when the user releases a key on the keyboard
+        input2.addEventListener("keydown", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("login").click();
+          }
+        });
+
+
+    </script>
 </body>
 </html>

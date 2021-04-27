@@ -30,7 +30,9 @@ def invalid_register_input(email, password, confirm_password):
         error_msg = 'Please enter required fields.'
 
     elif valid_email(email):  # valid email
-        if password != confirm_password:  # fail. password did not match
+        if not valid_password(password):
+            error_msg = 'Password did not match one of these requirements'
+        elif password != confirm_password:  # fail. password did not match
             error_msg = 'Password did not match!'
     else:  # invalid email
         error_msg = 'Invalid email'

@@ -1,287 +1,25 @@
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    text-decoration: none;
+*{ /* This resets the margin and padding of everything,
+    allowing me to design for any browser that may have
+    default values for margin and padding.
+
+    --------
+
+    There's a way for me to completely reset every single css for any browser
+    but I'm sticking with this one for now.*/
+    margin: 0; /* margin is the space around the element*/
+    padding: 0; /* while padding is the space around the data inside the element*/
+
+    /*-webkit-transition: all 0.5s;*/
+    /*-moz-transition: all 0.5s;*/
+    /*-o-transition: all 0.5s;*/
+    /*transition: all 0.5s;*/
 }
+
+/* Then I apply my CSS from here*/
+
 body{
-    font-family: 'arial';
-}
-h1{
-    font-size: 2rem;
-}
-
-.nav{
-    position: sticky;
-    height: 7.5vh;
-    box-shadow: 0 0 10px black;
-}
-.nav__list{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 2rem;
-    margin: 0 2rem;
- }
-.nav__list-logo{
-    list-style: none;
-    margin-right: auto;
-    cursor: pointer;
-}
-#logo{
-    font-family: 'Pattaya', sans-serif;
-    font-weight: bold;
-    font-size: 35px;
-    width: 2.5rem;
-}
-#logo a{
-    color: black;
-}
-#logo a:hover{
-    color: aqua;
-}
-.nav__list-item{
-    list-style: none;
-    font-weight: bold;
-    position: relative;
-    padding: 1.5rem 1rem;
-    cursor: pointer;
-}
-.nav__list-item a{
-    color: black;
-    text-decoration: none;
-}
-.nav__list-item::after{
-    content: "";
-    width: 0;
-    height: 0.3rem;
-    border-radius: 0.2rem;
-    position: absolute;
-    left: 1rem;
-    bottom: 0.8rem;
-    background-color: aqua;
-    transition: width 200ms ease-in;
-}
-.nav__list-item:hover::after{
-    width: 70%;
-}
-.nav__list-item:hover ul{
-    opacity: 1;
-    visibility: visible;
-}
-.nav__list-item-drop{
-    position: absolute;
-    top: 4rem;
-    left: -1rem;
-    box-shadow: 5px 5px 10px black;
-    background-color: white;
-    border-radius: 0.2rem;
-    width: 12rem;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 200ms ease-in-out;
-}
-.nav__list-item-drop li{
-    list-style: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.2rem;
-    transition: background-color 200ms ease-in-out;
-}
-.nav__list-item-drop li:hover{
-    background-color: #fbf7de;
-}
-
-.hero{
-    background: linear-gradient(rgba(0, 0, 0, 0.7), transparent), url(./images/vaccine.jpg);
-    min-height: 92.5vh;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
-.hero h1{
-    color: white;
-    margin: 10rem 30rem 10rem 10rem;
-    position: relative;
-    display: flex;
-    float: left;
-    font-family: 'Play', sans-serif;
-    font-size: 8rem;
-}
-
-.gallery-container{
-
-    width: 80%;
-    margin: auto;
-    text-align: center;
-    padding-top: 50px;
-}
-.benefits{
-    text-align: left;
-    margin-left: 1.5rem;
-    margin-bottom: 5rem;
-}
-.benefits h1{
-    font-size: 5rem;
-}
-.row{
-    margin-left: 2%;
-    margin-right: auto;
-}
-.col{
-    display: flex;
-    width: 100%;
-    text-align: center;
-}
-.left-gallery{
-    margin-right: 4rem;
-    width: 50vw;
-}
-.passport-img{
-    background: url("./images/passport.jfif");
-    min-height: 50.5vh;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-}
-.passport-description{
-    text-align: left;
-    margin-top: 2rem;
-}
-.passport-description h1{
-    font-family: 'Open Sans', sans-serif;
-    margin: 3rem 0;
-}
-.passport-description p{
-    margin-top: 1rem;
-    font-family: 'arial';
-    font-size: 1.5rem;
-    opacity: 0.8;
-}
-.share-fun-img{
-    background: url("./images/share_fun.jpg");
-    min-height: 60.5vh;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    margin-top: 4rem;
-}
-.share-fun-description{
-    text-align: left;
-    margin-top: 3rem;
-}
-.share-fun-description p{
-    font-family: 'arial';
-    font-size: 1.5rem;
-    opacity: 0.8;
-    margin-bottom: 6rem;
-}
-.right-gallery{
-    text-align: left;
-    width: 50vw;
-}
-.scan-qr-description{
-    margin-bottom: 4rem;
-}
-.scan-qr-description h1{
-    margin-bottom: 3rem;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: bold;
-}
-.scan-qr-description p{
-    font-family: 'arial';
-    font-size: 1.5rem;
-    opacity: 0.8;
-}
-.learn_more-button{
-    position: relative;
-    display: inline-block;
-    padding: 15px 30px;
-    color: #2196f3;
-    letter-spacing: 2px;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 24px;
-    overflow: hidden;
-    transition: 0.2s;
-}
-.learn_more-button:hover{
-    color: #255784;
-    background: #2196f3;
-    box-shadow: 0 0 10px #2196f3, 0 0 40px #2196f3, 0 0 80px #2196f3;
-    transition-delay: 1s;
-}
-.learn_more-button span{
-    position: absolute;
-    display: block;
-}
-.learn_more-button span:nth-child(1){
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #2196f3);
-}
-.learn_more-button:hover span:nth-child(1){
-    left: 100%;
-    transition: 1s;
-}
-.learn_more-button span:nth-child(3){
-    bottom: 0;
-    right: -100%;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(270deg, transparent, #2196f3);
-}
-.learn_more-button:hover span:nth-child(3){
-    right: 100%;
-    transition: 1s;
-    transition-delay: 0.5s;
-}
-.learn_more-button span:nth-child(2){
-    top: -100%;
-    right: 0%;
-    width: 2px;
-    height: 100%;
-    background: linear-gradient(180deg, transparent, #2196f3);
-}
-.learn_more-button:hover span:nth-child(2){
-    top: 100%;
-    transition: 1s;
-    transition-delay: 0.25s;
-}
-.learn_more-button span:nth-child(4){
-    bottom: -100%;
-    left: 0%;
-    width: 2px;
-    height: 100%;
-    background: linear-gradient(360deg, transparent, #2196f3);
-}
-.learn_more-button:hover span:nth-child(4){
-    bottom: 100%;
-    transition: 1s;
-    transition-delay: 0.75s;
-}
-.scan-qr-img{
-    background: url("./images/scan_qr.jpg");
-    min-height: 60.5vh;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    margin-top: 4rem;
+    /* Sets the background color of the entire page to a light gray*/
+    background-color: #ffffff;
 }
 
 /* .class allows me to target CSS to a specific class that can be used in any html element*/
@@ -315,26 +53,14 @@ h1{
     margin: 5% 15%;
 }
 
-#login-page-container {
-    position: relative;
-    min-height: 100vh;
-}
-
-#content-wrap {
-    padding-bottom: 50rem;
-}
-
-
-/* ----------------Login page---------------- */
-/* Left side of the Login Page*/
+/* Left side of the Home Page*/
 .left-panel{
-    position: absolute;
+    position: fixed;
     display: inline-block;
     vertical-align: top;
-    background-color: white;  /*rgba(10, 146, 204, 0.08);*/
-    width: 35vw;
-    height: 100vh;
-    padding-top: 50px;
+    background-color: rgba(10, 146, 204, 0.08);
+    width: 20%;
+    height: 900px;
 }
 
 /* Affects all the h1 elements declared inside any element that uses this class.
@@ -370,13 +96,12 @@ Not ideal but shows a way to apply CSS in a broad manner*/
 
 /* Right side of the Home Page. */
 .right-panel{
-    position: absolute;
     display: inline-block;
     vertical-align: top;
-    margin-left: 35%;
-    background-color: #fbfbfb;
-    width: 65vw;
-    height: 100vh;
+    margin-left: 20%;
+    background-color: #f6f6f6;
+    width: 79.5%;
+    height: 900px;
 }
 
 .right-panel-close{
@@ -404,89 +129,6 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     font-size: 20px;
     margin: 10px 150px 10px 60px;
 }
-
-
-
-.footer {
-    display: grid;
-    position: relative;
-    height: 30vh;
-    width: 100vw;
-    margin: auto;
-    background-color: #fbf7de;
-    z-index: 999;
-}
-
-.inner_footer {
-    padding-top: 1rem;
-    margin: 1.5rem 2rem;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-
-}
-
-.footer-content {
-    width: 75%;
-}
-
-.footer-content h2 {
-    text-transform: uppercase;
-    margin-bottom: 10px;
-}
-.footer-content p{
-    opacity: 0.6;
-}
-.footer-content a{
-    color: black;
-    text-decoration: none;
-    opacity: 0.6;
-}
-.footer-content a.hover{
-    color: aqua;
-    opacity: 1;
-}
-.footer-content li{
-    list-style: none;
-    margin-bottom: 5px;
-}
-.footer-content input[type=text]{
-    padding: 8px 10px;
-    background-color: white;
-    border: 1px solid #ccc;
-    outline: none;
-}
-.footer-content .btn{
-    padding: 9px 10px;
-    background-color: black;
-    color: white;
-    border: none;
-    outline: none;
-}
-.footer-content .socials{
-    margin-top: 30px;
-}
-.footer-content .socials li{
-    display: inline-block;
-    margin-right: 20px;
-    font-size: 20px;
-}
-.footer-content a:hover{
-    color:aqua;
-    opacity: 1;
-}
-.footer hr{
-    opacity: 0.6;
-}
-.footer .copyright{
-    padding: 0.4rem;
-    text-align: center;
-}
-
-@media screen and(max-width: 942px){
-
-}
-
-
 
 /* This sets the width of the image to the entire width of the screen
 NOTE-TO-SELF: Try refactoring this to using background-image instead*/
@@ -536,8 +178,8 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .new-account-icon{
-    margin: 0% 0% 20% 0%;
-    height: 55%;
+    margin: 10% 20% 10% 25%;
+    width: 50%;
 }
 
 .field-icon{
@@ -1486,4 +1128,80 @@ ul li a :focus{
     height: 100%;
     width: 100%;
     margin-left: 5%;
+}
+
+
+.footer {
+    display: grid;
+    position: relative;
+    height: 30vh;
+    width: 100vw;
+    margin: auto;
+    background-color: #fbf7de;
+    z-index: 999;
+}
+
+.inner_footer {
+    padding-top: 1rem;
+    margin: 1.5rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+}
+
+.footer-content {
+    width: 75%;
+}
+
+.footer-content h2 {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.footer-content p{
+    opacity: 0.6;
+}
+.footer-content a{
+    color: black;
+    text-decoration: none;
+    opacity: 0.6;
+}
+.footer-content a.hover{
+    color: aqua;
+    opacity: 1;
+}
+.footer-content li{
+    list-style: none;
+    margin-bottom: 5px;
+}
+.footer-content input[type=text]{
+    padding: 8px 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    outline: none;
+}
+.footer-content .btn{
+    padding: 9px 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    outline: none;
+}
+.footer-content .socials{
+    margin-top: 30px;
+}
+.footer-content .socials li{
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 20px;
+}
+.footer-content a:hover{
+    color:aqua;
+    opacity: 1;
+}
+.footer hr{
+    opacity: 0.6;
+}
+.footer .copyright{
+    padding: 0.4rem;
+    text-align: center;
 }

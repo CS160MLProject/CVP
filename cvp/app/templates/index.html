@@ -3,45 +3,139 @@
 <!--repush-->
 <!--The head element consists of links, title and meta tags, which are used to define what the HTML page contains-->
 <head>
-    <link rel="stylesheet" href="/static/main.css"> <!--Links to the external stylesheet so that the page uses the CSS from it-->
+    <link rel="stylesheet" href="/static/home_page.css">
+    <!--Links to the external stylesheet so that the page uses the CSS from it-->
+    <link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Poppins:wght@400;500&display=swap"
+          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Play&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,400&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <title>COVID Vaccine Passport | Home</title> <!--This is the title that you see displayed in the tab section-->
 </head>
 
 <!--the 'body' element contains all other elements that is displayed on the browser window-->
 <body>
-    <!--You will notice that there are several 'div' elements in the body.
-    <div> </div> can be thought of as a container for other elements. Elements are displayed on the browser based on the order they
-    are written in the HTML file. Using the div element as a container for several elements, we can treat each div section as a single element, thus
-    allowing us to position the entire group as one. Multiple layers of div can also be used as you will see in the other landing pages in this root folder.-->
 
-    <!--The following div has a class attribute called "left-panel". Think of it as a way to identify different divs
-        but there is another attribute called 'id' which is similar but provides more unique functionalities compared to 'class'
-        More importantly, 'class' allows us to target specific div elements with CSS. -->
-    <div class="left-panel">
-        <h1 class="header1">CVP Inc.</h1>
-        <!--Here the double-brackets are Flask injections that allow the Flask app to load the image into the HTML document.-->
-        <img class="img-logo" src="{{url_for('static', filename='images/CompanyLogoNamed.png')}}" alt="An Awesome Company Logo with a name at the bottom.">
-        <h2>MISC</h2>
-    </div>
+    <nav class="nav">
+        <ul class="nav__list">
+            <li class="nav__list-logo">
+                <h1 id="logo"><a href="/">CoVaPass</a></h1>
+            </li>
+            <li class="nav__list-item">Share
+                <ul class="nav__list-item-drop">
+                    <li>How it works</li>
+                    <li>Tips and tricks</li>
+                </ul>
+            </li>
+            <li class="nav__list-item">FAQs</li>
+            <li class="nav__list-item"><a href="login">Log in</a></li>
+            <li class="nav__list-item"><a href="register">Register</a></li>
+        </ul>
+    </nav>
 
-    <!--This is an example of a simple nested div-->
-    <div class="right-panel">
-        <div class="vert-crop">
-            <img class="img-banner" src="{{url_for('static', filename='images/healthcare.jpg')}}" alt="A healthcare associate in a scrub suit.">
+    <main>
+        <section class="hero">
+            <h1>Fast & Safe</h1>
+        </section>
+
+        <section class="gallery-container">
+            <div class="benefits">
+                <h1>Benefits</h1>
+            </div>
+            <div class="row">
+
+                <div class="col">
+
+                    <ul class="left-gallery">
+                        <li class="passport-img"></li>
+                        <li class="passport-description">
+                            <h1>No more physical copies</h1>
+                            <p>With CoVaPass, losing documents will never happen.</p>
+                        </li>
+
+                        <li class="share-fun-img"></li>
+                        <li class="share-fun-description">
+                            <p>Share the fun for any activity, from travelling to picnics.</p>
+                        </li>
+                    </ul>
+
+
+                    <ul class="right-gallery">
+                        <li class="scan-qr-description">
+                            <h1>Reduce physical contact</h1>
+                            <p>When someone needs to check your vaccine status, QR scanning makes it fast and convenience for everyone.</p>
+                        </li>
+
+                        <li>
+                            <a class="learn_more-button" href="#">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                Learn more
+                            </a>
+                        </li>
+
+                        <li class="scan-qr-img"></li>
+
+                    </ul>
+                </div>
+
+
+            </div>
+        </section>
+    </main>
+
+
+    <footer class="footer">
+        <div class="inner_footer">
+            <div class="footer-content">
+                <h2>Covid Vaccine Passport</h2>
+                <p>Web app that will bring convenience to everyone</p>
+            </div>
+            <div class="footer-content">
+                <h2>Company</h2>
+                <li><a href="#">Terms & Condition</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Project Protection</a></li>
+                <li><a href="#">FAQs</a></li>
+            </div>
+            <div class="footer-content">
+                <h2>About</h2>
+                <li><a href="#">Team</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+            </div>
+            <div class="footer-content">
+                <h2>Help</h2>
+                <li><a href="#">Getting Started</a></li>
+                <li><a href="#">Feedback</a></li>
+                <li><a href="#">Network Status</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="#">Other Services</a></li>
+            </div>
+            <div class="footer-content">
+                <h2>Newsletter</h2>
+                <form action="">
+                    <input type="text" placeholder="E-mail">
+                    <button class="btn">Subscribe</button>
+                    <div class="socials">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </div>
+                </form>
+            </div>
         </div>
-        <h2 class="motto">Convenience for everyone</h2>
-        <p class="description">COVID-19 Vaccine Passport allows you to register you vaccination status into a cloud where you can access and share to others.</p>
-        <form action={{url_for("homepage")}} method="POST">
-            <!-- The form here has an action that calls the homepage method in app.py
-             Apparently, the 'name' of the button gets passed into the logic of the homepage method
-
-             AMBIGUITY: Apparently, the 'name' of the button gets passed into the logic of the homepage method,
-             I tried using just the 'value' and the logic doesn't seem to work, so I think the if-else blocks
-             in the homepage method uses the 'name' of the button that was pressed.-->
-            <button class="home-button" name="login_button" value="login_button">Log In</button>
-            <button class="home-button" name="register_button" value="register_button">Register</button>
-        </form>
-    </div>
+        <hr>
+        <p class="copyright">All Rights Reserved &copy;
+            <script>document.write(new Date().getFullYear())</script>
+            Covid Vaccine Passport
+        </p>
+    </footer>
 </body>
 </html>

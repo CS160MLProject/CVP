@@ -15,10 +15,10 @@
         <nav>
             <ul>
                 <li>
-                    <a href="#" class="nav-img" href="">
-                        <img class="nav-icon" src="{{ url_for('static', filename='images/login-icon-black.png') }}" alt="A small blue icon of a person">
+                    <a href="#" class="nav-anchor" href="#">
+                        <img class="profile-pic" src="{{ url_for('static', filename=pic) }}" alt="A small blue icon of a person">
                     </a>
-                    <a href="#">Hi, {{ profile['user_name'] }} </a>
+                    <a class="nav-anchor" href="#">Hi, {{ profile['user_name'] }} </a>
                 </li>
                 <li>
                     <a class="nav-img" href="#qr-code">
@@ -70,7 +70,7 @@
             <h2 class="section-label2">Share your profile to others</h2>
             <div class="block-item">
                 <h3 class="section-label3">{{ profile['user_name'] }}</h3>
-                <img class="qr-img" src="{{ url_for('static', filename='QR_Code/1.png') }}" alt="QR code for the User's Profile">
+                <img class="qr-img" src="{{ url_for('static', filename='QR_Code/'+session['qr']) }}" alt="QR code for the User's Profile">
                 <a id="link-toggle" class="link-toggle" title="Show Link">Show Link</a>
                 <p id="link-untoggle" class="url">{{ session["sharing_url"] }}</p>
             </div>

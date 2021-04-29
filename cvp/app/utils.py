@@ -27,7 +27,7 @@ def invalid_register_input(email, password, confirm_password):
     error_msg = None
 
     if email == '' or password == '':
-        error_msg = 'Please enter required fields.'
+        error_msg = 'Please enter all required fields.'
 
     elif valid_email(email):  # valid email
         if not valid_password(password):

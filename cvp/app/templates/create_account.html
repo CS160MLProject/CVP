@@ -25,7 +25,7 @@
             <div class="container">
 
                 <!--This div contains one column of fields you see on the page-->
-                <div class="fields-column">
+                <div class="fields-column top-margin-small">
 
                     <!-- input-field is a single input field in the column which contains a label and a text field-->
                     <div class="input-field">
@@ -69,7 +69,7 @@
 
                 </div>
 
-                <div class="fields-column">
+                <div class="fields-column top-margin-small">
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="last_name">Last Name:</label>
@@ -108,6 +108,9 @@
 
 
                 </div>
+            </div>
+            <div>
+                <img class="profile-pic" src="{{url_for('static', filename=profpic)}}" alt="Aye">
                 <button class="confirm-button" name="confirm_button" value="confirm_button" type="confirm">CONFIRM</button>
             </div>
             <p class="warning-message">WARNING : CONFIRMING THE ABOVE INFORMATION IS NON-REVERSIBLE. PLEASE ENSURE

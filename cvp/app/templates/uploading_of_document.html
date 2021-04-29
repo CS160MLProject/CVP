@@ -15,7 +15,8 @@
 
     <div class="right-panel">
         <form action={{url_for("register")}} method="POST" enctype="multipart/form-data">
-            <div class="input-field">
+            <div class="input-field top-margin-med">
+                <p class="text-label-small critical">* {{invalid_input}}</p> <!--Testing out the error message, TODO: integrate the error messages better in the html file-->
                 <div class="field-label">
                     <img class="field-icon" src="{{url_for('static', filename='images/email-icon.png')}}" alt="A black icon of a mail">
                     <label class="text-label" for="email">Email:</label>
@@ -30,6 +31,14 @@
                     <label class="text-label" for="password">Password:</label>
                 </div>
                 <input class="text-field" type="text" id="password" name="password" placeholder="Password">
+            </div>
+
+            <div class="input-field">
+                <p class="text-label-small">
+                    - 8 characters minimum &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  - 21 characters maximum <br>
+                    - At least 1 uppercase character &emsp; &emsp; &emsp; &nbsp; - At least 1 lowercase character <br>
+                    - Must contains at least 1 special character: @ $ ! % * # ? &
+                </p>
             </div>
 
             <div class="input-field">
@@ -49,6 +58,24 @@
                         <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
                     </div>
                 </div>
+
+                <div class="input-field">
+                    <div class="file-upload">
+                        <input class="pic-upload-input" type="file" id="myPic" name="profile_pic">
+                        <button class="pic-upload-button" type="button">Upload Profile Pic</button>
+                        <span class="pic-upload-label"></span>
+                        <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
+                    </div>
+                </div>
+
+
+                <div class="input-field">
+                    <button class="inline-button" name="continue_button" value="continue_button" type="continue">Continue</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
                 <!--Handles the hidden default upload button.
                 This script triggers the hidden file input instead when the
                 Custom Upload button is pressed.-->
@@ -75,15 +102,29 @@
                             label.title = label.textContent;
                         });
                     });
+
+                    Array.prototype.forEach.call(document.querySelectorAll('.pic-upload-button'), function(button){
+                        const hiddenPicInput = button.parentElement.querySelector('.pic-upload-input');
+                        const picLabel = button.parentElement.querySelector('.pic-upload-label');
+                        const defaultPicLabelText = 'No File selected';
+
+                        picLabel.textContent = defaultPicLabelText;
+                        picLabel.title = defaultPicLabelText;
+                        <!--Utilizes an event listener to call the function that triggers the default input button-->
+                        button.addEventListener('click', function(){
+                            hiddenPicInput.click();
+                        });
+
+                        hiddenPicInput.addEventListener('change', function(){
+                            console.log(hiddenPicInput.files);
+                            const filenameList = Array.prototype.map.call(hiddenPicInput.files, function(pic) {
+                                return pic.name;
+                            });
+
+                            picLabel.textContent = filenameList.join(', ') || defaultPicLabelText;
+                            picLabel.title = picLabel.textContent;
+                        });
+                    });
                 </script>
-
-                <div class="input-field">
-                    <button class="inline-button" name="continue_button" value="continue_button" type="continue">Continue</button>
-                </div>
-            </div>
-
-        </form>
-        <p>{{invalid_input}}</p> <!--Testing out the error message, TODO: integrate the error messages better in the html file-->
-    </div>
 </body>
 </html>

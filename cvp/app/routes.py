@@ -51,6 +51,7 @@ def register():
 
             if not error_msg:
                 uploads_dir = 'dataset/processed/upload_vaccine_record'
+                pic_dir = 'static/profile-pic'
 
                 # Create a new directory for the upload
                 os.makedirs(uploads_dir, exist_ok=True)
@@ -59,18 +60,30 @@ def register():
                 if not error_msg: # no error in entered information
                     vaccine_rec_pic = request.files["vaccine_rec"]
                     filename = secure_filename(vaccine_rec_pic.filename)
+                    profile_pic = request.files["profile_pic"]
 
-                    # Save file to local folder
-                    vaccine_rec_pic.save(os.path.join(uploads_dir, filename))
-                    extracted_rec = model.predict(filename, folder_path=uploads_dir)
+                    # Save file(s) to local folder
+                    if vaccine_rec_pic:
+                        vaccine_rec_pic.save(os.path.join(uploads_dir, filename))
+                        extracted_rec = model.predict(filename, folder_path=uploads_dir)
 
                     # Remove File after OCR returned the prediction
-                    os.remove(os.path.join(uploads_dir, filename))
+                        os.remove(os.path.join(uploads_dir, filename))
+                    else:
+                        extracted_rec = None
 
                     session['email'] = email
                     session['password'] = password
                     session['extracted_record'] = extracted_rec
-                    return render_template('create_account.html', info=f'Welcome')
+
+                    picname = secure_filename('temp.png')
+
+                    if profile_pic:
+                        profile_pic.save(os.path.join(pic_dir, picname))
+                    else:
+                        picname = secure_filename('Smiley.png')
+
+                    return render_template('create_account.html', info=f'Welcome', profpic='profile-pic/'+picname)
 
             # error found in entered information
             return render_template("uploading_of_document.html", invalid_input=error_msg)
@@ -85,6 +98,9 @@ def register():
             if valid_rec:  # send confirmed account information to database and record them.
                 # insert this data to db
                 generate_account(session, confirmed_data)
+                # rename the temp profile pic to a unique name based on the account's information
+                os.rename('static/profile-pic/temp.png', 'static/profile-pic/'+session['extracted_record']['ssn']+
+                          session['extracted_record']['first']+'.png')
                 return render_template('success_welcome.html', success="Success! Welcome.")
             else:  # the information is not in CDC database, return (something_went_wrong.html)
                 error_msg = 'Something went wrong'
@@ -226,8 +242,14 @@ def profile(token):
     msg = session['message'] if session.get('message') else ''
     session['qr'] = f'{account_id}.png'
     session['sharing_url'] = sharing_url
-
-    return render_template('profile.html', profile=user_profile, token=profile_token, msg=msg)
+    profpicpath = 'static/profile-pic/'+user_profile['patient_num']+user_profile['record_first_name']+'.png'
+    print(profpicpath)
+    if os.path.isfile(profpicpath):
+        profpicpath = 'profile-pic/' + user_profile['patient_num'] + user_profile['record_first_name'] + '.png'
+    else:
+        profpicpath = 'images/Smiley.png'
+    print(profpicpath)
+    return render_template('profile.html', profile=user_profile, pic=profpicpath, token=profile_token, msg=msg)
 
 
 @app.route('/profile_<token>/settings', methods=['GET', 'POST'])

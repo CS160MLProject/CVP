@@ -108,12 +108,13 @@ h1{
 }
 .hero h1{
     color: white;
-    margin: 10rem 30rem 10rem 10rem;
+    margin: 10rem 55rem 10rem 0.3rem;
+    padding-right: 2rem;
     position: relative;
     display: flex;
     float: left;
     font-family: 'Play', sans-serif;
-    font-size: 8rem;
+    font-size: 7rem;
 }
 
 .gallery-container{
@@ -365,6 +366,10 @@ h1{
     }
     .nav__list{
         margin: auto 2rem;
+    }
+    .hero h1{
+        padding: 0 3rem;
+        font-size: 6rem;
     }
     .row{
         width: 100%;

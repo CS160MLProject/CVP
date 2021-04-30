@@ -288,8 +288,7 @@ h1{
     display: grid;
     position: relative;
     height: 30vh;
-    width: 100vw;
-    margin: auto;
+    width: auto;
     background-color: #fbf7de;
     z-index: 999;
 }
@@ -357,4 +356,94 @@ h1{
 .footer .copyright{
     padding: 0.4rem;
     text-align: center;
+}
+
+@media screen and (max-width: 1060px){
+    .nav{
+        height: 6vh;
+        box-shadow: 0 0 5px black;
+    }
+    .nav__list{
+        margin: auto 2rem;
+    }
+    .row{
+        width: 100%;
+    }
+    .col{
+        display: block;
+    }
+    .left-gallery{
+        margin-right: 0;
+        width: 100%;
+    }
+    .passport-img{
+        display: block;
+    }
+    .passport-description h1{
+        margin: 0;
+    }
+    .share-fun-img{
+        margin-top: 5rem;
+    }
+    .share-fun-description{
+        margin-top: 1.5rem;
+    }
+    .share-fun-description p{
+        margin-bottom: 4rem;
+    }
+    .right-gallery{
+        text-align: left;
+        width: 100%;
+        padding-bottom: 50px;
+    }
+    .scan-qr-description{
+        margin-bottom: 2rem;
+    }
+    .scan-qr-description h1{
+        margin-bottom: 1.5rem;
+    }
+    .learn_more-button{
+        padding: 10px 30px;
+    }
+    .scan-qr-img{
+        margin-top: 2rem;
+    }
+
+    .footer{
+        height: 20vh;
+    }
+    .footer-content:nth-child(1){
+        display: none;
+    }
+    .inner_footer{
+        grid-template-columns: repeat(4, 1fr);
+        margin: auto 2rem;
+    }
+    .footer-content .btn{
+        display: block;
+        margin-top: 10px;
+    }
+    .footer-content .socials{
+        margin-top: 20px;
+    }
+    .footer-content .socials li{
+        margin-right: 7px;
+    }
+    .footer .copyright{
+        padding: 0rem;
+    }
+}
+@media screen and (max-width: 450px){
+    .nav{
+        width: 100vw;
+        display: block;
+        text-align: center;
+        padding: .5rem;
+        height: 15vh;
+        box-shadow: 0 0 5px black;
+    }
+    .nav__list{
+        display: block;
+    }
+
 }

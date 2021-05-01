@@ -175,7 +175,6 @@ def forgot_password():
                 # encrypt link to reset password
                 token = encode_token(email, salt=recovery_key)
                 recover_url = url_for('reset_password', token=token, _external=True)
-                # html = render_template('email/password_recovery.html', recover_url=recover_url)
 
                 # send email with setup link
                 send_password_recovery_email(recover_url, email)

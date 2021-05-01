@@ -17,13 +17,14 @@
     <title>CVP | Settings</title>
 </head>
 <body>
-<nav class="nav fixed">
-            <ul class="nav__list">
-                <li class="nav__list-logo">
-                    <h1 id="logo"><a href="#">CoVaPass</a></h1>
-                </li>
-            </ul>
-        </nav>
+    <nav class="nav fixed">
+        <ul class="nav__list">
+            <li class="nav__list-logo">
+                <h1 id="logo"><a href="/profile_{{ token }}">CoVaPass</a></h1>
+            </li>
+        </ul>
+    </nav>
+
 <form action={{url_for('settings', token=token)}} method="POST">
     <div class="left-panel margin-for-nav">
         <nav class="nav-prof top-margin-med">

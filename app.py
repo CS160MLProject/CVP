@@ -19,7 +19,7 @@ bucket_folder = 'profile_photo/'
 def create_app():
     app = Flask(__name__, template_folder='cvp/app/templates')
     app.config['DEBUG'] = True
-    app.config['TESTING'] = True
+    app.config['TESTING'] = False
     app.secret_key = secret_key
     return app
 

@@ -62,10 +62,11 @@ body{
 /* Left side of the Home Page*/
 .left-panel{
     position: relative;
+    float: left;
     display: inline-block;
     vertical-align: top;
-    background-color: rgba(10, 146, 204, 0.05);
-    width: 20%;
+    background-color: #ffffff;
+    width: 30%;
     height: 100vh;
     z-index: 899;
 }
@@ -114,7 +115,7 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     display: inline-block;
     vertical-align: top;
     background-color: #fafafa;
-    width: 79.5%;
+    width: 70%;
     height: 100vh;
 }
 
@@ -192,8 +193,8 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .new-account-icon{
-    margin: 10% 20% 10% 25%;
-    width: 50%;
+    margin-top: 10%;
+    width: 100%;
 }
 
 .field-icon{
@@ -692,7 +693,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 
 .page-header {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 3vw;
+    font-size: 2.5vw;
     text-align: center;
     margin: 2%;
 }

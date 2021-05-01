@@ -60,7 +60,7 @@ body{
     vertical-align: top;
     background-color: rgba(10, 146, 204, 0.08);
     width: 20%;
-    height: 900px;
+    height: 100vh;
 }
 
 /* Affects all the h1 elements declared inside any element that uses this class.
@@ -101,7 +101,7 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     margin-left: 20%;
     background-color: #f6f6f6;
     width: 79.5%;
-    height: 900px;
+    height: 100vh;
 }
 
 .right-panel-close{

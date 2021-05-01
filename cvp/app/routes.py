@@ -86,7 +86,8 @@ def register():
                     return render_template('create_account.html', info=f'Welcome', profpic='profile-pic/'+picname)
 
             # error found in entered information
-            return render_template("uploading_of_document.html", invalid_input=error_msg)
+            return render_template("uploading_of_document.html", invalid_input=error_msg,
+                                   email=email)
 
         elif request.form.get('confirm_button'): # process for case(3)
             # obtain all requested information from frontend
@@ -101,7 +102,7 @@ def register():
                 # rename the temp profile pic to a unique name based on the account's information
                 os.rename('static/profile-pic/temp.png', 'static/profile-pic/'+session['extracted_record']['ssn']+
                           session['extracted_record']['first']+'.png')
-                return render_template('success_welcome.html', success="Success! Welcome.")
+                return redirect(url_for('login'))
             else:  # the information is not in CDC database, return (something_went_wrong.html)
                 error_msg = 'Something went wrong'
                 return f'<h1> {error_msg} <h1>'

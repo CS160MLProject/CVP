@@ -22,7 +22,7 @@
                     <label class="text-label" for="email">Email:</label>
                 </div>
                 <p class="field-note">Your email address will become your username</p>
-                <input class="text-field" type="text" id="email" name="email" placeholder="hello@cvp.org">
+                <input class="text-field" type="text" id="email" name="email" placeholder="hello@cvp.org" value={{ email }}>
             </div>
 
             <div class="input-field">
@@ -30,7 +30,7 @@
                     <img class="field-icon" src="{{url_for('static', filename='images/lock-icon.png')}}" alt="A black icon of a padlock">
                     <label class="text-label" for="password">Password:</label>
                 </div>
-                <input class="text-field" type="text" id="password" name="password" placeholder="Password">
+                <input class="text-field" type="password" id="password" name="password" placeholder="Password">
             </div>
 
             <div class="input-field">
@@ -46,7 +46,7 @@
                     <img class="field-icon" src="{{url_for('static', filename='images/lock-icon.png')}}" alt="A black icon of a padlock">
                     <label class="text-label" for="confirm_password">Confirm password:</label>
                 </div>
-                <input class="text-field" type="text" id="confirm_password" name="confirm_password" placeholder="Password">
+                <input class="text-field" type="password" id="confirm_password" name="confirm_password" placeholder="Password">
             </div>
 
             <div class="top-margin-small">

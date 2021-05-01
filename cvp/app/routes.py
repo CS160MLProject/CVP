@@ -192,22 +192,22 @@ def reset_password(token):
     Invoked when (1)User clicked the link of password recovery in the email.
         (2)'Reset' button is clicked in the password_reset.html
     """
-    email = decode_token(token, salt=recovery_key, time=3600)  # 1 hours
-    if email: # process of case(1)
-        return render_template('password_reset.html')
+    email, reset_token = renew_token(token, salt=recovery_key, time=3600)  # 1 hours
+    if not email:  # could not decode the email (the link has expired)
+        return render_template('login.html', error_msg='URL Expired.')
 
     if request.method == 'POST':
         if request.form.get('reset_button'): # process of case(2)
-            password = request.form.get('password')
+            password = request.form.get('new_password')
             confirm_password = request.form.get('confirm_password')
 
-            if password == confirm_password:  # save to database
+            if valid_password(password) and password == confirm_password:  # save to database
                 if update_password(password, email=email):
                     return f'password reset confirmation with login button to back to login page'
                 else:
                     return f'Update Password Failed'
 
-    return redirect(url_for('login')) # link has expired
+    return render_template('password_reset.html', token=reset_token) # process of case(1)
 
 
 @app.route('/profile_<token>', methods=['GET', 'POST'])

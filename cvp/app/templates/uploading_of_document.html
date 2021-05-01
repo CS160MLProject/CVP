@@ -3,10 +3,32 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/static/main.css">
-    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/home_page.css">
+    <!--Links to the external stylesheet so that the page uses the CSS from it-->
+    <link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Poppins:wght@400;500&display=swap"
+          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Play&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,400&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" type="text/css" href="static/font-awesome/css/font-awesome.min.css">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CVP | Upload Document</title>
 </head>
 <body>
+    <nav class="nav">
+        <ul class="nav__list">
+            <li class="nav__list-logo">
+                <h1 id="logo"><a href="/">CoVaPass</a></h1>
+            </li>
+            <div class="nav__list-item-container">
+                <li class="nav__list-item"><a href="login">Log in</a></li>
+            </div>
+
+        </ul>
+    </nav>
+
     <div class="left-panel">
         <h1 class="page-header">Create your account</h1>
         <img class="new-account-icon" src="{{url_for('static', filename='images/create-new-account.png')}}" alt="An icon of a person with a plus symbol beside it.">
@@ -16,7 +38,7 @@
     <div class="right-panel">
         <form action={{url_for("register")}} method="POST" enctype="multipart/form-data">
             <div class="input-field top-margin-med">
-                <p class="text-label-small critical">* {{invalid_input}}</p> <!--Testing out the error message, TODO: integrate the error messages better in the html file-->
+                <p class="text-label-small critical">{{invalid_input}}</p> <!--Testing out the error message, TODO: integrate the error messages better in the html file-->
                 <div class="field-label">
                     <img class="field-icon" src="{{url_for('static', filename='images/email-icon.png')}}" alt="A black icon of a mail">
                     <label class="text-label" for="email">Email:</label>
@@ -53,7 +75,7 @@
                 <div class="input-field">
                     <div class="file-upload">
                         <input class="file-upload-input" type="file" id="myFile" name="vaccine_rec">
-                        <button class="file-upload-button" type="button">Upload Document</button>
+                        <button class="file-upload-button" type="button">CDC Vaccine Card</button>
                         <span class="file-upload-label"></span>
                         <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
                     </div>
@@ -62,20 +84,68 @@
                 <div class="input-field">
                     <div class="file-upload">
                         <input class="pic-upload-input" type="file" id="myPic" name="profile_pic">
-                        <button class="pic-upload-button" type="button">Upload Profile Pic</button>
+                        <button class="pic-upload-button" type="button">Profile Picture</button>
                         <span class="pic-upload-label"></span>
                         <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
                     </div>
                 </div>
 
 
-                <div class="input-field">
+                <div class="input-field bot-margin-med">
                     <button class="inline-button" name="continue_button" value="continue_button" type="continue">Continue</button>
                 </div>
             </div>
 
         </form>
     </div>
+    <footer class="footer">
+            <div class="inner_footer">
+                <div class="footer-content">
+                    <h2>Covid Vaccine Passport</h2>
+                    <p>Web app that will bring convenience to everyone</p>
+                </div>
+                <div class="footer-content">
+                    <h2>Company</h2>
+                    <li><a href="#">Terms & Condition</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Project Protection</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>About</h2>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>Help</h2>
+                    <li><a href="#">Getting Started</a></li>
+                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#">Network Status</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Other Services</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>Newsletter</h2>
+                    <form action="">
+                        <input type="text" placeholder="E-mail">
+                        <button class="btn">Subscribe</button>
+                        <div class="socials">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <p class="copyright">All Rights Reserved &copy;
+                <script>document.write(new Date().getFullYear())</script>
+                Covid Vaccine Passport
+            </p>
+        </footer>
                 <!--Handles the hidden default upload button.
                 This script triggers the hidden file input instead when the
                 Custom Upload button is pressed.-->

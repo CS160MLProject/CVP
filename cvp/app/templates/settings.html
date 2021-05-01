@@ -2,35 +2,49 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/static/main.css">
-    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/home_page.css">
+    <!--Links to the external stylesheet so that the page uses the CSS from it-->
+    <link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Poppins:wght@400;500&display=swap"
+          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Play&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,400&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" type="text/css" href="static/font-awesome/css/font-awesome.min.css">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>CVP | Settings</title>
 </head>
 <body>
+<nav class="nav fixed">
+            <ul class="nav__list">
+                <li class="nav__list-logo">
+                    <h1 id="logo"><a href="#">CoVaPass</a></h1>
+                </li>
+            </ul>
+        </nav>
 <form action={{url_for('settings', token=token)}} method="POST">
-    <div class="left-panel">
-        <button class="logo" name="back_button" value="True">
-{#            <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">#}
-            <p class="full-name">CVP</p>
-        </button>
-        <nav>
-            <ul>
-                <li>
-                    <a href="#">Profile Settings</a>
+    <div class="left-panel margin-for-nav">
+        <nav class="nav-prof top-margin-med">
+            <ul class="ul-prof">
+                <li class="li-prof">
+                    <a class="ul-li-a" href="#">Profile Settings</a>
                 </li>
-                <li>
-                    <a href="#changepass">Change Password</a>
+                <li class="li-prof">
+                    <a class="ul-li-a" href="#changepass">Change Password</a>
                 </li>
-                <li>
-                    <a id="sign-out-button1" class="nav-img" href="#">
+                <li class="li-prof">
+                    <a id="sign-out-button1" class="nav-img ul-li-a" href="#">
                         <img class="nav-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
                     </a>
-                    <a id="sign-out-button" href="#">Sign Out</a>
+                    <a class="ul-li-a" id="sign-out-button" href="#">Sign Out</a>
                 </li>
             </ul>
         </nav>
     </div>
     
-    <div class="right-panel">
+    <div class="right-panel margin-for-nav">
 
             <div class="container top-margin-small">
 
@@ -117,6 +131,54 @@
         </div>
     </div>
 </form>
+<footer class="footer">
+            <div class="inner_footer">
+                <div class="footer-content">
+                    <h2>Covid Vaccine Passport</h2>
+                    <p>Web app that will bring convenience to everyone</p>
+                </div>
+                <div class="footer-content">
+                    <h2>Company</h2>
+                    <li><a href="#">Terms & Condition</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Project Protection</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>About</h2>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>Help</h2>
+                    <li><a href="#">Getting Started</a></li>
+                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#">Network Status</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Other Services</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>Newsletter</h2>
+                    <form action="">
+                        <input type="text" placeholder="E-mail">
+                        <button class="btn">Subscribe</button>
+                        <div class="socials">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <p class="copyright">All Rights Reserved &copy;
+                <script>document.write(new Date().getFullYear())</script>
+                Covid Vaccine Passport
+            </p>
+        </footer>
 <script>
         document.getElementById('sign-out-button').addEventListener('click',
         function(){

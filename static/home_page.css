@@ -15,8 +15,16 @@ h1{
 .nav{
     position: sticky;
     height: 7.5vh;
+    background-color: white;
+    width: 100%;
     box-shadow: 0 0 10px black;
+    z-index: 999;
 }
+
+.fixed{
+    position: fixed;
+}
+
 .nav__list{
     display: flex;
     justify-content: flex-end;
@@ -292,9 +300,20 @@ h1{
     display: grid;
     position: relative;
     height: 30vh;
-    width: auto;
+    width: 100%;
     background-color: #fbf7de;
     z-index: 999;
+}
+.start-left{
+    left: -25%;
+}
+.wider{
+    width: 125%;
+}
+
+.block{
+    display: block;
+    position: unset;
 }
 
 .inner_footer {

@@ -2,14 +2,34 @@
 <html lang="en">
 <head>
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="static/main.css">
+    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/static/home_page.css">
+    <!--Links to the external stylesheet so that the page uses the CSS from it-->
+    <link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Poppins:wght@400;500&display=swap"
+          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Play&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,400&display=swap" rel="stylesheet">
     <!-- Icons -->
     <link rel="stylesheet" type="text/css" href="static/font-awesome/css/font-awesome.min.css">
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CVP | Login</title>
 </head>
 <body>
     <div id="login-page-container">
+        <nav class="nav">
+            <ul class="nav__list">
+                <li class="nav__list-logo">
+                    <h1 id="logo"><a href="/">CoVaPass</a></h1>
+                </li>
+                <div class="nav__list-item-container">
+                    <li class="nav__list-item"><a href="register">Register</a></li>
+                </div>
+
+            </ul>
+        </nav>
+
         <div id="content-wrap">
             <div class="left-panel">
                 <h1 class="page-header">Log In</h1>

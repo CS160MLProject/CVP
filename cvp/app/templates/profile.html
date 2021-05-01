@@ -2,48 +2,62 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/static/main.css">
-    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/home_page.css">
+    <!--Links to the external stylesheet so that the page uses the CSS from it-->
+    <link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Poppins:wght@400;500&display=swap"
+          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Play&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,400&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" type="text/css" href="static/font-awesome/css/font-awesome.min.css">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CVP | Profile</title>
 </head>
 <body>
 <form action={{url_for('profile', token=token)}} method="POST">
-    <div class="left-panel">
-        <button class="logo">
-{#            <img class="img-logo" src="{{ url_for('static', filename='images/CompanyLogo.png') }}" alt="The company logo">#}
-            <p class="full-name">CVP</p>
-        </button>
-        <nav>
-            <ul>
-                <li>
-                    <a href="#" class="nav-anchor" href="#">
+    <nav class="nav fixed">
+            <ul class="nav__list">
+                <li class="nav__list-logo">
+                    <h1 id="logo"><a href="#">CoVaPass</a></h1>
+                </li>
+            </ul>
+        </nav>
+
+    <div class="left-panel fixed margin-for-nav">
+        <nav class="nav-prof">
+            <ul class="ul-prof">
+                <li class="li-prof">
+                    <a href="#" class="nav-anchor ul-li-a" href="#">
                         <img class="profile-pic" src="{{ url_for('static', filename=pic) }}" alt="A small blue icon of a person">
                     </a>
-                    <a class="nav-anchor" href="#">Hi, {{ profile['user_name'] }} </a>
+                    <a class="nav-anchor ul-li-a" href="#">Hi, {{ profile['user_name'] }} </a>
                 </li>
                 <li>
-                    <a class="nav-img" href="#qr-code">
+                    <a class="nav-img ul-li-a" href="#qr-code">
                         <img class="nav-icon" src="{{ url_for('static', filename='images/share-icon.png')}}" field-icon alt="A gear icon">
                     </a>
-                    <a href="#qr-code">Share</a>
+                    <a class="ul-li-a" href="#qr-code">Share</a>
                 </li>
                 <li>
-                    <button class="nav-img" value="settings_button" name="settings_button">
+                    <button class="nav-img ul-li-button" value="settings_button" name="settings_button">
                         <img class="nav-icon"src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
                     </button>
-                    <button value="settings_button" name="settings_button" href="#">Settings</button>
+                    <button class= "ul-li-button" value="settings_button" name="settings_button" href="#">Settings</button>
                 </li>
                 <li>
-                    <a id="sign-out-button1" class="nav-img" href="#">
+                    <a id="sign-out-button1" class="nav-img ul-li-a" href="#">
                         <img class="nav-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
                     </a>
-                    <a id="sign-out-button" href="#">Sign Out</a>
+                    <a class="ul-li-a" id="sign-out-button" href="#">Sign Out</a>
                 </li>
             </ul>
         </nav>
     </div>
 
-    <div class="right-panel">
-        <div class="profile-info top-margin-small">
+    <div class="right-panel margin-for-menu margin-for-nav">
+        <div class="profile-info top-margin-med">
             <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
             <p class="vaccine-status">2-Shots Vaccination</p>
         </div>
@@ -62,11 +76,11 @@
                     <p id="hidden-info" class="hidden-info3">Date: {{profile['vaccine_date2'] }}</p>
                     <p id="hidden-info2" class="hidden-info4">Vaccine: {{profile['vaccine_name'] }} </p>
                 </div>
-        </div>
+            </div>
         </div>
 
 
-        <div id="qr-code" class="container top-margin-med">
+        <div id="qr-code" class="container top-margin-med bot-margin-med">
             <h2 class="section-label2">Share your profile to others</h2>
             <div class="block-item">
                 <h3 class="section-label3">{{ profile['user_name'] }}</h3>
@@ -74,11 +88,57 @@
                 <a id="link-toggle" class="link-toggle" title="Show Link">Show Link</a>
                 <p id="link-untoggle" class="url">{{ session["sharing_url"] }}</p>
             </div>
-            <div class="padding-div">
-                COVID Vaccine Passport 2021.
-                </div>
         </div>
+        <footer class="footer start-left wider">
+            <div class="inner_footer">
+                <div class="footer-content">
+                    <h2>Covid Vaccine Passport</h2>
+                    <p>Web app that will bring convenience to everyone</p>
+                </div>
+                <div class="footer-content">
+                    <h2>Company</h2>
+                    <li><a href="#">Terms & Condition</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Project Protection</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>About</h2>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>Help</h2>
+                    <li><a href="#">Getting Started</a></li>
+                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#">Network Status</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Other Services</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>Newsletter</h2>
+                    <form action="">
+                        <input type="text" placeholder="E-mail">
+                        <button class="btn">Subscribe</button>
+                        <div class="socials">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <p class="copyright">All Rights Reserved &copy;
+                <script>document.write(new Date().getFullYear())</script>
+                Covid Vaccine Passport
+            </p>
+        </footer>
     </div>
+
 
     <div class="sign-out-modal">
         <div class="modal-content">
@@ -90,97 +150,98 @@
             <button class="modal-button" name="sign_out_button" value=True type="submit">Sign Out</button>
         </div>
     </div>
-</form>
-<script>
-    document.getElementById('link-toggle').addEventListener('click',
+    </form>
+
+    <script>
+        document.getElementById('link-toggle').addEventListener('click',
+            function(){
+                document.querySelector('.url').style.display = 'block';
+                document.querySelector('.link-toggle').style.display = 'none';
+            });
+
+        document.getElementById('link-untoggle').addEventListener('click',
+            function(){
+                document.querySelector('.url').style.display = 'none';
+                document.querySelector('.link-toggle').style.display = 'block';
+            });
+
+        document.getElementById('sign-out-button').addEventListener('click',
         function(){
-            document.querySelector('.url').style.display = 'block';
-            document.querySelector('.link-toggle').style.display = 'none';
+            document.querySelector('.sign-out-modal').style.display = 'flex';
         });
 
-    document.getElementById('link-untoggle').addEventListener('click',
+        document.getElementById('sign-out-button1').addEventListener('click',
         function(){
-            document.querySelector('.url').style.display = 'none';
-            document.querySelector('.link-toggle').style.display = 'block';
+            document.querySelector('.sign-out-modal').style.display = 'flex';
         });
 
-    document.getElementById('sign-out-button').addEventListener('click',
-    function(){
-        document.querySelector('.sign-out-modal').style.display = 'flex';
-    });
+        document.getElementById('sign-back').addEventListener('click',
+        function(){
+            document.querySelector('.sign-out-modal').style.display = 'none';
+        });
 
-    document.getElementById('sign-out-button1').addEventListener('click',
-    function(){
-        document.querySelector('.sign-out-modal').style.display = 'flex';
-    });
+        <!--Handle the toggling of the information on the page.-->
+        let toggled = false;
+        togglebutton = document.getElementById('info-toggle');
+        togglebutton2 = document.getElementById('info-toggle2');
 
-    document.getElementById('sign-back').addEventListener('click',
-    function(){
-        document.querySelector('.sign-out-modal').style.display = 'none';
-    });
+        togglebutton.addEventListener('click',
+        function(){
+            if(!toggled){
+                togglebutton.style.transform = "translate(0, -100%)";
+                togglebutton2.style.transform = "translate(0, -100%)";
+                document.querySelector('.hidden-info').style.display = 'inline-block';
+                document.querySelector('.hidden-info2').style.display = 'inline-block';
+                document.querySelector('.hidden-info3').style.display = 'inline-block';
+                 document.querySelector('.hidden-info4').style.display = 'inline-block';
 
-    <!--Handle the toggling of the information on the page.-->
-    let toggled = false;
-    togglebutton = document.getElementById('info-toggle');
-    togglebutton2 = document.getElementById('info-toggle2');
+                document.querySelector('.dose-info').style.display = 'none';
+                document.querySelector('.dose-info2').style.display = 'none';
+                toggled = true;
+            }
+            else{
+                togglebutton.style.transform = "translate(0, 0)";
+                togglebutton2.style.transform = "translate(0, 0)";
+                document.querySelector('.hidden-info').style.display = 'none';
+                document.querySelector('.hidden-info2').style.display = 'none';
+                document.querySelector('.hidden-info3').style.display = 'none';
+                document.querySelector('.hidden-info4').style.display = 'none';
 
-    togglebutton.addEventListener('click',
-    function(){
-        if(!toggled){
-            togglebutton.style.transform = "translate(0, -100%)";
-            togglebutton2.style.transform = "translate(0, -100%)";
-            document.querySelector('.hidden-info').style.display = 'inline-block';
-            document.querySelector('.hidden-info2').style.display = 'inline-block';
-            document.querySelector('.hidden-info3').style.display = 'inline-block';
-             document.querySelector('.hidden-info4').style.display = 'inline-block';
+                document.querySelector('.dose-info').style.display = 'inline-block';
+                document.querySelector('.dose-info2').style.display = 'inline-block';
+                toggled = false;
+            }
+        });
 
-            document.querySelector('.dose-info').style.display = 'none';
-            document.querySelector('.dose-info2').style.display = 'none';
-            toggled = true;
-        }
-        else{
-            togglebutton.style.transform = "translate(0, 0)";
-            togglebutton2.style.transform = "translate(0, 0)";
-            document.querySelector('.hidden-info').style.display = 'none';
-            document.querySelector('.hidden-info2').style.display = 'none';
-            document.querySelector('.hidden-info3').style.display = 'none';
-            document.querySelector('.hidden-info4').style.display = 'none';
+        let toggled2 = false;
+        togglebutton2.addEventListener('click',
+        function(){
+            if(!toggled2){
+                togglebutton.style.transform = "translate(0, -100%)";
+                togglebutton2.style.transform = "translate(0, -100%)";
+                document.querySelector('.hidden-info').style.display = 'inline-block';
+                document.querySelector('.hidden-info2').style.display = 'inline-block';
+                document.querySelector('.hidden-info3').style.display = 'inline-block';
+                 document.querySelector('.hidden-info4').style.display = 'inline-block';
 
-            document.querySelector('.dose-info').style.display = 'inline-block';
-            document.querySelector('.dose-info2').style.display = 'inline-block';
-            toggled = false;
-        }
-    });
+                document.querySelector('.dose-info').style.display = 'none';
+                document.querySelector('.dose-info2').style.display = 'none';
+                toggled2 = true;
+            }
+            else{
+                togglebutton.style.transform = "translate(0, 0)";
+                togglebutton2.style.transform = "translate(0, 0)";
+                document.querySelector('.hidden-info').style.display = 'none';
+                document.querySelector('.hidden-info2').style.display = 'none';
+                document.querySelector('.hidden-info3').style.display = 'none';
+                document.querySelector('.hidden-info4').style.display = 'none';
 
-    let toggled2 = false;
-    togglebutton2.addEventListener('click',
-    function(){
-        if(!toggled2){
-            togglebutton.style.transform = "translate(0, -100%)";
-            togglebutton2.style.transform = "translate(0, -100%)";
-            document.querySelector('.hidden-info').style.display = 'inline-block';
-            document.querySelector('.hidden-info2').style.display = 'inline-block';
-            document.querySelector('.hidden-info3').style.display = 'inline-block';
-             document.querySelector('.hidden-info4').style.display = 'inline-block';
-
-            document.querySelector('.dose-info').style.display = 'none';
-            document.querySelector('.dose-info2').style.display = 'none';
-            toggled2 = true;
-        }
-        else{
-            togglebutton.style.transform = "translate(0, 0)";
-            togglebutton2.style.transform = "translate(0, 0)";
-            document.querySelector('.hidden-info').style.display = 'none';
-            document.querySelector('.hidden-info2').style.display = 'none';
-            document.querySelector('.hidden-info3').style.display = 'none';
-            document.querySelector('.hidden-info4').style.display = 'none';
-
-            document.querySelector('.dose-info').style.display = 'inline-block';
-            document.querySelector('.dose-info2').style.display = 'inline-block';
-            toggled2 = false;
-        }
-    });
-</script>
+                document.querySelector('.dose-info').style.display = 'inline-block';
+                document.querySelector('.dose-info2').style.display = 'inline-block';
+                toggled2 = false;
+            }
+        });
+    </script>
 
 
 </body>

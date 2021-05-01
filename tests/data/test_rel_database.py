@@ -188,7 +188,7 @@ class TestRelDatabase():
 
     def test_main(self):
         #=== Test Inputs ===#
-        account_path = 'tests/data/test_accounts.txt'
+        account_path = 'dataset/processed/accounts.txt'
         test_db_path = {
             'cvp': 'tests/data/test_cvp.db',
             'cdc': 'tests/data/test_cdc.db'
@@ -200,8 +200,8 @@ class TestRelDatabase():
             os.remove(test_db_path.get('cdc'))
 
         # === Expected Output ===#
-        cvp_expected_size = 194
-        cdc_expected_size = 198
+        cvp_expected_size = 193
+        cdc_expected_size = 197
 
         # === Trigger Output ===#
         main(test_db_path, account_path)

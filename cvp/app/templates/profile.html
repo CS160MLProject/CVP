@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/static/main.css">
+
     <link rel="stylesheet" href="/static/home_page.css">
+    <link rel="stylesheet" href="/static/main.css">
     <!--Links to the external stylesheet so that the page uses the CSS from it-->
     <link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Poppins:wght@400;500&display=swap"
           rel="stylesheet">
@@ -17,6 +18,14 @@
 </head>
 <body>
 <form action={{url_for('profile', token=token)}} method="POST">
+    <div class="sign-out-modal">
+        <div class="modal-content">
+            <div class="modal-header"></div>
+            <p class="modal-text">You're about to sign out!</p>
+            <a id="sign-back" class="modal-anchor">Back</a>
+            <button class="modal-button" name="sign_out_button" value="sign_out_button">Sign Out</button>
+        </div>
+    </div>
     <nav class="nav fixed">
             <ul class="nav__list">
                 <li class="nav__list-logo">
@@ -25,29 +34,32 @@
             </ul>
         </nav>
 
-    <div class="left-panel fixed margin-for-nav">
+    <div class="narrow-left fixed margin-for-nav">
+        <a class="menu" href="#" title="Minimize Menu">
+            <img id="minimize" class="menu-img" src="{{ url_for('static', filename='images/menu.png') }}" field-icon alt="A share icon" title="Minimize Menu">
+        </a>
         <nav class="nav-prof">
             <ul class="ul-prof">
                 <li class="li-prof">
-                    <a href="#" class="nav-anchor ul-li-a" href="#">
-                        <img class="profile-pic" src="{{ url_for('static', filename=pic) }}" alt="A small blue icon of a person">
+                    <a href="#" class="nav-anchor" href="#">
+                        <img class="profile-pic" src="{{ url_for('static', filename=pic) }}" alt="Your profile picture">
                     </a>
-                    <a class="nav-anchor ul-li-a" href="#">Hi, {{ profile['user_name'] }} </a>
+                    <a class="ul-li-a" href="#">Hi, {{ profile['user_name'] }} </a>
                 </li>
-                <li>
-                    <a class="nav-img ul-li-a" href="#qr-code">
+                <li class="li-prof">
+                    <a class="nav-img" href="#qr-code">
                         <img class="nav-icon" src="{{ url_for('static', filename='images/share-icon.png')}}" field-icon alt="A gear icon">
                     </a>
                     <a class="ul-li-a" href="#qr-code">Share</a>
                 </li>
-                <li>
-                    <button class="nav-img ul-li-button" value="settings_button" name="settings_button">
+                <li class="li-prof">
+                    <button class="ulbtn" value="settings_button" name="settings_button">
                         <img class="nav-icon"src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
                     </button>
                     <button class= "ul-li-button" value="settings_button" name="settings_button" href="#">Settings</button>
                 </li>
-                <li>
-                    <a id="sign-out-button1" class="nav-img ul-li-a" href="#">
+                <li class="li-prof">
+                    <a id="sign-out-button1" class="nav-img" href="#">
                         <img class="nav-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
                     </a>
                     <a class="ul-li-a" id="sign-out-button" href="#">Sign Out</a>
@@ -56,7 +68,7 @@
         </nav>
     </div>
 
-    <div class="right-panel margin-for-menu margin-for-nav">
+    <div class="wide-right margin-for-nav">
         <div class="profile-info top-margin-med">
             <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
             <p class="vaccine-status">2-Shots Vaccination</p>
@@ -67,14 +79,14 @@
                 <div class="dose"> <!--The labels should be anchor tags or something that can link to toggling the display of the 'dose info'-->
                     <a id="info-toggle" class="dose-label" title="Click to expand">First Dose: </a>
                     <p class="dose-info">Click dose to expand</p>
-                    <p id="test" class="hidden-info">Date: {{profile['vaccine_date1'] }}</p>
-                    <p id="hidden-info2" class="hidden-info2">Vaccine: {{profile['vaccine_name'] }} </p>
+                    <p class="hidden-info">Date: {{profile['vaccine_date1'] }}</p>
+                    <p class="hidden-info">Vaccine: {{profile['vaccine_name'] }} </p>
                 </div>
                 <div class="dose">
                     <a id="info-toggle2" class="second-label" title="Click to expand">Second Dose: </a>
                     <p class="dose-info2">Click dose to expand</p>
-                    <p id="hidden-info" class="hidden-info3">Date: {{profile['vaccine_date2'] }}</p>
-                    <p id="hidden-info2" class="hidden-info4">Vaccine: {{profile['vaccine_name'] }} </p>
+                    <p class="hidden-info">Date: {{profile['vaccine_date2'] }}</p>
+                    <p class="hidden-info">Vaccine: {{profile['vaccine_name'] }} </p>
                 </div>
             </div>
         </div>
@@ -138,21 +150,88 @@
             </p>
         </footer>
     </div>
-
-
-    <div class="sign-out-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-
-            </div>
-            <p class="modal-text">You're about to sign out!</p>
-            <a id="sign-back" class="modal-anchor" name="sign_out_button" value="sign-out-back-profile">Back</a>
-            <button class="modal-button" name="sign_out_button" value=True type="submit">Sign Out</button>
-        </div>
-    </div>
-    </form>
+</form>
 
     <script>
+        let menuToggled = false;
+        document.getElementById('minimize').addEventListener('click',
+        function(){
+            if(!menuToggled){
+                menuToggled = !menuToggled;
+                document.querySelector('.narrow-left').style.width = '6%';
+                document.querySelector('.wide-right').style.width = '94%';
+                document.querySelector('.wider').style.width = '108%';
+                document.querySelector('.wide-right').style.marginLeft = '6%';
+                document.querySelector('.start-left').style.left = '-7%';
+                document.querySelector('.profile-pic').style.marginBottom = '8vh';
+                document.querySelector('.profile-pic').style.marginLeft = '1vw';
+
+                let anchor = document.querySelectorAll('.nav-anchor');
+                let anchorL = anchor.length;
+                for(let i = 0; i < anchorL; i++){
+                    anchor[i].style.marginLeft = '1%';
+                    anchor[i].style.marginTop = '1vh';
+                }
+
+                let imgs = document.querySelectorAll('.nav-img');
+                let imgsL = imgs.length;
+                for(let i = 0; i < imgsL; i++){
+                    imgs[i].style.marginLeft = '40%';
+                    imgs[i].style.marginTop = '5vh';
+                }
+
+                document.querySelector('.ulbtn').style.marginLeft = '40%';
+
+                let links = document.querySelectorAll('.ul-li-a');
+                let length = links.length;
+                for(let i = 0; i < length; i++){
+                    links[i].style.display = 'none';
+                }
+                let linksbtn = document.querySelectorAll('.ul-li-button');
+                let lengthbtn = links.length;
+                for(let i = 0; i < lengthbtn; i++){
+                    linksbtn[i].style.display = 'none';
+                }
+            }
+            else{
+                menuToggled = !menuToggled;
+                document.querySelector('.narrow-left').style.width = '15%';
+                document.querySelector('.wide-right').style.width = '85%';
+                document.querySelector('.wider').style.width = '118%';
+                document.querySelector('.wide-right').style.marginLeft = '15%';
+                document.querySelector('.start-left').style.left = '-18%';
+                document.querySelector('.profile-pic').style.marginBottom = '2vh';
+
+                let anchor = document.querySelectorAll('.nav-anchor');
+                let anchorL = anchor.length;
+                for(let i = 0; i < anchorL; i++){
+                    anchor[i].style.marginLeft = '5%';
+                    anchor[i].style.marginTop = '0';
+                }
+
+                let imgs = document.querySelectorAll('.nav-img');
+                let imgsL = imgs.length;
+                for(let i = 0; i < imgsL; i++){
+                    imgs[i].style.marginLeft = '5%';
+                    imgs[i].style.marginTop = '0%';
+                }
+
+                document.querySelector('.ulbtn').style.marginLeft = '0%';
+
+                let links = document.querySelectorAll('.ul-li-a');
+                let length = links.length;
+                for(let i = 0; i < length; i++){
+                    links[i].style.display = 'inline-block';
+                }
+                let linksbtn = document.querySelectorAll('.ul-li-button');
+                let lengthbtn = links.length;
+                for(let i = 0; i < lengthbtn; i++){
+                    linksbtn[i].style.display = 'inline-block';
+                }
+            }
+
+        });
+
         document.getElementById('link-toggle').addEventListener('click',
             function(){
                 document.querySelector('.url').style.display = 'block';
@@ -190,10 +269,12 @@
             if(!toggled){
                 togglebutton.style.transform = "translate(0, -100%)";
                 togglebutton2.style.transform = "translate(0, -100%)";
-                document.querySelector('.hidden-info').style.display = 'inline-block';
-                document.querySelector('.hidden-info2').style.display = 'inline-block';
-                document.querySelector('.hidden-info3').style.display = 'inline-block';
-                 document.querySelector('.hidden-info4').style.display = 'inline-block';
+                let hidden = document.querySelectorAll('.hidden-info');
+                let hiddenL = hidden.length;
+
+                for(let i = 0; i < hiddenL; i++){
+                    hidden[i].style.display = 'inline-block';
+                }
 
                 document.querySelector('.dose-info').style.display = 'none';
                 document.querySelector('.dose-info2').style.display = 'none';
@@ -202,10 +283,12 @@
             else{
                 togglebutton.style.transform = "translate(0, 0)";
                 togglebutton2.style.transform = "translate(0, 0)";
-                document.querySelector('.hidden-info').style.display = 'none';
-                document.querySelector('.hidden-info2').style.display = 'none';
-                document.querySelector('.hidden-info3').style.display = 'none';
-                document.querySelector('.hidden-info4').style.display = 'none';
+                let hidden = document.querySelectorAll('.hidden-info');
+                let hiddenL = hidden.length;
+
+                for(let i = 0; i < hiddenL; i++){
+                    hidden[i].style.display = 'none';
+                }
 
                 document.querySelector('.dose-info').style.display = 'inline-block';
                 document.querySelector('.dose-info2').style.display = 'inline-block';
@@ -219,10 +302,12 @@
             if(!toggled2){
                 togglebutton.style.transform = "translate(0, -100%)";
                 togglebutton2.style.transform = "translate(0, -100%)";
-                document.querySelector('.hidden-info').style.display = 'inline-block';
-                document.querySelector('.hidden-info2').style.display = 'inline-block';
-                document.querySelector('.hidden-info3').style.display = 'inline-block';
-                 document.querySelector('.hidden-info4').style.display = 'inline-block';
+                let hidden = document.querySelectorAll('.hidden-info');
+                let hiddenL = hidden.length;
+
+                for(let i = 0; i < hiddenL; i++){
+                    hidden[i].style.display = 'inline-block';
+                }
 
                 document.querySelector('.dose-info').style.display = 'none';
                 document.querySelector('.dose-info2').style.display = 'none';
@@ -231,10 +316,12 @@
             else{
                 togglebutton.style.transform = "translate(0, 0)";
                 togglebutton2.style.transform = "translate(0, 0)";
-                document.querySelector('.hidden-info').style.display = 'none';
-                document.querySelector('.hidden-info2').style.display = 'none';
-                document.querySelector('.hidden-info3').style.display = 'none';
-                document.querySelector('.hidden-info4').style.display = 'none';
+                let hidden = document.querySelectorAll('.hidden-info');
+                let hiddenL = hidden.length;
+
+                for(let i = 0; i < hiddenL; i++){
+                    hidden[i].style.display = 'none';
+                }
 
                 document.querySelector('.dose-info').style.display = 'inline-block';
                 document.querySelector('.dose-info2').style.display = 'inline-block';

@@ -14,6 +14,7 @@ h1{
 
 .nav{
     position: sticky;
+    top: 0;
     height: 7.5vh;
     background-color: white;
     width: 100%;
@@ -305,10 +306,10 @@ h1{
     z-index: 999;
 }
 .start-left{
-    left: -25%;
+    left: -18%;
 }
 .wider{
-    width: 125%;
+    width: 118%;
 }
 
 .block{

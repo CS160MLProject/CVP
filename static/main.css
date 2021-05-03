@@ -29,20 +29,6 @@ body{
     padding: 0;
 }
 
-.top-margin-big{
-    margin-top: 40%;
-}
-.top-margin-med{
-    margin-top: 10%;
-}
-.top-margin-small{
-    margin-top: 3%;
-}
-
-.bot-margin-med{
-    margin-bottom: 30%;
-}
-
 .inline-item {
     display: inline-block;
 }
@@ -61,12 +47,31 @@ body{
 
 /* Left side of the Home Page*/
 .left-panel{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
     position: relative;
     float: left;
     display: inline-block;
     vertical-align: top;
     background-color: #ffffff;
     width: 30%;
+    height: 100vh;
+    z-index: 899;
+}
+
+.narrow-left{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    position: fixed;
+    float: left;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    width: 15%;
     height: 100vh;
     z-index: 899;
 }
@@ -106,17 +111,33 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     margin-top: 7.5vh;
 }
 
-.margin-for-menu{
-    margin-left: 20%;
-}
 
 /* Right side of the Home Page. */
 .right-panel{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
     display: inline-block;
     vertical-align: top;
     background-color: #fafafa;
     width: 70%;
     height: 100vh;
+    z-index: 9999;
+}
+
+.wide-right{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #fafafa;
+    width: 85%;
+    margin-left: 15%;
+    height: 100vh;
+    z-index: 9999;
 }
 
 .right-panel-close{
@@ -168,17 +189,17 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     background-color: #0A92CC;
     color:white;
     text-shadow: #1f1f1f;
-    height: 15%;
-    width: 50%;
-    font-size: 3vw;
+    height: 40%;
+    width: 22.5vw;
+    font-size: 1.6vw;
     text-align: center;
-    border-radius: 70px;
+    border-radius: 20px;
     /*border-color:#0D0065;*/
     border-width: 0;
-    padding: 3% 8%; /* pixels derived from adobe xd values. */
-    margin: 5% auto;
-    cursor: pointer;
+    padding: 1.2% 2%; /* pixels derived from adobe xd values. */
+    margin: 1% 3%;
     outline: none;
+    cursor: pointer;
 }
 
 /* This adds an effect when you hover on the buttons*/
@@ -606,6 +627,18 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     transform: scale(0.9);
 }
 
+.change-pass{
+    font-size: 1.6vw;
+    font-style: italic;
+    text-align: center;
+    color: #0D0065;
+}
+
+.change-pass:hover{
+    font-size: 1.625vw;
+    opacity: 90%;
+}
+
 .inline-button {
     display: inline-block;
     vertical-align: middle;
@@ -714,11 +747,29 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     display: none;
     z-index: 1000;
 }
+
+.change-pass-modal{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    z-index: 1000;
+}
+
 .modal-content{
     width: 55%;
     height: 25%;
     background-color: white;
     border-radius: 30px;
+}
+
+.larger{
+    width: 75%;
+    height: 60%;
 }
 
 .modal-header{
@@ -786,33 +837,34 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .nav-icon{
-    width: 100%;
+    width: 1.5vw;
 }
 
 .nav-prof{
-    background-color: #ffffff;
+    background-color: #fefefe;
     width: 100%;
-    margin:0;
     padding:0;
 }
 
 .ul-prof{
     margin: 0;
+    overflow: hidden;
 }
 
 .li-prof{
     list-style: none;
     text-align: left;
-    margin-left: 5%;
-
+    margin-left: 10%;
+    overflow: hidden;
     /*background-color: #0A92CC;*/
 }
 
 .li-prof:hover{
     background-color: rgba(10, 146, 204, 0.2);
+    cursor: pointer;
 }
 
-.ul-li-button{
+.ul-li-button {
     display: inline-block;
     vertical-align: middle;
     text-decoration: none;
@@ -821,12 +873,30 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
     font-weight: bold;
-    width: 82%;
+    width: 75%;
+    margin-left: 10%;
     padding: 5% 0;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+}
+
+.ulbtn{
+    display: inline-block;
+    vertical-align: middle;
+    text-decoration: none;
+    text-align: left;
+    color: #0D0065;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.5vw;
+    font-weight: bold;
+    width: 10%;
+    padding: 5% 5%;
     border-width: 0;
     background-color: rgba(0,0,0,0);
     outline: none;
 }
+
 .ul-li-button:hover{
     opacity: 80%;
     cursor: pointer;
@@ -837,13 +907,14 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     vertical-align: middle;
     text-decoration: none;
     color: #0D0065;
-    width: 80%;
+    width: 70%;
     /*background-color: #0A92CC;*/
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
     font-weight: bold;
     margin: 0;
     padding: 5% 0;
+    white-space: nowrap;
     /*float: left;*/
 }
 
@@ -851,14 +922,24 @@ ul li a:hover{
     opacity: 80%;
 }
 
-ul li a :focus{
-    font-size: 35px;
+.menu{
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 10%;
+}
+.menu-img{
+    margin: 2vh 1vw;
+    width: 2vw;
 }
 
 .nav-img{
     margin-left: 5%;
     margin-right: 5%;
     width: 5%;
+}
+
+.margin-left{
+    margin-left: 85%;
 }
 
 .profile-info{
@@ -918,7 +999,7 @@ ul li a :focus{
 .dose {
     position: relative;
     /*text-align: center;*/
-    margin: 0;
+    margin: 3%;
     padding-top: 0;
     padding-bottom: 0;
     padding-left: 25%;
@@ -955,7 +1036,7 @@ ul li a :focus{
 
 .second-label{
     position: absolute;
-    top: 70%;
+    top: 45%;
     left: 25%;
     -webkit-transition: all 0.25s;
     -moz-transition: all 0.25s;
@@ -1168,6 +1249,7 @@ ul li a :focus{
     display: inline-block;
     vertical-align: middle;
     margin-top: 5vh;
+    margin-bottom: 2vh;
     margin-left: 25%;
     height: 4vw;
     width: 4vw;
@@ -1255,4 +1337,284 @@ ul li a :focus{
 .footer .copyright{
     padding: 0.4rem;
     text-align: center;
+}
+
+.top-margin-big{
+    margin-top: 40%;
+}
+.top-margin-med{
+    margin-top: 10%;
+}
+.top-margin-small{
+    margin-top: 3%;
+}
+
+.bot-margin-med{
+    margin-bottom: 30%;
+}
+
+@media screen and (max-width: 1060px) {
+
+
+    .ul-li-a{
+        font-size: 2vw;
+        margin: 0;
+        padding: 5% 0;
+    }
+    .ul-li-button{
+        font-size: 2vw;
+        padding: 5% 0;
+    }
+
+    .new-account-icon{
+        margin-top: 10%;
+        width: 70%;
+    }
+
+    .page-header {
+        font-size: 3vw;
+    }
+
+    .top-margin-med{
+        margin-top: 5%;
+    }
+
+    .section-label2{
+        margin-top: 5vh;
+        margin-bottom: 5%;
+        font-size: 4vw;
+        font-weight: bold;
+        background-color: #f3f3f3;
+    }
+
+    .colored-section{
+        background-color: #ffffff;
+        height: 25%;
+        margin-top: 5%;
+        padding-top: 5%;
+    }
+
+    .input-field {
+        width: 90%;
+        margin-top: 4vh;
+    }
+
+    .field-label {
+        margin-right: 5%;
+        width: 25vw;
+    }
+
+    .text-label{
+        font-size: 3vw;
+    }
+    .field-icon{
+        margin: 2% 0;
+        width: 15%;
+    }
+    .text-field{
+        width: 40vw;
+        border-radius: 5px;
+        font-size: 2.5vw;
+        padding: 1.5%;
+    }
+
+    .forgot-password{
+        font-size: 2vw;
+        margin-left: 2%;
+    }
+    .inline-button {
+        width: 30vw;
+        font-size: 3vw;
+        text-align: center;
+        border-radius: 20px;
+        /*border-color:#0D0065;*/
+        border-width: 0;
+        padding: 1.2% 2%; /* pixels derived from adobe xd values. */
+        margin: 1% 3%;
+        outline: none;
+        cursor: pointer;
+    }
+    .file-upload{
+        display: inline-flex;
+        align-items: center;
+        font-size: 2.5vw;
+        height: 60;
+        width: 45vw;
+    }
+
+    .file-upload-label{
+        font-size: 2.2vw;
+    }
+
+    .file-upload-button{
+        width: 30vw;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 0.9em;
+        padding: 0.5em 0.5em;
+    }
+
+    .pic-upload-label{
+        font-size: 2.2vw;
+    }
+    .pic-upload-button{
+        width: 30vw;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 0.9em;
+        padding: 0.5em 0.5em;
+    }
+
+    .home-button{
+        height: 40%;
+        width: 30vw;
+        font-size: 2.5vw;
+        text-align: center;
+        border-radius: 20px;
+        border-width: 0;
+        padding: 2% 2%; /* pixels derived from adobe xd values. */
+        margin: 1% 3%;
+        }
+
+    .full-name{
+        margin: 2%;
+        font-size: 5vw;
+        font-weight: bold;
+    }
+    .vaccine-status{
+        margin-bottom: 10%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 3vw;
+        font-style: italic;
+    }
+
+    .dose-label {
+        font-size: 3.5vw;
+    }
+    .dose-info{
+        font-size: 2vw;
+    }
+
+    .second-label {
+        font-size: 3.5vw;
+    }
+    .dose-info2{
+        margin-top: 10%;
+        font-size: 2vw;
+    }
+}
+
+@media screen and (max-width: 450px) {
+
+    .nav{
+        width: 100%;
+    }
+
+    .fixed{
+        height: 6vh;
+    }
+
+    .margin-for-nav{
+        margin-top: 7.5vh;
+    }
+
+    .left-panel{
+        display: block;
+        height: 10vh;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .right-panel{
+        width: 100%;
+    }
+
+    .left-panel h1{
+        margin-top: 5%;
+    }
+    .page-header {
+        margin-top: 1%;
+        font-size: 7vw;
+    }
+
+    .input-field {
+        width: 100%;
+        margin-top: 2vh;
+    }
+
+    .field-label {
+        margin-right: 5%;
+        width: 55vw;
+    }
+
+    .text-label{
+        font-size: 8vw;
+    }
+    .field-icon{
+        display: none;
+    }
+    .field-note{
+        font-size: 5vw;
+    }
+
+    .text-field{
+        width: 70vw;
+        border-radius: 5px;
+        font-size: 5vw;
+        padding: 2%;
+    }
+
+    .forgot-password{
+        font-size: 4vw;
+        margin: 3%;
+    }
+    .inline-button {
+        width: 30vw;
+        font-size: 3vw;
+        text-align: center;
+        border-radius: 20px;
+        /*border-color:#0D0065;*/
+        border-width: 0;
+        padding: 1.2% 2%; /* pixels derived from adobe xd values. */
+        margin: 1% 3%;
+        outline: none;
+        cursor: pointer;
+    }
+    .file-upload{
+        display: inline-flex;
+        align-items: center;
+        font-size: 4.5vw;
+        width: 100vw;
+    }
+
+    .file-upload-label{
+        font-size: 5vw;
+    }
+
+    .file-upload-button{
+        width: 30vw;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 0.9em;
+        padding: 0.5em 0.5em;
+    }
+
+    .pic-upload-label{
+        font-size: 5vw;
+    }
+
+    .pic-upload-button{
+        width: 30vw;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 0.9em;
+        padding: 0.5em 0.5em;
+    }
+
+    .home-button{
+        height: 40%;
+        width: 30vw;
+        font-size: 4vw;
+        text-align: center;
+        border-radius: 20px;
+        border-width: 0;
+        padding: 2% 2%; /* pixels derived from adobe xd values. */
+        margin: 1% 3%;
+        }
 }

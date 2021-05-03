@@ -55,12 +55,15 @@
             </div>
 
             <div class="input-field">
+                <div class="field-note">
                 <p class="text-label-small">
                     - 8 characters minimum &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;  - 21 characters maximum <br>
                     - At least 1 uppercase character &emsp; &emsp; &emsp; &nbsp; - At least 1 lowercase character <br>
                     - Must contains at least 1 special character: @ $ ! % * # ? &
                 </p>
             </div>
+            </div>
+
 
             <div class="input-field">
                 <div class="field-label">
@@ -70,29 +73,21 @@
                 <input class="text-field" type="password" id="confirm_password" name="confirm_password" placeholder="Password">
             </div>
 
-            <div class="top-margin-small">
-                <div class="input-field">
-                    <div class="file-upload">
-                        <input class="file-upload-input" type="file" id="myFile" name="vaccine_rec">
-                        <button class="file-upload-button" type="button">CDC Vaccine Card</button>
-                        <span class="file-upload-label"></span>
-                        <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
-                    </div>
+            <div class="input-field top-margin-small">
+                <div class="file-upload">
+                    <input class="file-upload-input" type="file" id="myFile" name="vaccine_rec">
+                    <button class="file-upload-button" type="button">CDC Vaccine Card</button>
+                    <span class="file-upload-label"></span>
+                    <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
                 </div>
 
-                <div class="input-field">
-                    <div class="file-upload">
-                        <input class="pic-upload-input" type="file" id="myPic" name="profile_pic">
-                        <button class="pic-upload-button" type="button">Profile Picture</button>
-                        <span class="pic-upload-label"></span>
-                        <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
-                    </div>
+                <div class="file-upload">
+                    <input class="pic-upload-input" type="file" id="myPic" name="profile_pic">
+                    <button class="pic-upload-button" type="button">Profile Picture</button>
+                    <span class="pic-upload-label"></span>
+                    <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Document getting uploaded to a cloud" title="Upload Document">
                 </div>
-
-
-                <div class="input-field bot-margin-med">
-                    <button class="inline-button" name="continue_button" value="continue_button" type="continue">Continue</button>
-                </div>
+                <button class="home-button" name="continue_button" value="continue_button" type="continue">Continue</button>
             </div>
 
         </form>

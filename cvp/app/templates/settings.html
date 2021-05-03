@@ -117,7 +117,7 @@
             </div>
             <div class="input-field">
                 <button class="inline-button smaller" name="back_button" value=True>Back</button>
-                <button class="inline-button smaller" name="password_save_button" value=True type="submit">Save Changes</button>
+                <button id="savechange" class="inline-button smaller" name="password_save_button" value=True type="submit">Save Changes</button>
             </div>
         </div>
     </div>
@@ -179,6 +179,40 @@
             </p>
         </footer>
 <script>
+
+    let input = document.getElementById("old_pass");
+        // Execute a function when the user releases a key on the keyboard
+        input.addEventListener("keydown", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("savechange").click();
+            }
+        });
+        let input2 = document.getElementById("new_pass");
+        // Execute a function when the user releases a key on the keyboard
+        input2.addEventListener("keydown", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("savechange").click();
+            }
+        });
+        let input3 = document.getElementById("confirm_pass");
+        // Execute a function when the user releases a key on the keyboard
+        input3.addEventListener("keydown", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("savechange").click();
+            }
+        });
 
     document.getElementById('changepass').addEventListener('click',
     function(){

@@ -68,11 +68,27 @@
 
                     <div class="input-field">
                         <div class="field-label">
+                            <label class="text-label" for="last_name">Last Name:</label>
+                        </div>
+                        <input class="text-field-short" type="text" id="last_name" name="last_name" value="{{ session['extracted_record']['last'] }}">
+                    </div>
+
+                    <div class="input-field">
+                        <div class="field-label">
                             <label class="text-label" for="date_second">Date of Birth:</label>
                         </div>
                         <input class="text-field-short" type="text" id="dob" name="dob" value="{{ session['extracted_record']['dob'] }}">
                     </div>
 
+                    <div class="input-field">
+                        <div class="field-label">
+                            <label class="text-label" for="patient_num">Patient Number:</label>
+                        </div>
+                        <input class="text-field-short" type="text" id="patient_num" name="patient_num" value="{{ session['extracted_record']['ssn'] }}">
+                    </div>
+                </div>
+
+                <div class="fields-column top-margin-small">
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="first_dose">First Dose:</label>
@@ -82,27 +98,23 @@
 
                     <div class="input-field">
                         <div class="field-label">
+                            <label class="text-label" for="date_first">Issue Date (1st):</label>
+                        </div>
+                        <input class="text-field-short" type="text" id="date_first" name="date_first" value="{{ session['extracted_record']['date_1'] }}">
+                    </div>
+
+                    <div class="input-field">
+                        <div class="field-label">
                             <label class="text-label" for="second_dose">Second Dose:</label>
                         </div>
                         <input class="text-field-short" type="text" id="second_dose" name="second_dose" value="{{ session['extracted_record']['product_2'] }}">
                     </div>
 
-
-                </div>
-
-                <div class="fields-column top-margin-small">
                     <div class="input-field">
                         <div class="field-label">
-                            <label class="text-label" for="last_name">Last Name:</label>
+                            <label class="text-label" for="date_second">Issue Date (2nd):</label>
                         </div>
-                        <input class="text-field-short" type="text" id="last_name" name="last_name" value="{{ session['extracted_record']['last'] }}">
-                    </div>
-
-                    <div class="input-field">
-                        <div class="field-label">
-                            <label class="text-label" for="patient_num">Patient Number:</label>
-                        </div>
-                        <input class="text-field-short" type="text" id="patient_num" name="patient_num" value="{{ session['extracted_record']['ssn'] }}">
+                        <input class="text-field-short" type="text" id="date_second" name="date_second" value="{{ session['extracted_record']['date_2'] }}">
                     </div>
 
                     <div class="input-field">
@@ -112,28 +124,12 @@
                         <input class="text-field-short" type="text" id="clinic_site" name="clinic_site" value="{{ session['extracted_record']['site_1'] }}">
                     </div>
 
-                    <div class="input-field">
-                        <div class="field-label">
-                            <label class="text-label" for="date_first">Issue Date:</label>
-                        </div>
-                        <input class="text-field-short" type="text" id="date_first" name="date_first" value="{{ session['extracted_record']['date_1'] }}">
-                    </div>
-
-                    <div class="input-field">
-                        <div class="field-label">
-                            <label class="text-label" for="date_second">Issue Date:</label>
-                        </div>
-                        <input class="text-field-short" type="text" id="date_second" name="date_second" value="{{ session['extracted_record']['date_2'] }}">
-                    </div>
-
-
-
                 </div>
             </div>
             <div>
-                <img class="profile-pic" src="{{url_for('static', filename=profpic)}}" alt="Aye">
                 <button class="confirm-button" name="confirm_button" value="confirm_button" type="confirm">CONFIRM</button>
             </div>
+            <img class="profile-pic" src="{{url_for('static', filename=profpic)}}" alt="Aye">
             <p class="warning-message">WARNING : CONFIRMING THE ABOVE INFORMATION IS NON-REVERSIBLE. PLEASE ENSURE
                 THE INFORMATION ARE ACCURATE AND CHANGE ANY ERRORS BEFORE CONFIRMING.</p>
         </form>

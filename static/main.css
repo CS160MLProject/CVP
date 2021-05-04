@@ -41,7 +41,7 @@ body{
     background-color: rgba(10, 146, 204, 0.08);
     display: block;
     padding: 1.5%;
-    margin: 1vh 15%;
+    margin: 1vh 2vw;
     border-radius: 20px;
 }
 
@@ -56,7 +56,7 @@ body{
     display: inline-block;
     vertical-align: top;
     background-color: #ffffff;
-    width: 30%;
+    width: 20%;
     height: 100vh;
     z-index: 899;
 }
@@ -71,7 +71,7 @@ body{
     display: inline-block;
     vertical-align: top;
     background-color: #ffffff;
-    width: 15%;
+    width: 20%;
     height: 100vh;
     z-index: 899;
     box-shadow: 0 0 2px gray;
@@ -97,8 +97,8 @@ Not ideal but shows a way to apply CSS in a broad manner*/
 
 .qr-img {
     display: block;
-    width: 50%;
-    margin-left: 25%;
+    width: 25vw;
+    margin: 2vh auto;
 }
 
 /* Same idea but affects the h2 elements*/
@@ -122,8 +122,8 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     display: inline-block;
     vertical-align: top;
     background-color: #fafafa;
-    width: 70%;
-    height: 100vh;
+    width: 80%;
+    height: 150vh;
     z-index: 9999;
 }
 
@@ -135,8 +135,21 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     display: inline-block;
     vertical-align: top;
     background-color: #ffffff;
-    width: 85%;
-    margin-left: 15%;
+    width: 80%;
+    margin-left: 20%;
+    height: 200vh;
+    z-index: 9999;
+}
+
+.full-panel{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    width: 100%;
     height: 100vh;
     z-index: 9999;
 }
@@ -147,6 +160,7 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     object-fit: cover;
     box-shadow: 0 0 5px black;
 }
+
 
 .right-panel-close{
     display: inline-block;
@@ -222,8 +236,8 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .new-account-icon{
-    margin-top: 10%;
-    width: 100%;
+    margin: 10vh 2vw;
+    width: 65%;
 }
 
 .field-icon{
@@ -275,11 +289,13 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 
 .url{
     display: none;
+    margin: 0;
     font-size: 1.5vw;
-    padding: 5%;
+    padding: 1%;
     text-align: center;
     color: #0D0065;
     text-decoration: underline;
+    width: 55vw;
 }
 .url:hover{
     opacity: 80%;
@@ -847,7 +863,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 .nav-icon{
     display: inline-block;
     vertical-align: middle;
-    margin-left: 2.5vw;
+    margin-left: 2vw;
     width: 2vw;
 }
 
@@ -879,7 +895,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 .ul-li-button {
     display: inline-block;
     vertical-align: middle;
-    margin: 0;
+    margin: 1vw 0 1vw 0.5vw;
     padding: 5% 2%;
     white-space: nowrap;
     color: #0D0065;
@@ -912,6 +928,8 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     margin: 0;
     padding: 5% 2%;
     white-space: nowrap;
+    background-color: rgba(0,0,0,0);
+    border-width: 0;
 }
 
 .ul-li-a{
@@ -919,14 +937,14 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     vertical-align: middle;
     text-decoration: none;
     color: #0D0065;
-    width: 50%;
+    width: 45%;
+    margin: 1vw 0 1vw 0.5vw;
     /*background-color: #0A92CC;*/
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
     font-weight: bold;
     padding: 5% 2%;
     white-space: nowrap;
-    /*float: left;*/
 }
 
 ul li a:hover{
@@ -972,6 +990,7 @@ ul li a:hover{
     font-size: 3vw;
     font-weight: bold;
     background-color: #f3f3f3;
+    border-radius: 10vw;
 }
 
 .section-label3{
@@ -1019,9 +1038,10 @@ ul li a:hover{
 
 .dose {
     position: relative;
-    background-color: #f8f8f8;
-    margin: 4vh;
+    background-color: rgba(10, 146, 204, 0.08);
+    margin: 4vh 0.5vw;
     text-align: center;
+    border-radius: 5vw;
 }
 
 .dose-label {
@@ -1206,13 +1226,11 @@ ul li a:hover{
 .profile-pic{
     display: inline-block;
     vertical-align: middle;
-    margin-top: 5vh;
-    margin-bottom: 2vh;
-    margin-left: 25%;
+    margin: 2vw;
     height: 4vw;
     width: 4vw;
     object-fit: cover;
-    border-radius: 100px;
+    border-radius: 50%;
     box-shadow: 1px 1px 5px black;
 }
 
@@ -1350,8 +1368,13 @@ ul li a:hover{
 
     .ul-li-a-icon{
         padding: 5% 1%;
-        width: 45%;
+        width: 35%;
     }
+
+    .nav-icon{
+        margin-left: 1.5vw;
+    }
+
     .li-prof{
         margin: 1em 5% 1em 1%;
     }
@@ -1508,6 +1531,35 @@ ul li a:hover{
     .nav{
         width: 100%;
     }
+    .menu-img{
+        width: 5.5vw;
+    }
+
+    .ul-li-a{
+        font-size: 3vw;
+        font-weight: bolder;
+        padding: 5% 0.5%;
+        width: 45%;
+    }
+    .ul-li-button{
+                font-weight: bolder;
+        width: 50%;
+        font-size: 3vw;
+    }
+
+    .ul-li-a-icon{
+        padding: 5% 1%;
+        width: 25%;
+    }
+
+    .nav-icon{
+        margin-left: 1.5vw;
+        width: 3vw;
+    }
+
+    .li-prof{
+        margin: 1em 5% 1em 1%;
+    }
 
     .fixed{
         height: 6vh;
@@ -1522,6 +1574,34 @@ ul li a:hover{
     }
     .wide-right{
         width: 80% ;
+        margin-left: 20%;
+    }
+
+    .left-panel{
+        display: block;
+        width: 100%;
+        height: 10vh;
+    }
+    .new-account-icon{
+        display: none;
+    }
+
+    .right-panel{
+        display: block;
+        height: 175vh;
+        width: 100%;
+    }
+
+    .full-name{
+        font-size: 10vw;
+    }
+    .qr-img {
+        display: block;
+        width: 50vw;
+        margin: 1vh auto;
+    }
+    .vaccine-status-text{
+        font-size: 5vw;
     }
 
     .left-panel h1{
@@ -1541,15 +1621,23 @@ ul li a:hover{
         margin-right: 5%;
         width: 55vw;
     }
+    .fields-column {
+        margin: 1vw;
+    }
 
     .text-label{
-        font-size: 8vw;
+        font-size: 6.5vw;
     }
     .field-icon{
         display: none;
     }
     .field-note{
-        font-size: 5vw;
+        font-size: 3vw;
+        font-weight: bold;
+    }
+    .text-label-small{
+        font-style: italic;
+        font-size: 2.5vw;
     }
 
     .text-field{
@@ -1557,6 +1645,21 @@ ul li a:hover{
         border-radius: 5px;
         font-size: 5vw;
         padding: 2%;
+    }
+    .text-field-short{
+        display: block;
+        width: 80%;
+        height: 30%;
+        border-radius: 5px;
+        font-size: 8vw;
+        padding: 1vh;
+        text-align: left;
+        color:#333333;
+    }
+
+    .warning-message{
+        margin: 1vh 1vw;
+        font-size: 4vw;
     }
 
     .forgot-password{
@@ -1571,9 +1674,15 @@ ul li a:hover{
         /*border-color:#0D0065;*/
         border-width: 0;
         padding: 1.2% 2%; /* pixels derived from adobe xd values. */
-        margin: 1% 3%;
         outline: none;
         cursor: pointer;
+    }
+    .smaller{
+        font-size: 6vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% auto;
+        padding: 3% 4%;
     }
     .file-upload{
         display: inline-flex;
@@ -1587,10 +1696,11 @@ ul li a:hover{
     }
 
     .file-upload-button{
-        width: 30vw;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 0.9em;
-        padding: 0.5em 0.5em;
+        font-size: 5vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% 1%;
+        padding: 2% 3%;
     }
 
     .pic-upload-label{
@@ -1598,20 +1708,18 @@ ul li a:hover{
     }
 
     .pic-upload-button{
-        width: 30vw;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 0.9em;
-        padding: 0.5em 0.5em;
+        font-size: 5vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% 1%;
+        padding: 2% 3%;
     }
 
     .home-button{
-        height: 40%;
-        width: 30vw;
-        font-size: 4vw;
-        text-align: center;
-        border-radius: 20px;
-        border-width: 0;
-        padding: 2% 2%; /* pixels derived from adobe xd values. */
-        margin: 1% 3%;
+        font-size: 5vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% 1%;
+        padding: 2% 3%;
         }
 }

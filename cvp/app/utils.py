@@ -296,6 +296,7 @@ def __form_dict(acc, record):
     res['vaccine_name'] = record[6]
     res['vaccine_date1'] = record[7]
     res['hospital'] = record[8]
+    res['vaccine_name2'] = record[9]
     res['vaccine_date2'] = record[10]
     return res
 

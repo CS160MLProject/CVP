@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <link rel="stylesheet" href="/static/home_page.css">
     <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/static/home_page.css">
     <!--Links to the external stylesheet so that the page uses the CSS from it-->
     <link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Poppins:wght@400;500&display=swap"
           rel="stylesheet">
@@ -50,9 +49,9 @@
 
                 </li>
                 <li class="li-prof">
-                    <a class="ul-li-a-icon" value="settings_button" name="settings_button">
+                    <button class="ul-li-a-icon" value="settings_button" name="settings_button">
                         <img class="nav-icon" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
-                    </a>
+                    </button>
                     <button class= "ul-li-button" value="settings_button" name="settings_button" href="#">Settings</button>
                 </li>
                 <li class="li-prof">
@@ -89,7 +88,10 @@
                 <a id="info-toggle2" class="dose-label" title="Click to expand">Second Dose: </a>
                 <p class="dose-info">Click dose to expand</p>
                 <p class="hidden-info">Date: {{profile['vaccine_date2'] }}</p>
-                <p class="hidden-info">Vaccine: {{profile['vaccine_name'] }} </p>
+                <p class="hidden-info">Vaccine: {{profile['vaccine_name2'] }} </p>
+            </div>
+            <div class="dose">
+                <p class="hidden-info">Clinic: {{profile['hospital'] }} </p>
             </div>
         </div>
 
@@ -99,74 +101,82 @@
                 <h3 class="section-label3">{{ profile['user_name'] }}</h3>
                 <img class="qr-img" src="{{ url_for('static', filename='QR_Code/'+session['qr']) }}" alt="QR code for the User's Profile">
                 <a id="link-toggle" class="link-toggle" title="Show Link">Show Link</a>
-                <p id="link-untoggle" class="url">{{ session["sharing_url"] }}</p>
+                <input class="url" id="link-untoggle" onclick="copyToClip()" value="{{ session["sharing_url"] }}" title="Copy to Clipboard">
             </div>
         </div>
-        <footer class="footer start-left wider">
-            <div class="inner_footer">
-                <div class="footer-content">
-                    <h2>Covid Vaccine Passport</h2>
-                    <p>Web app that will bring convenience to everyone</p>
-                </div>
-                <div class="footer-content">
-                    <h2>Company</h2>
-                    <li><a href="#">Terms & Condition</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Project Protection</a></li>
-                    <li><a href="#">FAQs</a></li>
-                </div>
-                <div class="footer-content">
-                    <h2>About</h2>
-                    <li><a href="#">Team</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Contact</a></li>
-                </div>
-                <div class="footer-content">
-                    <h2>Help</h2>
-                    <li><a href="#">Getting Started</a></li>
-                    <li><a href="#">Feedback</a></li>
-                    <li><a href="#">Network Status</a></li>
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">Other Services</a></li>
-                </div>
-                <div class="footer-content">
-                    <h2>Newsletter</h2>
-                    <form action="">
-                        <input type="text" placeholder="E-mail">
-                        <button class="btn">Subscribe</button>
-                        <div class="socials">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <hr>
-            <p class="copyright">All Rights Reserved &copy;
-                <script>document.write(new Date().getFullYear())</script>
-                Covid Vaccine Passport
-            </p>
-        </footer>
+
     </div>
 </form>
+<footer class="footer">
+        <div class="inner_footer">
+            <div class="footer-content">
+                <h2>Covid Vaccine Passport</h2>
+                <p>Web app that will bring convenience to everyone</p>
+            </div>
+            <div class="footer-content">
+                <h2>Company</h2>
+                <li><a href="#">Terms & Condition</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Project Protection</a></li>
+                <li><a href="#">FAQs</a></li>
+            </div>
+            <div class="footer-content">
+                <h2>About</h2>
+                <li><a href="#">Team</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+            </div>
+            <div class="footer-content">
+                <h2>Help</h2>
+                <li><a href="#">Getting Started</a></li>
+                <li><a href="#">Feedback</a></li>
+                <li><a href="#">Network Status</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="#">Other Services</a></li>
+            </div>
+            <div class="footer-content">
+                <h2>Newsletter</h2>
+                <form action="">
+                    <input type="text" placeholder="E-mail">
+                    <button class="btn">Subscribe</button>
+                    <div class="socials">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <p class="copyright">All Rights Reserved &copy;
+            <script>document.write(new Date().getFullYear())</script>
+            CoVaPass
+        </p>
+    </footer>
 
     <script>
+
         let menuToggled = false;
         document.getElementById('minimize').addEventListener('click',
         function(){
             if(!menuToggled){
                 menuToggled = !menuToggled;
-                document.querySelector('.narrow-left').style.width = '6%';
-                document.querySelector('.wide-right').style.width = '94%';
-                document.querySelector('.wider').style.width = '108%';
-                document.querySelector('.wide-right').style.marginLeft = '6%';
-                document.querySelector('.start-left').style.left = '-7%';
+                document.querySelector('.narrow-left').style.width = '10%';
+                document.querySelector('.wide-right').style.width = '90%';
+                document.querySelector('.wide-right').style.marginLeft = '10%';
                 document.querySelector('.profile-pic').style.marginBottom = '8vh';
                 document.querySelector('.profile-pic').style.marginLeft = '1vw';
+                document.querySelector('.profile-pic').style.width = '8vw';
+                document.querySelector('.profile-pic').style.height = '8vw';
                 document.getElementById('logo').style.opacity = '0';
+
+                let icons = document.querySelectorAll('.nav-icon');
+                let iconsL = icons.length;
+                for(let i = 0; i < iconsL; i++){
+                    icons[i].style.width = '6vw';
+                }
 
                 let anchor = document.querySelectorAll('.nav-anchor');
                 let anchorL = anchor.length;
@@ -188,13 +198,19 @@
             }
             else{
                 menuToggled = !menuToggled;
-                document.querySelector('.narrow-left').style.width = '15%';
-                document.querySelector('.wide-right').style.width = '85%';
-                document.querySelector('.wider').style.width = '118%';
-                document.querySelector('.wide-right').style.marginLeft = '15%';
-                document.querySelector('.start-left').style.left = '-18%';
+                document.querySelector('.narrow-left').style.width = '20%';
+                document.querySelector('.wide-right').style.width = '80%';
+                document.querySelector('.wide-right').style.marginLeft = '20%';
                 document.querySelector('.profile-pic').style.marginBottom = '2vh';
+                document.querySelector('.profile-pic').style.width = '4vw';
+                document.querySelector('.profile-pic').style.height = '4vw';
                 document.getElementById('logo').style.opacity = '1';
+
+                let icons = document.querySelectorAll('.nav-icon');
+                let iconsL = icons.length;
+                for(let i = 0; i < iconsL; i++){
+                    icons[i].style.width = '3vw';
+                }
 
                 let imgs = document.querySelectorAll('.nav-img');
                 let imgsL = imgs.length;
@@ -327,6 +343,17 @@
                 toggled = false;
             }
         });
+
+        function copyToClip(){
+            let copyText = document.getElementById('link-untoggle');
+
+            copyText.select();
+            copyText.setSelectionRange(0, 999999);
+
+            document.execCommand("copy");
+
+            alert("Share Link Copied to Clipboard!");
+        }
     </script>
 
 

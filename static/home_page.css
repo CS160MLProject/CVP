@@ -44,6 +44,11 @@ h1{
     font-size: 2.5rem;
     width: 2.5rem;
 }
+.logo-wrapper{
+    padding: 2vw 2vw;
+    box-shadow: 0 0 1px gray;
+}
+
 #logo a{
     color: black;
 }

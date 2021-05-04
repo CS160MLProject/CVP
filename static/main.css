@@ -40,8 +40,8 @@ body{
 .block-item{
     background-color: rgba(10, 146, 204, 0.08);
     display: block;
-    padding: 2.5%;
-    margin: 5% 15%;
+    padding: 1.5%;
+    margin: 1vh 15%;
     border-radius: 20px;
 }
 
@@ -74,6 +74,7 @@ body{
     width: 15%;
     height: 100vh;
     z-index: 899;
+    box-shadow: 0 0 2px gray;
 }
 
 /* Affects all the h1 elements declared inside any element that uses this class.
@@ -133,11 +134,18 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     transition: all 0.2s;
     display: inline-block;
     vertical-align: top;
-    background-color: #fafafa;
+    background-color: #ffffff;
     width: 85%;
     margin-left: 15%;
     height: 100vh;
     z-index: 9999;
+}
+
+.hero-banner{
+    width: 100%;
+    height: 20vh;
+    object-fit: cover;
+    box-shadow: 0 0 5px black;
 }
 
 .right-panel-close{
@@ -837,7 +845,10 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .nav-icon{
-    width: 1.5vw;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 2.5vw;
+    width: 2vw;
 }
 
 .nav-prof{
@@ -847,14 +858,15 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .ul-prof{
+
     margin: 0;
     overflow: hidden;
 }
 
 .li-prof{
+    width: 100%;
+    margin-bottom: 2rem;
     list-style: none;
-    text-align: left;
-    margin-left: 10%;
     overflow: hidden;
     /*background-color: #0A92CC;*/
 }
@@ -867,33 +879,15 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 .ul-li-button {
     display: inline-block;
     vertical-align: middle;
-    text-decoration: none;
-    text-align: left;
+    margin: 0;
+    padding: 5% 2%;
+    white-space: nowrap;
     color: #0D0065;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
     font-weight: bold;
-    width: 75%;
-    margin-left: 10%;
-    padding: 5% 0;
     border-width: 0;
     background-color: rgba(0, 0, 0, 0);
-    outline: none;
-}
-
-.ulbtn{
-    display: inline-block;
-    vertical-align: middle;
-    text-decoration: none;
-    text-align: left;
-    color: #0D0065;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5vw;
-    font-weight: bold;
-    width: 10%;
-    padding: 5% 5%;
-    border-width: 0;
-    background-color: rgba(0,0,0,0);
     outline: none;
 }
 
@@ -902,18 +896,35 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     cursor: pointer;
 }
 
+.ulbtn{
+    display: inline-block;
+    vertical-align: middle;
+    width: 45%;
+    border-width: 0;
+    background-color: rgba(0,0,0,0);
+    outline: none;
+}
+
+.ul-li-a-icon{
+    display: inline-block;
+    vertical-align: middle;
+    width: 40%;
+    margin: 0;
+    padding: 5% 2%;
+    white-space: nowrap;
+}
+
 .ul-li-a{
     display: inline-block;
     vertical-align: middle;
     text-decoration: none;
     color: #0D0065;
-    width: 70%;
+    width: 50%;
     /*background-color: #0A92CC;*/
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
     font-weight: bold;
-    margin: 0;
-    padding: 5% 0;
+    padding: 5% 2%;
     white-space: nowrap;
     /*float: left;*/
 }
@@ -933,6 +944,8 @@ ul li a:hover{
 }
 
 .nav-img{
+    display: inline-block;
+    vertical-align: middle;
     margin-left: 5%;
     margin-right: 5%;
     width: 5%;
@@ -954,8 +967,8 @@ ul li a:hover{
     text-align: center;
     color: #045b77;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin-top: 20%;
-    margin-bottom: 5%;
+    margin-top: 25vh;
+    margin-bottom: 2vh;
     font-size: 3vw;
     font-weight: bold;
     background-color: #f3f3f3;
@@ -963,11 +976,10 @@ ul li a:hover{
 
 .section-label3{
     display: block;
-    vertical-align: top;
     text-decoration: none;
     color: #044a60;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 2vw;
+    font-size: 4.5vw;
     font-weight: bold;
     text-align: center ;
 }
@@ -988,40 +1000,40 @@ ul li a:hover{
 }
 
 .vaccine-status{
+    display: block;
+    vertical-align: center;
+    text-align: center;
+    margin: 2vh 2vw;
+    font-style: italic;
+}
+
+.vaccine-status-text{
+    display: inline-block;
+    vertical-align: center;
     text-align: center;
     margin-bottom: 10%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 25px;
+    font-size: 2vw;
     font-style: italic;
-    background-color: #bbfac4;
 }
 
 .dose {
     position: relative;
-    /*text-align: center;*/
-    margin: 3%;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-left: 25%;
-    padding-right: 25%;
-    /*background-color: #d0f7ff;*/
+    background-color: #f8f8f8;
+    margin: 4vh;
+    text-align: center;
 }
 
 .dose-label {
     position: absolute;
-    top: 0;
-    left: 25%;
+    left: 25vw;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     -o-transition: all 0.2s;
-    transition: all 0.2s;
-    /*display: inline-block;*/
-    /*vertical-align: middle;*/
-    /*text-align: center;*/
+    display: inline-block;
+    vertical-align: middle;
     border-width: 0;
-    background-color: rgba(0, 0, 0, 0);
     outline: none;
-    margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2vw;
     font-weight: bolder;
@@ -1035,20 +1047,12 @@ ul li a:hover{
 }
 
 .second-label{
-    position: absolute;
-    top: 45%;
-    left: 25%;
     -webkit-transition: all 0.25s;
     -moz-transition: all 0.25s;
     -o-transition: all 0.25s;
-    transition: all 0.25s;
-    /*display: inline-block;*/
-    /*vertical-align: middle;*/
-    /*text-align: center;*/
-    border-width: 0;
-    background-color: rgba(0, 0, 0, 0);
+    display: inline-block;
+    vertical-align: middle;
     outline: none;
-    margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2vw;
     font-weight: bolder;
@@ -1064,66 +1068,20 @@ ul li a:hover{
 
 .dose-info{
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: bottom;
     text-align: center;
-    margin-left: 65%;
-    margin-top: 5%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.2vw;
     font-style: italic;
-    opacity: 60%;
+    opacity: 70%;
+    margin: 1vh 5vw 1vh 20vw;
 }
 
-.dose-info2{
-    display: inline-block;
-    vertical-align: middle;
-    text-align: center;
-    margin-top: 8%;
-    margin-left: 65%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.2vw;
-    font-style: italic;
-    opacity: 60%;
-}
 
 .hidden-info{
     vertical-align: middle;
     text-align: center;
-    margin-right: 5%;
-    margin-top: 1vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5vw;
-    font-weight: bold;
-    display: none;
-}
-
-.hidden-info2{
-    vertical-align: middle;
-    text-align: center;
-    margin-right: 10%;
-    margin-top: 1vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5vw;
-    font-weight: bold;
-    display: none;
-}
-
-.hidden-info3{
-    vertical-align: middle;
-    text-align: center;
-    margin-top: 7vh;
-    margin-right: 5%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5vw;
-    font-weight: bold;
-    display: none;
-}
-
-.hidden-info4{
-    vertical-align: middle;
-    text-align: center;
-    margin-top: 7vh;
-    margin-right: 10%;
+    margin: 1vh 4vw 1vh 10vw;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
     font-weight: bold;
@@ -1255,6 +1213,21 @@ ul li a:hover{
     width: 4vw;
     object-fit: cover;
     border-radius: 100px;
+    box-shadow: 1px 1px 5px black;
+}
+
+.profile-pic:hover{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transform: scale(1.05);
+}
+
+.profile-pic:active{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transform: scale(0.999);
 }
 
 .nav-anchor{
@@ -1353,17 +1326,34 @@ ul li a:hover{
     margin-bottom: 30%;
 }
 
-@media screen and (max-width: 1060px) {
+.status-circle{
+    width: 2vw;
+    height: 2vw;
+    display: inline-block;
+    vertical-align: center;
+    background-color: #40ff33;
+    border-radius: 50%;
+    box-shadow: 0 0 2px black;
+}
 
+@media screen and (max-width: 1060px) {
 
     .ul-li-a{
         font-size: 2vw;
-        margin: 0;
-        padding: 5% 0;
+        padding: 5% 1%;
+        width: 45%;
     }
     .ul-li-button{
+        width: 45%;
         font-size: 2vw;
-        padding: 5% 0;
+    }
+
+    .ul-li-a-icon{
+        padding: 5% 1%;
+        width: 45%;
+    }
+    .li-prof{
+        margin: 1em 5% 1em 1%;
     }
 
     .new-account-icon{
@@ -1487,18 +1477,29 @@ ul li a:hover{
     }
 
     .dose-label {
-        font-size: 3.5vw;
+        font-size: 3vw;
+        left: 18vw;
     }
     .dose-info{
         font-size: 2vw;
+        margin: 1vh 1vw 1vh 30vw;
     }
 
     .second-label {
         font-size: 3.5vw;
     }
-    .dose-info2{
-        margin-top: 10%;
+
+    .hidden-info{
+        text-align: right;
+        margin: 1vw;
         font-size: 2vw;
+    }
+    .hero-banner{
+        height: 15vh;
+        box-shadow: 0 0 4px black;
+    }
+    .logo-wrapper{
+        display: none;
     }
 }
 
@@ -1516,15 +1517,11 @@ ul li a:hover{
         margin-top: 7.5vh;
     }
 
-    .left-panel{
-        display: block;
-        height: 10vh;
-        width: 100%;
-        overflow: hidden;
+    .narrow-left{
+        width: 20%;
     }
-
-    .right-panel{
-        width: 100%;
+    .wide-right{
+        width: 80% ;
     }
 
     .left-panel h1{

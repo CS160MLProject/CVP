@@ -26,40 +26,37 @@
             <button class="modal-button" name="sign_out_button" value="sign_out_button">Sign Out</button>
         </div>
     </div>
-    <nav class="nav fixed">
-            <ul class="nav__list">
-                <li class="nav__list-logo">
-                    <h1 id="logo"><a href="#">CoVaPass</a></h1>
-                </li>
-            </ul>
-        </nav>
 
-    <div class="narrow-left fixed margin-for-nav">
+    <div class="narrow-left fixed">
+        <div class="logo-wrapper">
+            <h1 id="logo"><a href="#">CoVaPass</a></h1>
+        </div>
         <a class="menu" href="#" title="Minimize Menu">
             <img id="minimize" class="menu-img" src="{{ url_for('static', filename='images/menu.png') }}" field-icon alt="A share icon" title="Minimize Menu">
         </a>
         <nav class="nav-prof">
             <ul class="ul-prof">
                 <li class="li-prof">
-                    <a href="#" class="nav-anchor" href="#">
+                    <a href="#" class="ul-li-a-icon" href="#">
                         <img class="profile-pic" src="{{ url_for('static', filename=pic) }}" alt="Your profile picture">
                     </a>
                     <a class="ul-li-a" href="#">Hi, {{ profile['user_name'] }} </a>
                 </li>
                 <li class="li-prof">
-                    <a class="nav-img" href="#qr-code">
+                    <a class="ul-li-a-icon" href="#qr-code">
                         <img class="nav-icon" src="{{ url_for('static', filename='images/share-icon.png')}}" field-icon alt="A gear icon">
                     </a>
                     <a class="ul-li-a" href="#qr-code">Share</a>
+
                 </li>
                 <li class="li-prof">
-                    <button class="ulbtn" value="settings_button" name="settings_button">
-                        <img class="nav-icon"src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
-                    </button>
+                    <a class="ul-li-a-icon" value="settings_button" name="settings_button">
+                        <img class="nav-icon" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
+                    </a>
                     <button class= "ul-li-button" value="settings_button" name="settings_button" href="#">Settings</button>
                 </li>
                 <li class="li-prof">
-                    <a id="sign-out-button1" class="nav-img" href="#">
+                    <a class="ul-li-a-icon" id="sign-out-button1" href="#">
                         <img class="nav-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
                     </a>
                     <a class="ul-li-a" id="sign-out-button" href="#">Sign Out</a>
@@ -68,29 +65,33 @@
         </nav>
     </div>
 
-    <div class="wide-right margin-for-nav">
-        <div class="profile-info top-margin-med">
-            <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
-            <p class="vaccine-status">2-Shots Vaccination</p>
+    <div class="wide-right">
+        <div>
+            <img class="hero-banner" src="{{ url_for('static', filename='images/banner.png')}}" alt="">
         </div>
 
-        <div class="colored-section">
-            <div class="profile-info">
-                <div class="dose"> <!--The labels should be anchor tags or something that can link to toggling the display of the 'dose info'-->
-                    <a id="info-toggle" class="dose-label" title="Click to expand">First Dose: </a>
-                    <p class="dose-info">Click dose to expand</p>
-                    <p class="hidden-info">Date: {{profile['vaccine_date1'] }}</p>
-                    <p class="hidden-info">Vaccine: {{profile['vaccine_name'] }} </p>
-                </div>
-                <div class="dose">
-                    <a id="info-toggle2" class="second-label" title="Click to expand">Second Dose: </a>
-                    <p class="dose-info2">Click dose to expand</p>
-                    <p class="hidden-info">Date: {{profile['vaccine_date2'] }}</p>
-                    <p class="hidden-info">Vaccine: {{profile['vaccine_name'] }} </p>
-                </div>
+        <div class="profile-info top-margin-small">
+            <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
+            <div class="vaccine-status">
+                <div class="status-circle"></div>
+                    <p class="vaccine-status-text">Status: Vaccinated</p>
             </div>
         </div>
 
+        <div class="profile-info">
+            <div class="dose"> <!--The labels should be anchor tags or something that can link to toggling the display of the 'dose info'-->
+                <a id="info-toggle" class="dose-label" title="Click to expand">First Dose: </a>
+                <p class="dose-info">Click dose to expand</p>
+                <p class="hidden-info">Date: {{profile['vaccine_date1'] }}</p>
+                <p class="hidden-info">Vaccine: {{profile['vaccine_name'] }} </p>
+            </div>
+            <div class="dose">
+                <a id="info-toggle2" class="dose-label" title="Click to expand">Second Dose: </a>
+                <p class="dose-info">Click dose to expand</p>
+                <p class="hidden-info">Date: {{profile['vaccine_date2'] }}</p>
+                <p class="hidden-info">Vaccine: {{profile['vaccine_name'] }} </p>
+            </div>
+        </div>
 
         <div id="qr-code" class="container top-margin-med bot-margin-med">
             <h2 class="section-label2">Share your profile to others</h2>
@@ -165,6 +166,7 @@
                 document.querySelector('.start-left').style.left = '-7%';
                 document.querySelector('.profile-pic').style.marginBottom = '8vh';
                 document.querySelector('.profile-pic').style.marginLeft = '1vw';
+                document.getElementById('logo').style.opacity = '0';
 
                 let anchor = document.querySelectorAll('.nav-anchor');
                 let anchorL = anchor.length;
@@ -172,15 +174,6 @@
                     anchor[i].style.marginLeft = '1%';
                     anchor[i].style.marginTop = '1vh';
                 }
-
-                let imgs = document.querySelectorAll('.nav-img');
-                let imgsL = imgs.length;
-                for(let i = 0; i < imgsL; i++){
-                    imgs[i].style.marginLeft = '40%';
-                    imgs[i].style.marginTop = '5vh';
-                }
-
-                document.querySelector('.ulbtn').style.marginLeft = '40%';
 
                 let links = document.querySelectorAll('.ul-li-a');
                 let length = links.length;
@@ -201,13 +194,7 @@
                 document.querySelector('.wide-right').style.marginLeft = '15%';
                 document.querySelector('.start-left').style.left = '-18%';
                 document.querySelector('.profile-pic').style.marginBottom = '2vh';
-
-                let anchor = document.querySelectorAll('.nav-anchor');
-                let anchorL = anchor.length;
-                for(let i = 0; i < anchorL; i++){
-                    anchor[i].style.marginLeft = '5%';
-                    anchor[i].style.marginTop = '0';
-                }
+                document.getElementById('logo').style.opacity = '1';
 
                 let imgs = document.querySelectorAll('.nav-img');
                 let imgsL = imgs.length;
@@ -215,8 +202,6 @@
                     imgs[i].style.marginLeft = '5%';
                     imgs[i].style.marginTop = '0%';
                 }
-
-                document.querySelector('.ulbtn').style.marginLeft = '0%';
 
                 let links = document.querySelectorAll('.ul-li-a');
                 let length = links.length;
@@ -261,71 +246,85 @@
 
         <!--Handle the toggling of the information on the page.-->
         let toggled = false;
+        let toggled2 = false;
         togglebutton = document.getElementById('info-toggle');
         togglebutton2 = document.getElementById('info-toggle2');
 
         togglebutton.addEventListener('click',
         function(){
             if(!toggled){
-                togglebutton.style.transform = "translate(0, -100%)";
-                togglebutton2.style.transform = "translate(0, -100%)";
+                togglebutton.style.transform = "translate(-20vw, 0)";
+                togglebutton2.style.transform = "translate(-20vw, 0)";
+
                 let hidden = document.querySelectorAll('.hidden-info');
                 let hiddenL = hidden.length;
-
                 for(let i = 0; i < hiddenL; i++){
                     hidden[i].style.display = 'inline-block';
                 }
 
-                document.querySelector('.dose-info').style.display = 'none';
-                document.querySelector('.dose-info2').style.display = 'none';
+                let doseInfo = document.querySelectorAll('.dose-info');
+                let doseInfoL = doseInfo.length;
+                for(let i = 0; i < doseInfoL; i++){
+                    doseInfo[i].style.display = 'none';
+                }
                 toggled = true;
             }
             else{
                 togglebutton.style.transform = "translate(0, 0)";
                 togglebutton2.style.transform = "translate(0, 0)";
+
                 let hidden = document.querySelectorAll('.hidden-info');
                 let hiddenL = hidden.length;
-
                 for(let i = 0; i < hiddenL; i++){
                     hidden[i].style.display = 'none';
                 }
 
-                document.querySelector('.dose-info').style.display = 'inline-block';
-                document.querySelector('.dose-info2').style.display = 'inline-block';
+                let doseInfo = document.querySelectorAll('.dose-info');
+                let doseInfoL = doseInfo.length;
+                for(let i = 0; i < doseInfoL; i++){
+                    doseInfo[i].style.display = 'inline-block';
+                }
+
                 toggled = false;
             }
         });
 
-        let toggled2 = false;
         togglebutton2.addEventListener('click',
         function(){
-            if(!toggled2){
-                togglebutton.style.transform = "translate(0, -100%)";
-                togglebutton2.style.transform = "translate(0, -100%)";
+            if(!toggled){
+                togglebutton.style.transform = "translate(-100%, 0)";
+                togglebutton2.style.transform = "translate(-100%, 0)";
+
                 let hidden = document.querySelectorAll('.hidden-info');
                 let hiddenL = hidden.length;
-
                 for(let i = 0; i < hiddenL; i++){
                     hidden[i].style.display = 'inline-block';
                 }
 
-                document.querySelector('.dose-info').style.display = 'none';
-                document.querySelector('.dose-info2').style.display = 'none';
-                toggled2 = true;
+                let doseInfo = document.querySelectorAll('.dose-info');
+                let doseInfoL = doseInfo.length;
+                for(let i = 0; i < doseInfoL; i++){
+                    doseInfo[i].style.display = 'none';
+                }
+                toggled = true;
             }
             else{
                 togglebutton.style.transform = "translate(0, 0)";
                 togglebutton2.style.transform = "translate(0, 0)";
+
                 let hidden = document.querySelectorAll('.hidden-info');
                 let hiddenL = hidden.length;
-
                 for(let i = 0; i < hiddenL; i++){
                     hidden[i].style.display = 'none';
                 }
 
-                document.querySelector('.dose-info').style.display = 'inline-block';
-                document.querySelector('.dose-info2').style.display = 'inline-block';
-                toggled2 = false;
+                let doseInfo = document.querySelectorAll('.dose-info');
+                let doseInfoL = doseInfo.length;
+                for(let i = 0; i < doseInfoL; i++){
+                    doseInfo[i].style.display = 'inline-block';
+                }
+
+                toggled = false;
             }
         });
     </script>

@@ -98,9 +98,9 @@ def register():
 
             if valid_rec:  # send confirmed account information to database and record them.
                 # insert this data to db
-                generate_account(session, confirmed_data)
+                new_id = generate_account(session, confirmed_data)
                 # rename the temp profile pic to a unique name based on the account's information
-                os.rename('static/profile-pic/temp.png', 'static/profile-pic/'+session['extracted_record']['ssn']+
+                os.rename('static/profile-pic/temp.png', 'static/profile-pic/'+str(new_id)+
                           session['extracted_record']['first']+'.png')
                 return redirect(url_for('login'))
             else:  # the information is not in CDC database, return (something_went_wrong.html)
@@ -242,13 +242,13 @@ def profile(token):
     msg = session['message'] if session.get('message') else ''
     session['qr'] = f'{account_id}.png'
     session['sharing_url'] = sharing_url
-    profpicpath = 'static/profile-pic/'+user_profile['patient_num']+user_profile['record_first_name']+'.png'
-    print(profpicpath)
+    profpicpath = 'static/profile-pic/'+str(user_profile['user_id'])+user_profile['record_first_name']+'.png'
+
     if os.path.isfile(profpicpath):
-        profpicpath = 'profile-pic/' + user_profile['patient_num'] + user_profile['record_first_name'] + '.png'
+        profpicpath = 'profile-pic/' + str(user_profile['user_id']) + user_profile['record_first_name'] + '.png'
     else:
         profpicpath = 'images/Smiley.png'
-    print(profpicpath)
+
     return render_template('profile.html', profile=user_profile, pic=profpicpath, token=profile_token, msg=msg)
 
 

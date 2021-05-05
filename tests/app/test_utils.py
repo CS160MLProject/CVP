@@ -118,7 +118,6 @@ class TestUtils():
 
     def test_is_user(self):
         """
-
         """
         db = Database(db_path)
         try:
@@ -263,4 +262,3 @@ class TestUtils():
         with pytest.raises(FileNotFoundError):
             non_existed_photo = 'wrong_photo.png'
             get_profile_picture(non_existed_photo, save_path)
-

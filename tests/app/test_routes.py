@@ -189,7 +189,6 @@ class TestRoutes:
     def test_settings_post(self, test_client):
         """
         Need change the way to detect button for same web page.
-
         GIVEN a flask app configuration as test client
         WHEN the '/profile_<token>/settings' is POST
         THEN Test if the settings function redirects to profile after performing the operation.

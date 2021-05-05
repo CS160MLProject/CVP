@@ -98,7 +98,7 @@ Not ideal but shows a way to apply CSS in a broad manner*/
 .qr-img {
     display: block;
     width: 25vw;
-    margin: 2vh auto;
+    margin: 6vh auto;
 }
 
 /* Same idea but affects the h2 elements*/
@@ -1001,6 +1001,7 @@ ul li a:hover{
     font-size: 4.5vw;
     font-weight: bold;
     text-align: center ;
+    margin-bottom: 1rem;
 }
 
 .colored-section{

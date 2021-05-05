@@ -258,7 +258,7 @@ def generate_account(session, profile_data):
 
         db.insert(account_value, account_table)
         db.insert(profile_value, profile_table)
-        return True
+        return new_account_id
     finally:
         db.close_connection()
 
@@ -288,6 +288,7 @@ def __form_dict(acc, record):
     res = dict()
     res['email'] = acc[0]
     res['user_name'] = acc[4]
+    res['user_id'] = record[0]
     res['patient_num'] = record[1]
     res['record_last_name'] = record[2]
     res['record_first_name'] = record[3]

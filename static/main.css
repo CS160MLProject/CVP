@@ -1,9 +1,7 @@
 *{ /* This resets the margin and padding of everything,
     allowing me to design for any browser that may have
     default values for margin and padding.
-
     --------
-
     There's a way for me to completely reset every single css for any browser
     but I'm sticking with this one for now.*/
     margin: 0; /* margin is the space around the element*/

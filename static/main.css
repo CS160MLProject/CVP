@@ -29,20 +29,6 @@ body{
     padding: 0;
 }
 
-.top-margin-big{
-    margin-top: 40%;
-}
-.top-margin-med{
-    margin-top: 10%;
-}
-.top-margin-small{
-    margin-top: 3%;
-}
-
-.bot-margin-med{
-    margin-bottom: 30%;
-}
-
 .inline-item {
     display: inline-block;
 }
@@ -54,21 +40,41 @@ body{
 .block-item{
     background-color: rgba(10, 146, 204, 0.08);
     display: block;
-    padding: 2.5%;
-    margin: 5% 15%;
+    padding: 1.5%;
+    margin: 1vh 2vw;
     border-radius: 20px;
 }
 
 /* Left side of the Home Page*/
 .left-panel{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
     position: relative;
     float: left;
     display: inline-block;
     vertical-align: top;
     background-color: #ffffff;
-    width: 30%;
+    width: 20%;
     height: 100vh;
     z-index: 899;
+}
+
+.narrow-left{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    position: fixed;
+    float: left;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    width: 20%;
+    height: 100vh;
+    z-index: 899;
+    box-shadow: 0 0 2px gray;
 }
 
 /* Affects all the h1 elements declared inside any element that uses this class.
@@ -91,8 +97,8 @@ Not ideal but shows a way to apply CSS in a broad manner*/
 
 .qr-img {
     display: block;
-    width: 50%;
-    margin-left: 25%;
+    width: 25vw;
+    margin: 2vh auto;
 }
 
 /* Same idea but affects the h2 elements*/
@@ -106,18 +112,55 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     margin-top: 7.5vh;
 }
 
-.margin-for-menu{
-    margin-left: 20%;
-}
 
 /* Right side of the Home Page. */
 .right-panel{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
     display: inline-block;
     vertical-align: top;
     background-color: #fafafa;
-    width: 70%;
-    height: 100vh;
+    width: 80%;
+    height: 150vh;
+    z-index: 9999;
 }
+
+.wide-right{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    width: 80%;
+    margin-left: 20%;
+    height: 200vh;
+    z-index: 9999;
+}
+
+.full-panel{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+}
+
+.hero-banner{
+    width: 100%;
+    height: 20vh;
+    object-fit: cover;
+    box-shadow: 0 0 5px black;
+}
+
 
 .right-panel-close{
     display: inline-block;
@@ -168,17 +211,17 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     background-color: #0A92CC;
     color:white;
     text-shadow: #1f1f1f;
-    height: 15%;
-    width: 50%;
-    font-size: 3vw;
+    height: 40%;
+    width: 22.5vw;
+    font-size: 1.6vw;
     text-align: center;
-    border-radius: 70px;
+    border-radius: 20px;
     /*border-color:#0D0065;*/
     border-width: 0;
-    padding: 3% 8%; /* pixels derived from adobe xd values. */
-    margin: 5% auto;
-    cursor: pointer;
+    padding: 1.2% 2%; /* pixels derived from adobe xd values. */
+    margin: 1% 3%;
     outline: none;
+    cursor: pointer;
 }
 
 /* This adds an effect when you hover on the buttons*/
@@ -193,8 +236,8 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .new-account-icon{
-    margin-top: 10%;
-    width: 100%;
+    margin: 10vh 2vw;
+    width: 65%;
 }
 
 .field-icon{
@@ -246,11 +289,13 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 
 .url{
     display: none;
+    margin: 0;
     font-size: 1.5vw;
-    padding: 5%;
+    padding: 1%;
     text-align: center;
     color: #0D0065;
     text-decoration: underline;
+    width: 55vw;
 }
 .url:hover{
     opacity: 80%;
@@ -606,6 +651,18 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     transform: scale(0.9);
 }
 
+.change-pass{
+    font-size: 1.6vw;
+    font-style: italic;
+    text-align: center;
+    color: #0D0065;
+}
+
+.change-pass:hover{
+    font-size: 1.625vw;
+    opacity: 90%;
+}
+
 .inline-button {
     display: inline-block;
     vertical-align: middle;
@@ -714,11 +771,29 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     display: none;
     z-index: 1000;
 }
+
+.change-pass-modal{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    z-index: 1000;
+}
+
 .modal-content{
     width: 55%;
     height: 25%;
     background-color: white;
     border-radius: 30px;
+}
+
+.larger{
+    width: 75%;
+    height: 60%;
 }
 
 .modal-header{
@@ -786,50 +861,75 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 }
 
 .nav-icon{
-    width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 2vw;
+    width: 2vw;
 }
 
 .nav-prof{
-    background-color: #ffffff;
+    background-color: #fefefe;
     width: 100%;
-    margin:0;
     padding:0;
 }
 
 .ul-prof{
+
     margin: 0;
+    overflow: hidden;
 }
 
 .li-prof{
+    width: 100%;
+    margin-bottom: 2rem;
     list-style: none;
-    text-align: left;
-    margin-left: 5%;
-
+    overflow: hidden;
     /*background-color: #0A92CC;*/
 }
 
 .li-prof:hover{
     background-color: rgba(10, 146, 204, 0.2);
+    cursor: pointer;
 }
 
-.ul-li-button{
+.ul-li-button {
     display: inline-block;
     vertical-align: middle;
-    text-decoration: none;
-    text-align: left;
+    margin: 1vw 0 1vw 0.5vw;
+    padding: 5% 2%;
+    white-space: nowrap;
     color: #0D0065;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
     font-weight: bold;
-    width: 82%;
-    padding: 5% 0;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+}
+
+.ul-li-button:hover{
+    opacity: 80%;
+    cursor: pointer;
+}
+
+.ulbtn{
+    display: inline-block;
+    vertical-align: middle;
+    width: 45%;
     border-width: 0;
     background-color: rgba(0,0,0,0);
     outline: none;
 }
-.ul-li-button:hover{
-    opacity: 80%;
-    cursor: pointer;
+
+.ul-li-a-icon{
+    display: inline-block;
+    vertical-align: middle;
+    width: 40%;
+    margin: 0;
+    padding: 5% 2%;
+    white-space: nowrap;
+    background-color: rgba(0,0,0,0);
+    border-width: 0;
 }
 
 .ul-li-a{
@@ -837,28 +937,40 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     vertical-align: middle;
     text-decoration: none;
     color: #0D0065;
-    width: 80%;
+    width: 45%;
+    margin: 1vw 0 1vw 0.5vw;
     /*background-color: #0A92CC;*/
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
     font-weight: bold;
-    margin: 0;
-    padding: 5% 0;
-    /*float: left;*/
+    padding: 5% 2%;
+    white-space: nowrap;
 }
 
 ul li a:hover{
     opacity: 80%;
 }
 
-ul li a :focus{
-    font-size: 35px;
+.menu{
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 10%;
+}
+.menu-img{
+    margin: 2vh 1vw;
+    width: 2vw;
 }
 
 .nav-img{
+    display: inline-block;
+    vertical-align: middle;
     margin-left: 5%;
     margin-right: 5%;
     width: 5%;
+}
+
+.margin-left{
+    margin-left: 85%;
 }
 
 .profile-info{
@@ -873,20 +985,20 @@ ul li a :focus{
     text-align: center;
     color: #045b77;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin-top: 20%;
-    margin-bottom: 5%;
+    margin-top: 25vh;
+    margin-bottom: 2vh;
     font-size: 3vw;
     font-weight: bold;
     background-color: #f3f3f3;
+    border-radius: 10vw;
 }
 
 .section-label3{
     display: block;
-    vertical-align: top;
     text-decoration: none;
     color: #044a60;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 2vw;
+    font-size: 4.5vw;
     font-weight: bold;
     text-align: center ;
 }
@@ -907,40 +1019,41 @@ ul li a :focus{
 }
 
 .vaccine-status{
+    display: block;
+    vertical-align: center;
+    text-align: center;
+    margin: 2vh 2vw;
+    font-style: italic;
+}
+
+.vaccine-status-text{
+    display: inline-block;
+    vertical-align: center;
     text-align: center;
     margin-bottom: 10%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 25px;
+    font-size: 2vw;
     font-style: italic;
-    background-color: #bbfac4;
 }
 
 .dose {
     position: relative;
-    /*text-align: center;*/
-    margin: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-left: 25%;
-    padding-right: 25%;
-    /*background-color: #d0f7ff;*/
+    background-color: rgba(10, 146, 204, 0.08);
+    margin: 4vh 0.5vw;
+    text-align: center;
+    border-radius: 5vw;
 }
 
 .dose-label {
     position: absolute;
-    top: 0;
-    left: 25%;
+    left: 25vw;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     -o-transition: all 0.2s;
-    transition: all 0.2s;
-    /*display: inline-block;*/
-    /*vertical-align: middle;*/
-    /*text-align: center;*/
+    display: inline-block;
+    vertical-align: middle;
     border-width: 0;
-    background-color: rgba(0, 0, 0, 0);
     outline: none;
-    margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2vw;
     font-weight: bolder;
@@ -954,20 +1067,12 @@ ul li a :focus{
 }
 
 .second-label{
-    position: absolute;
-    top: 70%;
-    left: 25%;
     -webkit-transition: all 0.25s;
     -moz-transition: all 0.25s;
     -o-transition: all 0.25s;
-    transition: all 0.25s;
-    /*display: inline-block;*/
-    /*vertical-align: middle;*/
-    /*text-align: center;*/
-    border-width: 0;
-    background-color: rgba(0, 0, 0, 0);
+    display: inline-block;
+    vertical-align: middle;
     outline: none;
-    margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2vw;
     font-weight: bolder;
@@ -983,66 +1088,20 @@ ul li a :focus{
 
 .dose-info{
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: bottom;
     text-align: center;
-    margin-left: 65%;
-    margin-top: 5%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.2vw;
     font-style: italic;
-    opacity: 60%;
+    opacity: 70%;
+    margin: 1vh 5vw 1vh 20vw;
 }
 
-.dose-info2{
-    display: inline-block;
-    vertical-align: middle;
-    text-align: center;
-    margin-top: 8%;
-    margin-left: 65%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.2vw;
-    font-style: italic;
-    opacity: 60%;
-}
 
 .hidden-info{
     vertical-align: middle;
     text-align: center;
-    margin-right: 5%;
-    margin-top: 1vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5vw;
-    font-weight: bold;
-    display: none;
-}
-
-.hidden-info2{
-    vertical-align: middle;
-    text-align: center;
-    margin-right: 10%;
-    margin-top: 1vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5vw;
-    font-weight: bold;
-    display: none;
-}
-
-.hidden-info3{
-    vertical-align: middle;
-    text-align: center;
-    margin-top: 7vh;
-    margin-right: 5%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5vw;
-    font-weight: bold;
-    display: none;
-}
-
-.hidden-info4{
-    vertical-align: middle;
-    text-align: center;
-    margin-top: 7vh;
-    margin-right: 10%;
+    margin: 1vh 4vw 1vh 10vw;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.5vw;
     font-weight: bold;
@@ -1167,12 +1226,26 @@ ul li a :focus{
 .profile-pic{
     display: inline-block;
     vertical-align: middle;
-    margin-top: 5vh;
-    margin-left: 25%;
+    margin: 2vw;
     height: 4vw;
     width: 4vw;
     object-fit: cover;
-    border-radius: 100px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 5px black;
+}
+
+.profile-pic:hover{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transform: scale(1.05);
+}
+
+.profile-pic:active{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transform: scale(0.999);
 }
 
 .nav-anchor{
@@ -1255,4 +1328,398 @@ ul li a :focus{
 .footer .copyright{
     padding: 0.4rem;
     text-align: center;
+}
+
+.top-margin-big{
+    margin-top: 40%;
+}
+.top-margin-med{
+    margin-top: 10%;
+}
+.top-margin-small{
+    margin-top: 3%;
+}
+
+.bot-margin-med{
+    margin-bottom: 30%;
+}
+
+.status-circle{
+    width: 2vw;
+    height: 2vw;
+    display: inline-block;
+    vertical-align: center;
+    background-color: #40ff33;
+    border-radius: 50%;
+    box-shadow: 0 0 2px black;
+}
+
+@media screen and (max-width: 1060px) {
+
+    .ul-li-a{
+        font-size: 2vw;
+        padding: 5% 1%;
+        width: 45%;
+    }
+    .ul-li-button{
+        width: 45%;
+        font-size: 2vw;
+    }
+
+    .ul-li-a-icon{
+        padding: 5% 1%;
+        width: 35%;
+    }
+
+    .nav-icon{
+        margin-left: 1.5vw;
+    }
+
+    .li-prof{
+        margin: 1em 5% 1em 1%;
+    }
+
+    .new-account-icon{
+        margin-top: 10%;
+        width: 70%;
+    }
+
+    .page-header {
+        font-size: 3vw;
+    }
+
+    .top-margin-med{
+        margin-top: 5%;
+    }
+
+    .section-label2{
+        margin-top: 5vh;
+        margin-bottom: 5%;
+        font-size: 4vw;
+        font-weight: bold;
+        background-color: #f3f3f3;
+    }
+
+    .colored-section{
+        background-color: #ffffff;
+        height: 25%;
+        margin-top: 5%;
+        padding-top: 5%;
+    }
+
+    .input-field {
+        width: 90%;
+        margin-top: 4vh;
+    }
+
+    .field-label {
+        margin-right: 5%;
+        width: 25vw;
+    }
+
+    .text-label{
+        font-size: 3vw;
+    }
+    .field-icon{
+        margin: 2% 0;
+        width: 15%;
+    }
+    .text-field{
+        width: 40vw;
+        border-radius: 5px;
+        font-size: 2.5vw;
+        padding: 1.5%;
+    }
+
+    .forgot-password{
+        font-size: 2vw;
+        margin-left: 2%;
+    }
+    .inline-button {
+        width: 30vw;
+        font-size: 3vw;
+        text-align: center;
+        border-radius: 20px;
+        /*border-color:#0D0065;*/
+        border-width: 0;
+        padding: 1.2% 2%; /* pixels derived from adobe xd values. */
+        margin: 1% 3%;
+        outline: none;
+        cursor: pointer;
+    }
+    .file-upload{
+        display: inline-flex;
+        align-items: center;
+        font-size: 2.5vw;
+        height: 60;
+        width: 45vw;
+    }
+
+    .file-upload-label{
+        font-size: 2.2vw;
+    }
+
+    .file-upload-button{
+        width: 30vw;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 0.9em;
+        padding: 0.5em 0.5em;
+    }
+
+    .pic-upload-label{
+        font-size: 2.2vw;
+    }
+    .pic-upload-button{
+        width: 30vw;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 0.9em;
+        padding: 0.5em 0.5em;
+    }
+
+    .home-button{
+        height: 40%;
+        width: 30vw;
+        font-size: 2.5vw;
+        text-align: center;
+        border-radius: 20px;
+        border-width: 0;
+        padding: 2% 2%; /* pixels derived from adobe xd values. */
+        margin: 1% 3%;
+        }
+
+    .full-name{
+        margin: 2%;
+        font-size: 5vw;
+        font-weight: bold;
+    }
+    .vaccine-status{
+        margin-bottom: 10%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 3vw;
+        font-style: italic;
+    }
+
+    .dose-label {
+        font-size: 3vw;
+        left: 18vw;
+    }
+    .dose-info{
+        font-size: 2vw;
+        margin: 1vh 1vw 1vh 30vw;
+    }
+
+    .second-label {
+        font-size: 3.5vw;
+    }
+
+    .hidden-info{
+        text-align: right;
+        margin: 1vw;
+        font-size: 2vw;
+    }
+    .hero-banner{
+        height: 15vh;
+        box-shadow: 0 0 4px black;
+    }
+    .logo-wrapper{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 450px) {
+
+    .nav{
+        width: 100%;
+    }
+    .menu-img{
+        width: 5.5vw;
+    }
+
+    .ul-li-a{
+        font-size: 3vw;
+        font-weight: bolder;
+        padding: 5% 0.5%;
+        width: 45%;
+    }
+    .ul-li-button{
+                font-weight: bolder;
+        width: 50%;
+        font-size: 3vw;
+    }
+
+    .ul-li-a-icon{
+        padding: 5% 1%;
+        width: 25%;
+    }
+
+    .nav-icon{
+        margin-left: 1.5vw;
+        width: 3vw;
+    }
+
+    .li-prof{
+        margin: 1em 5% 1em 1%;
+    }
+
+    .fixed{
+        height: 6vh;
+    }
+
+    .margin-for-nav{
+        margin-top: 7.5vh;
+    }
+
+    .narrow-left{
+        width: 20%;
+    }
+    .wide-right{
+        width: 80% ;
+        margin-left: 20%;
+    }
+
+    .left-panel{
+        display: block;
+        width: 100%;
+        height: 10vh;
+    }
+    .new-account-icon{
+        display: none;
+    }
+
+    .right-panel{
+        display: block;
+        height: 175vh;
+        width: 100%;
+    }
+
+    .full-name{
+        font-size: 10vw;
+    }
+    .qr-img {
+        display: block;
+        width: 50vw;
+        margin: 1vh auto;
+    }
+    .vaccine-status-text{
+        font-size: 5vw;
+    }
+
+    .left-panel h1{
+        margin-top: 5%;
+    }
+    .page-header {
+        margin-top: 1%;
+        font-size: 7vw;
+    }
+
+    .input-field {
+        width: 100%;
+        margin-top: 2vh;
+    }
+
+    .field-label {
+        margin-right: 5%;
+        width: 55vw;
+    }
+    .fields-column {
+        margin: 1vw;
+    }
+
+    .text-label{
+        font-size: 6.5vw;
+    }
+    .field-icon{
+        display: none;
+    }
+    .field-note{
+        font-size: 3vw;
+        font-weight: bold;
+    }
+    .text-label-small{
+        font-style: italic;
+        font-size: 2.5vw;
+    }
+
+    .text-field{
+        width: 70vw;
+        border-radius: 5px;
+        font-size: 5vw;
+        padding: 2%;
+    }
+    .text-field-short{
+        display: block;
+        width: 80%;
+        height: 30%;
+        border-radius: 5px;
+        font-size: 8vw;
+        padding: 1vh;
+        text-align: left;
+        color:#333333;
+    }
+
+    .warning-message{
+        margin: 1vh 1vw;
+        font-size: 4vw;
+    }
+
+    .forgot-password{
+        font-size: 4vw;
+        margin: 3%;
+    }
+    .inline-button {
+        width: 30vw;
+        font-size: 3vw;
+        text-align: center;
+        border-radius: 20px;
+        /*border-color:#0D0065;*/
+        border-width: 0;
+        padding: 1.2% 2%; /* pixels derived from adobe xd values. */
+        outline: none;
+        cursor: pointer;
+    }
+    .smaller{
+        font-size: 6vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% auto;
+        padding: 3% 4%;
+    }
+    .file-upload{
+        display: inline-flex;
+        align-items: center;
+        font-size: 4.5vw;
+        width: 100vw;
+    }
+
+    .file-upload-label{
+        font-size: 5vw;
+    }
+
+    .file-upload-button{
+        font-size: 5vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% 1%;
+        padding: 2% 3%;
+    }
+
+    .pic-upload-label{
+        font-size: 5vw;
+    }
+
+    .pic-upload-button{
+        font-size: 5vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% 1%;
+        padding: 2% 3%;
+    }
+
+    .home-button{
+        font-size: 5vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% 1%;
+        padding: 2% 3%;
+        }
 }

@@ -33,10 +33,7 @@
                     <a class="ul-li-a" href="#">Profile Settings</a>
                 </li>
                 <li class="li-prof">
-                    <a class="ul-li-a" href="#changepass">Change Password</a>
-                </li>
-                <li class="li-prof">
-                    <a id="sign-out-button1" class="nav-img ul-li-a" href="#">
+                    <a class="ul-li-a-icon" id="sign-out-button1" href="#">
                         <img class="nav-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
                     </a>
                     <a class="ul-li-a" id="sign-out-button" href="#">Sign Out</a>
@@ -75,60 +72,61 @@
                     <button class="inline-button smaller" name="back_button" value=True>Back</button>
                     <button class="inline-button smaller" name="profile_save" value=True type="submit">Save Changes</button>
                 </div>
+
+                <div class="input-field top-margin-med">
+                    <a id="changepass" class="change-pass" href="#changepass">Change Password</a>
+                </div>
+
             </div>
-            <div id="changepass" class="container top-margin-med">
-                <div class="input-field">
-
-                    <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
-                    <div class="field-label">
-                        <label class="text-label" for="old_pass">Current Password:</label>
-                    </div>
-
-                    <!--Finally the text field for the user to enter data into.-->
-                    <input class="text-field" type="text" id="old_pass" name="current_password" placeholder="Current Password">
-                </div>
-
-                <div class="input-field">
-
-                    <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
-                    <div class="field-label">
-                        <label class="text-label" for="new_pass">New Password:</label>
-                    </div>
-
-                    <!--Finally the text field for the user to enter data into.-->
-                    <input class="text-field" type="text" id="new_pass" name="new_password" placeholder="New Password">
-                </div>
-
-                <div class="input-field">
-
-                    <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
-                    <div class="field-label">
-                        <label class="text-label" for="confirm_pass">Confirm New Password:</label>
-                    </div>
-
-                    <!--Finally the text field for the user to enter data into.-->
-                    <input class="text-field" type="text" id="confirm_pass" name="confirm_password" placeholder="New Password">
-                </div>
-
-                <div class="input-field">
-                    <button class="inline-button smaller" name="back_button" value=True>Back</button>
-                    <button class="inline-button smaller" name="password_save_button" value=True type="submit">Save Changes</button>
-                </div>
-
-                <div class="padding-div">
-
-                     COVID Vaccine Passport 2021.
-                </div>
     </div>
+    <div class="change-pass-modal">
+        <div class="modal-content larger">
+            <div class="modal-header"></div>
+
+            <div class="input-field">
+
+                <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                <div class="field-label">
+                    <label class="text-label" for="old_pass">Current Password:</label>
+                </div>
+
+                <!--Finally the text field for the user to enter data into.-->
+                <input class="text-field" type="text" id="old_pass" name="current_password" placeholder="Current Password">
+            </div>
+
+            <div class="input-field">
+
+                <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                <div class="field-label">
+                    <label class="text-label" for="new_pass">New Password:</label>
+                </div>
+
+                <!--Finally the text field for the user to enter data into.-->
+                <input class="text-field" type="text" id="new_pass" name="new_password" placeholder="New Password">
+            </div>
+
+            <div class="input-field">
+
+            <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
+                <div class="field-label">
+                    <label class="text-label" for="confirm_pass">Confirm New Password:</label>
+                </div>
+
+                    <!--Finally the text field for the user to enter data into.-->
+                <input class="text-field" type="text" id="confirm_pass" name="confirm_password" placeholder="New Password">
+            </div>
+            <div class="input-field">
+                <button class="inline-button smaller" name="back_button" value=True>Back</button>
+                <button id="savechange" class="inline-button smaller" name="password_save_button" value=True type="submit">Save Changes</button>
+            </div>
+        </div>
     </div>
     <div class="sign-out-modal">
         <div class="modal-content">
-            <div class="modal-header">
-
-            </div>
-        <p class="modal-text">You're about to sign out!</p>
-        <a id="sign-back" class="modal-anchor" name="sign-out-back-settings" value="sign-out-back-settings">Back</a>
-        <button class="modal-button" name="sign_out_button" value=True type="submit">Sign Out</button>
+            <div class="modal-header"></div>
+            <p class="modal-text">You're about to sign out!</p>
+            <a id="sign-back" class="modal-anchor" name="sign-out-back-settings" value="sign-out-back-settings">Back</a>
+            <button class="modal-button" name="sign_out_button" value=True type="submit">Sign Out</button>
         </div>
     </div>
 </form>
@@ -181,15 +179,55 @@
             </p>
         </footer>
 <script>
-        document.getElementById('sign-out-button').addEventListener('click',
-        function(){
-            document.querySelector('.sign-out-modal').style.display = 'flex';
+
+    let input = document.getElementById("old_pass");
+        // Execute a function when the user releases a key on the keyboard
+        input.addEventListener("keydown", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("savechange").click();
+            }
+        });
+        let input2 = document.getElementById("new_pass");
+        // Execute a function when the user releases a key on the keyboard
+        input2.addEventListener("keydown", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("savechange").click();
+            }
+        });
+        let input3 = document.getElementById("confirm_pass");
+        // Execute a function when the user releases a key on the keyboard
+        input3.addEventListener("keydown", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("savechange").click();
+            }
         });
 
-        document.getElementById('sign-back').addEventListener('click',
-        function(){
-            document.querySelector('.sign-out-modal').style.display = 'none';
-        });
+    document.getElementById('changepass').addEventListener('click',
+    function(){
+        document.querySelector('.change-pass-modal').style.display = 'flex';
+    });
+
+    document.getElementById('sign-out-button').addEventListener('click',
+    function(){
+        document.querySelector('.sign-out-modal').style.display = 'flex';
+    });
+
+    document.getElementById('sign-back').addEventListener('click',
+    function(){
+        document.querySelector('.sign-out-modal').style.display = 'none';
+    });
 </script>
 </body>
 </html>

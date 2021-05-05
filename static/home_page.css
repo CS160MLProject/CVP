@@ -14,6 +14,7 @@ h1{
 
 .nav{
     position: sticky;
+    top: 0;
     height: 7.5vh;
     box-shadow: 0 0 10px black;
 }
@@ -35,6 +36,11 @@ h1{
     font-size: 2.5rem;
     width: 2.5rem;
 }
+.logo-wrapper{
+    padding: 2vw 2vw;
+    box-shadow: 0 0 1px gray;
+}
+
 #logo a{
     color: black;
 }
@@ -296,10 +302,10 @@ h1{
     z-index: 999;
 }
 .start-left{
-    left: -25%;
+    left: -18%;
 }
 .wider{
-    width: 125%;
+    width: 118%;
 }
 
 .block{

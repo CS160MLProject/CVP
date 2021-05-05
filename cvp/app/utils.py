@@ -400,3 +400,4 @@ def get_profile_picture(file_name: str, save_path: str = None):
             raise FileNotFoundError(f'File {s3_download_path} was not found. Please check S3 Bucket in AWS Console.')
         else:
             raise Exception(err)
+

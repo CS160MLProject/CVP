@@ -1385,6 +1385,12 @@ ul li a:active{
         background-color: white;
         border-radius: 30px;
     }
+    .larger{
+        height: 60vh;
+    }
+    .change-pass{
+        font-size: 3.5vw;
+    }
     .modal-text{
         color: #1f1f1f;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -1550,14 +1556,12 @@ ul li a:active{
 
     .full-name{
         margin: 2%;
-        font-size: 5vw;
+        font-size: 10vw;
         font-weight: bold;
     }
-    .vaccine-status{
-        margin: 3vw 5vh;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 3vw;
-        font-style: italic;
+    .vaccine-status-text{
+        margin: 0 1vh;
+        font-size: 5vw;
     }
 
     .dose-label {
@@ -1591,11 +1595,16 @@ ul li a:active{
     }
     .hidden-info{
         text-align: center;
-        font-size: 4.5vw;
+        font-size: 4.2vw;
     }
     .url{
         font-size: 3.5vw;
         width: 60vw;
+    }
+    .qr-img {
+        display: block;
+        width: 40vw;
+        margin: 1vh auto;
     }
     .link-toggle{
         margin: 1vh auto;
@@ -1713,7 +1722,7 @@ ul li a:active{
     }
     .qr-img {
         display: block;
-        width: 50vw;
+        width: 65vw;
         margin: 1vh auto;
     }
     .vaccine-status-text{

@@ -200,8 +200,8 @@ class TestRelDatabase():
             os.remove(test_db_path.get('cdc'))
 
         # === Expected Output ===#
-        cvp_expected_size = 193
-        cdc_expected_size = 197
+        cvp_expected_size = 195
+        cdc_expected_size = 199
 
         # === Trigger Output ===#
         main(test_db_path, account_path)

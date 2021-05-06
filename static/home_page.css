@@ -115,17 +115,17 @@ h1{
 
 .hero{
     background: linear-gradient(rgba(0, 0, 0, 0.7), transparent), url(./images/vaccine.jpg);
-    min-height: 92.5vh;
+    min-height: 52.5vh;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    display: flex;
+    display: block;
     flex-direction: column;
     text-align: center;
 }
 .hero h1{
     color: white;
-    margin: 10rem 55rem 10rem 0.3rem;
+    margin: 5rem 55rem 10rem 0.3rem;
     padding-right: 2rem;
     position: relative;
     display: flex;
@@ -136,9 +136,8 @@ h1{
 
 .gallery-container{
 
-    width: 80%;
+    width: 90%;
     margin: auto;
-    text-align: center;
     padding-top: 50px;
 }
 .benefits{
@@ -159,7 +158,7 @@ h1{
     text-align: center;
 }
 .left-gallery{
-    margin-right: 4rem;
+    margin-right: 10rem;
     width: 50vw;
 }
 .passport-img{

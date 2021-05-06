@@ -532,7 +532,7 @@ h1{
         z-index: 999;
     }
     .inner_footer {
-        margin: 1.5rem 2rem;
+        margin: 1rem 2rem;
         display: block;
     }
     .footer-content {
@@ -540,7 +540,8 @@ h1{
     }
     .footer-content h2 {
         text-transform: uppercase;
-        margin-bottom: 7px;
-        margin-top: 20px;
+        margin-bottom: 1vh;
+        margin-top: 0.8vh;
+        font-size: 1em;
     }
 }

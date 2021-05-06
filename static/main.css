@@ -1055,7 +1055,7 @@ ul li a:active{
 
 .dose {
     position: relative;
-    background-color: rgba(10, 146, 204, 0.08);
+    background-color: rgba(10, 146, 250, 0.16);
     margin: 4vh 0.5vw;
     text-align: center;
     border-radius: 5vw;
@@ -1123,10 +1123,11 @@ ul li a:active{
 .hidden-info{
     vertical-align: middle;
     margin: 1vh auto 1vh 10vw;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:  Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1.9vw;
-    font-weight: bold;
+    /*font-weight: bold;*/
     display: none;
+    color: #1f1f1f;
 }
 .right-margin-small{
     margin-right: 3vw;
@@ -1592,8 +1593,11 @@ ul li a:active{
     }
 
     .hidden-info{
+        margin: 1vh 1vw;
         text-align: center;
-        font-size: 4.2vw;
+        font-size: 3.5vw;
+        font-weight: bold;
+        text-transform: capitalize;
     }
     .url{
         font-size: 3.5vw;
@@ -1851,18 +1855,18 @@ ul li a:active{
         padding: 2% 3%;
     }
     .dose{
-        margin: 1vh 3vw;
+        margin: 2vh 3vw;
+        padding: 0.5vh 0;
     }
     .dose-label{
         display: none;
     }
     .dose-info{
-        opacity: 0;
+        display: none;
     }
     .hidden-info{
         display: block;
-        text-align: center;
-        font-size: 7vw;
+        font-size: 5vw;
     }
     .url{
         font-size: 4vw;

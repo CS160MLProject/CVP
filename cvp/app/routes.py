@@ -220,18 +220,20 @@ def profile(token):
     :return: (1)redirect to settings page.
         (2)profile.html with user profile, sharing_url and name of qr file.
     """
+
     account_id, profile_token = renew_token(token, salt=profile_key, time=900)  # 15 min
+    user_profile = get_profile(account_id)
+    profpicpath = 'static/profile-pic/' + str(user_profile['user_id']) + user_profile['record_first_name'] + '.png'
     if not account_id:  # could not decode the account_id (the link has expired)
         return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
 
     if request.method == 'POST':  # process for case(1)
         if request.form.get('settings_button'):
-            return redirect(url_for('settings', token=profile_token))
+            return redirect(url_for('settings', token=profile_token, pic=profpicpath))
         if request.form.get('sign_out_button'):
             session.pop('logged_in', None)
             return redirect(url_for('homepage'))
     # process for case(2) (GET)
-    user_profile = get_profile(account_id)
 
     # encrypt account id to be shared through qr or url
     sharing_token = encode_token(account_id, salt=sharing_profile_key)
@@ -242,7 +244,7 @@ def profile(token):
     msg = session['message'] if session.get('message') else ''
     session['qr'] = f'{account_id}.png'
     session['sharing_url'] = sharing_url
-    profpicpath = 'static/profile-pic/'+str(user_profile['user_id'])+user_profile['record_first_name']+'.png'
+
 
     if os.path.isfile(profpicpath):
         profpicpath = 'profile-pic/' + str(user_profile['user_id']) + user_profile['record_first_name'] + '.png'

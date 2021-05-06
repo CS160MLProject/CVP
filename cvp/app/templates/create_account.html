@@ -41,11 +41,12 @@
     </div>
 
     <!--While this is the container for the right panel of the window-->
-    <div class="right-panel">
+    <div class="right-panel create-page">
         <form action={{url_for("register")}} method="POST">
             <div class="container">
 
                 <!--This div contains one column of fields you see on the page-->
+                <div class="profile-pic-section"><img class="profile-pic" src="{{url_for('static', filename=profpic)}}" alt="Aye"></div>
                 <div class="fields-column top-margin-small">
 
                     <!-- input-field is a single input field in the column which contains a label and a text field-->
@@ -129,7 +130,6 @@
             <div>
                 <button class="confirm-button" name="confirm_button" value="confirm_button" type="confirm">CONFIRM</button>
             </div>
-            <img class="profile-pic" src="{{url_for('static', filename=profpic)}}" alt="Aye">
             <p class="warning-message">WARNING : CONFIRMING THE ABOVE INFORMATION IS NON-REVERSIBLE. PLEASE ENSURE
                 THE INFORMATION ARE ACCURATE AND CHANGE ANY ERRORS BEFORE CONFIRMING.</p>
         </form>

@@ -305,7 +305,7 @@ h1{
 .footer {
     display: grid;
     position: relative;
-    height: 30vh;
+    height: 20vh;
     width: 100%;
     background-color: #fbf7de;
     z-index: 999;
@@ -323,7 +323,7 @@ h1{
 }
 
 .inner_footer {
-    padding-top: 1rem;
+    padding-top: 0.5rem;
     margin: 1.5rem 2rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);

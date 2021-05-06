@@ -64,7 +64,7 @@
         </nav>
     </div>
 
-    <div class="wide-right">
+    <div class="wide-right profile-page">
         <div>
             <img class="hero-banner" src="{{ url_for('static', filename='images/banner.png')}}" alt="">
         </div>
@@ -81,14 +81,18 @@
             <div class="dose"> <!--The labels should be anchor tags or something that can link to toggling the display of the 'dose info'-->
                 <a id="info-toggle" class="dose-label" title="Click to expand">First Dose: </a>
                 <p class="dose-info">Click dose to expand</p>
-                <p class="hidden-info">Date: {{profile['vaccine_date1'] }}</p>
-                <p class="hidden-info">Vaccine: {{profile['vaccine_name'] }} </p>
+                <div class="info">
+                    <p class="hidden-info right-margin-small">Date: {{profile['vaccine_date1'] }}</p>
+                    <p class="hidden-info">Vaccine: {{profile['vaccine_name'] }} </p>
+                </div>
             </div>
             <div class="dose">
                 <a id="info-toggle2" class="dose-label" title="Click to expand">Second Dose: </a>
                 <p class="dose-info">Click dose to expand</p>
-                <p class="hidden-info">Date: {{profile['vaccine_date2'] }}</p>
-                <p class="hidden-info">Vaccine: {{profile['vaccine_name2'] }} </p>
+                <div class="info">
+                    <p class="hidden-info right-margin-small">Date: {{profile['vaccine_date2'] }}</p>
+                    <p class="hidden-info">Vaccine: {{profile['vaccine_name2'] }} </p>
+                </div>
             </div>
             <div class="dose">
                 <p class="hidden-info">Clinic: {{profile['hospital'] }} </p>
@@ -166,16 +170,16 @@
                 document.querySelector('.narrow-left').style.width = '10%';
                 document.querySelector('.wide-right').style.width = '90%';
                 document.querySelector('.wide-right').style.marginLeft = '10%';
-                document.querySelector('.profile-pic').style.marginBottom = '8vh';
+                document.querySelector('.profile-pic').style.marginBottom = '3vh';
                 document.querySelector('.profile-pic').style.marginLeft = '1vw';
-                document.querySelector('.profile-pic').style.width = '8vw';
-                document.querySelector('.profile-pic').style.height = '8vw';
+                document.querySelector('.profile-pic').style.width = '6vw';
+                document.querySelector('.profile-pic').style.height = '6vw';
                 document.getElementById('logo').style.opacity = '0';
 
                 let icons = document.querySelectorAll('.nav-icon');
                 let iconsL = icons.length;
                 for(let i = 0; i < iconsL; i++){
-                    icons[i].style.width = '6vw';
+                    icons[i].style.width = '3.5vw';
                 }
 
                 let anchor = document.querySelectorAll('.nav-anchor');
@@ -209,7 +213,7 @@
                 let icons = document.querySelectorAll('.nav-icon');
                 let iconsL = icons.length;
                 for(let i = 0; i < iconsL; i++){
-                    icons[i].style.width = '3vw';
+                    icons[i].style.width = '2vw';
                 }
 
                 let imgs = document.querySelectorAll('.nav-img');
@@ -269,8 +273,8 @@
         togglebutton.addEventListener('click',
         function(){
             if(!toggled){
-                togglebutton.style.transform = "translate(-18vw, 0)";
-                togglebutton2.style.transform = "translate(-18vw, 0)";
+                togglebutton.style.transform = "translate(-13vw, 0)";
+                togglebutton2.style.transform = "translate(-13vw, 0)";
 
                 let hidden = document.querySelectorAll('.hidden-info');
                 let hiddenL = hidden.length;
@@ -308,8 +312,8 @@
         togglebutton2.addEventListener('click',
         function(){
             if(!toggled){
-                togglebutton.style.transform = "translate(-100%, 0)";
-                togglebutton2.style.transform = "translate(-100%, 0)";
+                togglebutton.style.transform = "translate(-13vw, 0)";
+                togglebutton2.style.transform = "translate(-13vw, 0)";
 
                 let hidden = document.querySelectorAll('.hidden-info');
                 let hiddenL = hidden.length;

@@ -27,27 +27,23 @@
 
 <form action={{url_for('settings', token=token)}} method="POST">
     <div class="left-panel margin-for-nav">
-        <nav class="nav-prof top-margin-med">
-            <ul class="ul-prof">
-                <li class="li-prof">
-                    <a class="ul-li-a" href="#">Profile Settings</a>
-                </li>
-                <li class="li-prof">
-                    <a class="ul-li-a-icon" id="sign-out-button1" href="#">
-                        <img class="nav-icon" src="{{ url_for('static', filename='images/sign-out-icon.png') }}" field-icon alt="A share icon">
-                    </a>
-                    <a class="ul-li-a" id="sign-out-button" href="#">Sign Out</a>
-                </li>
-            </ul>
-        </nav>
+        <h1 class="page-header">Profile Settings</h1>
     </div>
     
     <div class="right-panel margin-for-nav">
 
-            <div class="container top-margin-small">
+            <div class="container top-margin-med">
 
                 <div class="input-field">
-
+                    <img class="profile-pic" src="{{ url_for('static', filename=pic) }}" alt="Your profile picture">
+                    <div class="file-upload">
+                        <input class="pic-upload-input" type="file" id="myPic" name="profile_pic">
+                        <a class="pic-upload-button" type="button" title="Edit Photo">Edit Photo</a>
+                        <span class="pic-upload-label"></span>
+                        <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Profile Photo">
+                    </div>
+                </div>
+                <div class="input-field">
                     <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
                     <div class="field-label">
                         <label class="text-label" for="first_name">Username:</label>
@@ -91,7 +87,7 @@
                 </div>
 
                 <!--Finally the text field for the user to enter data into.-->
-                <input class="text-field" type="text" id="old_pass" name="current_password" placeholder="Current Password">
+                <input class="text-field" type="password" id="old_pass" name="current_password" placeholder="Current Password">
             </div>
 
             <div class="input-field">
@@ -102,7 +98,7 @@
                 </div>
 
                 <!--Finally the text field for the user to enter data into.-->
-                <input class="text-field" type="text" id="new_pass" name="new_password" placeholder="New Password">
+                <input class="text-field" type="password" id="new_pass" name="new_password" placeholder="New Password">
             </div>
 
             <div class="input-field">
@@ -113,7 +109,7 @@
                 </div>
 
                     <!--Finally the text field for the user to enter data into.-->
-                <input class="text-field" type="text" id="confirm_pass" name="confirm_password" placeholder="New Password">
+                <input class="text-field" type="password" id="confirm_pass" name="confirm_password" placeholder="New Password">
             </div>
             <div class="input-field">
                 <button class="inline-button smaller" name="back_button" value=True>Back</button>

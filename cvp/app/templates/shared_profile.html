@@ -23,10 +23,18 @@
 
         <div class="profile-info top-margin-small">
             <p class="full-name">{{user_record['record_first_name']}} {{user_record['middle_initial']}} {{user_record['record_last_name']}}</p>
+            {% if not (tampered) %}
             <div class="vaccine-status">
                 <div class="status-circle"></div>
                     <p class="vaccine-status-text">Status: Vaccinated</p>
             </div>
+
+            {% else %}
+                <div class="vaccine-status">
+                <div class="status-circle red"></div>
+                    <p class="vaccine-status-text bold">This account is Tampered! Information shown is unreliable!</p>
+            </div>
+            {% endif %}
         </div>
 
         <div class="profile-info bot-margin-med">
@@ -106,8 +114,8 @@
         togglebutton.addEventListener('click',
         function(){
             if(!toggled){
-                togglebutton.style.transform = "translate(-18vw, 0)";
-                togglebutton2.style.transform = "translate(-18vw, 0)";
+                togglebutton.style.transform = "translate(-13vw, 0)";
+                togglebutton2.style.transform = "translate(-13vw, 0)";
 
                 let hidden = document.querySelectorAll('.hidden-info');
                 let hiddenL = hidden.length;
@@ -145,8 +153,8 @@
         togglebutton2.addEventListener('click',
         function(){
             if(!toggled){
-                togglebutton.style.transform = "translate(-100%, 0)";
-                togglebutton2.style.transform = "translate(-100%, 0)";
+                togglebutton.style.transform = "translate(-13vw, 0)";
+                togglebutton2.style.transform = "translate(-13vw, 0)";
 
                 let hidden = document.querySelectorAll('.hidden-info');
                 let hiddenL = hidden.length;

@@ -1056,6 +1056,9 @@ ul li a:active{
     font-size: 2vw;
     font-style: italic;
 }
+.bold{
+    font-weight: bold;
+}
 
 .dose {
     position: relative;
@@ -1606,10 +1609,9 @@ ul li a:active{
     }
 
     .hidden-info{
-        margin: 1vh 1vw;
+        margin: 1vh 10vw;
         text-align: center;
         font-size: 3.5vw;
-        font-weight: bold;
         text-transform: capitalize;
     }
     .url{

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/static/main.css?v=1.1">
+    <link rel="stylesheet" href="/static/main.css?rnd=132">
     <link rel="stylesheet" href="/static/home_page.css">
     <!--Links to the external stylesheet so that the page uses the CSS from it-->
     <link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Poppins:wght@400;500&display=swap"
@@ -170,6 +170,18 @@
     </footer>
 
     <script>
+        (function() {
+          let h, a, f;
+          a = document.getElementsByTagName('link');
+          for (h = 0; h < a.length; h++) {
+            f = a[h];
+            if (f.rel.toLowerCase().match(/stylesheet/) && f.href) {
+              let g = f.href.replace(/(&|\?)rnd=\d+/, '');
+              f.href = g + (g.match(/\?/) ? '&' : '?');
+              f.href += 'rnd=' + (new Date().valueOf());
+            }
+          }
+        })()
 
         let menuToggled = false;
         document.getElementById('minimize').addEventListener('click',

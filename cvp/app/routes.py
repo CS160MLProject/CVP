@@ -370,4 +370,4 @@ def shared_profile(token):
         return f'404'
     # obtain user record
     user_record, is_tampered = get_profile(account_id)
-    return render_template('shared_profile.html', user_record=user_record)
+    return render_template('shared_profile.html', user_record=user_record, tampered=is_tampered)

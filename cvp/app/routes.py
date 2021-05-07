@@ -333,7 +333,3 @@ def shared_profile(token):
     # obtain user record
     user_record = get_profile(account_id)
     return render_template('shared_profile.html', user_record=user_record)
-
-
-if __name__ == '__main__':
-    app.run()

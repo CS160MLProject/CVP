@@ -4,7 +4,6 @@ from cvp.model.ocr_model import OCR_Model
 from credentials import *
 # from cvp.app.routes import *
 
-
 # db operation
 db_path = 'dataset/external/cvp.db'
 cdc_db_path = 'dataset/external/cdc.db'
@@ -12,8 +11,8 @@ account_table = 'account'
 profile_table = 'profile'
 
 # AWS S3 bucket
-bucket_name = 'cvp-profile-photo'
-bucket_folder = 'profile_photo/'
+bucket_name = 'covapass-photo'
+profile_bucket = 'profile_photo/'
 
 
 def create_app():

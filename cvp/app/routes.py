@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from cvp.features.transform import generate_QR_code
 from cvp.app.services.email_service import *
 from cvp.app.utils import *
+from datetime import datetime
 from app import app
 
 
@@ -45,16 +46,15 @@ def register():
             email = request.form.get('email')
             password = request.form.get('password')
             confirm_password = request.form.get('confirm_password')  # confirmation password named confirm_password
-            # profile_pic = request.files["profile_pic"]
             if 'vaccine_rec' not in request.files:
                 error_msg = 'file is not uploaded.'
 
             if not error_msg:
                 uploads_dir = 'dataset/processed/upload_vaccine_record'
-                pic_dir = 'static/profile-pic'
 
                 # Create a new directory for the upload
                 os.makedirs(uploads_dir, exist_ok=True)
+                os.makedirs(PROFILE_IMAGE_PATH, exist_ok=True)
                 error_msg = invalid_register_input(email, password, confirm_password)
 
                 if not error_msg: # no error in entered information
@@ -76,18 +76,20 @@ def register():
                     session['password'] = password
                     session['extracted_record'] = extracted_rec
 
-                    picname = secure_filename('temp.png')
-
+                    # Get photo name and convert it into type .png
                     if profile_pic:
-                        profile_pic.save(os.path.join(pic_dir, picname))
+                        pic_name = secure_filename(profile_pic.filename.split('.')[0] + f'{datetime.now().strftime("%H:%M:%S")}' + '.png')
+                        temp_save_path = os.path.join(PROFILE_IMAGE_PATH, pic_name)
+                        profile_pic.save(temp_save_path)
                     else:
-                        picname = secure_filename('Smiley.png')
+                        pic_name = secure_filename(DEFAULT_PROFILE_PHOTO)
 
-                    return render_template('create_account.html', info=f'Welcome', profpic='profile-pic/'+picname)
+                    session['profile_photo'] = pic_name
+
+                    return render_template('create_account.html', info=f'Welcome', profpic='profile_pic/' + pic_name)
 
             # error found in entered information
-            return render_template("uploading_of_document.html", invalid_input=error_msg,
-                                   email=email)
+            return render_template("uploading_of_document.html", invalid_input=error_msg, email=email)
 
         elif request.form.get('confirm_button'): # process for case(3)
             # obtain all requested information from frontend
@@ -99,9 +101,18 @@ def register():
             if valid_rec:  # send confirmed account information to database and record them.
                 # insert this data to db
                 new_id = generate_account(session, confirmed_data)
+
+                # Upload profile photo to AWS S3 Bucket
+                profile_photo = session['profile_photo']
+                temp_path = os.path.join(PROFILE_IMAGE_PATH, profile_photo)
+                if os.path.exists(temp_path) and profile_photo != DEFAULT_PROFILE_PHOTO:
+                    new_photo_name = f'{str(new_id)}.png'
+                    os.rename(temp_path, os.path.join(PROFILE_IMAGE_PATH, new_photo_name))
+                    upload_to_s3(new_photo_name, PROFILE_IMAGE_PATH)
+                    os.remove(os.path.join(PROFILE_IMAGE_PATH, new_photo_name))
+
                 # rename the temp profile pic to a unique name based on the account's information
-                os.rename('static/profile-pic/temp.png', 'static/profile-pic/'+str(new_id)+
-                          session['extracted_record']['first']+'.png')
+
                 return redirect(url_for('login'))
             else:  # the information is not in CDC database, return (something_went_wrong.html)
                 error_msg = 'Something went wrong'
@@ -232,8 +243,13 @@ def profile(token):
             return redirect(url_for('settings', token=profile_token, pic=profpicpath))
         if request.form.get('sign_out_button'):
             session.pop('logged_in', None)
+            for path in (PROFILE_IMAGE_PATH, QR_IMAGE_PATH):
+                clean_up_images(str(account_id) + '.png', path)
+
             return redirect(url_for('homepage'))
     # process for case(2) (GET)
+    user_profile, is_tampered = get_profile(account_id)
+
 
     # encrypt account id to be shared through qr or url
     sharing_token = encode_token(account_id, salt=sharing_profile_key)
@@ -246,12 +262,15 @@ def profile(token):
     session['sharing_url'] = sharing_url
 
 
-    if os.path.isfile(profpicpath):
-        profpicpath = 'profile-pic/' + str(user_profile['user_id']) + user_profile['record_first_name'] + '.png'
-    else:
-        profpicpath = 'images/Smiley.png'
+    # Grab user's profile picture from AWS S3 Bucket
+    try:
+        profile_photo = str(account_id) + '.png'
+        download_from_s3(profile_photo, PROFILE_IMAGE_PATH)  # Will throw exception if file is not found on AWS S3 Bucket
+        pic = 'profile_pic/' + profile_photo
+    except FileNotFoundError:
+        pic = 'profile_pic/Smiley.png'
 
-    return render_template('profile.html', profile=user_profile, pic=profpicpath, token=profile_token, msg=msg)
+    return render_template('profile.html', profile=user_profile, pic=pic, token=profile_token, msg=msg)
 
 
 @app.route('/profile_<token>/settings', methods=['GET', 'POST'])
@@ -314,6 +333,9 @@ def settings(token):
 
         elif request.form.get('sign_out_button'):
             session.pop('logged_in', None)
+            for path in (PROFILE_IMAGE_PATH, QR_IMAGE_PATH):
+                clean_up_images(str(account_id) + '.png', path)
+
             return redirect(url_for('homepage'))
 
         # return with error message for POST

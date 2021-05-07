@@ -115,7 +115,7 @@ class TestRoutes:
         THEN check that the response return render template of corresponding pages correctly.
         """
         data = dict()
-        test_account_info = get_profile(1)
+        test_account_info, _ = get_profile(1)
         data['email'] = test_account_info['email']
 
         # test when user click 'Send Recovery Link' button in recover.html
@@ -138,7 +138,7 @@ class TestRoutes:
         THEN check that the response return render template of corresponding pages correctly.
         """
         data = dict()
-        test_account_info = get_profile(1)
+        test_account_info, _ = get_profile(1)
         data['email'] = test_account_info['email']
 
         response = self.__click_button_post(test_client, '/login/reset', 'send_recovery_link_button', data=data)
@@ -271,7 +271,8 @@ class TestRoutes:
         """
         Helper to get test account profile (account_id = 1)
         """
-        return get_profile(1)
+        acc, is_tampered = get_profile(1)
+        return acc
 
     def __get_pass_recovery_url(self, data):
         """

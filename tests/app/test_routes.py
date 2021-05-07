@@ -1,6 +1,7 @@
 import re
 from cvp.app.routes import app
 from cvp.app.utils import get_profile
+from credentials import tuplex
 
 
 class TestRoutes:
@@ -49,9 +50,35 @@ class TestRoutes:
         assert 'continue_button' in response.data.decode(), f'Should contain continue button'
         assert response.status_code == 200
 
-        # have to pass file for register post.
-        # response = self.__click_button_post(test_client, '/register', 'confirm_button')
-        # assert response.status_code == 200
+        # get test_acc that is in cdc.db
+        test_acc = tuplex[0]
+        register_acc_info = {
+            'email': test_acc[0],
+            'password': 'Password123!',
+            'confirm_password': 'Password123!'
+        }
+        response = self.__click_button_post(test_client, '/register', 'continue_button', data=register_acc_info)
+        assert response.status_code == 200
+
+        register_card_info = {
+            'first_name': test_acc[2],
+            'mid_initial': test_acc[4],
+            'last_name': test_acc[3],
+            'dob': test_acc[5],
+            'patient_num': test_acc[1],
+            'first_dose': test_acc[6],
+            'date_first': test_acc[7],
+            'second_dose': test_acc[9],
+            'date_second': test_acc[10],
+            'clinic_site': test_acc[8]
+        }
+
+        # put value of email in session manually
+        with test_client.session_transaction() as session:
+            session['email'] = test_acc[0]
+
+        response = self.__click_button_post(test_client, '/register', 'confirm_button', data=register_card_info)
+        assert response.status_code == 200
 
     def test_login_get(self, test_client):
         """
@@ -197,7 +224,6 @@ class TestRoutes:
         saving_data = dict()
         saving_data['user_name'] = test_account_info['user_name']
         saving_data['username_email'] = test_account_info['email']
-        response = self.__click_button_post(test_client, f'/profile_{token}', 'settings_button')
         response = self.__click_button_post(test_client, f'/profile_{token}/settings',
                                             'profile_save', data=test_account_info)
         assert response.status_code == 200  # redirect

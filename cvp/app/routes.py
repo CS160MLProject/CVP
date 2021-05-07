@@ -357,5 +357,5 @@ def shared_profile(token):
     if not account_id: # link has expried
         return f'404'
     # obtain user record
-    user_record = get_profile(account_id)
+    user_record, is_tampered = get_profile(account_id)
     return render_template('shared_profile.html', user_record=user_record)

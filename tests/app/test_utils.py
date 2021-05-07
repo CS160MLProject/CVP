@@ -212,8 +212,7 @@ class TestUtils():
         acc, is_tampered = get_profile(1)
         assert type(acc) == dict, f'Did not get profile with valid ID'
         assert not is_tampered, f'User_Account_ID 1 is tampered'
-        assert len(acc) == 12
-        print(acc)
+        assert len(acc) == 13
 
     def test_encode_decode_token(self):
         to_be_encrypted = 'Super Secret'

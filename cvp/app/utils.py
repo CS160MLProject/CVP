@@ -341,7 +341,7 @@ def __form_dict(acc, record):
     res['patient_num'] = record[1]
     res['record_last_name'] = record[2]
     res['record_first_name'] = record[3]
-    res['middle_initial']: record[4]
+    res['middle_initial'] = record[4]
     res['dob'] = record[5]
     res['vaccine_name'] = record[6]
     res['vaccine_date1'] = record[7]

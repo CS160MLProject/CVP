@@ -25,20 +25,20 @@
         </ul>
     </nav>
 
-<form action={{url_for('settings', token=token)}} method="POST">
+<form action={{url_for('settings', token=token)}} method="POST" enctype="multipart/form-data">
     <div class="left-panel margin-for-nav">
         <h1 class="page-header">Profile Settings</h1>
     </div>
-    
+
     <div class="right-panel margin-for-nav">
 
             <div class="container top-margin-med">
 
                 <div class="input-field">
-                    <img class="profile-pic" src="{{ url_for('static', filename=pic) }}" alt="Your profile picture">
+                    <img class="profile-pic settings-pic" src="{{ url_for('static', filename=pic) }}" alt="Your profile picture">
                     <div class="file-upload">
                         <input class="pic-upload-input" type="file" id="myPic" name="profile_pic">
-                        <a class="pic-upload-button" type="button" title="Edit Photo">Edit Photo</a>
+                        <button class="pic-upload-button" type="button" title="Edit Photo">Edit Photo</button>
                         <span class="pic-upload-label"></span>
                         <img class="field-icon" src="{{url_for('static', filename='images/upload-icon.png')}}" alt="Profile Photo">
                     </div>
@@ -174,7 +174,30 @@
                 Covid Vaccine Passport
             </p>
         </footer>
+
 <script>
+    Array.prototype.forEach.call(document.querySelectorAll('.pic-upload-button'), function(button){
+        const hiddenPicInput = button.parentElement.querySelector('.pic-upload-input');
+        const picLabel = button.parentElement.querySelector('.pic-upload-label');
+        const defaultPicLabelText = 'No File selected';
+
+        picLabel.textContent = defaultPicLabelText;
+        picLabel.title = defaultPicLabelText;
+        <!--Utilizes an event listener to call the function that triggers the default input button-->
+        button.addEventListener('click', function(){
+            hiddenPicInput.click();
+        });
+
+        hiddenPicInput.addEventListener('change', function(){
+            console.log(hiddenPicInput.files);
+            const filenameList = Array.prototype.map.call(hiddenPicInput.files, function(pic) {
+                return pic.name;
+            });
+
+            picLabel.textContent = filenameList.join(', ') || defaultPicLabelText;
+            picLabel.title = picLabel.textContent;
+        });
+    });
 
     let input = document.getElementById("old_pass");
         // Execute a function when the user releases a key on the keyboard

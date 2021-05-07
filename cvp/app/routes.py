@@ -41,7 +41,7 @@ def register():
         (3)success_welcome.html if registered successfully else Error message (page).
     """
     if request.method == "POST":
-        if request.form.get('continue_button'): # process for case(2)
+        if request.form.get('continue_button'):  # process for case(2)
             error_msg = None
             email = request.form.get('email')
             password = request.form.get('password')
@@ -57,7 +57,7 @@ def register():
                 os.makedirs(PROFILE_IMAGE_PATH, exist_ok=True)
                 error_msg = invalid_register_input(email, password, confirm_password)
 
-                if not error_msg: # no error in entered information
+                if not error_msg:  # no error in entered information
                     vaccine_rec_pic = request.files["vaccine_rec"]
                     filename = secure_filename(vaccine_rec_pic.filename)
                     profile_pic = request.files["profile_pic"]
@@ -67,7 +67,7 @@ def register():
                         vaccine_rec_pic.save(os.path.join(uploads_dir, filename))
                         extracted_rec = model.predict(filename, folder_path=uploads_dir)
 
-                    # Remove File after OCR returned the prediction
+                        # Remove File after OCR returned the prediction
                         os.remove(os.path.join(uploads_dir, filename))
                     else:
                         extracted_rec = None
@@ -78,7 +78,8 @@ def register():
 
                     # Get photo name and convert it into type .png
                     if profile_pic:
-                        pic_name = secure_filename(profile_pic.filename.split('.')[0] + f'{datetime.now().strftime("%H:%M:%S")}' + '.png')
+                        pic_name = secure_filename(
+                            profile_pic.filename.split('.')[0] + f'{datetime.now().strftime("%H:%M:%S")}' + '.png')
                         temp_save_path = os.path.join(PROFILE_IMAGE_PATH, pic_name)
                         profile_pic.save(temp_save_path)
                     else:
@@ -91,7 +92,7 @@ def register():
             # error found in entered information
             return render_template("uploading_of_document.html", invalid_input=error_msg, email=email)
 
-        elif request.form.get('confirm_button'): # process for case(3)
+        elif request.form.get('confirm_button'):  # process for case(3)
             # obtain all requested information from frontend
             confirmed_data = request.form.to_dict('confirmed_data')
 
@@ -135,7 +136,7 @@ def login():
     """
     if request.method == 'POST':
         error_msg = ''
-        if request.form.get("login_button"): # process for case(2)
+        if request.form.get("login_button"):  # process for case(2)
             email = request.form.get('email')
             password = request.form.get('password')
 
@@ -149,13 +150,14 @@ def login():
                 session['url'] = url_token
                 return redirect(url_for('profile', token=url_token))
 
-            elif not error_msg: error_msg = acc # if authentication failed, show error message from authenticate()
+            elif not error_msg:
+                error_msg = acc  # if authentication failed, show error message from authenticate()
 
-        if request.form.get('cancel_button'): # process for case(3)
+        if request.form.get('cancel_button'):  # process for case(3)
             return redirect(url_for('homepage'))
 
-        if request.form.get('forgot_password_button'): # process for case(4)
-            return redirect(url_for('forgot_password')) # process for case(4)
+        if request.form.get('forgot_password_button'):  # process for case(4)
+            return redirect(url_for('forgot_password'))  # process for case(4)
 
         return render_template('login.html', error=error_msg)  # login.html with error message
 
@@ -173,11 +175,12 @@ def forgot_password():
     """
     if request.method == 'POST':
         error_msg = ''
-        if request.form.get('send_recovery_link_button') or request.form.get('resend_button'): # process of case(1), (2)
-            if request.form.get('resend_button'): # if case(2)
+        if request.form.get('send_recovery_link_button') or request.form.get(
+                'resend_button'):  # process of case(1), (2)
+            if request.form.get('resend_button'):  # if case(2)
                 email = session['email']
 
-            else: # if case(1)
+            else:  # if case(1)
                 email = request.form.get('email')
                 session['email'] = email
 
@@ -191,9 +194,9 @@ def forgot_password():
                 send_password_recovery_email(recover_url, email)
                 return render_template('resend.html')
 
-        return render_template('recover.html', error=error_msg) # return with error message (email is not in db)
+        return render_template('recover.html', error=error_msg)  # return with error message (email is not in db)
 
-    return render_template('recover.html') # process of case(1)
+    return render_template('recover.html')  # process of case(1)
 
 
 @app.route('/login/reset/<token>', methods=['GET', 'POST'])
@@ -208,7 +211,7 @@ def reset_password(token):
         return render_template('login.html', error_msg='URL Expired.')
 
     if request.method == 'POST':
-        if request.form.get('reset_button'): # process of case(2)
+        if request.form.get('reset_button'):  # process of case(2)
             password = request.form.get('new_password')
             confirm_password = request.form.get('confirm_password')
 
@@ -218,7 +221,7 @@ def reset_password(token):
                 else:
                     return f'Update Password Failed'
 
-    return render_template('password_reset.html', token=reset_token) # process of case(1)
+    return render_template('password_reset.html', token=reset_token)  # process of case(1)
 
 
 @app.route('/profile_<token>', methods=['GET', 'POST'])
@@ -248,9 +251,10 @@ def profile(token):
     except FileNotFoundError:
         pic = 'profile_pic/Smiley.png'
 
+    session['pic'] = pic
     if request.method == 'POST':  # process for case(1)
         if request.form.get('settings_button'):
-            return redirect(url_for('settings', token=profile_token, pic=pic))
+            return redirect(url_for('settings', token=profile_token))
         if request.form.get('sign_out_button'):
             session.pop('logged_in', None)
             for path in (PROFILE_IMAGE_PATH, QR_IMAGE_PATH):
@@ -268,9 +272,6 @@ def profile(token):
     msg = session['message'] if session.get('message') else ''
     session['qr'] = f'{account_id}.png'
     session['sharing_url'] = sharing_url
-
-
-
 
     return render_template('profile.html', profile=user_profile, pic=pic, token=profile_token, msg=msg)
 
@@ -298,18 +299,28 @@ def settings(token):
 
     if request.method == 'POST':
         error_msg = ''
-        if request.form.get('profile_save'): # Process of Case(2)
+        if request.form.get('profile_save'):  # Process of Case(2)
             first_name = request.form.get('user_name')
             email = request.form.get('username_email')
+            profile_pic = request.files["profile_pic"]
+
+            if profile_pic:
+                os.remove(os.path.join(PROFILE_IMAGE_PATH, str(account_id)+'.png'))
+                temp_save_path = os.path.join(PROFILE_IMAGE_PATH, str(account_id)+'.png')
+                profile_pic.save(temp_save_path)
+                upload_to_s3(str(account_id)+'.png', PROFILE_IMAGE_PATH)
+                session['pic'] = 'profile_pic/'+str(account_id)+'.png'
 
             # save the info with database with account_id
             error_msg = update_account(account_id, first_name, email)
 
+            os.makedirs(PROFILE_IMAGE_PATH, exist_ok=True)
+
             if not error_msg:
                 session['message'] = 'Saved change successfully'
-                return redirect(url_for('profile', token=token)) # return to setting or profile with message
+                return redirect(url_for('profile', token=token))  # return to setting or profile with message
 
-        elif request.form.get('password_save_button'): # Process of Case(3)
+        elif request.form.get('password_save_button'):  # Process of Case(3)
             current_pass = request.form.get('current_password')
             new_pass = request.form.get('new_password')
             conf_pass = request.form.get('confirm_password')
@@ -318,19 +329,19 @@ def settings(token):
             acc = authenticate(current_pass, account_id=account_id)
 
             if type(acc) == tuple:  # authentication succeeded
-                if new_pass == conf_pass: # check new password and confirm password
+                if new_pass == conf_pass:  # check new password and confirm password
                     # update database
                     update_password(new_pass, acc=account_id)
                     session['message'] = 'Saved change successfully'
-                    return redirect(url_for('profile', token=token)) # return to setting or profile with message
+                    return redirect(url_for('profile', token=token))  # return to setting or profile with message
 
                 else:
                     error_msg = 'New Password and Confirm Password did not match.'
 
-            elif not error_msg: # failed authentication with the 'current password'
+            elif not error_msg:  # failed authentication with the 'current password'
                 error_msg = 'Current password did not match.'
 
-        elif request.form.get('back_button'): # process of case(4)
+        elif request.form.get('back_button'):  # process of case(4)
             return redirect(url_for('profile', token=token))
 
         elif request.form.get('sign_out_button'):
@@ -341,9 +352,9 @@ def settings(token):
             return redirect(url_for('homepage'))
 
         # return with error message for POST
-        return render_template('settings.html', token=token, error=error_msg)
+        return render_template('settings.html', token=token, error=error_msg, pic=session['pic'])
 
-    return render_template('settings.html', token=token)  # process of case(1) (GET)
+    return render_template('settings.html', token=token, pic=session['pic'])  # process of case(1) (GET)
 
 
 @app.route('/info_<token>', methods=['GET'])
@@ -354,7 +365,7 @@ def shared_profile(token):
     :return: shared profile page with dict formatted user record.
     """
     account_id = decode_token(token, salt=sharing_profile_key, time=900)
-    if not account_id: # link has expried
+    if not account_id:  # link has expried
         return f'404'
     # obtain user record
     user_record, is_tampered = get_profile(account_id)

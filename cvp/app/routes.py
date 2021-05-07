@@ -273,7 +273,8 @@ def profile(token):
     session['qr'] = f'{account_id}.png'
     session['sharing_url'] = sharing_url
 
-    return render_template('profile.html', profile=user_profile, pic=pic, token=profile_token, msg=msg)
+    return render_template('profile.html', profile=user_profile, pic=pic, token=profile_token,
+                           tampered=is_tampered, msg=msg)
 
 
 @app.route('/profile_<token>/settings', methods=['GET', 'POST'])

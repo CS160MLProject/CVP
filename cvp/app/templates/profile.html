@@ -72,10 +72,18 @@
 
         <div class="profile-info top-margin-small">
             <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
+            {% if (tampered) %}
             <div class="vaccine-status">
                 <div class="status-circle"></div>
                     <p class="vaccine-status-text">Status: Vaccinated</p>
             </div>
+
+            {% else %}
+                <div class="vaccine-status">
+                <div class="status-circle red"></div>
+                    <p class="vaccine-status-text">TAMPERED ACCOUNT!</p>
+            </div>
+            {% endif %}
         </div>
 
         <div class="profile-info">

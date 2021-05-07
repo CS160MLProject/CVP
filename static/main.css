@@ -1386,6 +1386,9 @@ ul li a:active{
     border-radius: 50%;
     box-shadow: 0 0 2px black;
 }
+    .red{
+        background-color: red;
+    }
 
 @media screen and (max-width: 1060px) {
     .modal-content{

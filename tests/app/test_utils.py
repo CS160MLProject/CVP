@@ -10,7 +10,7 @@ class TestUtils():
         """
 
         valid_email_format = 'hello@me.com'
-        valid_pass = valid_conf_pass = 'Password!'
+        valid_pass = valid_conf_pass = 'ValidPassword12!'
         error = invalid_register_input(valid_email_format, valid_pass, valid_conf_pass)
         assert not error, f'Should return no error message for {valid_email_format=}, {valid_pass=}, {valid_conf_pass=}' \
                           f'returning {error}'
@@ -88,12 +88,13 @@ class TestUtils():
         db = Database(db_path)
         try:
             # get the existing information and test if it authenticate correctly
-            email, lname, fname, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
-            password = f'{fname}{lname}'.lower()
+            email, _, acc_id, _, username = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+            rec = db.select('*', profile_table, f'User_Account_ID = \"1\"')[0]
+            password = f'{rec[3]}{rec[2]}'.lower()
             assert type(authenticate(password, email=email)) == tuple, \
-                'Authentication with existing account failed using email.'
+                f'Authentication with existing account failed using email {email=}, {password=}'
             assert type(authenticate(password, account_id=acc_id)) == tuple, \
-                'Authentication with existing account failed using account id.'
+                f'Authentication with existing account failed using account id. {acc_id=}, {password=}'
 
             # test if authentication failed with correct email and incorrect password
             wrong_pass = 'wrong_pass'
@@ -117,7 +118,7 @@ class TestUtils():
         db = Database(db_path)
         try:
             # get the existing information and test if it return True correctly
-            email, lname, fname, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+            email, _, acc_id, _, username = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
             # password = f'{fname}{lname}'.lower()
             assert type(is_user(email)) == tuple, 'should return account info with existing email.'
 
@@ -132,7 +133,7 @@ class TestUtils():
         db = Database(db_path)
         try:
             # get the existing information and test if it return True correctly
-            email, _, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"2\"')[0]
+            email, _, acc_id, _, username = db.select('*', account_table, f'User_Account_ID = \"2\"')[0]
             new_pass = 'new_password'
             assert update_password(new_pass, email=email), 'should return True if updated successfully.'
 
@@ -148,7 +149,7 @@ class TestUtils():
         db = Database(db_path)
         try:
             # get the existing information to test
-            original_email, original_username, _, acc_id, _ = \
+            original_email, _, acc_id, _, original_username = \
                 db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
 
             new_username = 'new_username'
@@ -157,7 +158,7 @@ class TestUtils():
             # test one by one
             # test first name update
             update_account(acc_id, uname=new_username)
-            _, username, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+            _, _, _, _, username = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
             assert username == new_username, f'New first name is not updated correctly'
 
             # # test last name update
@@ -172,7 +173,7 @@ class TestUtils():
 
             # test all update
             update_account(acc_id, uname=new_username, email=original_email)
-            email, username, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+            email, _, _, _, username = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
             assert email == original_email, f'Email is not updated correctly'
             assert username == original_username, f'username is not updated correctly'
 

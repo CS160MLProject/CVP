@@ -10,7 +10,7 @@ class TestUtils():
         """
 
         valid_email_format = 'hello@me.com'
-        valid_pass = valid_conf_pass = 'password'
+        valid_pass = valid_conf_pass = 'Password!'
         error = invalid_register_input(valid_email_format, valid_pass, valid_conf_pass)
         assert not error, f'Should return no error message for {valid_email_format=}, {valid_pass=}, {valid_conf_pass=}' \
                           f'returning {error}'
@@ -132,7 +132,7 @@ class TestUtils():
         db = Database(db_path)
         try:
             # get the existing information and test if it return True correctly
-            email, lname, fname, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"2\"')[0]
+            email, _, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"2\"')[0]
             new_pass = 'new_password'
             assert update_password(new_pass, email=email), 'should return True if updated successfully.'
 
@@ -148,35 +148,33 @@ class TestUtils():
         db = Database(db_path)
         try:
             # get the existing information to test
-            original_email, original_lname, original_fname, _, acc_id, _ = \
+            original_email, original_username, _, acc_id, _ = \
                 db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
 
-            new_lname = 'new_lname'
-            new_fname = 'new_fname'
+            new_username = 'new_username'
             new_email = 'new_email@email.com'
 
             # test one by one
             # test first name update
-            update_account(acc_id, fname=new_fname)
-            _, _, fname, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
-            assert fname == new_fname, f'New first name is not updated correctly'
+            update_account(acc_id, uname=new_username)
+            _, username, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+            assert username == new_username, f'New first name is not updated correctly'
 
-            # test last name update
-            update_account(acc_id, lname=new_lname)
-            _, lname, _, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
-            assert lname == new_lname, f'New last name is not updated correctly'
+            # # test last name update
+            # update_account(acc_id, lname=new_lname)
+            # _, lname, _, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+            # assert lname == new_lname, f'New last name is not updated correctly'
 
             # test email update
             update_account(acc_id, email=new_email)
-            email, _, _, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+            email, _, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
             assert email == new_email, f'New email is not updated correctly'
 
             # test all update
-            update_account(acc_id, fname=original_fname, lname=original_lname, email=original_email)
-            email, lname, fname, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+            update_account(acc_id, uname=new_username, email=original_email)
+            email, username, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
             assert email == original_email, f'Email is not updated correctly'
-            assert lname == original_lname, f'Email is not updated correctly'
-            assert fname == original_fname, f'Email is not updated correctly'
+            assert username == original_username, f'username is not updated correctly'
 
         finally:
             db.close_connection()

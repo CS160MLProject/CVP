@@ -233,14 +233,24 @@ def profile(token):
     """
 
     account_id, profile_token = renew_token(token, salt=profile_key, time=900)  # 15 min
-    user_profile = get_profile(account_id)
-    profpicpath = 'static/profile-pic/' + str(user_profile['user_id']) + user_profile['record_first_name'] + '.png'
+
     if not account_id:  # could not decode the account_id (the link has expired)
         return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
 
+    user_profile, is_tampered = get_profile(account_id)
+
+    # Grab user's profile picture from AWS S3 Bucket
+    try:
+        profile_photo = str(account_id) + '.png'
+        download_from_s3(profile_photo,
+                         PROFILE_IMAGE_PATH)  # Will throw exception if file is not found on AWS S3 Bucket
+        pic = 'profile_pic/' + profile_photo
+    except FileNotFoundError:
+        pic = 'profile_pic/Smiley.png'
+
     if request.method == 'POST':  # process for case(1)
         if request.form.get('settings_button'):
-            return redirect(url_for('settings', token=profile_token, pic=profpicpath))
+            return redirect(url_for('settings', token=profile_token, pic=pic))
         if request.form.get('sign_out_button'):
             session.pop('logged_in', None)
             for path in (PROFILE_IMAGE_PATH, QR_IMAGE_PATH):
@@ -248,8 +258,6 @@ def profile(token):
 
             return redirect(url_for('homepage'))
     # process for case(2) (GET)
-    user_profile, is_tampered = get_profile(account_id)
-
 
     # encrypt account id to be shared through qr or url
     sharing_token = encode_token(account_id, salt=sharing_profile_key)
@@ -262,13 +270,7 @@ def profile(token):
     session['sharing_url'] = sharing_url
 
 
-    # Grab user's profile picture from AWS S3 Bucket
-    try:
-        profile_photo = str(account_id) + '.png'
-        download_from_s3(profile_photo, PROFILE_IMAGE_PATH)  # Will throw exception if file is not found on AWS S3 Bucket
-        pic = 'profile_pic/' + profile_photo
-    except FileNotFoundError:
-        pic = 'profile_pic/Smiley.png'
+
 
     return render_template('profile.html', profile=user_profile, pic=pic, token=profile_token, msg=msg)
 

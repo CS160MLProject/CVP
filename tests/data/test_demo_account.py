@@ -3,7 +3,7 @@
 import pytest
 
 from cvp.data.demo_account import *
-TOKEN_SIZE = 14  # token length of output line
+TOKEN_SIZE = 15  # token length of output line
 NAMES = 'dataset/raw/names.txt'
 ACCOUNTS = 'tests/data/test_accounts.txt'
 

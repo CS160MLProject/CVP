@@ -2,6 +2,7 @@ from cvp.app.utils import *
 import time
 import pytest
 
+
 class TestUtils():
     def test_invalid_register_input(self):
         """
@@ -12,7 +13,7 @@ class TestUtils():
         valid_pass = valid_conf_pass = 'password'
         error = invalid_register_input(valid_email_format, valid_pass, valid_conf_pass)
         assert not error, f'Should return no error message for {valid_email_format=}, {valid_pass=}, {valid_conf_pass=}' \
-                              f'returning {error}'
+                          f'returning {error}'
 
         empty_email = ''
         error = invalid_register_input(empty_email, valid_pass, valid_conf_pass)
@@ -28,7 +29,6 @@ class TestUtils():
         assert error, f'Should return error message for {valid_email_format=}, {valid_pass=}, {valid_conf_pass=}' \
                       f'returning {error}'
 
-
     def test_valid_email(self):
         """
         Test if valid_email validate email as expected.
@@ -38,16 +38,14 @@ class TestUtils():
         assert valid_email(valid_email_format), f'Should return True for email {valid_email_format}'
         assert not valid_email(invalid_email), f'Should return False for email {invalid_email}'
 
-
     def test_valid_password(self):
-        #=== Test Inputs ===#
+        # === Test Inputs ===#
         PASSWORD = 'Correct@Password*101'
         WRONG_PASS = 'wrong_password'
 
-        #=== Trigger Outputs ===#
+        # === Trigger Outputs ===#
         assert valid_password(PASSWORD)
         assert not valid_password(WRONG_PASS)
-
 
     def test_get_file_ext(self):
         """
@@ -60,9 +58,8 @@ class TestUtils():
         assert get_file_ext(pdf_file) == 'pdf', f'Should return \'pdf\' for {pdf_file}'
         assert get_file_ext(other_file) is None, f'Should return None for {other_file}'
 
-
     def test_check_cdc(self):
-        #=== Test Inputs ===#
+        # === Test Inputs ===#
         db_path = 'tests/data/test_cdc.db'
         confirmed_data = {
             'first_name': 'Kevin',
@@ -78,13 +75,12 @@ class TestUtils():
         }
         email = 'kevin.munez@abc.com'
 
-        #=== Trigger Outputs ===#
+        # === Trigger Outputs ===#
         assert check_cdc(confirmed_data=confirmed_data, email=email, db_path=db_path)
 
         with pytest.raises(FileNotFoundError):
             WRONG_PATH = 'WRONG/PATH'
             check_cdc(confirmed_data, email, WRONG_PATH)
-
 
     def test_authenticate(self):
         """
@@ -92,7 +88,7 @@ class TestUtils():
         db = Database(db_path)
         try:
             # get the existing information and test if it authenticate correctly
-            email, lname, fname, password,  acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
+            email, lname, fname, password, acc_id, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
             password = f'{fname}{lname}'.lower()
             assert type(authenticate(password, email=email)) == tuple, \
                 'Authentication with existing account failed using email.'
@@ -115,7 +111,6 @@ class TestUtils():
         finally:
             db.close_connection()
 
-
     def test_is_user(self):
         """
         """
@@ -133,7 +128,6 @@ class TestUtils():
         finally:
             db.close_connection()
 
-
     def test_update_password(self):
         db = Database(db_path)
         try:
@@ -149,7 +143,6 @@ class TestUtils():
             assert update_password(new_pass, acc=acc_id)
         finally:
             db.close_connection()
-
 
     def test_update_account(self):
         db = Database(db_path)
@@ -188,7 +181,6 @@ class TestUtils():
         finally:
             db.close_connection()
 
-
     def test_generate_account(self):
         db = Database(db_path)
         try:
@@ -223,14 +215,12 @@ class TestUtils():
         assert len(acc) == 12
         print(acc)
 
-
     def test_encode_decode_token(self):
         to_be_encrypted = 'Super Secret'
         test_key = 'TEST_KEY'
         # test encoded token can decode and obtain the same value as encrypted.
         assert decode_token(encode_token(to_be_encrypted, salt=test_key), salt=test_key, time=10) == to_be_encrypted, \
             f'Decode function with encoded token should return the same as the to_be_encrypted.'
-
 
     def test_renew_token(self):
         to_be_encrypted = 'Super Secret'
@@ -243,9 +233,8 @@ class TestUtils():
 
         assert not extracted, f'Expired token should not extract any value and should return False.'
 
-
     def test_upload_and_download_profile_picture(self):
-        #=== Test Inputs ===#
+        # === Test Inputs ===#
         photo_name = 'Duy.jpg'
         folder_path = 'dataset/raw'
         save_path = 'tests/app'

@@ -23,7 +23,7 @@ body{
 /* .class allows me to target CSS to a specific class that can be used in any html element*/
 
 .container {
-    margin: 10px;
+    margin: 1vh 5vw;
     padding: 0;
 }
 
@@ -57,6 +57,7 @@ body{
     width: 20%;
     height: 100vh;
     z-index: 899;
+    box-shadow: 0 0 2px gray;
 }
 
 .narrow-left{
@@ -121,7 +122,7 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     vertical-align: top;
     background-color: #fafafa;
     width: 80%;
-    height: 150vh;
+    height: 100vh;
     z-index: 9999;
 }
 
@@ -135,8 +136,12 @@ Not ideal but shows a way to apply CSS in a broad manner*/
     background-color: #ffffff;
     width: 80%;
     margin-left: 20%;
-    height: 200vh;
+    height: 100vh;
     z-index: 9999;
+}
+
+.profile-page{
+    height: 220vh;
 }
 
 .full-panel{
@@ -154,7 +159,7 @@ Not ideal but shows a way to apply CSS in a broad manner*/
 
 .hero-banner{
     width: 100%;
-    height: 20vh;
+    height: 21vh;
     object-fit: cover;
     box-shadow: 0 0 5px black;
 }
@@ -287,7 +292,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 
 .url{
     display: none;
-    margin: 0;
+    margin: 0 auto;
     font-size: 1.5vw;
     padding: 1%;
     text-align: center;
@@ -605,14 +610,14 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 .input-field {
     /*background-color: #10CC0A;*/
     width: 74%;
-    margin: 0.5% 10%;
+    margin: 1vh 10%;
     padding: 0;
 }
 
 .fields-column {
     display: inline-block;
     vertical-align: top;
-    margin-left: 10%;
+    margin-left: 8vw;
 }
 
 .confirm-button{
@@ -867,8 +872,10 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 
 .nav-prof{
     background-color: #fefefe;
+    height: 100vh;
     width: 100%;
     padding:0;
+    box-shadow: 0 0 2px gray;
 }
 
 .ul-prof{
@@ -879,7 +886,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 
 .li-prof{
     width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     list-style: none;
     overflow: hidden;
     /*background-color: #0A92CC;*/
@@ -898,7 +905,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     white-space: nowrap;
     color: #0D0065;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5vw;
+    font-size: 1.6vw;
     font-weight: bold;
     border-width: 0;
     background-color: rgba(0, 0, 0, 0);
@@ -936,17 +943,20 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     text-decoration: none;
     color: #0D0065;
     width: 45%;
-    margin: 1vw 0 1vw 0.5vw;
+    margin: 0 1vw;
     /*background-color: #0A92CC;*/
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5vw;
+    font-size: 1.6vw;
     font-weight: bold;
     padding: 5% 2%;
-    white-space: nowrap;
 }
 
 ul li a:hover{
-    opacity: 80%;
+    opacity: 90%;
+}
+
+ul li a:active{
+    transform: scale(0.95);
 }
 
 .menu{
@@ -957,6 +967,14 @@ ul li a:hover{
 .menu-img{
     margin: 2vh 1vw;
     width: 2vw;
+}
+
+.menu-img:hover{
+    transform: scale(1.075);
+}
+
+.menu-img:active{
+    transform: scale(0.95);
 }
 
 .nav-img{
@@ -1037,7 +1055,7 @@ ul li a:hover{
 
 .dose {
     position: relative;
-    background-color: rgba(10, 146, 204, 0.08);
+    background-color: rgba(10, 146, 250, 0.16);
     margin: 4vh 0.5vw;
     text-align: center;
     border-radius: 5vw;
@@ -1045,6 +1063,7 @@ ul li a:hover{
 
 .dose-label {
     position: absolute;
+    top: 0.25vh;
     left: 25vw;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
@@ -1093,18 +1112,25 @@ ul li a:hover{
     font-size: 1.2vw;
     font-style: italic;
     opacity: 70%;
-    margin: 1vh 5vw 1vh 20vw;
+    margin: 1vh 5vw 1vh 18vw;
 }
 
+.info{
+    text-align: right;
+    margin-right: 5vw;
+}
 
 .hidden-info{
     vertical-align: middle;
-    text-align: center;
-    margin: 1vh 4vw 1vh 10vw;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 1.5vw;
-    font-weight: bold;
+    margin: 1vh auto 1vh 10vw;
+    font-family:  Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.9vw;
+    /*font-weight: bold;*/
     display: none;
+    color: #1f1f1f;
+}
+.right-margin-small{
+    margin-right: 3vw;
 }
 
 .link-toggle{
@@ -1131,7 +1157,7 @@ ul li a:hover{
     align-items: center;
     font-size: 2vw;
     height: 45%;
-    width: 35vw;
+    width: 20vw;
 }
 
 .file-upload-input{
@@ -1354,15 +1380,59 @@ ul li a:hover{
 }
 
 @media screen and (max-width: 1060px) {
+    .modal-content{
+        width: 80vw;
+        height: 30vh;
+        background-color: white;
+        border-radius: 30px;
+    }
+    .larger{
+        height: 60vh;
+    }
+    .change-pass{
+        font-size: 3.5vw;
+    }
+    .modal-text{
+        color: #1f1f1f;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 7vw;
+        text-align: center;
+        padding-top: 2%;
+    }
+    .modal-button{
+        height: 20%;
+        width: 35%;
+        font-size: 5vw;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .modal-anchor{
+        height: 20%;
+        width: 35%;
+        font-size: 5vw;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .create-page{
+        height: 100vh;
+    }
+
+    .profile-page{
+        height: 130vh;
+    }
 
     .ul-li-a{
-        font-size: 2vw;
+        font-size: 2.5vw;
         padding: 5% 1%;
         width: 45%;
     }
     .ul-li-button{
         width: 45%;
-        font-size: 2vw;
+        font-size: 2.5vw;
     }
 
     .ul-li-a-icon{
@@ -1408,7 +1478,7 @@ ul li a:hover{
 
     .input-field {
         width: 90%;
-        margin-top: 4vh;
+        margin-top: 2vh;
     }
 
     .field-label {
@@ -1450,7 +1520,6 @@ ul li a:hover{
         display: inline-flex;
         align-items: center;
         font-size: 2.5vw;
-        height: 60;
         width: 45vw;
     }
 
@@ -1488,14 +1557,12 @@ ul li a:hover{
 
     .full-name{
         margin: 2%;
-        font-size: 5vw;
+        font-size: 10vw;
         font-weight: bold;
     }
-    .vaccine-status{
-        margin-bottom: 10%;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 3vw;
-        font-style: italic;
+    .vaccine-status-text{
+        margin: 0 1vh;
+        font-size: 5vw;
     }
 
     .dose-label {
@@ -1511,11 +1578,6 @@ ul li a:hover{
         font-size: 3.5vw;
     }
 
-    .hidden-info{
-        text-align: right;
-        margin: 1vw;
-        font-size: 2vw;
-    }
     .hero-banner{
         height: 15vh;
         box-shadow: 0 0 4px black;
@@ -1523,9 +1585,72 @@ ul li a:hover{
     .logo-wrapper{
         display: none;
     }
+    .dose{
+        margin: 1vh 3vw;
+    }
+    .dose-label{
+        font-size: 3vw;
+    }
+
+    .hidden-info{
+        margin: 1vh 1vw;
+        text-align: center;
+        font-size: 3.5vw;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    .url{
+        font-size: 3.5vw;
+        width: 60vw;
+    }
+    .qr-img {
+        display: block;
+        width: 40vw;
+        margin: 1vh auto;
+    }
+    .link-toggle{
+        margin: 1vh auto;
+        width: 30vw;
+        font-size: 4.5vw;
+        padding: 3% 5%;
+    }
 }
 
 @media screen and (max-width: 450px) {
+    .modal-content{
+        height: 15vh;
+        background-color: white;
+        border-radius: 30px;
+    }
+    .larger{
+        height: 70vh;
+    }
+    .modal-text{
+        color: #1f1f1f;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 6.5vw;
+        text-align: center;
+        padding-top: 2%;
+    }
+    .modal-button{
+        padding: 1%;
+        height: 24%;
+        width: 35%;
+        font-size: 5vw;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .modal-anchor{
+        padding: 1%;
+        height: 24%;
+        width: 35%;
+        font-size: 5vw;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+    }
 
     .nav{
         width: 100%;
@@ -1535,15 +1660,15 @@ ul li a:hover{
     }
 
     .ul-li-a{
-        font-size: 3vw;
+        font-size: 3.1vw;
         font-weight: bolder;
         padding: 5% 0.5%;
         width: 45%;
     }
     .ul-li-button{
-                font-weight: bolder;
+        font-weight: bolder;
         width: 50%;
-        font-size: 3vw;
+        font-size: 3.1vw;
     }
 
     .ul-li-a-icon{
@@ -1574,6 +1699,7 @@ ul li a:hover{
     .wide-right{
         width: 80% ;
         margin-left: 20%;
+        height: 100vh;
     }
 
     .left-panel{
@@ -1585,22 +1711,29 @@ ul li a:hover{
         display: none;
     }
 
-    .right-panel{
-        display: block;
+    .create-page{
         height: 175vh;
-        width: 100%;
     }
 
+    .profile-page{
+        height: 140vh;
+    }
+    .status-circle{
+        width: 8vw;
+        height: 8vw;
+    }
     .full-name{
-        font-size: 10vw;
+        font-size: 11vw;
     }
     .qr-img {
         display: block;
-        width: 50vw;
+        width: 65vw;
         margin: 1vh auto;
     }
     .vaccine-status-text{
-        font-size: 5vw;
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 8vw;
     }
 
     .left-panel h1{
@@ -1687,7 +1820,7 @@ ul li a:hover{
         display: inline-flex;
         align-items: center;
         font-size: 4.5vw;
-        width: 100vw;
+        width: 80vw;
     }
 
     .file-upload-label{
@@ -1720,5 +1853,26 @@ ul li a:hover{
         width: 35vw;
         margin: 1% 1%;
         padding: 2% 3%;
-        }
+    }
+    .dose{
+        margin: 2vh 3vw;
+        padding: 0.5vh 0;
+    }
+    .dose-label{
+        display: none;
+    }
+    .dose-info{
+        display: none;
+    }
+    .hidden-info{
+        display: block;
+        font-size: 5vw;
+    }
+    .url{
+        font-size: 4vw;
+    }
+    .link-toggle{
+        font-size: 5vw;
+        padding: 3% 5%;
+    }
 }

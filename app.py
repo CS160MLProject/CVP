@@ -10,8 +10,8 @@ account_table = 'account'
 profile_table = 'profile'
 
 # AWS S3 bucket
-bucket_name = 'cvp-profile-photo'
-bucket_folder = 'profile_photo/'
+bucket_name = 'covapass-photo'
+profile_bucket = 'profile_photo/'
 
 
 def create_app():
@@ -39,3 +39,4 @@ mail = Mail(app)
 if __name__ == '__main__':
     from cvp.app.routes import *
     app.run()
+

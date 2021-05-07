@@ -6,6 +6,7 @@ import string
 from base64 import b64encode
 
 # import generate_hash under feature
+from credentials import hash_0, generate_block_hash
 from cvp.features.transform import generate_hash
 
 # constant values
@@ -14,7 +15,7 @@ VACCINE_START = datetime.date(2020, 11, 1)  # possible earliest vaccine date
 TODAY = datetime.date.today()
 RECOMMENDED_INTERVAL = 42 # CDC's recommended interval is within 42 after first dose.
 DELIM = '\t'  # deliminator for txt file
-ACCOUNT_SIZE = 200
+ACCOUNT_SIZE = 50
 
 
 def __get_names(first_names, middle_initials, last_names, inputfile):
@@ -76,9 +77,9 @@ def __account(first, last, middle_i, hospital, acc_id):
     domain = '@abc.com'  # sample domain for email address
     email = first.lower() + '.' + last.lower() + domain
     password = first.lower() + last.lower()
-    hashed_pass, salt = generate_hash(password)  # get hashed_pass and salt for this password
+    hashed_pass, temp_salt = generate_hash(password)  # get hashed_pass and salt for this password
     hashed_pass = b64encode(hashed_pass).decode('utf-8')
-    salt = b64encode(salt).decode('utf-8')
+    salt = b64encode(temp_salt).decode('utf-8')
     patient_num = str(random.randint(1000, 9999))  # randomly chosen patient id
 
 
@@ -100,10 +101,17 @@ def __account(first, last, middle_i, hospital, acc_id):
     vaccine_date1 = str(vaccine_date1)
     vaccine_date2 = str(vaccine_date2)
 
+    from credentials import temp_prev_hash
+
+    prev_hash = temp_prev_hash or hash_0
+    items = [prev_hash, user_account_id, patient_num, last_name, first_name, middle, dob, vaccine_name1, vaccine_date1,
+                 hospital, vaccine_name2, vaccine_date2, prev_hash]
+    block_hash = generate_block_hash(items, temp_salt)
+
     # return all information in string
     return DELIM.join(
         [user_account_id, email, hashed_pass, salt, patient_num, last_name, first_name, middle,
-         dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2, "None"])
+         dob, hospital, vaccine_name1, vaccine_date1, vaccine_name2, vaccine_date2, block_hash])
 
 
 def generate_accounts(inputfile, outputfile):

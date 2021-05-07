@@ -304,7 +304,7 @@ h1{
 .footer {
     display: grid;
     position: relative;
-    height: 30vh;
+    height: 20vh;
     width: 100%;
     background-color: #fbf7de;
     z-index: 999;
@@ -322,7 +322,7 @@ h1{
 }
 
 .inner_footer {
-    padding-top: 1rem;
+    padding-top: 0.5rem;
     margin: 1.5rem 2rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -531,7 +531,7 @@ h1{
         z-index: 999;
     }
     .inner_footer {
-        margin: 1.5rem 2rem;
+        margin: 1rem 2rem;
         display: block;
     }
     .footer-content {
@@ -539,7 +539,8 @@ h1{
     }
     .footer-content h2 {
         text-transform: uppercase;
-        margin-bottom: 7px;
-        margin-top: 20px;
+        margin-bottom: 1vh;
+        margin-top: 0.8vh;
+        font-size: 1em;
     }
 }

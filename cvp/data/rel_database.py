@@ -22,12 +22,14 @@ import coloredlogs
 from sqlite3 import Error
 from pathlib import Path
 from sqlalchemy import create_engine
-from credentials import tuplex
+from credentials import tuplex, generate_block_hash
+from base64 import b64decode
 import pandas as pd
 
 # Project Level Imports
 
 ACCOUNT_PATH = 'dataset/processed/accounts.txt'
+HISTORY_LOG_PATH = 'dataset/processed/hist_log.csv'
 
 
 logger = logging.getLogger(__name__)
@@ -224,7 +226,7 @@ class Database:
             raise Exception(e)
 
 
-def main(db_path: dict, account_path: str = None):
+def main(db_path: dict, account_path: str = None, hist_log_path: str = None):
     account_path = account_path or ACCOUNT_PATH
     if not os.path.exists(account_path):
         raise FileNotFoundError(f"File {account_path} was not found. Current dir: {os.getcwd()}")
@@ -240,11 +242,11 @@ def main(db_path: dict, account_path: str = None):
         os.remove(db_path.get('cdc'))
 
     df = pd.read_csv(account_path, sep='\t')
-    df.drop_duplicates(subset=['Email'], inplace=True)
+    # df.drop_duplicates(subset=['Email'], inplace=True)
 
     account_cols = ['Email', 'First_Name', 'Last_Name', 'Password', 'User_Account_ID', 'Salt']
     profile_cols = ['User_Account_ID', 'Patient_Num', 'Last_Name', 'First_Name', 'Middle_Initial', 'Dob',
-                    'Vaccine_Name1', 'Vaccine_Date1', 'Hospital', 'Vaccine_Name2', 'Vaccine_Date2']
+                    'Vaccine_Name1', 'Vaccine_Date1', 'Hospital', 'Vaccine_Name2', 'Vaccine_Date2', 'Block_Hash']
 
     db = Database(db_path.get('cvp'))
 
@@ -264,7 +266,8 @@ def main(db_path: dict, account_path: str = None):
         'Vaccine_Date1': 'VARCHAR NOT NULL',
         'Hospital': 'VARCHAR NOT NULL',
         'Vaccine_Name2': 'VARCHAR',
-        'Vaccine_Date2': 'VARCHAR'
+        'Vaccine_Date2': 'VARCHAR',
+        'Block_Hash': 'VARCHAR NOT NULL'
     }
     db.create_table(attr, table_name)
     df[profile_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
@@ -321,6 +324,12 @@ def main(db_path: dict, account_path: str = None):
     logger.debug(f"Table `{table_name}`: {db.select('*', table_name)}")
 
     db.close_connection()
+
+    # Make history logs to store all block_hash
+    hist_log_path = hist_log_path or HISTORY_LOG_PATH
+    log_cols = ['User_Account_ID', 'Block_Hash']
+    df[log_cols].to_csv(hist_log_path, index=False, sep='\t')
+
 
     logger.info('Finished operation')
 

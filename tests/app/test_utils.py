@@ -204,10 +204,16 @@ class TestUtils():
         profile_data['second_dose'] = 'Something2'
         profile_data['date_second'] = 'Apr 12, 2021'
 
-        assert generate_account(new_session, profile_data), f'Did not generate account successfully with valid data'
+        # assert generate_account(new_session, profile_data), f'Did not generate account successfully with valid data'
+        account_id = generate_account(new_session, profile_data)
+        assert account_id == size + 1
 
     def test_get_profile(self):
-        assert type(get_profile(1)) == dict, f'Did not get profile with valid ID'
+        acc, is_tampered = get_profile(1)
+        assert type(acc) == dict, f'Did not get profile with valid ID'
+        assert not is_tampered, f'User_Account_ID 1 is tampered'
+        assert len(acc) == 12
+        print(acc)
 
     def test_encode_decode_token(self):
         to_be_encrypted = 'Super Secret'
@@ -233,20 +239,38 @@ class TestUtils():
         folder_path = 'dataset/raw'
         save_path = 'tests/app'
 
-        # === Trigger Output ===#
-        upload_profile_picture(photo_name=photo_name, folder_path=folder_path)
-        get_profile_picture(file_name=photo_name, save_path=save_path)
+        #=== Trigger Output ===#
+        upload_to_s3(file_name=photo_name, folder_path=folder_path)
+        download_from_s3(file_name=photo_name, save_path=save_path)
 
         assert os.path.exists(os.path.join(save_path, photo_name))
 
         with pytest.raises(FileNotFoundError):
             wrong_path = 'wrong/path'
-            upload_profile_picture(photo_name, wrong_path)
-
-        with pytest.raises(FileNotFoundError):
-            wrong_path = 'wrong/path'
-            get_profile_picture(photo_name, wrong_path)
+            upload_to_s3(photo_name, wrong_path)
 
         with pytest.raises(FileNotFoundError):
             non_existed_photo = 'wrong_photo.png'
-            get_profile_picture(non_existed_photo, save_path)
+            upload_to_s3(non_existed_photo, save_path)
+
+        with pytest.raises(FileNotFoundError):
+            wrong_path = 'wrong/path'
+            download_from_s3(photo_name, wrong_path)
+
+        with pytest.raises(FileNotFoundError):
+            non_existed_photo = 'wrong_photo.png'
+            download_from_s3(non_existed_photo, save_path)
+
+
+    def test_clean_up_images(self):
+        #=== Test Inputs ===#
+        save_folder = 'tests/app'
+        file_name = 'will_be_deleted.txt'
+        save_path = os.path.join(save_folder, file_name)
+        with open(save_path, 'w') as file:
+            pass
+
+        #=== Trigger Output ===#
+        clean_up_images(file_name, save_folder)
+
+        assert not os.path.exists(save_path)

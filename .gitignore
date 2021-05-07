@@ -11,3 +11,6 @@ htmlcov/
 /tests/features/777.png
 /static/QR_Code/
 /dataset/raw/vaccine_record_photos/
+*.db
+*.txt
+*.csv

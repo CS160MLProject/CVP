@@ -1,18 +1,25 @@
 """Utilities for routes.py"""
 from app import *
 from credentials import *
-from cvp.data.rel_database import Database
+from cvp.data.rel_database import Database, HISTORY_LOG_PATH
 from cvp.features.transform import generate_hash
 import itsdangerous
 from itsdangerous import URLSafeTimedSerializer
 from base64 import b64decode, b64encode
+import pandas as pd
 import hmac
 import re
 import boto3
 import botocore
+import copy
 import os
 
+# Profile Photo
+DEFAULT_PROFILE_PHOTO = 'static/profile_pic/Smiley.png'
 SAVE_PROFILE_PICTURE_PATH = 'dataset/processed'
+PROFILE_IMAGE_PATH = 'static/profile_pic'
+QR_IMAGE_PATH = 'static/QR_Code'
+
 ts = URLSafeTimedSerializer(secret_key=secret_key)
 
 
@@ -242,19 +249,31 @@ def generate_account(session, profile_data):
     """
     db = Database(db_path)
     try:
+        # Get cur_hash from last record in database
+        last_record_hash = db.select('Block_Hash', profile_table, 'User_Account_ID = (SELECT max(User_Account_ID) FROM profile)')[0][0]
+
         # Get largest account_id in database and increment account_id by 1
         new_account_id = db.select(values='max(User_Account_ID)', table_name=account_table)[0][0] + 1
 
-        hashed_pass, hashed_salt = generate_hash(session['password'])
+        hashed_pass, temp_hashed_salt = generate_hash(session['password'])
         hashed_pass = b64encode(hashed_pass).decode('utf-8')
-        hashed_salt = b64encode(hashed_salt).decode('utf-8')
+        hashed_salt = b64encode(temp_hashed_salt).decode('utf-8')
         username = profile_data['first_name'] + ' ' + profile_data['last_name']
         account_value = (session['email'], hashed_pass, new_account_id, hashed_salt, username)
 
-        profile_value = (new_account_id, profile_data['patient_num'], profile_data['last_name'],
-                         profile_data['first_name'], profile_data['mid_initial'], profile_data['dob'],
-                         profile_data['first_dose'], profile_data['date_first'], profile_data['clinic_site'],
-                         profile_data['second_dose'], profile_data['date_second'])
+        items = [last_record_hash, new_account_id, profile_data['patient_num'], profile_data['last_name'],
+                 profile_data['first_name'], profile_data['mid_initial'], profile_data['dob'],
+                 profile_data['first_dose'], profile_data['date_first'], profile_data['clinic_site'],
+                 profile_data['second_dose'], profile_data['date_second'], last_record_hash]
+        new_hash = generate_block_hash(items, temp_hashed_salt)
+        with open(HISTORY_LOG_PATH, 'a') as hist_log_file:
+            hist_log_file.write(f'{new_account_id}\t{new_hash}\n')
+
+        items.pop(len(items)-1)
+        items.pop(0)
+        items.append(new_hash)
+
+        profile_value = tuple(items)
 
         db.insert(account_value, account_table)
         db.insert(profile_value, profile_table)
@@ -273,7 +292,37 @@ def get_profile(account_id):
     try:
         acc = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')[0]
         record = db.select('*', profile_table, f'User_Account_ID = \"{account_id}\"')[0]
-        return __form_dict(acc, record)
+
+        # Get block_hash from previous block
+        if record[0] == 1:
+            prev_hash = hash_0
+        else:
+            prev_hash = db.select('Block_Hash', profile_table, f'User_Account_ID = \"{account_id-1}\"')[0][0]
+
+        salt = b64decode(acc[3])
+        block_hash = b64decode(record[len(record)-1])
+
+        # Deep copy record and add prev_block_hash to front and back of the list
+        items = copy.deepcopy(list(record[:-1]))
+        items.insert(0, prev_hash)
+        items.append(prev_hash)
+
+        new_block_hash = generate_block_hash(items, salt)
+        new_block_hash_decoded = b64decode(new_block_hash)
+        correct_hash = hmac.compare_digest(block_hash, new_block_hash_decoded)
+
+        # Double checking method, check if this_block_hash is stored in local history logs
+        if correct_hash:
+            hist_log_df = pd.read_csv(HISTORY_LOG_PATH, sep='\t')
+            hist_log_block_hash = hist_log_df[hist_log_df['User_Account_ID'] == account_id]['Block_Hash'].values
+            if hist_log_block_hash == new_block_hash:
+                correct_hash = True
+            else:
+                correct_hash = False
+
+        # True if correct_hash is wrong (is tampered), False otherwise (is not tampered)
+        is_tampered = not correct_hash
+        return __form_dict(acc, record), is_tampered
     finally:
         db.close_connection()
 
@@ -342,17 +391,17 @@ def renew_token(token, salt, time):
     return extracted, token
 
 
-def upload_profile_picture(photo_name: str, folder_path: str):
-    """ Upload users' profile pictures to AWS S3 Bucket
+def upload_to_s3(file_name: str, folder_path: str):
+    """ Upload users' profile pictures to AWS S3 Bucket. One of the two type is required to be True
 
     Usage
     -----
-    >>> from cvp.app.utils import upload_profile_picture
+    >>> from cvp.app.utils import upload_to_s3
     >>> upload_profile_picture(photo_name, folder_path)
 
     Args:
-        photo_name: name of photo
-        folder_path: path contains photo
+        file_name (str): name of file (include file extension)
+        folder_path (str): path contains photo
 
     Returns:
 
@@ -360,21 +409,25 @@ def upload_profile_picture(photo_name: str, folder_path: str):
     if not os.path.exists(folder_path):
         raise FileNotFoundError(f"Folder {folder_path} was not found. Current dir: {os.getcwd()}")
 
-    local_path = os.path.join(folder_path, photo_name)
+    local_path = os.path.join(folder_path, file_name)
+    if not os.path.exists(local_path):
+        raise FileNotFoundError(f"File {local_path} was not found. Current dir: {os.getcwd()}")
+
 
     # We have to keep reconnecting to s3 client because it will close after a few second of not using
     client = boto3.client('s3', aws_access_key_id=s3_key, aws_secret_access_key=s3_secret_key)
 
-    upload_file = bucket_folder + str(photo_name)
+    upload_file = profile_bucket + file_name
+
     client.upload_file(local_path, bucket_name, upload_file)
 
 
-def get_profile_picture(file_name: str, save_path: str = None):
+def download_from_s3(file_name: str, save_path: str = None):
     """ Download file from AWS S3 Bucket to local disk
 
     Usage
     -----
-    >>> from cvp.app.utils import get_profile_picture
+    >>> from cvp.app.utils import download_from_s3
     >>> get_profile_picture(file_name)
 
     Args:
@@ -392,7 +445,7 @@ def get_profile_picture(file_name: str, save_path: str = None):
     # We have to keep reconnecting to s3 client because it will close after a few second of not using
     client = boto3.client('s3', aws_access_key_id=s3_key, aws_secret_access_key=s3_secret_key)
 
-    s3_download_path = bucket_folder + file_name
+    s3_download_path = profile_bucket + file_name
     save_file = os.path.join(save_path, file_name)
 
     try:
@@ -403,3 +456,22 @@ def get_profile_picture(file_name: str, save_path: str = None):
         else:
             raise Exception(err)
 
+
+def clean_up_images(file_name: str, path_to_file: str):
+    """ Remove profile and QR_Code image after downloading from S3 Bucket when user logs out
+
+    Usage
+    -----
+    >>> from cvp.app.utils import clean_up_images
+    >>> clean_up_images(file_name, path_to_file)
+
+    Args:
+        file_name (str): full name (include file extension) of a file
+        path_to_file (str): path to folder where this file is located
+
+    Returns:
+
+    """
+    file_to_clean = os.path.join(path_to_file, file_name)
+    if os.path.exists(file_to_clean):
+        os.remove(file_to_clean)

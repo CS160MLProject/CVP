@@ -303,7 +303,10 @@ def settings(token):
         if request.form.get('profile_save'):  # Process of Case(2)
             first_name = request.form.get('user_name')
             email = request.form.get('username_email')
-            profile_pic = request.files["profile_pic"]
+
+            profile_pic = None
+            if request.files.get('profile_pic'):
+                profile_pic = request.files["profile_pic"]
 
             if profile_pic:
                 os.remove(os.path.join(PROFILE_IMAGE_PATH, str(account_id)+'.png'))

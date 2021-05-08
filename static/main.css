@@ -904,7 +904,7 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
 .ul-li-button {
     display: inline-block;
     vertical-align: middle;
-    margin: 1vw 0 1vw 0.5vw;
+    margin: 1vw 0 1vw 2.45vw;
     padding: 5% 2%;
     white-space: nowrap;
     color: #0D0065;
@@ -939,6 +939,9 @@ NOTE-TO-SELF: Try refactoring this to using background-image instead*/
     white-space: nowrap;
     background-color: rgba(0,0,0,0);
     border-width: 0;
+}
+.left-float{
+    margin-left: -1.75vw;
 }
 
 .ul-li-a{

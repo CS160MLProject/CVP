@@ -50,7 +50,7 @@
 
                 </li>
                 <li class="li-prof">
-                    <button class="ul-li-a-icon" value="settings_button" name="settings_button">
+                    <button class="ul-li-a-icon left-float" value="settings_button" name="settings_button">
                         <img class="nav-icon" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
                     </button>
                     <button class= "ul-li-button" value="settings_button" name="settings_button" href="#">Settings</button>
@@ -72,7 +72,7 @@
 
         <div class="profile-info top-margin-small">
             <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
-            {% if (tampered) %}
+            {% if not (tampered) %}
             <div class="vaccine-status">
                 <div class="status-circle"></div>
                     <p class="vaccine-status-text">Status: Vaccinated</p>

@@ -62,18 +62,18 @@ class TestUtils():
         # === Test Inputs ===#
         db_path = 'tests/data/test_cdc.db'
         confirmed_data = {
-            'first_name': 'Kevin',
-            'mid_initial': 'A',
-            'dob': '1912-01-01',
-            'first_dose': 'Pfizer-TD5783',
-            'second_dose': 'Pfizer-TD5783',
-            'last_name': 'Munez',
-            'patient_num': '6320',
-            'clinic_site': 'CruzMedicalCenter',
-            'date_first': '2021-03-08',
-            'date_second': '2021-04-04'
+            'first_name': 'Quang Duy',
+            'mid_initial': '',
+            'dob': '11/19/1999',
+            'first_dose': 'Janssen',
+            'second_dose': '',
+            'last_name': 'Tran',
+            'patient_num': '',
+            'clinic_site': 'mo vax',
+            'date_first': '04/08/21',
+            'date_second': ''
         }
-        email = 'kevin.munez@abc.com'
+        email = 'quangduytran99@gmail.com'
 
         # === Trigger Outputs ===#
         assert check_cdc(confirmed_data=confirmed_data, email=email, db_path=db_path)

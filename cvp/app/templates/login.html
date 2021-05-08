@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/static/home_page.css">
+    <!--Links to the external stylesheet so that the page uses the CSS from it-->
+    <link href="https://fonts.googleapis.com/css2?family=Pattaya&family=Poppins:wght@400;500&display=swap"
+          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Play&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;1,400&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" type="text/css" href="static/font-awesome/css/font-awesome.min.css">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVP | Login</title>
+</head>
+<body>
+    <div id="login-page-container">
+        <nav class="nav">
+            <ul class="nav__list">
+                <li class="nav__list-logo">
+                    <h1 id="logo"><a href="/">CoVaPass</a></h1>
+                </li>
+                <div class="nav__list-item-container">
+                    <li class="nav__list-item"><a href="register">Register</a></li>
+                </div>
+
+            </ul>
+        </nav>
+
+        <div id="content-wrap">
+            <div class="left-panel">
+                <h1 class="page-header">Log In</h1>
+                <img class="new-account-icon" src="{{ url_for('static', filename='images/login-icon3.png') }}"
+                     alt="Technology Lines.">
+            </div>
+
+            <div class="right-panel">
+                <div class="container top-margin-med">
+                    <form action={{ url_for("login") }} method="POST">
+                        <div class="input-field">
+                            <div class="field-label">
+                                <img class="field-icon" src="{{ url_for('static', filename='images/email-icon.png') }}"
+                                     alt="A black icon of a mail">
+                                <label class="text-label" for="email">Email:</label>
+                            </div>
+                            {{ error }}<!-- not sure where to put error -->
+                            <input class="text-field" onkeydown="checkEnterClick(event)" type="text" id="email" name="email"
+                                   placeholder="hello@cvp.org">
+                        </div>
+
+                        <div class="input-field">
+                            <div class="field-label">
+                                <img class="field-icon" src="{{ url_for('static', filename='images/lock-icon.png') }}"
+                                     alt="A black icon of a padlock">
+                                <label class="text-label" for="password">Password:</label>
+                                <button class="forgot-password" name="forgot_password_button" value="forgot_password_button"
+                                        href=""> Forgot password?
+                                </button>
+                            </div>
+
+                            <input class="text-field" type="password" id="password" name="password"
+                                   placeholder="Enter your Password here">
+                        </div>
+
+                        <div class="input-field">
+                            <button class="inline-button smaller" name="cancel_button" value="cancel_button" type="cancel">
+                                Cancel
+                            </button>
+                            <!--there are two classes being applied here, which allows two different styles to cascade-->
+                            <button class="inline-button smaller login" id="login" name="login_button" value="login_button"
+                                    type="login">Log in
+                            </button> <!--for this instance, inline-button gets applied first, then the smaller second-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="footer">
+            <div class="inner_footer">
+                <div class="footer-content">
+                    <h2>Covid Vaccine Passport</h2>
+                    <p>Web app that will bring convenience to everyone</p>
+                </div>
+                <div class="footer-content">
+                    <h2>Company</h2>
+                    <li><a href="#">Terms & Condition</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Project Protection</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>About</h2>
+                    <li><a href="#">Team</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>Help</h2>
+                    <li><a href="#">Getting Started</a></li>
+                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#">Network Status</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Other Services</a></li>
+                </div>
+                <div class="footer-content">
+                    <h2>Newsletter</h2>
+                    <form action="">
+                        <input type="text" placeholder="E-mail">
+                        <button class="btn">Subscribe</button>
+                        <div class="socials">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
+            <p class="copyright">All Rights Reserved &copy;
+                <script>document.write(new Date().getFullYear())</script>
+                Covid Vaccine Passport
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Script taken from https://www.w3schools.com/howto/howto_js_trigger_button_enter.asp
+        // modified to work with this document
+
+        // handle pressing Enter key in the email box
+        let input = document.getElementById("email");
+        // Execute a function when the user releases a key on the keyboard
+        input.addEventListener("keydown", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("login").click();
+            }
+        });
+
+        // handle pressing Enter key in the password box
+        let input2 = document.getElementById("password");
+        // Execute a function when the user releases a key on the keyboard
+        input2.addEventListener("keydown", function (event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("login").click();
+            }
+        });
+
+
+    </script>
+</body>
+</html>

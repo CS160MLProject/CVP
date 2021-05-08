@@ -71,16 +71,20 @@ def generate_QR_code(link: str, user_account_id: str, save=False, save_folder: s
     """
     logger.info('Preparing ...')
     save_folder = save_folder or QR_CODE_FOLDER
+    save_file = os.path.join(save_folder, user_account_id + ".png")
 
     if not os.path.exists(save_folder):
         raise FileNotFoundError(f"File {save_folder} was not found. Current dir: {os.getcwd()}")
 
+    if os.path.exists(save_file):
+        os.remove(save_file)
+
     qr_code = pyqrcode.create(link)
 
-    logger.debug(f'{os.path.join(save_folder, user_account_id + ".png")}')
+    logger.debug(f'{save_file}')
 
     if save:
-        qr_code.png(os.path.join(save_folder, user_account_id + '.png'), scale=8)
+        qr_code.png(save_file, scale=8)
         logger.info('SUCCESS: QR_Code saved!')
 
     logger.info('Finished operation')

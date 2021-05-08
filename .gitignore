@@ -8,3 +8,9 @@ htmlcov/
 /credentials.py
 /dataset/external/
 /dataset/processed/QR_Code/
+/tests/features/777.png
+/static/QR_Code/
+/dataset/raw/vaccine_record_photos/
+*.db
+*.txt
+*.csv

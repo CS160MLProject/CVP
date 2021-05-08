@@ -1,0 +1,1931 @@
+*{ /* This resets the margin and padding of everything,
+    allowing me to design for any browser that may have
+    default values for margin and padding.
+    --------
+    There's a way for me to completely reset every single css for any browser
+    but I'm sticking with this one for now.*/
+    margin: 0; /* margin is the space around the element*/
+    padding: 0; /* while padding is the space around the data inside the element*/
+
+    /*-webkit-transition: all 0.5s;*/
+    /*-moz-transition: all 0.5s;*/
+    /*-o-transition: all 0.5s;*/
+    /*transition: all 0.5s;*/
+}
+
+/* Then I apply my CSS from here*/
+
+body{
+    /* Sets the background color of the entire page to a light gray*/
+    background-color: #ffffff;
+}
+
+/* .class allows me to target CSS to a specific class that can be used in any html element*/
+
+.container {
+    margin: 1vh 5vw;
+    padding: 0;
+}
+
+.inline-item {
+    display: inline-block;
+}
+
+.header1{
+    font-size: 2.5vw;
+}
+
+.block-item{
+    background-color: rgba(10, 146, 204, 0.08);
+    display: block;
+    padding: 1.5%;
+    margin: 1vh 2vw;
+    border-radius: 20px;
+}
+
+/* Left side of the Home Page*/
+.left-panel{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    position: relative;
+    float: left;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    width: 20%;
+    height: 100vh;
+    z-index: 899;
+    box-shadow: 0 0 2px gray;
+}
+
+.narrow-left{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    position: fixed;
+    float: left;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    width: 20%;
+    height: 100vh;
+    z-index: 899;
+    box-shadow: 0 0 2px gray;
+}
+
+/* Affects all the h1 elements declared inside any element that uses this class.
+Not ideal but shows a way to apply CSS in a broad manner*/
+.left-panel h1{
+    margin-top: 50px;
+    text-align: center;
+    color:#3d3d3d;
+}
+
+/* Similar idea as the one above but affects images instead*/
+.img-logo{
+    width: 70%;
+    display: block;
+    transform: scale(0.5);
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.qr-img {
+    display: block;
+    width: 25vw;
+    margin: 6vh auto;
+}
+
+/* Same idea but affects the h2 elements*/
+.left-panel h2{
+    text-align: center;
+    color: #3d3d3d;
+    padding-top: 350px;
+}
+
+.margin-for-nav{
+    margin-top: 7.5vh;
+}
+
+
+/* Right side of the Home Page. */
+.right-panel{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #fafafa;
+    width: 80%;
+    height: 100vh;
+    z-index: 9999;
+}
+
+.recover-page{
+    width: 100%;
+}
+
+.wide-right{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    width: 80%;
+    margin-left: 20%;
+    height: 100vh;
+    z-index: 9999;
+}
+
+.profile-page{
+    height: 220vh;
+}
+
+.full-panel{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ffffff;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+}
+
+.hero-banner{
+    width: 100%;
+    height: 21vh;
+    object-fit: cover;
+    box-shadow: 0 0 5px black;
+}
+
+
+.right-panel-close{
+    display: inline-block;
+    vertical-align: top;
+    /* background-color: #ffffff; */
+    width: 74.5%;
+    height: 900px;
+}
+
+.motto{
+    display: block;
+    text-align: left;
+    color:#3d3d3d;
+    position: absolute;
+    font-size: 2vw;
+    top: 10%;
+    left: 30%;
+}
+
+.message {
+    color: #3d3d3d;
+    text-align: left;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    margin: 10px 150px 10px 60px;
+}
+
+/* This sets the width of the image to the entire width of the screen
+NOTE-TO-SELF: Try refactoring this to using background-image instead*/
+.img-banner{
+    width: 100%;
+}
+
+/* This crops any image that uses this class to 25% of its current container's height*/
+.vert-crop{
+    max-height: 25%;
+    overflow: hidden;
+}
+
+.description{
+    text-align: center;
+    color:#3d3d3d;
+    padding: 50px;
+}
+
+.home-button{
+    display: block;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 40%;
+    width: 22.5vw;
+    font-size: 1.6vw;
+    text-align: center;
+    border-radius: 20px;
+    /*border-color:#0D0065;*/
+    border-width: 0;
+    padding: 1.2% 2%; /* pixels derived from adobe xd values. */
+    margin: 1% 3%;
+    outline: none;
+    cursor: pointer;
+}
+
+/* This adds an effect when you hover on the buttons*/
+.home-button:hover {
+    opacity: 90%;
+}
+
+/* A simple animation that makes the button mimic getting pressed when you click it*/
+.home-button:active {
+    transform: scale(0.98);
+    opacity: 90%;
+}
+
+.new-account-icon{
+    margin: 10vh 2vw;
+    width: 65%;
+}
+
+.field-icon{
+    display: inline-block;
+    vertical-align:middle;
+    margin: 2% 0;
+    width: 10%;
+}
+
+.text-label{
+    display: inline-block;
+    vertical-align:middle;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.5vw;
+    color: #5e5e5e;
+    text-align: left;
+}
+
+.text-label-small{
+    display: inline-block;
+    vertical-align:middle;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+    font-size: 1vw;
+    color: #5e5e5e;
+    text-align: left;
+}
+
+.critical{
+    color: red;
+}
+
+.field-label{
+    /*background-color: #10CC0A;*/
+    width: 25vw;
+    display: block;
+    margin: 0.5% 1%;
+}
+
+.field-note {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2vw;
+    color: #5e5e5e;
+}
+
+.centered{
+    margin: 10% auto 10% 15%;
+}
+
+.url{
+    display: none;
+    margin: 0 auto;
+    font-size: 1.5vw;
+    padding: 1%;
+    text-align: center;
+    color: #0D0065;
+    text-decoration: underline;
+    width: 55vw;
+}
+.url:hover{
+    opacity: 80%;
+    cursor: pointer;
+}
+
+.first-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.first-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.mi-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.mi-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.last-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.last-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.dob-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.dob-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.pnum-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.pnum-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.clinic-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.clinic-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.fdose-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.fdose-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.fdate-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.fdate-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.sdose-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.sdose-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.sdate-text{
+    display: inline-block;
+    font-size: 2vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+
+.sdate-edit{
+    margin-left: 5%;
+    width: 10%;
+    display: inline-block;
+    font-size: 0.8vw;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #001cb8;
+}
+
+.text-field{
+    display: block;
+    width: 35vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 1.5vw;
+    padding: 1%;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short{
+    display: block;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-first{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-mi{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-last{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-dob{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-pnum{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-clinic{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-fdose{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-fdate{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-sdose{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.text-field-short-sdate{
+    display: none;
+    width: 25vw;
+    height: 30%;
+    border-radius: 5px;
+    font-size: 30px;
+    padding: 10px;
+    text-align: left;
+    color:#333333;
+}
+
+.input-field {
+    /*background-color: #10CC0A;*/
+    width: 74%;
+    margin: 1vh 10%;
+    padding: 0;
+}
+
+.fields-column {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 8vw;
+}
+
+.confirm-button{
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 45%;
+    width: 26vw;
+    font-size: 2vw;
+    text-align: center;
+    border-radius: 20px;
+    /*border-color:#0D0065;*/
+    border-width: 0;
+    padding: 1.5% 4%; /* pixels derived from adobe xd values. */
+    margin: 1% 0 1% 30%;
+    outline: none;
+    cursor: pointer;
+}
+
+.confirm-button:hover{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transform: scale(1.025);
+    opacity: 90%;
+}
+
+.confirm-button:active{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transform: scale(0.9);
+}
+
+.change-pass{
+    font-size: 1.6vw;
+    font-style: italic;
+    text-align: center;
+    color: #0D0065;
+}
+
+.change-pass:hover{
+    font-size: 1.625vw;
+    opacity: 90%;
+}
+
+.inline-button {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 40%;
+    width: 22.5vw;
+    font-size: 1.6vw;
+    text-align: center;
+    border-radius: 20px;
+    /*border-color:#0D0065;*/
+    border-width: 0;
+    padding: 1.2% 2%; /* pixels derived from adobe xd values. */
+    margin: 1% 3%;
+    outline: none;
+    cursor: pointer;
+}
+
+.smaller {
+    border-radius: 20px;
+    width: 30%;
+}
+
+.inline-button:hover {
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    transform: scale(1.025);
+    opacity: 90%;
+}
+
+.inline-button:active {
+    transform: scale(0.98);
+}
+
+.recover-button:active{
+    background-color: #10CC0A;
+    color: white;
+}
+
+.resend {
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 80px;
+    width: 500px;
+    font-size: 36px;
+    text-align: center;
+    border-radius: 20px;
+    border-color:#0D0065;
+    padding: 0;
+    margin: 0 auto 10px 60px;
+    cursor: pointer;
+}
+
+.resend:focus {
+    background-color:#10CC0A;
+}
+
+.warning-message {
+    color: red;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.3vw;
+    font-weight: bold;
+    margin: 10px 150px 10px 60px;
+}
+
+.forgot-password {
+    display: inline-block;
+    vertical-align: middle;
+    color:#0A92CC;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1vw;
+    margin-left: 20%;
+    background-color: rgba(0,0,0,0);
+    border-width: 0;
+    outline: none;
+    cursor: pointer;
+}
+
+.page-header {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2.5vw;
+    text-align: center;
+    margin: 2%;
+}
+
+.padding-div {
+    text-align: center;
+    margin: 20%;
+}
+
+.sign-out-modal{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    z-index: 1000;
+}
+
+.change-pass-modal{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    z-index: 1000;
+}
+
+.modal-content{
+    width: 55%;
+    height: 25%;
+    background-color: white;
+    border-radius: 30px;
+}
+
+.larger{
+    width: 75%;
+    height: 60%;
+}
+
+.modal-header{
+    width: 100%;
+    height: 20%;
+    background-color: #0A92CC;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+.modal-text{
+    color: #1f1f1f;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2.5vw;
+    text-align: center;
+    padding-top: 1%;
+}
+
+.modal-anchor{
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #0A92CC;
+    color:white;
+    height: 20%;
+    width: 35%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.5vw;
+    text-align: center;
+    border-radius: 40px;
+    margin: 5%;
+    outline: none;
+    cursor: pointer;
+}
+
+.modal-button{
+    display: inline-block;
+    vertical-align: middle;
+    background-color: #0A92CC; rgba(10, 146, 204, 0);
+    color:white;
+    height: 20%;
+    width: 35%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.5vw;
+    text-align: center;
+    border-radius: 40px;
+    border-width: 0;
+    margin: 5%;
+    outline: none;
+    cursor: pointer;
+}
+
+.modal-button:active{
+    opacity: 80%;
+}
+
+/* Classes for the navigation bar in the Profile page */
+
+.logo{
+    border-width: 0;
+    background-color: rgba(0,0,0,0);
+    margin: 20%;
+}
+.logo:hover{
+    cursor: pointer;
+}
+
+.nav-icon{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 2vw;
+    width: 2vw;
+}
+
+.nav-prof{
+    background-color: #fefefe;
+    height: 100vh;
+    width: 100%;
+    padding:0;
+    box-shadow: 0 0 2px gray;
+}
+
+.ul-prof{
+
+    margin: 0;
+    overflow: hidden;
+}
+
+.li-prof{
+    width: 100%;
+    margin-bottom: 1rem;
+    list-style: none;
+    overflow: hidden;
+    /*background-color: #0A92CC;*/
+}
+
+.li-prof:hover{
+    background-color: rgba(10, 146, 204, 0.2);
+    cursor: pointer;
+}
+
+.ul-li-button {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 1vw 0 1vw 0.5vw;
+    padding: 5% 2%;
+    white-space: nowrap;
+    color: #0D0065;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.6vw;
+    font-weight: bold;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    outline: none;
+}
+
+.ul-li-button:hover{
+    opacity: 80%;
+    cursor: pointer;
+}
+
+.ulbtn{
+    display: inline-block;
+    vertical-align: middle;
+    width: 45%;
+    border-width: 0;
+    background-color: rgba(0,0,0,0);
+    outline: none;
+}
+
+.ul-li-a-icon{
+    display: inline-block;
+    vertical-align: middle;
+    width: 40%;
+    margin: 0;
+    padding: 5% 2%;
+    white-space: nowrap;
+    background-color: rgba(0,0,0,0);
+    border-width: 0;
+}
+
+.ul-li-a{
+    display: inline-block;
+    vertical-align: middle;
+    text-decoration: none;
+    color: #0D0065;
+    width: 45%;
+    margin: 0 1vw;
+    /*background-color: #0A92CC;*/
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.6vw;
+    font-weight: bold;
+    padding: 5% 2%;
+}
+
+ul li a:hover{
+    opacity: 90%;
+}
+
+ul li a:active{
+    transform: scale(0.95);
+}
+
+.menu{
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 10%;
+}
+.menu-img{
+    margin: 2vh 1vw;
+    width: 2vw;
+}
+
+.menu-img:hover{
+    transform: scale(1.075);
+}
+
+.menu-img:active{
+    transform: scale(0.95);
+}
+
+.nav-img{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 5%;
+}
+
+.margin-left{
+    margin-left: 25vw;
+}
+
+.profile-info{
+    position: relative;
+    /*background-color: #10CC0A;*/
+}
+
+.section-label2{
+    display: block;
+    vertical-align: top;
+    text-decoration: none;
+    text-align: center;
+    color: #045b77;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 25vh;
+    margin-bottom: 2vh;
+    font-size: 3vw;
+    font-weight: bold;
+    background-color: #f3f3f3;
+    border-radius: 10vw;
+}
+
+.section-label3{
+    display: block;
+    text-decoration: none;
+    color: #044a60;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 4.5vw;
+    font-weight: bold;
+    text-align: center ;
+    margin-bottom: 1rem;
+}
+
+.colored-section{
+    background-color: #ffffff;
+    height: 35%;
+    margin-top: 5%;
+    padding-top: 5%;
+}
+
+.full-name{
+    text-align: center;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 3vw;
+    font-weight: bold;
+}
+
+.vaccine-status{
+    display: block;
+    vertical-align: center;
+    text-align: center;
+    margin: 2vh 2vw;
+    font-style: italic;
+}
+
+.vaccine-status-text{
+    display: inline-block;
+    vertical-align: center;
+    text-align: center;
+    margin-bottom: 10%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2vw;
+    font-style: italic;
+}
+.bold{
+    font-weight: bold;
+}
+
+.dose {
+    position: relative;
+    background-color: rgba(10, 146, 250, 0.16);
+    margin: 4vh 0.5vw;
+    text-align: center;
+    border-radius: 5vw;
+}
+
+.dose-label {
+    position: absolute;
+    top: 0.25vh;
+    left: 25vw;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    display: inline-block;
+    vertical-align: middle;
+    border-width: 0;
+    outline: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2vw;
+    font-weight: bolder;
+    color: #001780;
+    text-decoration: underline;
+}
+
+.dose-label:hover{
+    cursor: pointer;
+    opacity: 80%;
+}
+
+.second-label{
+    -webkit-transition: all 0.25s;
+    -moz-transition: all 0.25s;
+    -o-transition: all 0.25s;
+    display: inline-block;
+    vertical-align: middle;
+    outline: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2vw;
+    font-weight: bolder;
+    color: #001780;
+    text-decoration: underline;
+}
+
+.second-label:hover{
+    cursor: pointer;
+    opacity: 80%;
+}
+
+
+.dose-info{
+    display: inline-block;
+    vertical-align: bottom;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2vw;
+    font-style: italic;
+    opacity: 70%;
+    margin: 1vh 5vw 1vh 18vw;
+}
+
+.info{
+    text-align: right;
+    margin-right: 5vw;
+}
+
+.hidden-info{
+    vertical-align: middle;
+    margin: 1vh auto 1vh 10vw;
+    font-family:  Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.9vw;
+    /*font-weight: bold;*/
+    display: none;
+    color: #1f1f1f;
+}
+.right-margin-small{
+    margin-right: 3vw;
+}
+
+.link-toggle{
+    display: block;
+    text-align: center;
+    margin: 2% 35%;
+    margin-bottom: 5%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2vw;
+    background-color: #0A92CC;
+    border-width: 0;
+    color: #ffffff;
+    padding: 2%;
+    border-radius: 20px;
+}
+
+.link-toggle:hover{
+    opacity: 90%;
+    cursor: pointer;
+}
+
+.file-upload{
+    display: inline-flex;
+    align-items: center;
+    font-size: 2vw;
+    height: 45%;
+    width: 20vw;
+}
+
+.file-upload-input{
+    display: none;
+}
+
+.file-upload-button{
+    -webkit-appearance: none;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 45%;
+    width: 25vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.8em;
+    padding: 0.3em 0.5em;
+    text-align: center;
+    border-radius: 20px;
+    /*border-color:#0D0065;*/
+    border-width: 0;
+    outline: none;
+    margin: 1% 5%;
+    cursor: pointer;
+}
+
+.file-upload-button:hover{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    transform: scale(1.025);
+}
+
+.file-upload-button:active{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    transform: scale(0.95);
+}
+
+.file-upload-label{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1vw;
+}
+
+.pic-upload-input{
+    display: none;
+}
+
+.pic-upload-button{
+    -webkit-appearance: none;
+    background-color: #0A92CC;
+    color:white;
+    text-shadow: #1f1f1f;
+    height: 45%;
+    width: 25vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.8em;
+    padding: 0.3em 0.5em;
+    text-align: center;
+    border-radius: 20px;
+    /*border-color:#0D0065;*/
+    border-width: 0;
+    outline: none;
+    margin: 1% 5%;
+    cursor: pointer;
+}
+
+.pic-upload-button:hover{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    transform: scale(1.025);
+}
+
+.pic-upload-button:active{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+    transform: scale(0.95);
+}
+
+.pic-upload-label{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1vw;
+}
+
+.profile-pic{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 2vw;
+    height: 4vw;
+    width: 4vw;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 1px 1px 5px black;
+}
+.settings-pic{
+    height: 4vw;
+    width: 4vw;
+}
+
+.profile-pic:hover{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transform: scale(1.05);
+}
+
+.profile-pic:active{
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transform: scale(0.999);
+}
+
+.nav-anchor{
+    height: 100%;
+    width: 100%;
+    margin-left: 5%;
+}
+
+
+.footer {
+    display: grid;
+    position: relative;
+    height: 30vh;
+    width: 100vw;
+    margin: auto;
+    background-color: #fbf7de;
+    z-index: 999;
+}
+
+.inner_footer {
+    padding-top: 1rem;
+    margin: 1.5rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+}
+
+.footer-content {
+    width: 75%;
+}
+
+.footer-content h2 {
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.footer-content p{
+    opacity: 0.6;
+}
+.footer-content a{
+    color: black;
+    text-decoration: none;
+    opacity: 0.6;
+}
+.footer-content a.hover{
+    color: aqua;
+    opacity: 1;
+}
+.footer-content li{
+    list-style: none;
+    margin-bottom: 5px;
+}
+.footer-content input[type=text]{
+    padding: 8px 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    outline: none;
+}
+.footer-content .btn{
+    padding: 9px 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    outline: none;
+}
+.footer-content .socials{
+    margin-top: 30px;
+}
+.footer-content .socials li{
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 20px;
+}
+.footer-content a:hover{
+    color:aqua;
+    opacity: 1;
+}
+.footer hr{
+    opacity: 0.6;
+}
+.footer .copyright{
+    padding: 0.4rem;
+    text-align: center;
+}
+
+.top-margin-big{
+    margin-top: 40%;
+}
+.top-margin-med{
+    margin-top: 10%;
+}
+.top-margin-small{
+    margin-top: 3%;
+}
+
+.bot-margin-med{
+    margin-bottom: 30%;
+}
+
+.status-circle{
+    width: 2vw;
+    height: 2vw;
+    display: inline-block;
+    vertical-align: center;
+    background-color: #40ff33;
+    border-radius: 50%;
+    box-shadow: 0 0 2px black;
+}
+    .red{
+        background-color: red;
+    }
+
+@media screen and (max-width: 1060px) {
+    .modal-content{
+        width: 80vw;
+        height: 30vh;
+        background-color: white;
+        border-radius: 30px;
+    }
+    .larger{
+        height: 60vh;
+    }
+    .change-pass{
+        font-size: 3.5vw;
+    }
+    .modal-text{
+        color: #1f1f1f;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 7vw;
+        text-align: center;
+        padding-top: 2%;
+    }
+    .modal-button{
+        height: 20%;
+        width: 35%;
+        font-size: 5vw;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .modal-anchor{
+        height: 20%;
+        width: 35%;
+        font-size: 5vw;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .settings-pic{
+        height: 12vw;
+        width: 12vw;
+    }
+
+    .create-page{
+        height: 100vh;
+    }
+
+    .profile-page{
+        height: 130vh;
+    }
+
+    .ul-li-a{
+        font-size: 2.5vw;
+        padding: 5% 1%;
+        width: 45%;
+    }
+    .ul-li-button{
+        width: 45%;
+        font-size: 2.5vw;
+    }
+
+    .ul-li-a-icon{
+        padding: 5% 1%;
+        width: 35%;
+    }
+
+    .nav-icon{
+        margin-left: 1.5vw;
+    }
+
+    .li-prof{
+        margin: 1em 5% 1em 1%;
+    }
+
+    .new-account-icon{
+        margin-top: 10%;
+        width: 70%;
+    }
+
+    .page-header {
+        font-size: 3vw;
+    }
+
+    .top-margin-med{
+        margin-top: 5%;
+    }
+
+    .section-label2{
+        margin-top: 5vh;
+        margin-bottom: 5%;
+        font-size: 4vw;
+        font-weight: bold;
+        background-color: #f3f3f3;
+    }
+
+    .colored-section{
+        background-color: #ffffff;
+        height: 25%;
+        margin-top: 5%;
+        padding-top: 5%;
+    }
+
+    .input-field {
+        width: 60vw;
+        margin-top: 2vh;
+    }
+
+    .field-label {
+        margin-right: 5%;
+        width: 25vw;
+    }
+    .field-note{
+        font-size: 2.5vw;
+    }
+
+    .text-label{
+        font-size: 3vw;
+    }
+
+    .text-label-small{
+        font-size: 2vw;
+    }
+    .field-icon{
+        margin: 2% 0;
+        width: 15%;
+    }
+    .text-field{
+        width: 60vw;
+        border-radius: 5px;
+        font-size: 2.5vw;
+        padding: 1.5%;
+    }
+
+    .forgot-password{
+        font-size: 2vw;
+        margin-left: 2%;
+    }
+    .inline-button {
+        width: 30vw;
+        font-size: 3.5vw;
+        border-radius: 20px;
+    }
+    .recover-button{
+        width: 54vw;
+        font-size: 3.5vw;
+    }
+    .file-upload{
+        display: inline-flex;
+        align-items: center;
+        font-size: 2.5vw;
+        width: 45vw;
+    }
+
+    .file-upload-label{
+        font-size: 2.2vw;
+    }
+
+    .file-upload-button{
+        width: 40vw;
+        font-size: 1.2em;
+        padding: 0.5em 0.5em;
+    }
+
+    .pic-upload-label{
+        font-size: 2.2vw;
+    }
+    .pic-upload-button{
+        width: 40vw;
+        font-size: 1.2em;
+        padding: 0.5em 0.5em;
+    }
+
+    .home-button{
+        height: 40%;
+        width: 40vw;
+        font-size: 3vw;
+        }
+
+    .full-name{
+        margin: 2%;
+        font-size: 10vw;
+        font-weight: bold;
+    }
+    .vaccine-status-text{
+        margin: 0 1vh;
+        font-size: 5vw;
+    }
+
+    .dose-label {
+        font-size: 3vw;
+        left: 18vw;
+    }
+    .dose-info{
+        font-size: 2vw;
+        margin: 1vh 1vw 1vh 30vw;
+    }
+
+    .second-label {
+        font-size: 3.5vw;
+    }
+
+    .hero-banner{
+        height: 15vh;
+        box-shadow: 0 0 4px black;
+    }
+    .logo-wrapper{
+        display: none;
+    }
+    .dose{
+        margin: 1vh 3vw;
+    }
+    .dose-label{
+        font-size: 3vw;
+    }
+
+    .hidden-info{
+        margin: 1vh 10vw;
+        text-align: center;
+        font-size: 3.5vw;
+        text-transform: capitalize;
+    }
+    .url{
+        font-size: 3.5vw;
+        width: 60vw;
+    }
+    .qr-img {
+        display: block;
+        width: 40vw;
+        margin: 1vh auto;
+    }
+    .link-toggle{
+        margin: 1vh auto;
+        width: 30vw;
+        font-size: 4.5vw;
+        padding: 3% 5%;
+    }
+    .top-margin-small{
+        margin-top: 10vh;
+    }
+    .margin-left{
+        margin-left: 23vw;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .container{
+        margin: 1vw;
+    }
+    .modal-content{
+        height: 15vh;
+        background-color: white;
+        border-radius: 30px;
+    }
+    .larger{
+        height: 70vh;
+    }
+    .modal-text{
+        color: #1f1f1f;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 6.5vw;
+        text-align: center;
+        padding-top: 2%;
+    }
+    .modal-button{
+        padding: 1%;
+        height: 24%;
+        width: 35%;
+        font-size: 5vw;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .modal-anchor{
+        padding: 1%;
+        height: 24%;
+        width: 35%;
+        font-size: 5vw;
+        font-weight: bold;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .nav{
+        width: 100%;
+    }
+    .menu-img{
+        width: 5.5vw;
+    }
+
+    .ul-li-a{
+        font-size: 3.1vw;
+        font-weight: bolder;
+        padding: 5% 0.5%;
+        width: 45%;
+    }
+    .ul-li-button{
+        font-weight: bolder;
+        width: 50%;
+        font-size: 3.1vw;
+    }
+
+    .ul-li-a-icon{
+        padding: 5% 1%;
+        width: 25%;
+    }
+
+    .nav-icon{
+        margin-left: 1.5vw;
+        width: 3vw;
+    }
+
+    .li-prof{
+        margin: 1em 5% 1em 1%;
+    }
+
+    .fixed{
+        height: 6vh;
+    }
+
+    .margin-for-nav{
+        margin-top: 7.5vh;
+    }
+
+    .narrow-left{
+        width: 20%;
+    }
+    .wide-right{
+        width: 80% ;
+        margin-left: 20%;
+        height: 100vh;
+    }
+
+    .left-panel{
+        display: block;
+        width: 100%;
+        height: 10vh;
+    }
+    .new-account-icon{
+        display: none;
+    }
+
+    .settings-pic{
+        height: 25vw;
+        width: 25vw;
+    }
+
+    .change-pass{
+        font-size: 6vw;
+    }
+
+    .create-page{
+        height: 175vh;
+    }
+
+    .profile-page{
+        height: 140vh;
+    }
+    .status-circle{
+        width: 8vw;
+        height: 8vw;
+    }
+    .full-name{
+        font-size: 11vw;
+    }
+    .qr-img {
+        display: block;
+        width: 65vw;
+        margin: 1vh auto;
+    }
+    .vaccine-status-text{
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 8vw;
+    }
+
+    .left-panel h1{
+        margin-top: 5%;
+    }
+    .page-header {
+        margin-top: 1%;
+        font-size: 7vw;
+    }
+
+    .input-field {
+        width: 80vw;
+        margin-top: 2vh;
+    }
+
+    .field-label {
+        margin-right: 5%;
+        width: 55vw;
+    }
+    .fields-column {
+        width: 80vw;
+        margin: 1vw;
+    }
+
+    .text-label{
+        font-size: 6.5vw;
+    }
+    .field-icon{
+        display: none;
+    }
+    .field-note{
+        font-size: 3vw;
+        font-weight: bold;
+    }
+    .text-label-small{
+        font-style: italic;
+        font-size: 2.5vw;
+    }
+
+    .text-field{
+        width: 80vw;
+        border-radius: 5px;
+        font-size: 5vw;
+        padding: 2%;
+    }
+    .text-field-short{
+        display: block;
+        width: 100%;
+        height: 30%;
+        border-radius: 5px;
+        font-size: 6vw;
+        padding: 1vh;
+        text-align: left;
+        color:#333333;
+    }
+
+    .warning-message{
+        width: 85vw;
+        margin: 2vh auto 2vh 6vw;
+        font-size: 4vw;
+    }
+
+    .forgot-password{
+        font-size: 4vw;
+        margin: 3%;
+    }
+    .confirm-button{
+        font-size: 5vw;
+        width: 50vw;
+        padding: 3% 5%;
+        font-weight: bold;
+    }
+    .inline-button {
+        width: 30vw;
+        font-size: 3vw;
+        text-align: center;
+        border-radius: 20px;
+        /*border-color:#0D0065;*/
+        border-width: 0;
+        padding: 1.2% 2%; /* pixels derived from adobe xd values. */
+        outline: none;
+        cursor: pointer;
+    }
+    .recover-button{
+        width: 75vw;
+        font-size: 6vw;
+        font-weight: bold;
+        padding: 2vw;
+    }
+    .smaller{
+        font-size: 6vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% auto;
+        padding: 3% 4%;
+    }
+    .file-upload{
+        display: inline-flex;
+        align-items: center;
+        font-size: 4.5vw;
+        width: 80vw;
+    }
+
+    .file-upload-label{
+        font-size: 5vw;
+    }
+
+    .file-upload-button{
+        font-size: 5vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% 1%;
+        padding: 2% 3%;
+    }
+
+    .pic-upload-label{
+        font-size: 5vw;
+    }
+
+    .pic-upload-button{
+        font-size: 5vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% 1%;
+        padding: 2% 3%;
+    }
+
+    .home-button{
+        font-size: 5vw;
+        font-weight: bold;
+        width: 35vw;
+        margin: 1% 1%;
+        padding: 2% 3%;
+    }
+    .dose{
+        margin: 2vh 3vw;
+        padding: 0.5vh 0;
+    }
+    .dose-label{
+        display: none;
+    }
+    .dose-info{
+        display: none;
+    }
+    .hidden-info{
+        display: block;
+        font-size: 5vw;
+    }
+    .url{
+        font-size: 4vw;
+    }
+    .link-toggle{
+        font-size: 5vw;
+        padding: 3% 5%;
+    }
+    .top-margin-small{
+        margin-top: 10vh;
+    }
+    .margin-left{
+        margin-left: 9vw;
+    }
+}

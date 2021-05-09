@@ -72,7 +72,7 @@
 
         <div class="profile-info top-margin-small">
             <p class="full-name">{{profile['record_first_name']}}
-                {% if not (profile['middle_initial'] == 'None') or not (profile['middle_initial'] == 'none') %}
+                {% if not (profile['middle_initial'] == 'None') and not (profile['middle_initial'] == 'none') %}
                 {{profile['middle_initial']}}
                 {% endif %}
                 {{profile['record_last_name']}}</p>

@@ -15,7 +15,7 @@ import copy
 import os
 
 # Profile Photo
-DEFAULT_PROFILE_PHOTO = 'static/profile_pic/Smiley.png'
+DEFAULT_PROFILE_PHOTO = 'Smiley.png'
 SAVE_PROFILE_PICTURE_PATH = 'dataset/processed'
 PROFILE_IMAGE_PATH = 'static/profile_pic'
 QR_IMAGE_PATH = 'static/QR_Code'

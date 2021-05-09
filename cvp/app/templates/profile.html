@@ -50,8 +50,8 @@
 
                 </li>
                 <li class="li-prof">
-                    <button class="ul-li-a-icon left-float" value="settings_button" name="settings_button">
-                        <img class="nav-icon" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
+                    <button class="ul-li-a-icon" value="settings_button" name="settings_button">
+                        <img class="nav-icon-settings" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
                     </button>
                     <button class= "ul-li-button" value="settings_button" name="settings_button" href="#">Settings</button>
                 </li>
@@ -71,7 +71,11 @@
         </div>
 
         <div class="profile-info top-margin-small">
-            <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
+            <p class="full-name">{{profile['record_first_name']}}
+                {% if not (profile['middle_initial'] == 'None') or (profile['middle_initial'] == 'none') %}
+                {{profile['middle_initial']}}
+                {% endif %}
+                {{profile['record_last_name']}}</p>
             {% if not (tampered) %}
             <div class="vaccine-status">
                 <div class="status-circle"></div>
@@ -202,6 +206,8 @@
                 for(let i = 0; i < iconsL; i++){
                     icons[i].style.width = '3.5vw';
                 }
+                document.querySelector('.nav-icon-settings').style.width = '3.5vw';
+                document.querySelector('.nav-icon-settings').style.marginLeft = '1.5vw';
 
                 let anchor = document.querySelectorAll('.nav-anchor');
                 let anchorL = anchor.length;
@@ -236,6 +242,8 @@
                 for(let i = 0; i < iconsL; i++){
                     icons[i].style.width = '2vw';
                 }
+                document.querySelector('.nav-icon-settings').style.width = '2vw';
+                document.querySelector('.nav-icon-settings').style.marginLeft = '-1.5vw';
 
                 let imgs = document.querySelectorAll('.nav-img');
                 let imgsL = imgs.length;

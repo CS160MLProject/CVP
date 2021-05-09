@@ -304,7 +304,7 @@ h1{
 .footer {
     display: grid;
     position: relative;
-    height: 20vh;
+    height: 26vh;
     width: 100%;
     background-color: #fbf7de;
     z-index: 999;

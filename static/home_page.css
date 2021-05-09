@@ -478,6 +478,9 @@ h1{
         height: 15vh;
         box-shadow: 0 0 5px black;
     }
+    .profile-settings{
+        height: 8vh;
+    }
     .nav__list{
         display: block;
         margin: 0rem;

@@ -17,7 +17,7 @@
     <title>CVP | Settings</title>
 </head>
 <body>
-    <nav class="nav fixed">
+    <nav class="nav fixed profile-settings">
         <ul class="nav__list">
             <li class="nav__list-logo">
                 <h1 id="logo"><a href="/profile_{{ token }}">CoVaPass</a></h1>
@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="input-field top-margin-med">
-                    <a id="changepass" class="change-pass" href="#changepass">Change Password</a>
+                    <a id="changepass" class="change-pass" href="#">Change Password</a>
                 </div>
 
             </div>
@@ -78,7 +78,7 @@
 
     {% if (session['message']) %}
     <div class="alert-modal">
-        <div class="modal-content">
+        <div class="modal-alert">
             <div class="modal-header"></div>
             <p class="modal-text">{{ session['message'] }}</p>
             <a id="alert-back" class="inline-button alerts" href="#">Got it!</a>
@@ -96,7 +96,7 @@
         <div class="modal-content larger">
             <div class="modal-header"></div>
 
-            <div class="input-field">
+            <div class="input-field top-margin-small">
 
                 <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
                 <div class="field-label">
@@ -142,8 +142,8 @@
             </div>
             <div class="input-field">
 
-                <a id="pass-back" class="inline-button smaller" href="#">Back</a>
-                <button id="savechange" class="inline-button smaller" name="password_save_button" value=True type="submit">Save</button>
+                <a id="pass-back" class="inline-button smaller block-modal" href="#">Back</a>
+                <button id="savechange" class="inline-button smaller block-modal" name="password_save_button" value=True type="submit">Save</button>
             </div>
         </div>
     </div>
@@ -186,8 +186,6 @@
                 <div class="footer-content">
                     <h2>Newsletter</h2>
                     <form action="">
-                        <input type="text" placeholder="E-mail">
-                        <button class="btn">Subscribe</button>
                         <div class="socials">
                             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="#"><i class="fa fa-twitter"></i></a></li>

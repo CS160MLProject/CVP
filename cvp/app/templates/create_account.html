@@ -33,6 +33,21 @@
 
             </ul>
     </nav>
+    {% if (session['message']) %}
+    <div class="alert-modal">
+        <div class="modal-alert">
+            <div class="modal-header"></div>
+            <p class="modal-text">{{ session['message'] }}</p>
+            <a id="alert-back" class="inline-button alerts" href="#">Close</a>
+        </div>
+    </div>
+        <script>
+            document.getElementById('alert-back').addEventListener('click',
+                function(){
+                    document.querySelector('.alert-modal').style.display = 'none';
+            });
+        </script>
+    {% endif %}
 
     <!--This is the container for the left panel of the window-->
     <div class="left-panel">

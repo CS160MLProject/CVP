@@ -118,8 +118,8 @@ def register():
                 session['message'] = 'Account Created!'
                 return redirect(url_for('login'))
             else:  # the information is not in CDC database, return (something_went_wrong.html)
-                error_msg = 'Something went wrong'
-                return f'<h1> {error_msg} <h1>'
+                session['message'] = 'No matching CDC record!'
+                return render_template('create_account.html', profpic='profile_pic/' + session['profile_photo'])
     # initial default by GET for /register
     session['message'] = None
     return render_template("uploading_of_document.html")

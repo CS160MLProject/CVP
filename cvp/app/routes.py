@@ -26,6 +26,7 @@ def homepage():
         if request.form.get('login_button'):  # process for case(3)
             return redirect(url_for('login'))
     # default. process for case(1)
+    session['message'] = None
     return render_template('index.html')
 
 
@@ -308,6 +309,7 @@ def settings(token):
         if request.form.get('profile_save'):  # Process of Case(2)
             first_name = request.form.get('user_name')
             email = request.form.get('username_email')
+            session['message'] = 'Saved Changes!'
 
             profile_pic = None
             if request.files.get('profile_pic'):
@@ -319,6 +321,7 @@ def settings(token):
                 profile_pic.save(temp_save_path)
                 upload_to_s3(str(account_id) + '.png', PROFILE_IMAGE_PATH)
                 session['pic'] = 'profile_pic/' + str(account_id) + '.png'
+                session['message'] = 'Profile Photo Changed!'
 
             # save the info with database with account_id
             error_msg = update_account(account_id, first_name, email)
@@ -326,7 +329,6 @@ def settings(token):
             os.makedirs(PROFILE_IMAGE_PATH, exist_ok=True)
 
             if not error_msg:
-                session['message'] = 'Username Changed!'
                 # return to setting or profile with message
                 return render_template('settings.html', token=token, pic=session['pic'])
 

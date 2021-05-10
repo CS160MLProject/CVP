@@ -31,9 +31,24 @@
         </nav>
 
         <div id="content-wrap">
+            {% if (session['message']) %}
+            <div class="alert-modal">
+                <div class="modal-content">
+                    <div class="modal-header"></div>
+                    <p class="modal-text">{{ session['message'] }}</p>
+                    <a id="alert-back" class="inline-button alerts" href="#">Okay</a>
+                </div>
+            </div>
+                <script>
+                    document.getElementById('alert-back').addEventListener('click',
+                        function(){
+                            document.querySelector('.alert-modal').style.display = 'none';
+                    });
+                </script>
+            {% endif %}
             <div class="left-panel">
                 <h1 class="page-header">Log In</h1>
-                <img class="new-account-icon" src="{{ url_for('static', filename='images/login-icon3.png') }}"
+                <img class="login-icon" src="{{ url_for('static', filename='images/login-icon3.png') }}"
                      alt="Technology Lines.">
             </div>
 
@@ -55,7 +70,7 @@
                             <div class="field-label">
                                 <img class="field-icon" src="{{ url_for('static', filename='images/lock-icon.png') }}"
                                      alt="A black icon of a padlock">
-                                <label class="text-label" for="password">Password:</label>
+                                <label class="text-label password" for="password">Password:</label>
                                 <button class="forgot-password" name="forgot_password_button" value="forgot_password_button"
                                         href=""> Forgot password?
                                 </button>

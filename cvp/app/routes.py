@@ -26,6 +26,7 @@ def homepage():
         if request.form.get('login_button'):  # process for case(3)
             return redirect(url_for('login'))
     # default. process for case(1)
+    session['message'] = None
     return render_template('index.html')
 
 
@@ -90,6 +91,7 @@ def register():
                     return render_template('create_account.html', info=f'Welcome', profpic='profile_pic/' + pic_name)
 
             # error found in entered information
+            session['message'] = None
             return render_template("uploading_of_document.html", invalid_input=error_msg, email=email)
 
         elif request.form.get('confirm_button'):  # process for case(3)
@@ -113,12 +115,13 @@ def register():
                     os.remove(os.path.join(PROFILE_IMAGE_PATH, new_photo_name))
 
                 # rename the temp profile pic to a unique name based on the account's information
-
+                session['message'] = 'Account Created!'
                 return redirect(url_for('login'))
             else:  # the information is not in CDC database, return (something_went_wrong.html)
-                error_msg = 'Something went wrong'
-                return f'<h1> {error_msg} <h1>'
+                session['message'] = 'No matching CDC record!'
+                return render_template('create_account.html', profpic='profile_pic/' + session['profile_photo'])
     # initial default by GET for /register
+    session['message'] = None
     return render_template("uploading_of_document.html")
 
 
@@ -158,7 +161,7 @@ def login():
 
         if request.form.get('forgot_password_button'):  # process for case(4)
             return redirect(url_for('forgot_password'))  # process for case(4)
-
+        session['message'] = None
         return render_template('login.html', error=error_msg)  # login.html with error message
 
     # default. process for case(1)
@@ -241,17 +244,21 @@ def profile(token):
         return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
 
     user_profile, is_tampered = get_profile(account_id)
+    profile_photo = str(account_id) + '.png'
+    pic = 'profile_pic/' + profile_photo
 
-    # Grab user's profile picture from AWS S3 Bucket
-    try:
-        profile_photo = str(account_id) + '.png'
-        download_from_s3(profile_photo,
-                         PROFILE_IMAGE_PATH)  # Will throw exception if file is not found on AWS S3 Bucket
-        pic = 'profile_pic/' + profile_photo
-    except FileNotFoundError:
-        pic = 'profile_pic/Smiley.png'
+    if not os.path.isfile(PROFILE_IMAGE_PATH + '/' + profile_photo):
+        # Grab user's profile picture from AWS S3 Bucket
+        try:
+            download_from_s3(profile_photo,
+                             PROFILE_IMAGE_PATH)  # Will throw exception if file is not found on AWS S3 Bucket
+            pic = 'profile_pic/' + profile_photo
+        except FileNotFoundError:
+            pic = 'profile_pic/Smiley.png'
 
+    # save pic path to session
     session['pic'] = pic
+
     if request.method == 'POST':  # process for case(1)
         if request.form.get('settings_button'):
             return redirect(url_for('settings', token=profile_token))
@@ -297,20 +304,24 @@ def settings(token):
     account_id, token = renew_token(token, salt=profile_key, time=900)  # 15 min
     if not account_id:  # could not decode the account_id (the link has expired)
         return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
-
     if request.method == 'POST':
         error_msg = ''
         if request.form.get('profile_save'):  # Process of Case(2)
             first_name = request.form.get('user_name')
             email = request.form.get('username_email')
-            profile_pic = request.files["profile_pic"]
+            session['message'] = 'Saved Changes!'
+
+            profile_pic = None
+            if request.files.get('profile_pic'):
+                profile_pic = request.files["profile_pic"]
 
             if profile_pic:
-                os.remove(os.path.join(PROFILE_IMAGE_PATH, str(account_id)+'.png'))
-                temp_save_path = os.path.join(PROFILE_IMAGE_PATH, str(account_id)+'.png')
+                os.remove(os.path.join(PROFILE_IMAGE_PATH, str(account_id) + '.png'))
+                temp_save_path = os.path.join(PROFILE_IMAGE_PATH, str(account_id) + '.png')
                 profile_pic.save(temp_save_path)
-                upload_to_s3(str(account_id)+'.png', PROFILE_IMAGE_PATH)
-                session['pic'] = 'profile_pic/'+str(account_id)+'.png'
+                upload_to_s3(str(account_id) + '.png', PROFILE_IMAGE_PATH)
+                session['pic'] = 'profile_pic/' + str(account_id) + '.png'
+                session['message'] = 'Profile Photo Changed!'
 
             # save the info with database with account_id
             error_msg = update_account(account_id, first_name, email)
@@ -318,8 +329,8 @@ def settings(token):
             os.makedirs(PROFILE_IMAGE_PATH, exist_ok=True)
 
             if not error_msg:
-                session['message'] = 'Saved change successfully'
-                return redirect(url_for('profile', token=token))  # return to setting or profile with message
+                # return to setting or profile with message
+                return render_template('settings.html', token=token, pic=session['pic'])
 
         elif request.form.get('password_save_button'):  # Process of Case(3)
             current_pass = request.form.get('current_password')
@@ -333,8 +344,9 @@ def settings(token):
                 if new_pass == conf_pass:  # check new password and confirm password
                     # update database
                     update_password(new_pass, acc=account_id)
-                    session['message'] = 'Saved change successfully'
-                    return redirect(url_for('profile', token=token))  # return to setting or profile with message
+                    session['message'] = 'Password Changed!'
+                    # return to setting or profile with message
+                    return render_template('settings.html', token=token, pic=session['pic'])
 
                 else:
                     error_msg = 'New Password and Confirm Password did not match.'
@@ -354,7 +366,7 @@ def settings(token):
 
         # return with error message for POST
         return render_template('settings.html', token=token, error=error_msg, pic=session['pic'])
-
+    session['message'] = None
     return render_template('settings.html', token=token, pic=session['pic'])  # process of case(1) (GET)
 
 

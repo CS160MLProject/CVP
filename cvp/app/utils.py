@@ -15,7 +15,7 @@ import copy
 import os
 
 # Profile Photo
-DEFAULT_PROFILE_PHOTO = 'static/profile_pic/Smiley.png'
+DEFAULT_PROFILE_PHOTO = 'Smiley.png'
 SAVE_PROFILE_PICTURE_PATH = 'dataset/processed'
 PROFILE_IMAGE_PATH = 'static/profile_pic'
 QR_IMAGE_PATH = 'static/QR_Code'
@@ -209,14 +209,25 @@ def update_password(new_password, email=None, acc=None):
     :return: True if succeeded else False.
     """
     db = Database(db_path)
+
     try:
-        hashed_pass, hashed_salt = generate_hash(new_password)
-        hashed_pass = b64encode(hashed_pass).decode('utf-8')
-        hashed_salt = b64encode(hashed_salt).decode('utf-8')
         if acc:
-            db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'User_Account_ID = \"{acc}\"')
+            salt = db.select('Salt', account_table, f'''User_Account_ID = {acc}''')
+        elif email:
+            salt = db.select('Salt', account_table, f'Email = \"{email}\"')
+        else:
+            salt = None
+
+        if not salt:  # account was not found with this email
+            return 'Account was not found.'
+
+        salt = b64decode(salt[0][0])
+        hashed_pass, _ = generate_hash(new_password, salt)
+        hashed_pass = b64encode(hashed_pass).decode('utf-8')
+        if acc:
+            db.update((hashed_pass, ), ('Password',), account_table, f'User_Account_ID = \"{acc}\"')
         elif email and type(is_user(email)) == tuple:
-            db.update((hashed_pass, hashed_salt), ('Password', 'Salt'), account_table, f'Email = \"{email}\"')
+            db.update((hashed_pass, ), ('Password',), account_table, f'Email = \"{email}\"')
         else: return False
         return True
 

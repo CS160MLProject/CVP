@@ -33,6 +33,21 @@
 
             </ul>
     </nav>
+    {% if (session['message']) %}
+    <div class="alert-modal">
+        <div class="modal-alert">
+            <div class="modal-header"></div>
+            <p class="modal-text">{{ session['message'] }}</p>
+            <a id="alert-back" class="inline-button alerts" href="#">Close</a>
+        </div>
+    </div>
+        <script>
+            document.getElementById('alert-back').addEventListener('click',
+                function(){
+                    document.querySelector('.alert-modal').style.display = 'none';
+            });
+        </script>
+    {% endif %}
 
     <!--This is the container for the left panel of the window-->
     <div class="left-panel">
@@ -44,9 +59,15 @@
     <div class="right-panel create-page">
         <form action={{url_for("register")}} method="POST">
             <div class="container">
+                {% if not profpic == 'profile_pic/Smiley.png' %}
+                <div class="profile-pic-field">
+                    <img class="profile-pic settings-pic" src="{{ url_for('static', filename=profpic) }}" alt="Your profile picture">
+                    <p class="profile-text"> < This is how your profile photo looks like.</p>
+                </div>
+                {% endif %}
 
                 <!--This div contains one column of fields you see on the page-->
-                <div class="fields-column top-margin-small">
+                <div class="fields-column">
 
                     <!-- input-field is a single input field in the column which contains a label and a text field-->
                     <div class="input-field">
@@ -88,7 +109,7 @@
                     </div>
                 </div>
 
-                <div class="fields-column top-margin-small">
+                <div class="fields-column">
                     <div class="input-field">
                         <div class="field-label">
                             <label class="text-label" for="first_dose">First Dose:</label>
@@ -129,8 +150,7 @@
             <div>
                 <button class="confirm-button" name="confirm_button" value="confirm_button" type="confirm">CONFIRM</button>
             </div>
-            <p class="warning-message">WARNING : CONFIRMING THE ABOVE INFORMATION IS NON-REVERSIBLE. PLEASE ENSURE
-                THE INFORMATION ARE ACCURATE AND CHANGE ANY ERRORS BEFORE CONFIRMING.</p>
+            <p class="warning-message">WARNING : PLEASE MAKE SURE THE INFORMATION ABOVE ARE ACCURATE. ENSURE ALL FIELDS ARE CORRECT BEFORE PROCEEDING!</p>
         </form>
     </div>
 <footer class="footer">

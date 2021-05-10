@@ -17,7 +17,7 @@
     <title>CVP | Settings</title>
 </head>
 <body>
-    <nav class="nav fixed">
+    <nav class="nav fixed profile-settings">
         <ul class="nav__list">
             <li class="nav__list-logo">
                 <h1 id="logo"><a href="/profile_{{ token }}">CoVaPass</a></h1>
@@ -66,20 +66,37 @@
 
                 <div class="input-field">
                     <button class="inline-button smaller" name="back_button" value=True>Back</button>
-                    <button class="inline-button smaller" name="profile_save" value=True type="submit">Save Changes</button>
+                    <button class="inline-button smaller" name="profile_save" value=True type="submit">Save</button>
                 </div>
 
                 <div class="input-field top-margin-med">
-                    <a id="changepass" class="change-pass" href="#changepass">Change Password</a>
+                    <a id="changepass" class="change-pass" href="#">Change Password</a>
                 </div>
 
             </div>
     </div>
+
+    {% if (session['message']) %}
+    <div class="alert-modal">
+        <div class="modal-alert">
+            <div class="modal-header"></div>
+            <p class="modal-text">{{ session['message'] }}</p>
+            <a id="alert-back" class="inline-button alerts" href="#">Got it!</a>
+        </div>
+    </div>
+        <script>
+            document.getElementById('alert-back').addEventListener('click',
+                function(){
+                    document.querySelector('.alert-modal').style.display = 'none';
+            });
+        </script>
+    {% endif %}
+
     <div class="change-pass-modal">
         <div class="modal-content larger">
             <div class="modal-header"></div>
 
-            <div class="input-field">
+            <div class="input-field top-margin-small">
 
                 <!--This div might seem unecessary but we can include an icon right beside the label element if we wish.-->
                 <div class="field-label">
@@ -87,7 +104,19 @@
                 </div>
 
                 <!--Finally the text field for the user to enter data into.-->
-                <input class="text-field" type="password" id="old_pass" name="current_password" placeholder="Current Password">
+                <input class="modal-text-field" type="password" id="old_pass" name="current_password" placeholder="Current Password">
+            </div>
+
+            <div class="input-field">
+                <div class="field-note">
+                    <p class="text-label-small">
+                        - 8 characters minimum<br>
+                        - 21 characters maximum <br>
+                        - At least 1 uppercase character<br>
+                        - At least 1 lowercase character <br>
+                        - Must contains at least 1 <br>special character: @ $ ! % * # ? &
+                    </p>
+                </div>
             </div>
 
             <div class="input-field">
@@ -98,7 +127,7 @@
                 </div>
 
                 <!--Finally the text field for the user to enter data into.-->
-                <input class="text-field" type="password" id="new_pass" name="new_password" placeholder="New Password">
+                <input class="modal-text-field" type="password" id="new_pass" name="new_password" placeholder="New Password">
             </div>
 
             <div class="input-field">
@@ -109,11 +138,12 @@
                 </div>
 
                     <!--Finally the text field for the user to enter data into.-->
-                <input class="text-field" type="password" id="confirm_pass" name="confirm_password" placeholder="New Password">
+                <input class="modal-text-field" type="password" id="confirm_pass" name="confirm_password" placeholder="New Password">
             </div>
             <div class="input-field">
-                <button class="inline-button smaller" name="back_button" value=True>Back</button>
-                <button id="savechange" class="inline-button smaller" name="password_save_button" value=True type="submit">Save Changes</button>
+
+                <a id="pass-back" class="inline-button smaller block-modal" href="#">Back</a>
+                <button id="savechange" class="inline-button smaller block-modal" name="password_save_button" value=True type="submit">Save</button>
             </div>
         </div>
     </div>
@@ -156,8 +186,6 @@
                 <div class="footer-content">
                     <h2>Newsletter</h2>
                     <form action="">
-                        <input type="text" placeholder="E-mail">
-                        <button class="btn">Subscribe</button>
                         <div class="socials">
                             <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -234,19 +262,15 @@
         });
 
     document.getElementById('changepass').addEventListener('click',
-    function(){
+        function(){
         document.querySelector('.change-pass-modal').style.display = 'flex';
     });
 
-    document.getElementById('sign-out-button').addEventListener('click',
-    function(){
-        document.querySelector('.sign-out-modal').style.display = 'flex';
+    document.getElementById('pass-back').addEventListener('click',
+        function(){
+            document.querySelector('.change-pass-modal').style.display = 'none';
     });
 
-    document.getElementById('sign-back').addEventListener('click',
-    function(){
-        document.querySelector('.sign-out-modal').style.display = 'none';
-    });
 </script>
 </body>
 </html>

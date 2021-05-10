@@ -51,7 +51,7 @@
                 </li>
                 <li class="li-prof">
                     <button class="ul-li-a-icon" value="settings_button" name="settings_button">
-                        <img class="nav-icon" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
+                        <img class="nav-icon-settings" src="{{ url_for('static', filename='images/settings-icon.png')}}" field-icon alt="A share icon">
                     </button>
                     <button class= "ul-li-button" value="settings_button" name="settings_button" href="#">Settings</button>
                 </li>
@@ -71,8 +71,12 @@
         </div>
 
         <div class="profile-info top-margin-small">
-            <p class="full-name">{{profile['record_first_name']}} {{profile['middle_initial']}} {{profile['record_last_name']}}</p>
-            {% if (tampered) %}
+            <p class="full-name">{{profile['record_first_name']}}
+                {% if not (profile['middle_initial'] == 'None') and not (profile['middle_initial'] == 'none') %}
+                {{profile['middle_initial']}}
+                {% endif %}
+                {{profile['record_last_name']}}</p>
+            {% if not (tampered) %}
             <div class="vaccine-status">
                 <div class="status-circle"></div>
                     <p class="vaccine-status-text">Status: Vaccinated</p>
@@ -150,8 +154,6 @@
             <div class="footer-content">
                 <h2>Newsletter</h2>
                 <form action="">
-                    <input type="text" placeholder="E-mail">
-                    <button class="btn">Subscribe</button>
                     <div class="socials">
                         <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                         <li><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -202,6 +204,8 @@
                 for(let i = 0; i < iconsL; i++){
                     icons[i].style.width = '3.5vw';
                 }
+                document.querySelector('.nav-icon-settings').style.width = '3.5vw';
+                document.querySelector('.nav-icon-settings').style.marginLeft = '1.5vw';
 
                 let anchor = document.querySelectorAll('.nav-anchor');
                 let anchorL = anchor.length;
@@ -236,6 +240,8 @@
                 for(let i = 0; i < iconsL; i++){
                     icons[i].style.width = '2vw';
                 }
+                document.querySelector('.nav-icon-settings').style.width = '2vw';
+                document.querySelector('.nav-icon-settings').style.marginLeft = '-1.5vw';
 
                 let imgs = document.querySelectorAll('.nav-img');
                 let imgsL = imgs.length;

@@ -139,7 +139,7 @@ class TestUtils():
 
             # test if return False with fake email
             fake_email = 'fake email'
-            assert not update_password(new_pass, email=fake_email), 'Should return False with fake email.'
+            assert isinstance(update_password(new_pass, email=fake_email), str), 'Should return False with fake email.'
 
             assert update_password(new_pass, acc=acc_id)
         finally:

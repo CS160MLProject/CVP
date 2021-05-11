@@ -317,8 +317,9 @@ def settings(token):
 
             if profile_pic:
                 # Check if the profile is already in local, then delete it if it is
-                if os.path.isfile(PROFILE_IMAGE_PATH + '/' + str(account_id) + '.png'):
-                    os.remove(os.path.join(PROFILE_IMAGE_PATH, str(account_id) + '.png'))
+                profile_pic_path = os.path.join(PROFILE_IMAGE_PATH, str(account_id) + '.png')  # create path first
+                if os.path.isfile(profile_pic_path):
+                    os.remove(profile_pic_path)
 
                 # save the new photo using the same name and upload to the S3 bucket
                 temp_save_path = os.path.join(PROFILE_IMAGE_PATH, str(account_id) + '.png')

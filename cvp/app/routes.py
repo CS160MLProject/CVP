@@ -316,10 +316,16 @@ def settings(token):
                 profile_pic = request.files["profile_pic"]
 
             if profile_pic:
-                os.remove(os.path.join(PROFILE_IMAGE_PATH, str(account_id) + '.png'))
+                # Check if the profile is already in local, then delete it if it is
+                if os.path.isfile(PROFILE_IMAGE_PATH + '/' + str(account_id) + '.png'):
+                    os.remove(os.path.join(PROFILE_IMAGE_PATH, str(account_id) + '.png'))
+
+                # save the new photo using the same name and upload to the S3 bucket
                 temp_save_path = os.path.join(PROFILE_IMAGE_PATH, str(account_id) + '.png')
                 profile_pic.save(temp_save_path)
                 upload_to_s3(str(account_id) + '.png', PROFILE_IMAGE_PATH)
+
+                # update cookie values
                 session['pic'] = 'profile_pic/' + str(account_id) + '.png'
                 session['message'] = 'Profile Photo Changed!'
 

@@ -435,7 +435,7 @@ def upload_to_s3(file_name: str, folder_path: str):
 
     # We have to keep reconnecting to s3 client because it will close after a few second of not using
     client = boto3.client('s3', aws_access_key_id=os.environ['s3_key'],
-                          aws_secret_access_key=os.environ['s3_secret_key'], region_name='us-east-2')
+                          aws_secret_access_key=os.environ['s3_secret_key'])
 
     upload_file = profile_bucket + file_name
 
@@ -464,7 +464,7 @@ def download_from_s3(file_name: str, save_path: str = None):
 
     # We have to keep reconnecting to s3 client because it will close after a few second of not using
     client = boto3.client('s3', aws_access_key_id=os.environ['s3_key'],
-                          aws_secret_access_key=os.environ['s3_secret_key'], region_name='us-east-2')
+                          aws_secret_access_key=os.environ['s3_secret_key'])
 
     s3_download_path = profile_bucket + file_name
     save_file = os.path.join(save_path, file_name)

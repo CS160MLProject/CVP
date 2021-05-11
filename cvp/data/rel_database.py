@@ -22,10 +22,11 @@ import coloredlogs
 from sqlite3 import Error
 from pathlib import Path
 from sqlalchemy import create_engine
-from credentials import tuplex, generate_block_hash
 from base64 import b64decode
 import pandas as pd
+from dotenv import load_dotenv
 
+load_dotenv()
 # Project Level Imports
 
 ACCOUNT_PATH = 'dataset/processed/accounts.txt'
@@ -317,6 +318,10 @@ def main(db_path: dict, account_path: str = None, hist_log_path: str = None):
     db.create_table(attr, table_name)
     df[profile_cols].to_sql(table_name, con=db.engine, if_exists='append', index=False)
     logger.info(f'SUCCESS: Insert values to `{table_name}` successfully!')
+
+    tuplex = []
+    for num in range(1, 5):
+        tuplex.append(tuple(os.environ[f'tuplex{num}'].split(', ')))
 
     for element in tuplex:
         db.insert(element, table_name)

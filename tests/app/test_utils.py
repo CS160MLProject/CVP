@@ -161,11 +161,6 @@ class TestUtils():
             _, _, _, _, username = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
             assert username == new_username, f'New first name is not updated correctly'
 
-            # # test last name update
-            # update_account(acc_id, lname=new_lname)
-            # _, lname, _, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
-            # assert lname == new_lname, f'New last name is not updated correctly'
-
             # test email update
             update_account(acc_id, email=new_email)
             email, _, _, _, _ = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
@@ -175,7 +170,7 @@ class TestUtils():
             update_account(acc_id, uname=new_username, email=original_email)
             email, _, _, _, username = db.select('*', account_table, f'User_Account_ID = \"1\"')[0]
             assert email == original_email, f'Email is not updated correctly'
-            assert username == original_username, f'username is not updated correctly'
+            assert username == new_username, f'username is not updated correctly'
 
         finally:
             db.close_connection()

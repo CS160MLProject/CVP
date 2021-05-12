@@ -267,3 +267,16 @@ class TestUtils():
         clean_up_images(file_name, save_folder)
 
         assert not os.path.exists(save_path)
+
+
+    def test_generate_block_hash(self):
+        #=== Test Inputs ===#
+        items = ['dummy name', 'dummy sentence']
+        salt = os.urandom(16)
+
+        #=== Trigger Output ===#
+        result = generate_block_hash(items, salt)
+        byte_result = b64decode(result)
+
+        assert isinstance(result, str)
+        assert isinstance(byte_result, bytes)

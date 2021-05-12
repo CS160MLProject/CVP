@@ -22,7 +22,11 @@
         </div>
 
         <div class="profile-info top-margin-small">
-            <p class="full-name">{{user_record['record_first_name']}} {{user_record['middle_initial']}} {{user_record['record_last_name']}}</p>
+            <p class="full-name">{{user_record['record_first_name']}}
+                {% if not (user_record['middle_initial'] == 'None') and not (user_record['middle_initial'] == 'none') %}
+                {{user_record['middle_initial']}}
+                {% endif %}
+                {{user_record['record_last_name']}}</p>
             {% if not (tampered) %}
             <div class="vaccine-status">
                 <div class="status-circle"></div>

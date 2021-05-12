@@ -148,7 +148,7 @@ def login():
 
             if type(acc) == tuple:  # logged in
                 # generate encrypted token to be url
-                url_token = encode_token(acc[2], salt=profile_key)
+                url_token = encode_token(acc[2], salt=os.environ['profile_key'])
                 session['logged_in'] = True
                 session['url'] = url_token
                 return redirect(url_for('profile', token=url_token))
@@ -190,7 +190,7 @@ def forgot_password():
             # check if this email is in the database
             if type(error_msg := is_user(email)) == tuple:
                 # encrypt link to reset password
-                token = encode_token(email, salt=recovery_key)
+                token = encode_token(email, salt=os.environ['recovery_key'])
                 recover_url = url_for('reset_password', token=token, _external=True)
 
                 # send email with setup link
@@ -209,7 +209,7 @@ def reset_password(token):
     Invoked when (1)User clicked the link of password recovery in the email.
         (2)'Reset' button is clicked in the password_reset.html
     """
-    email, reset_token = renew_token(token, salt=recovery_key, time=3600)  # 1 hours
+    email, reset_token = renew_token(token, salt=os.environ['recovery_key'], time=3600)  # 1 hours
     if not email:  # could not decode the email (the link has expired)
         return render_template('login.html', error_msg='URL Expired.')
 
@@ -238,7 +238,7 @@ def profile(token):
         (2)profile.html with user profile, sharing_url and name of qr file.
     """
 
-    account_id, profile_token = renew_token(token, salt=profile_key, time=900)  # 15 min
+    account_id, profile_token = renew_token(token, salt=os.environ['profile_key'], time=900)  # 15 min
 
     if not account_id:  # could not decode the account_id (the link has expired)
         return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
@@ -271,7 +271,7 @@ def profile(token):
     # process for case(2) (GET)
 
     # encrypt account id to be shared through qr or url
-    sharing_token = encode_token(account_id, salt=sharing_profile_key)
+    sharing_token = encode_token(account_id, salt=os.environ['sharing_profile_key'])
     sharing_url = url_for('shared_profile', token=sharing_token, _external=True)
 
     # generate qr
@@ -301,7 +301,7 @@ def settings(token):
         (4)profile.html
     """
 
-    account_id, token = renew_token(token, salt=profile_key, time=900)  # 15 min
+    account_id, token = renew_token(token, salt=os.environ['profile_key'], time=900)  # 15 min
     if not account_id:  # could not decode the account_id (the link has expired)
         return render_template('login.html', error_msg='Logged out for certain time of inactivity.')
     if request.method == 'POST':
@@ -377,7 +377,7 @@ def shared_profile(token):
     :param token: encrypted url for sharing info.
     :return: shared profile page with dict formatted user record.
     """
-    account_id = decode_token(token, salt=sharing_profile_key, time=900)
+    account_id = decode_token(token, salt=os.environ['sharing_profile_key'], time=900)
     if not account_id:  # link has expried
         return f'404'
     # obtain user record

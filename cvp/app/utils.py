@@ -1,6 +1,5 @@
 """Utilities for routes.py"""
 from app import *
-from credentials import *
 from cvp.data.rel_database import Database, HISTORY_LOG_PATH
 from cvp.features.transform import generate_hash
 import itsdangerous
@@ -13,6 +12,9 @@ import boto3
 import botocore
 import copy
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Profile Photo
 DEFAULT_PROFILE_PHOTO = 'Smiley.png'
@@ -20,7 +22,7 @@ SAVE_PROFILE_PICTURE_PATH = 'dataset/processed'
 PROFILE_IMAGE_PATH = 'static/profile_pic'
 QR_IMAGE_PATH = 'static/QR_Code'
 
-ts = URLSafeTimedSerializer(secret_key=secret_key)
+ts = URLSafeTimedSerializer(secret_key=os.environ['secret_key'])
 
 
 def invalid_register_input(email, password, confirm_password):
@@ -58,7 +60,8 @@ def valid_email(email):
         return True
     return False
 
-def valid_password(password:str) -> bool:
+
+def valid_password(password: str) -> bool:
     """Validate password. Password must follow these conditions:
     - 8 characters minimum
     - 21 characters maximum
@@ -143,7 +146,8 @@ def check_cdc(confirmed_data: dict, email: str, db_path: str = None) -> bool:
 
             if re.sub(r'\s+', '', str(acc_dict[key])).lower() == re.sub(r'\s+', '', str(confirmed_data[key])).lower():
                 continue
-            else: return False
+            else:
+                return False
 
     finally:
         db.close_connection()
@@ -167,7 +171,8 @@ def authenticate(password, email=None, account_id=None):
             acc = db.select('*', account_table, f'Email = \"{email}\"')
         elif account_id:
             acc = db.select('*', account_table, f'User_Account_ID = \"{account_id}\"')
-        else: acc = None
+        else:
+            acc = None
 
         if not acc:  # account was not found with this email
             return 'Account was not found.'
@@ -177,7 +182,8 @@ def authenticate(password, email=None, account_id=None):
             hashed_pass, _ = generate_hash(password=password, salt=db_salt)
             if hmac.compare_digest(hashed_pass, db_password):  # login
                 return acc[0]
-            else: return 'Password did not match'
+            else:
+                return 'Password did not match'
 
     finally:
         db.close_connection()
@@ -194,7 +200,8 @@ def is_user(email):
         acc = db.select('*', account_table, f'Email = \"{email}\"')
         if not acc:  # account was not found with this email
             return f'Account was not found with this email.'
-        else: return acc[0]
+        else:
+            return acc[0]
 
     finally:
         db.close_connection()
@@ -225,10 +232,11 @@ def update_password(new_password, email=None, acc=None):
         hashed_pass, _ = generate_hash(new_password, salt)
         hashed_pass = b64encode(hashed_pass).decode('utf-8')
         if acc:
-            db.update((hashed_pass, ), ('Password',), account_table, f'User_Account_ID = \"{acc}\"')
+            db.update((hashed_pass,), ('Password',), account_table, f'User_Account_ID = \"{acc}\"')
         elif email and type(is_user(email)) == tuple:
-            db.update((hashed_pass, ), ('Password',), account_table, f'Email = \"{email}\"')
-        else: return False
+            db.update((hashed_pass,), ('Password',), account_table, f'Email = \"{email}\"')
+        else:
+            return False
         return True
 
     finally:
@@ -261,7 +269,8 @@ def generate_account(session, profile_data):
     db = Database(db_path)
     try:
         # Get cur_hash from last record in database
-        last_record_hash = db.select('Block_Hash', profile_table, 'User_Account_ID = (SELECT max(User_Account_ID) FROM profile)')[0][0]
+        last_record_hash = \
+        db.select('Block_Hash', profile_table, 'User_Account_ID = (SELECT max(User_Account_ID) FROM profile)')[0][0]
 
         # Get largest account_id in database and increment account_id by 1
         new_account_id = db.select(values='max(User_Account_ID)', table_name=account_table)[0][0] + 1
@@ -280,7 +289,7 @@ def generate_account(session, profile_data):
         with open(HISTORY_LOG_PATH, 'a') as hist_log_file:
             hist_log_file.write(f'{new_account_id}\t{new_hash}\n')
 
-        items.pop(len(items)-1)
+        items.pop(len(items) - 1)
         items.pop(0)
         items.append(new_hash)
 
@@ -306,12 +315,12 @@ def get_profile(account_id):
 
         # Get block_hash from previous block
         if record[0] == 1:
-            prev_hash = hash_0
+            prev_hash = os.environ['hash_0']
         else:
-            prev_hash = db.select('Block_Hash', profile_table, f'User_Account_ID = \"{account_id-1}\"')[0][0]
+            prev_hash = db.select('Block_Hash', profile_table, f'User_Account_ID = \"{account_id - 1}\"')[0][0]
 
         salt = b64decode(acc[3])
-        block_hash = b64decode(record[len(record)-1])
+        block_hash = b64decode(record[len(record) - 1])
 
         # Deep copy record and add prev_block_hash to front and back of the list
         items = copy.deepcopy(list(record[:-1]))
@@ -424,9 +433,9 @@ def upload_to_s3(file_name: str, folder_path: str):
     if not os.path.exists(local_path):
         raise FileNotFoundError(f"File {local_path} was not found. Current dir: {os.getcwd()}")
 
-
     # We have to keep reconnecting to s3 client because it will close after a few second of not using
-    client = boto3.client('s3', aws_access_key_id=s3_key, aws_secret_access_key=s3_secret_key)
+    client = boto3.client('s3', aws_access_key_id=os.environ['s3_key'],
+                          aws_secret_access_key=os.environ['s3_secret_key'], region_name='us-east-2')
 
     upload_file = profile_bucket + file_name
 
@@ -454,7 +463,8 @@ def download_from_s3(file_name: str, save_path: str = None):
         raise FileNotFoundError(f"Folder {save_path} was not found. Current dir: {os.getcwd()}")
 
     # We have to keep reconnecting to s3 client because it will close after a few second of not using
-    client = boto3.client('s3', aws_access_key_id=s3_key, aws_secret_access_key=s3_secret_key)
+    client = boto3.client('s3', aws_access_key_id=os.environ['s3_key'],
+                          aws_secret_access_key=os.environ['s3_secret_key'], region_name='us-east-2')
 
     s3_download_path = profile_bucket + file_name
     save_file = os.path.join(save_path, file_name)
@@ -486,3 +496,17 @@ def clean_up_images(file_name: str, path_to_file: str):
     file_to_clean = os.path.join(path_to_file, file_name)
     if os.path.exists(file_to_clean):
         os.remove(file_to_clean)
+
+
+def generate_block_hash(items: list, salt):
+    string = ""
+    for element in items:
+        string += str(element)
+
+    cur_hash, _ = generate_hash(string, salt)
+    cur_hash = b64encode(cur_hash).decode("utf-8")
+
+    global temp_prev_hash
+    temp_prev_hash = cur_hash
+
+    return cur_hash

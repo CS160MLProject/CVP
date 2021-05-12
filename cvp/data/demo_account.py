@@ -3,12 +3,15 @@
 import datetime
 import random
 import string
+import os
 from base64 import b64encode
 
 # import generate_hash under feature
-from credentials import hash_0, generate_block_hash
 from cvp.features.transform import generate_hash
+from cvp.app.utils import generate_block_hash
+from dotenv import load_dotenv
 
+load_dotenv()
 # constant values
 OLDEST_DOB = datetime.date(1910, 1, 1)  # possible oldest dob
 VACCINE_START = datetime.date(2020, 11, 1)  # possible earliest vaccine date
@@ -101,9 +104,9 @@ def __account(first, last, middle_i, hospital, acc_id):
     vaccine_date1 = str(vaccine_date1)
     vaccine_date2 = str(vaccine_date2)
 
-    from credentials import temp_prev_hash
+    temp_prev_hash = None
 
-    prev_hash = temp_prev_hash or hash_0
+    prev_hash = temp_prev_hash or os.environ['hash_0']
     items = [prev_hash, user_account_id, patient_num, last_name, first_name, middle, dob, vaccine_name1, vaccine_date1,
                  hospital, vaccine_name2, vaccine_date2, prev_hash]
     block_hash = generate_block_hash(items, temp_salt)

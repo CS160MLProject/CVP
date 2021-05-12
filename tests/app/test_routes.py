@@ -1,7 +1,10 @@
 import re
+import os
 from cvp.app.routes import app
 from cvp.app.utils import get_profile
-from credentials import tuplex
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class TestRoutes:
@@ -51,6 +54,10 @@ class TestRoutes:
         assert response.status_code == 200
 
         # get test_acc that is in cdc.db
+        tuplex = []
+        for num in range(1, 5):
+            tuplex.append(tuple(os.environ[f'tuplex{num}'].split(', ')))
+
         test_acc = tuplex[0]
         register_acc_info = {
             'email': test_acc[0],

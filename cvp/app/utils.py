@@ -499,14 +499,20 @@ def clean_up_images(file_name: str, path_to_file: str):
 
 
 def generate_block_hash(items: list, salt):
+    """ Generate hash for each block in the database
+
+    Args:
+        items (list): list of items that need to be converted to hash
+        salt (bytes): unique salt to generate hash
+
+    Returns:
+        cur_hash (str): hash that converted to string to stored into database and written to file
+    """
     string = ""
     for element in items:
         string += str(element)
 
     cur_hash, _ = generate_hash(string, salt)
     cur_hash = b64encode(cur_hash).decode("utf-8")
-
-    global temp_prev_hash
-    temp_prev_hash = cur_hash
 
     return cur_hash
